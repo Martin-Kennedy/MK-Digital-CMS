@@ -1,12 +1,15 @@
-import React from "react";
-import {Row} from 'react-bootstrap'
+import React, {Component} from "react";
+import {Row} from 'react-bootstrap';
+import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
 import TextTranslation from "./textTranslation";
+
 
 const stylingObject = {
     hero: {
-        height: "50%",
+        height: "100vh",
         minHeight: "500px",
         width: "100%",
+        margin: "0",
         backgroundColor: "#1c1c20",
         display: "flex",
         alignItems: "center"
@@ -19,15 +22,36 @@ const stylingObject = {
         textTransform: "uppercase"
     }
 }
-
-const Hero = (props) => {
-    return (
-        <div style={stylingObject.hero}>
-            <Row style={stylingObject.text}>
-                <TextTranslation text="Long long text to scroll" />
-            </Row>
-        </div>
-    );
+const leftToRight = {
+    
+}
+const rightToLeft = {
+    
 }
 
-export default Hero;
+
+export default class Hero extends Component  {
+
+    constructor(){
+        super(),
+        this.state = {
+           
+        }
+    }
+    render(){
+        return (
+            <div style={stylingObject.hero}>
+                <Row style={stylingObject.text}>
+                    <svg>
+                        <LineAnimationL2R />
+                    </svg>
+                    <TextTranslation text="Long long text to scroll" />
+                    <svg>
+                        <LineAnimationR2L />
+                    </svg>
+                </Row>
+            </div>
+        );
+    }
+    
+}
