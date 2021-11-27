@@ -50,6 +50,7 @@ function LineAnimationL2R() {
     const animatedProps = useAnimatedPathL();
 
     return (
+        <svg viewBox={[0,0,1100,100]}>
         <animated.line
             stroke='white'
             strokeWidth='1'
@@ -61,6 +62,7 @@ function LineAnimationL2R() {
             y2="48.85"
             {...animatedProps}
         />
+        </svg>
         
     );
 }
@@ -69,6 +71,7 @@ function LineAnimationR2L() {
     const animatedProps = useAnimatedPathR();
 
     return (
+        <svg viewBox={[0, 0, 1100, 100]}>
         <animated.line
             stroke='white'
             strokeWidth='1'
@@ -79,8 +82,8 @@ function LineAnimationR2L() {
             y2="48.85"
             strokeDasharray={1144}
             {...animatedProps}
-        />
-
+        />  
+        </svg >
     );
 }
 export { LineAnimationL2R,

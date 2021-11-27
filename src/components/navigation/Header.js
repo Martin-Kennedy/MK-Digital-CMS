@@ -1,14 +1,14 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import Nav from './navigation/nav.js';
+import Nav from './nav.js';
 
 
 const stylingObject = {
   header: {
     color: "#fff",
     width: "100%",
-    padding: "20px",
-    margin: "20px 10px",
+    padding: "20px 10px 10px",
+    margin: "20px 10px 10px",
     display: "flex",
     alignItems: "center",
     height: "100px",

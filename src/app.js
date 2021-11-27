@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MkDigital from './components/MkDigital';
+import HomePage from './pages/home';
 import "./base.scss";
 
-ReactDOM.render(<MkDigital />, document.getElementById('app'));
+ReactDOM.render(<HomePage />, document.getElementById('app'));

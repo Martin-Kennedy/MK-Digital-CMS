@@ -1,32 +1,28 @@
 import React, {Component} from "react";
-import {Row} from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
 import TextTranslation from "./textTranslation";
 
 
 const stylingObject = {
-    hero: {
+    homepageHero: {
         height: "100vh",
         minHeight: "500px",
-        width: "100%",
+        width: "100vw",
         margin: "0",
         backgroundColor: "#1c1c20",
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        padding: "100px 0 100px 0"
     },
     text: {
         fontFamily: "mr-eaves-modern, sans-serif",
         fontWeight: "700",
         fontSize: "100px",
         color: "#fff",
-        textTransform: "uppercase"
+        textTransform: "uppercase",
+        whiteSpace: "nowrap"
     }
-}
-const leftToRight = {
-    
-}
-const rightToLeft = {
-    
 }
 
 
@@ -40,17 +36,26 @@ export default class Hero extends Component  {
     }
     render(){
         return (
-            <div style={stylingObject.hero}>
-                <Row style={stylingObject.text}>
-                    <svg>
-                        <LineAnimationL2R />
-                    </svg>
+            <Row style={stylingObject.homepageHero}>
+                <Col sm={2}>
+                </Col>
+                
+                <Col sm={8}>
+                    {/* Carousel */}
+                    <div style={stylingObject.text}>
+                    
+                    <LineAnimationL2R />
+                    
                     <TextTranslation text="Long long text to scroll" />
-                    <svg>
-                        <LineAnimationR2L />
-                    </svg>
+                    
+                    <LineAnimationR2L />
+                    
+                    </div>
+                </Col>
+                <Col sm={2}>
+                </Col>
                 </Row>
-            </div>
+
         );
     }
     
