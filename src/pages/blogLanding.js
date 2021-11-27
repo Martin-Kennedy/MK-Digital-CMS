@@ -29,11 +29,6 @@ export default class BlogLanding extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
-                        {/* Blog Menu */}
-                    </Col>
-                </Row>
-                <Row>
                     {/* Blog Grid */}
                 </Row>
                 <Footer />
