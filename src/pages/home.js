@@ -3,6 +3,7 @@ import Header from '../components/navigation/Header';
 import Footer from '../components/footer';
 import Hero from '../components/hero/hero'
 import { Container, Row, Col } from 'react-bootstrap';
+import faker from 'faker';
 
 const stylingObject = {
   homepage: {
@@ -17,6 +18,10 @@ const stylingObject = {
     margin: "0",
     display: "flex",
     alignItems: "center"
+  },
+  h2: {
+    fontSize: "0.75rem",
+    fontWeight: "200"
   }
 }
 
@@ -44,7 +49,15 @@ export default class HomePage extends React.Component {
           </Col>
           {/* Carousel */}
           <Col sm={8}>
-            <h2>BIO SECTION</h2>
+            
+            <Row>
+              <Col>
+                <h2 style={stylingObject.h2}>CASE STUDIES</h2>
+              </Col>
+              <Col>
+              <p>{faker.lorem.paragraph(8)}</p>
+              </Col>
+            </Row>
           </Col>
           <Col sm={2}>
           </Col>
@@ -56,7 +69,14 @@ export default class HomePage extends React.Component {
           </Col>
           {/* Carousel */}
           <Col sm={8}>
-            <h2>CASE STUDIES</h2>
+            <Row>
+            <Col>
+            <h2 style={stylingObject.h2}>BIO</h2>
+          </Col>
+          <Col>
+            <p>{faker.lorem.paragraph(8)}</p>
+          </Col>
+          </Row>
           </Col>
           <Col sm={2}>
           </Col>
@@ -68,7 +88,14 @@ export default class HomePage extends React.Component {
             </Col>
             {/* Carousel */}
             <Col sm={8}>
-              <h2>SURF GUI</h2>
+              <Row>
+              <Col>
+              <h2 style={stylingObject.h2}>SURF GUI</h2>
+          </Col>
+          <Col>
+            <p>{faker.lorem.paragraph(8)}</p>
+          </Col>
+          </Row>
             </Col>
             <Col sm={2}>
             </Col>
@@ -80,7 +107,14 @@ export default class HomePage extends React.Component {
           </Col>
           {/* Carousel */}
           <Col sm={8}>
-            <h2>BLOG SECTION</h2>
+            <Row>
+            <Col>
+            <h2 style={stylingObject.h2}>BLOG SECTION</h2>
+          </Col>
+          <Col>
+            <p>{faker.lorem.paragraph(8)}</p>
+          </Col>
+          </Row>
           </Col>
           <Col sm={2}>
           </Col>
@@ -92,7 +126,14 @@ export default class HomePage extends React.Component {
           </Col>
           {/* Carousel */}
           <Col sm={8}>
-            <h2>OPEN SOURCE CONTRIBUTIONS</h2>
+            <Row>
+            <Col>
+            <h2 style={stylingObject.h2}>OPEN SOURCE CONTRIBUTIONS</h2>
+          </Col>
+          <Col>
+            <p>{faker.lorem.paragraph(8)}</p>
+          </Col>
+          </Row>
           </Col>
           <Col sm={2}>
           </Col>
