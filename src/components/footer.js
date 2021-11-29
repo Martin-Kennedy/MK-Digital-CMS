@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 const stylingObject = {
-    footer: {
+    footerStyles: {
         color: "#fff",
         width: "100vw",
         padding: "20px 10px 10px",
@@ -19,7 +19,7 @@ const stylingObject = {
 export default class Footer extends Component {
     render(){
         return(
-            <Row style={stylingObject.footer}>
+            <Row style={stylingObject.footerStyles}>
                 <Col>
                     MK Digital © 2021
                 </Col>

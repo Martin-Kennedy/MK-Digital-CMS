@@ -1,8 +1,9 @@
 import React from 'react';
-import Header from '../components/navigation/Header';
-import Footer from '../components/footer';
+import Header from '../components/navigation/header';
+import Footer from '../components/Footer';
 import Hero from '../components/hero/hero'
 import { Container, Row, Col } from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import faker from 'faker';
 
 const stylingObject = {
@@ -105,7 +106,6 @@ export default class HomePage extends React.Component {
         <Row style={stylingObject.section}>
           <Col sm={2}>
           </Col>
-          {/* Carousel */}
           <Col sm={8}>
             <Row>
             <Col>

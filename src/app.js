@@ -1,6 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import HomePage from './pages/home';
+import { BrowserRouter, Route } from 'react-router-dom';
 import "./base.scss";
 
-ReactDOM.render(<HomePage />, document.getElementById('app'));
+const routes = (
+    <BrowserRouter>
+        <Route path='/'>
+            <HomePage />
+        </Route>
+      
+    </BrowserRouter>
+);
+
+ReactDOM.render(routes, document.getElementById('app'));

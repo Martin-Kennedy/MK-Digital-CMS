@@ -1,7 +1,7 @@
-import React from 'React';
+import React from 'react';
+import Header from '../components/navigation/Header';
+import Footer from '../components/Footer';
 import { Container, Row, Col } from 'react-bootstrap';
-import Header from './components/header';
-import Footer from './components/footer';
 
 export default class BlogLanding extends React.Component {
     render(){
@@ -28,9 +28,10 @@ export default class BlogLanding extends React.Component {
                         {/* Blog Menu */}
                     </Col>
                 </Row>
-                <Row>
-                    {/* Blog Grid */}
-                </Row>
+                
+                {/* Blog Grid */}
+                
+                
                 <Footer />
             </Container>
         )
