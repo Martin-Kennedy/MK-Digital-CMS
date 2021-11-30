@@ -26,6 +26,7 @@
     "react-router-dom": "^5.0.0",
     "react-spring": "^9.3.1",
     "style-loader": "^3.3.1",
+    "styled-components": "^5.3.3",
     "validator": "8.0.0",
     "webpack": "^5.0.0",
     "webpack-cli": "^4.9.1",

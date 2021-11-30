@@ -1,18 +1,9 @@
-import React from 'react';
-import Header from '../components/navigation/header';
-import Footer from '../components/footer';
+import React, {Component} from 'react';
+import {Row, Col} from 'react-bootstrap';
 import Hero from '../components/hero/hero'
-import { Container, Row, Col } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 import faker from 'faker';
 
 const stylingObject = {
-  homepage: {
-    height: "100vh",
-    width: "100vw",
-    margin: "0",
-    padding: "0",
-  },
   section: {
     minHeight: "500px",
     width: "100vw",
@@ -26,7 +17,7 @@ const stylingObject = {
   }
 }
 
-export default class HomePage extends React.Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,16 +26,13 @@ export default class HomePage extends React.Component {
   }
 
   render() {
-
     return (
-      <Container fluid style={stylingObject.homepage}>
-
-        { /* Header / Hero Section */}
-
-        <Header />
+      <div>
+        
+        {/* Hero Section */}
         <Hero />
 
-        { /* Bio Section */}
+         {/* Bio Section  */}
         <Row style={stylingObject.section}>
           <Col sm={2}>
           </Col>
@@ -138,11 +126,7 @@ export default class HomePage extends React.Component {
           <Col sm={2}>
           </Col>
         </Row>
-
-        { /* Footer */}
-        <Footer />
-
-        </Container>
+        </div>
       
     );
   }

@@ -1,15 +1,12 @@
 import React from 'react';
-import Header from '../components/navigation/Header';
-import Footer from '../components/Footer';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
-export default class BlogLanding extends React.Component {
-    render(){
-        return(
-            <Container>
+const BlogLanding = () => (
+
+                <div>
                 <Row>
                     <Col>
-                        <Header />
+                        <h1>This is being rendered</h1>
                     </Col>
                 </Row>
                 {/* Above the Fold Text and CTA */}
@@ -28,13 +25,14 @@ export default class BlogLanding extends React.Component {
                         {/* Blog Menu */}
                     </Col>
                 </Row>
-                
-                {/* Blog Grid */}
-                
-                
-                <Footer />
-            </Container>
+                <Row>
+                    <Col>
+                        {/* Blog Grid */}
+                    </Col>
+                </Row>
+                </div>   
+
         )
-    }
-}
+
+        export default BlogLanding;
 
