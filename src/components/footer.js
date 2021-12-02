@@ -11,7 +11,7 @@ const stylingObject = {
         alignItems: "center",
         height: "100px",
         position: "absolute",
-        background: "#1c1c20"
+        background: "#1d1e22"
 
     }
 }

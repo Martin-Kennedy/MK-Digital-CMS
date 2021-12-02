@@ -10,10 +10,10 @@ const stylingObject = {
         minHeight: "500px",
         width: "100vw",
         margin: "0",
-        backgroundColor: "#1c1c20",
+        backgroundColor: "#1d1e22",
         display: "flex",
         alignItems: "center",
-        padding: "100px 0 100px 0"
+        padding: "120px 0 100px 0"
     },
     text: {
         fontFamily: "mr-eaves-modern, sans-serif",
