@@ -13,17 +13,15 @@ padding: 60px 0 100px 0;
 `
 
 const H2 = styled.h2`
-text-align: right;
+text-align: left;
 font-size: 1rem;
 font-weight: 100;
 `
 
 const H2Line = styled(Col)`
-        display: "flex",
         alignItems: "center",
-        height: 1rem;
+        height: 50%;
         border-top: 1px solid #1d1e22;
-
 `
 
 const BlogLanding = () => (
@@ -33,20 +31,17 @@ const BlogLanding = () => (
             <Col sm={2}></Col>
             <Hero xs={8}>
                 <Row>
-                    <H2Line sm={10}></H2Line>
+                    <H2Line sm={4}></H2Line>
                     <Col sm={2}>
-                    <H2 >WHAT'S GOING ON</H2>
+                        <H2 >WHAT'S GOING ON</H2>
+                    </Col>
+                    <Col>
+                    <p>{faker.lorem.paragraph(8)}</p>
                     </Col>
                 </Row>
-            <Row>
-
-                <Col>
-                    <p>{faker.lorem.paragraph(8)}</p>
-                </Col>
-            </Row>
+   
             </Hero>
             <Col sm={2}></Col>
-
         </TopRow>
         {/* Above the Fold Text and CTA */}
         <Row>
@@ -57,6 +52,7 @@ const BlogLanding = () => (
         </Row>
         <Row>
             <Col>
+            
                 {/* Blog Menu */}
             </Col>
         </Row>

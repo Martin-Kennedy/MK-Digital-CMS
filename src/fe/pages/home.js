@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
-import Hero from '../components/hero/hero'
+import Hero from '../../fe/components/hero/hero'
 import faker from 'faker';
 
 const stylingObject = {
