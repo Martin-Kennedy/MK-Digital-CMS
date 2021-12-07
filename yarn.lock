@@ -2102,6 +2102,13 @@
   "resolved" "https://registry.npmjs.org/aws4/-/aws4-1.11.0.tgz"
   "version" "1.11.0"
 
+"axios@^0.24.0":
+  "integrity" "sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-0.24.0.tgz"
+  "version" "0.24.0"
+  dependencies:
+    "follow-redirects" "^1.14.4"
+
 "babel-cli@6.24.1":
   "integrity" "sha1-IHzXBbumFImy6kG1MSNBz2rKIoM="
   "resolved" "https://registry.npmjs.org/babel-cli/-/babel-cli-6.24.1.tgz"
@@ -2393,6 +2400,11 @@
   "resolved" "https://registry.npmjs.org/babel-plugin-syntax-async-functions/-/babel-plugin-syntax-async-functions-6.13.0.tgz"
   "version" "6.13.0"
 
+"babel-plugin-syntax-class-properties@^6.8.0":
+  "integrity" "sha1-1+sjt5oxf4VDlixQW4J8fWysJ94="
+  "resolved" "https://registry.npmjs.org/babel-plugin-syntax-class-properties/-/babel-plugin-syntax-class-properties-6.13.0.tgz"
+  "version" "6.13.0"
+
 "babel-plugin-syntax-exponentiation-operator@^6.8.0":
   "integrity" "sha1-nufoM3KQ2pUoggGmpX9BcDF4MN4="
   "resolved" "https://registry.npmjs.org/babel-plugin-syntax-exponentiation-operator/-/babel-plugin-syntax-exponentiation-operator-6.13.0.tgz"
@@ -2407,6 +2419,11 @@
   "integrity" "sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY="
   "resolved" "https://registry.npmjs.org/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz"
   "version" "6.18.0"
+
+"babel-plugin-syntax-object-rest-spread@^6.8.0":
+  "integrity" "sha1-/WU28rzhODb/o6VFjEkDpZe7O/U="
+  "resolved" "https://registry.npmjs.org/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz"
+  "version" "6.13.0"
 
 "babel-plugin-syntax-trailing-function-commas@^6.22.0":
   "integrity" "sha1-ugNgk3+NBuQBgKQ/4NVhb/9TLPM="
@@ -2426,6 +2443,16 @@
     "babel-helper-remap-async-to-generator" "^6.24.1"
     "babel-plugin-syntax-async-functions" "^6.8.0"
     "babel-runtime" "^6.22.0"
+
+"babel-plugin-transform-class-properties@6.24.1":
+  "integrity" "sha1-anl2PqYdM9NvN7YRqp3vgagbRqw="
+  "resolved" "https://registry.npmjs.org/babel-plugin-transform-class-properties/-/babel-plugin-transform-class-properties-6.24.1.tgz"
+  "version" "6.24.1"
+  dependencies:
+    "babel-helper-function-name" "^6.24.1"
+    "babel-plugin-syntax-class-properties" "^6.8.0"
+    "babel-runtime" "^6.22.0"
+    "babel-template" "^6.24.1"
 
 "babel-plugin-transform-es2015-arrow-functions@^6.22.0":
   "integrity" "sha1-RSaSy3EdX3ncf4XkQM5BufJE0iE="
@@ -2634,6 +2661,14 @@
     "babel-plugin-syntax-flow" "^6.18.0"
     "babel-runtime" "^6.22.0"
 
+"babel-plugin-transform-object-rest-spread@6.23.0":
+  "integrity" "sha1-h11ryb52HFiirj/u5dxIldjH+SE="
+  "resolved" "https://registry.npmjs.org/babel-plugin-transform-object-rest-spread/-/babel-plugin-transform-object-rest-spread-6.23.0.tgz"
+  "version" "6.23.0"
+  dependencies:
+    "babel-plugin-syntax-object-rest-spread" "^6.8.0"
+    "babel-runtime" "^6.22.0"
+
 "babel-plugin-transform-react-display-name@^6.23.0":
   "integrity" "sha1-Z+K/Hx6ck6sI25Z5LgU5K/LMKNE="
   "resolved" "https://registry.npmjs.org/babel-plugin-transform-react-display-name/-/babel-plugin-transform-react-display-name-6.25.0.tgz"
@@ -2672,6 +2707,13 @@
   "version" "6.26.0"
   dependencies:
     "regenerator-transform" "^0.10.0"
+
+"babel-plugin-transform-runtime@^6.23.0":
+  "integrity" "sha1-iEkNRGUC6puOfvsP4J7E2ZR5se4="
+  "resolved" "https://registry.npmjs.org/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.23.0.tgz"
+  "version" "6.23.0"
+  dependencies:
+    "babel-runtime" "^6.22.0"
 
 "babel-plugin-transform-strict-mode@^6.24.1":
   "integrity" "sha1-1fr3qleKZbvlkc9e2uBKDGcCB1g="
@@ -3677,6 +3719,11 @@
   "resolved" "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.0.tgz"
   "version" "0.2.0"
 
+"deep-diff@^0.3.5":
+  "integrity" "sha1-wB3mPvsO7JeYgB1Ax+Da4ltYLIQ="
+  "resolved" "https://registry.npmjs.org/deep-diff/-/deep-diff-0.3.8.tgz"
+  "version" "0.3.8"
+
 "deep-equal@^1.0.1":
   "integrity" "sha512-yd9c5AdiqVcR+JjcwUQb9DkhJc8ngNr0MahEBGvDiJw8puWab2yZlh+nkasOnZP+EGTAP6rRp2JzJhJZzvNF8g=="
   "resolved" "https://registry.npmjs.org/deep-equal/-/deep-equal-1.1.1.tgz"
@@ -4314,7 +4361,7 @@
   "resolved" "https://registry.npmjs.org/flow-parser/-/flow-parser-0.121.0.tgz"
   "version" "0.121.0"
 
-"follow-redirects@^1.0.0":
+"follow-redirects@^1.0.0", "follow-redirects@^1.14.4":
   "integrity" "sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA=="
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.5.tgz"
   "version" "1.14.5"
@@ -7465,7 +7512,24 @@
     "indent-string" "^4.0.0"
     "strip-indent" "^3.0.0"
 
-"redux@^4.0.0", "redux@^4.1.2":
+"redux-devtools-extension@^2.13.9":
+  "integrity" "sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A=="
+  "resolved" "https://registry.npmjs.org/redux-devtools-extension/-/redux-devtools-extension-2.13.9.tgz"
+  "version" "2.13.9"
+
+"redux-logger@^3.0.6":
+  "integrity" "sha1-91VZZvMJjzyIYExEnPC69XeCdL8="
+  "resolved" "https://registry.npmjs.org/redux-logger/-/redux-logger-3.0.6.tgz"
+  "version" "3.0.6"
+  dependencies:
+    "deep-diff" "^0.3.5"
+
+"redux-thunk@^2.4.1":
+  "integrity" "sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q=="
+  "resolved" "https://registry.npmjs.org/redux-thunk/-/redux-thunk-2.4.1.tgz"
+  "version" "2.4.1"
+
+"redux@^3.1.0 || ^4.0.0", "redux@^4", "redux@^4.0.0", "redux@^4.1.2":
   "integrity" "sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw=="
   "resolved" "https://registry.npmjs.org/redux/-/redux-4.1.2.tgz"
   "version" "4.1.2"
@@ -7494,12 +7558,7 @@
   "resolved" "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz"
   "version" "0.11.1"
 
-"regenerator-runtime@^0.13.2":
-  "integrity" "sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA=="
-  "resolved" "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz"
-  "version" "0.13.9"
-
-"regenerator-runtime@^0.13.4":
+"regenerator-runtime@^0.13.2", "regenerator-runtime@^0.13.4", "regenerator-runtime@^0.13.9":
   "integrity" "sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA=="
   "resolved" "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz"
   "version" "0.13.9"

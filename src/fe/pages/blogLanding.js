@@ -2,6 +2,7 @@ import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 import faker from 'faker';
 import styled from 'styled-components';
+import BlogCard from '../components/card'
 
 const TopRow = styled(Row)`
 padding-top: 120px;
@@ -52,7 +53,7 @@ const BlogLanding = () => (
         </Row>
         <Row>
             <Col>
-            
+                <BlogCard />
                 {/* Blog Menu */}
             </Col>
         </Row>

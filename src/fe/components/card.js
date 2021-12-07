@@ -1,15 +1,25 @@
 import React, {Component} from 'react';
-import {Card, Row, Col, Button} from 'react-bootstrap';
-import faker from 'faker';
+import {Card, Row, Col} from 'react-bootstrap';
 import styled from 'styled-components'; 
+import { connect } from 'react-redux'
+import { getUsers } from '../actions/users.actions'
+import store from '../store/store';
 
 const Background = styled(Row)`
 background-color: #1d1e22; 
 `;
-export default class Card extends Component {
-    render(){
-        return(
 
+const mapStateToProps = state => {
+    return {
+        users: state.users
+    };
+};
+
+
+class BlogCard extends Component {
+
+    render() {
+            return (
             <Card>
                 <Background>
                     <Row>
@@ -22,5 +32,10 @@ export default class Card extends Component {
             </Card>
 
         )
+            }
     }
-}
+
+
+
+
+export default connect(mapStateToProps,  {getUsers} )(BlogCard)
