@@ -1,8 +1,9 @@
 import React from 'react';
-import {Row, Col} from 'react-bootstrap';
+import {Card, Row, Col} from 'react-bootstrap';
 import faker from 'faker';
 import styled from 'styled-components';
 import BlogCard from '../components/card'
+
 
 const TopRow = styled(Row)`
 padding-top: 120px;
@@ -25,7 +26,9 @@ const H2Line = styled(Col)`
         border-top: 1px solid #1d1e22;
 `
 
-const BlogLanding = () => (
+
+
+const BlogLanding = (userProp) => (
 
     <div>
         <TopRow>
@@ -40,6 +43,12 @@ const BlogLanding = () => (
                     <p>{faker.lorem.paragraph(8)}</p>
                     </Col>
                 </Row>
+                <Row>
+
+                <h1>DERP</h1>
+                    <BlogCard />
+                
+                </Row>
    
             </Hero>
             <Col sm={2}></Col>
@@ -53,7 +62,7 @@ const BlogLanding = () => (
         </Row>
         <Row>
             <Col>
-                <BlogCard />
+                
                 {/* Blog Menu */}
             </Col>
         </Row>

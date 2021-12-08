@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 import Header from '../components/navigation/header';
 import Footer from '../components/footer';
 import Home from '../pages/home';
 import BlogLanding from '../pages/blogLanding';
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
+import { connect } from 'react-redux';
+import { getUsers } from '../actions/users.actions';
 let history = createBrowserHistory();
 
 const Page = styled(Container)`
@@ -15,15 +17,20 @@ const Page = styled(Container)`
         margin: 0;
         padding: 0;
         `;
+        
+const currentUsers = [];
 
-    
+const mapDispatchToProps = dispatch => ({
+    getUsers: users => dispatch(getUsers(currentUsers))
+});
 
         
 
 class WebAppRouter extends Component {
 
-    constructor(props) {
-        super(props);
+    componentDidMount() {
+        const {getUsers} = this.props;
+        getUsers();
     }
 
    
@@ -44,4 +51,4 @@ class WebAppRouter extends Component {
     };
 }
 
-export default WebAppRouter;
+export default connect(null, mapDispatchToProps)(WebAppRouter);

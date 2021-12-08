@@ -9,7 +9,6 @@ import "./base.scss";
 
 const jsx = (
     <Provider store={store}>
-        
         <WebAppRouter />
     </Provider>
 );
