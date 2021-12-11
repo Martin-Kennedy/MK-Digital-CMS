@@ -1,44 +1,76 @@
 import React from 'react';
 import {Card, Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
+import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
 
+const MasonryBlog = styled(Masonry)`
+width: 80%;
+margin-left: auto;
+margin-right: auto;
+padding: 0;
+`;
+
+const MasonryBlogLi = styled.li`
+  width: calc(100% / 2 - 1rem);
+  margin: 0.5rem;
+  padding: 1rem;
+
+
+@media (min-width: 700px) {
+    width: calc(100% / 3 - 1rem);
+    margin: 0.5rem;
+  }
+@media (min-width: 1200px) {
+    width: calc(100% / 4 - 1rem);
+    margin: 0.5rem;
+}
+`;
+
+
 const mapStateToProps = state => {
-    return {currentUserArray: state.users.currentUser};
+    return { blogData: state.blogs.blogData};
 };
 
-const buildCardArray = (userProp) => {
-    const cardArray = userProp
-        .currentUserArray
-        .map((user, index) =>
+const buildCardArray = (blogProp) => {
+    const cardArray = <MasonryBlog
+        elementType={'ul'} // default 'div' // default {}
+        disableImagesLoaded={false} 
+        updateOnEachImageLoad={false} 
+    >
+     
+    {blogProp
+        .blogData
+        .map((blogEntry) =>
         // Correct! Key should be specified inside the array.
         {
             const dynamicStyles = {
-                backgroundColor: user.bkgColor,
-                width: `${user.width}px`,
-                height: `${user.height}px`
+                backgroundColor: blogEntry.bkgColor,
+                height: `${blogEntry.height}px`
             };
-            const card = <Card key={user.id}>
-                {console.log(userProp)}
-                <Row style={dynamicStyles}>
+            const card = 
+                <MasonryBlogLi key={blogEntry.id}>
+
+                <div style={dynamicStyles}>
                     <Row>
-                        <Col >{user.first_name}</Col>
+                        <Col >{blogEntry.first_name}</Col>
                     </Row>
                     <Row>
-                        <Col>{user.last_name}</Col>
+                        <Col>{blogEntry.last_name}</Col>
                     </Row>
                     <Row></Row>
-                </Row>
-            </Card>
+                </div>
+                </MasonryBlogLi>
             return card;
-        });
+        })}
+    </MasonryBlog>
     return cardArray;
 }
 
-const BlogCard = (userProp) => (
+const BlogCard = (blogProp) => (
     <div>
-        {Array.isArray(userProp.currentUserArray)
-            ? buildCardArray(userProp)
+        {Array.isArray(blogProp.blogData)
+            ? buildCardArray(blogProp)
             : null}
     </div>
 )

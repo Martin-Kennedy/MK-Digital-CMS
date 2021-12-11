@@ -8,7 +8,7 @@ import BlogLanding from '../pages/blogLanding';
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
 import { connect } from 'react-redux';
-import { getUsers } from '../actions/users.actions';
+import { getBlogs } from '../actions/blogs.actions';
 let history = createBrowserHistory();
 
 const Page = styled(Container)`
@@ -18,10 +18,11 @@ const Page = styled(Container)`
         padding: 0;
         `;
         
-const currentUsers = [];
+const blogData = [];
 
 const mapDispatchToProps = dispatch => ({
-    getUsers: users => dispatch(getUsers(currentUsers))
+    getBlogs: blogs => dispatch(getBlogs(blogData)),
+    blogRender: blogs => dispatch(getBlogs(blogRender))
 });
 
         
@@ -29,8 +30,8 @@ const mapDispatchToProps = dispatch => ({
 class WebAppRouter extends Component {
 
     componentDidMount() {
-        const {getUsers} = this.props;
-        getUsers();
+        const {getBlogs} = this.props;
+        getBlogs();
     }
 
    
