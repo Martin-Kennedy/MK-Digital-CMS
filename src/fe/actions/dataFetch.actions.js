@@ -1,10 +1,10 @@
 
-import { GET_USERS } from '../helpers/types'
+import { GET_DATA } from '../helpers/types'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:3000/blog';
 
-export const getUsers = () => {
+export const dataFetch = () => {
     return (dispatch) => {
         return axios.get(apiUrl)
             .then(response => {
@@ -12,7 +12,7 @@ export const getUsers = () => {
             })
             .then(data => {
                 dispatch({
-                    type: GET_USERS,
+                    type: GET_DATA,
                     payload: data
                 })
             })
