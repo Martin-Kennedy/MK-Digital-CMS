@@ -1,2 +1,3 @@
 export const GET_BLOGS = 'GET_BLOGS';
 export const USERS_ERROR = 'USERS_ERROR';
+export const SORT_BY_BLOG_SUBJECT = 'SORT_BY_BLOG_SUBJECT';

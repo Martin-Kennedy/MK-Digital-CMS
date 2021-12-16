@@ -1,23 +1,20 @@
 // Filters Reducer
 
-const filtersReducerDefaultState = {
-    text: '',
-    sortBy: 'date',
-    startDate: undefined,
-    endDate: undefined
+const INITIAL_STATE = {
+    sortBy: null
 };
 
-export default (state = filtersReducerDefaultState, action) => {
+const filterReducer =  (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'SET_TEXT_FILTER':
             return {
                 ...state,
                 text: action.text
             };
-        case 'SORT_BY_AMOUNT':
+        case 'SORT_BY_BLOG_SUBJECT':
             return {
                 ...state,
-                sortBy: 'amount'
+                sortBy: action.subjectType
             };
         case 'SORT_BY_DATE':
             return {
@@ -38,3 +35,5 @@ export default (state = filtersReducerDefaultState, action) => {
             return state;
     }
 };
+
+export default filterReducer;

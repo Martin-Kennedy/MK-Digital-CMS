@@ -1,10 +1,10 @@
 import React from 'react';
-import {Image, Row, Col} from 'react-bootstrap';
+import {Button,  Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
 import {useMediaQuery} from '../helpers/hooks';
-import { generateHsl} from '../helpers/utilities';
+import {generateHsl} from '../helpers/utilities';
 
 
 let dynamicStylesPositionTop = [];
@@ -74,30 +74,42 @@ const mapStateToProps = state => {
     return {blogData: state.blogs.blogData};
 };
 
+const buildSubjectArray = (blogProp) => {
+    const subjectArray = [...new Set(blogProp.blogData.map(item => item.subject))]
+    return subjectArray;
+}
 
-
-
-
+const unique = (value, index, self) => {
+    return self.indexOf(value) === index
+}
 
 
 const buildCardArray = (blogProp) => {
 
-    const cardArray = <MasonryBlog 
-                    elementType={'ul'} // default 'div' // default {}
-                    disableImagesLoaded={false} 
-                    updateOnEachImageLoad={false}>
-            
-                    <StampLi >
-                    </StampLi>
+    const cardArray = 
 
-        {blogProp
-            .blogData
-            .map((blogEntry) =>
-            // Correct! Key should be specified inside the array.
-            {
+    <Row>
+            {buildSubjectArray(blogProp).map((subject) => {
+                const filterButton = <Button value={subject} >{subject}</Button>
+                return filterButton;
+            }
+            )}
+    <MasonryBlog elementType={'ul'} disableImagesLoaded={false}
+                updateOnEachImageLoad={false}>
 
-                let id = blogEntry.id;
-                const ContainerDiv = styled.div`
+                <StampLi >
+                </StampLi>
+                
+
+
+                {blogProp
+                    .blogData
+                    .map((blogEntry) =>
+                    // Correct! Key should be specified inside the array.
+                    {
+
+                        let id = blogEntry.id;
+                        const ContainerDiv = styled.div`
                     background-color: ${generateHsl()};
                     height: ${blogEntry.height + 100}px;
                     box-shadow: -3px 3px 2px rgba(0,0,0, .3);
@@ -118,7 +130,7 @@ const buildCardArray = (blogProp) => {
                     
                         
                 `;
-                const MasonryBlogLi = styled.li `
+                        const MasonryBlogLi = styled.li`
                 width: calc(100% - 1rem);
                 margin: 0rem;
                 padding: 0rem;
@@ -135,7 +147,7 @@ const buildCardArray = (blogProp) => {
                     margin-right: 0.5rem;
                 }
                 `;
-                const FittedImage = styled.img`
+                        const FittedImage = styled.img`
                 width: 50%;
                 height: auto;
                 max-height: ${blogEntry.height - 100}px;
@@ -146,22 +158,28 @@ const buildCardArray = (blogProp) => {
                 transition: 500ms ease-in;
                 `;
 
-                const card =  <MasonryBlogLi key={id}>
-                        <ContainerDiv >
-                            <Row>
-                                <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage} /></Col>
-                            </Row>
-                            <CardTextRow>
-                            <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
-                            <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
-                            </CardTextRow>
-                    </ContainerDiv>
-                    </MasonryBlogLi>;
-                return card;
-            })}
-    </MasonryBlog>
-    return cardArray;
+                        const card = <MasonryBlogLi key={id}>
+                            <ContainerDiv >
+                                <Row>
+                                    <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage} /></Col>
+                                </Row>
+                                <CardTextRow>
+                                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
+                                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
+                                </CardTextRow>
+                            </ContainerDiv>
+                        </MasonryBlogLi>;
+                        return card;
+                    })}
+            </MasonryBlog>
+            </Row>
+            return cardArray;
+        
 }
+        
+            
+    
+    
 
 const BlogCard = (blogProp) => (
     <div>
