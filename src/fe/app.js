@@ -5,8 +5,6 @@ import store from './store/store'
 import WebAppRouter from './router/webAppRouter';
 import "./base.scss";
 
-
-
 const jsx = (
     <Provider store={store}>
         <WebAppRouter />

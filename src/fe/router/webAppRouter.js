@@ -19,10 +19,12 @@ const Page = styled(Container)`
         `;
         
 const blogData = [];
+const filteredData = [];
+const sortBy = [];
 
 const mapDispatchToProps = dispatch => ({
     getBlogs: blogs => dispatch(getBlogs(blogData)),
-    blogRender: blogs => dispatch(getBlogs(blogRender))
+    sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject))
 });
 
         

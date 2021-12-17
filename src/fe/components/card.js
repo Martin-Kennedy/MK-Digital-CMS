@@ -1,11 +1,10 @@
-import React from 'react';
-import {Button,  Row, Col} from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Button, Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
-import {useMediaQuery} from '../helpers/hooks';
 import {generateHsl} from '../helpers/utilities';
-
+import {sortByBlogSubject} from '../actions/filters.actions';
 
 let dynamicStylesPositionTop = [];
 
@@ -16,7 +15,7 @@ margin-right: auto;
 padding: 0;
 `;
 
-const StampLi = styled.li`
+const StampLi = styled.li `
 width: calc(100% - 1rem);
 margin: 0rem;
 padding: 0rem;
@@ -69,47 +68,45 @@ opacity: 0;
 `;
 
 
+const FilterContainer = styled(Col)`
+display: flex;
+flex-direction: row;
+background-color: transparent;
+border-bottom: 1px solid #000;
+margin-bottom: 50px;
+padding: 0 0 20px 0;
+`
+const BlogFilterBtn = styled(Button)`
+display: flex;
+flex: 1;
+justify-content: center;
+width: auto;
+background-color: transparent;
+color: #000;
+border: 0;
+`
 
 const mapStateToProps = state => {
-    return {blogData: state.blogs.blogData};
+    return {
+        blogs: {
+            blogData: state.blogs.blogData,
+            filteredData: state.blogs.filteredData,
+            sortBy: state.sortBy
+        }
+    }
 };
 
-const buildSubjectArray = (blogProp) => {
-    const subjectArray = [...new Set(blogProp.blogData.map(item => item.subject))]
+const buildSubjectArray = (props) => {
+    const subjectArray = [...new Set(props.blogs.blogData.map(item => item.subject))]
     return subjectArray;
 }
 
-const unique = (value, index, self) => {
-    return self.indexOf(value) === index
-}
+const fullDataRender = (props) => props
+    .blogData
+    .map((blogEntry) => {
 
-
-const buildCardArray = (blogProp) => {
-
-    const cardArray = 
-
-    <Row>
-            {buildSubjectArray(blogProp).map((subject) => {
-                const filterButton = <Button value={subject} >{subject}</Button>
-                return filterButton;
-            }
-            )}
-    <MasonryBlog elementType={'ul'} disableImagesLoaded={false}
-                updateOnEachImageLoad={false}>
-
-                <StampLi >
-                </StampLi>
-                
-
-
-                {blogProp
-                    .blogData
-                    .map((blogEntry) =>
-                    // Correct! Key should be specified inside the array.
-                    {
-
-                        let id = blogEntry.id;
-                        const ContainerDiv = styled.div`
+        let id = blogEntry.id;
+        const ContainerDiv = styled.div `
                     background-color: ${generateHsl()};
                     height: ${blogEntry.height + 100}px;
                     box-shadow: -3px 3px 2px rgba(0,0,0, .3);
@@ -130,7 +127,7 @@ const buildCardArray = (blogProp) => {
                     
                         
                 `;
-                        const MasonryBlogLi = styled.li`
+        const MasonryBlogLi = styled.li `
                 width: calc(100% - 1rem);
                 margin: 0rem;
                 padding: 0rem;
@@ -147,7 +144,7 @@ const buildCardArray = (blogProp) => {
                     margin-right: 0.5rem;
                 }
                 `;
-                        const FittedImage = styled.img`
+        const FittedImage = styled.img `
                 width: 50%;
                 height: auto;
                 max-height: ${blogEntry.height - 100}px;
@@ -158,35 +155,139 @@ const buildCardArray = (blogProp) => {
                 transition: 500ms ease-in;
                 `;
 
-                        const card = <MasonryBlogLi key={id}>
-                            <ContainerDiv >
-                                <Row>
-                                    <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage} /></Col>
-                                </Row>
-                                <CardTextRow>
-                                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
-                                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
-                                </CardTextRow>
-                            </ContainerDiv>
-                        </MasonryBlogLi>;
-                        return card;
-                    })}
-            </MasonryBlog>
-            </Row>
-            return cardArray;
-        
-}
-        
-            
-    
-    
+        const card = <MasonryBlogLi key={id}>
+            <ContainerDiv >
+                <Row>
+                    <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage}/></Col>
+                </Row>
+                <CardTextRow>
+                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
+                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
+                </CardTextRow>
+            </ContainerDiv>
+        </MasonryBlogLi>;
+        return card;
+    })
 
-const BlogCard = (blogProp) => (
-    <div>
-        {Array.isArray(blogProp.blogData)
-            ? buildCardArray(blogProp)
-            : null}
-    </div>
-)
+const filteredDataRender = (props) => props
+    .filteredData
+    .map((blogEntry) =>
+    // Correct! Key should be specified inside the array.
+    {
+
+        let id = blogEntry.id;
+        const ContainerDiv = styled.div `
+                    background-color: ${generateHsl()};
+                    height: ${blogEntry.height + 100}px;
+                    box-shadow: -3px 3px 2px rgba(0,0,0, .3);
+                    transition: 500ms ease-in;
+                    &:hover, &:focus  {
+                        filter: brightness(90%);
+                        cursor: pointer;
+                    }
+                    &:hover .styledImage {
+                        transform: scale(.97);
+                    }
+                    &:hover .styledTitle {
+                        opacity: 1; 
+                    }
+                    &:hover .styledBlurb {
+                        opacity: 1;
+                    }
+                    
+                        
+                `;
+        const MasonryBlogLi = styled.li `
+                width: calc(100% - 1rem);
+                margin: 0rem;
+                padding: 0rem;
+                margin-bottom: ${blogEntry.height * .5}px;
+                
+                @media (min-width: 700px) {
+                    width: calc(100% / 2 - 1rem);
+                    margin-left: 0.5rem;
+                    margin-right: 0.5rem;
+                }
+                @media (min-width: 1200px) {
+                    width: calc(100% / 2 - 1rem);
+                    margin-left: 0.5rem;
+                    margin-right: 0.5rem;
+                }
+                `;
+        const FittedImage = styled.img `
+                width: 50%;
+                height: auto;
+                max-height: ${blogEntry.height - 100}px;
+                object-fit: contain;
+                position: relative;
+                top: ${blogEntry.positionTop}%;
+                left: ${blogEntry.positionLeft}%;
+                transition: 500ms ease-in;
+                `;
+
+        const card = <MasonryBlogLi key={id}>
+            <ContainerDiv >
+                <Row>
+                    <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage}/></Col>
+                </Row>
+                <CardTextRow>
+                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
+                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
+                </CardTextRow>
+            </ContainerDiv>
+        </MasonryBlogLi>;
+        return card;
+    })
+
+const buildCardArray = (props) => {
+    console.log(props)
+    const cardArray = 
+                <Row>
+                    <Row>
+                        <Col sm={2}></Col>
+                        <FilterContainer sm={8}>
+                        {buildSubjectArray(props).map((subject, index) => {
+                            const filterButton = <BlogFilterBtn
+                                key={index}
+                                value={subject}
+                                onClick={(e) => {
+                                    props.dispatch(sortByBlogSubject(e.target.value));
+                                }}>{subject}</BlogFilterBtn>
+                            return filterButton;
+                        })}
+                        </FilterContainer>
+                        <Col sm={2}></Col>
+                </Row>
+                    <MasonryBlog
+                        elementType={'ul'}
+                        disableImagesLoaded={false}
+                        updateOnEachImageLoad={false}>
+
+                        <StampLi ></StampLi>
+
+                        {props.blogs.filteredData.length
+                            ? filteredDataRender(props.blogs)
+                            : fullDataRender(props.blogs)}
+                    </MasonryBlog>
+                </Row>
+                return cardArray;
+}
+
+class BlogCard extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                {Array.isArray(this.props.blogs.blogData)
+                    ? buildCardArray(this.props)
+                    : null}
+            </div>
+        )
+    }
+}
 
 export default connect(mapStateToProps)(BlogCard);

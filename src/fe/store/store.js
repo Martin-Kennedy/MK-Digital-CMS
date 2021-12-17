@@ -4,7 +4,11 @@ import thunk from 'redux-thunk'
 import rootReducer from '../reducers/root.reducer'
 
 const initalState = {
-    blogs: []
+    blogs: {
+        blogData: [],
+        filteredData: [],
+        sortBy: []
+    }
 }
 
 const store = createStore(rootReducer, initalState, applyMiddleware(thunk));
