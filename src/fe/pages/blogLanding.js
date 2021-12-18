@@ -9,7 +9,7 @@ padding-top: 120px;
 `
 
 const Hero = styled(Col)`
-min-height: 500px;
+min-height: calc(80vh - 120px);
 padding: 60px 0 100px 0;
 `
 

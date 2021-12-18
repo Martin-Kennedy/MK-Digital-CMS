@@ -7,7 +7,8 @@ const initalState = {
     blogs: {
         blogData: [],
         filteredData: [],
-        sortBy: []
+        sortBy: '',
+        activeButton: 1
     }
 }
 

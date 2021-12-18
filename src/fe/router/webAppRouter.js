@@ -18,12 +18,10 @@ const Page = styled(Container)`
         padding: 0;
         `;
         
-const blogData = [];
-const filteredData = [];
-const sortBy = [];
+
 
 const mapDispatchToProps = dispatch => ({
-    getBlogs: blogs => dispatch(getBlogs(blogData)),
+    getBlogs: blogData => dispatch(getBlogs(blogData)),
     sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject))
 });
 

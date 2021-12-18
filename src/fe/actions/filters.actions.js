@@ -7,9 +7,10 @@ export const setTextFilter = (text = '') => ({
 });
 
 // SORT_BY_BLOG_SUBJECT
-export const sortByBlogSubject = (subject = null) => ({
+export const sortByBlogSubject = (subject = null, index = 1) => ({
   type: SORT_BY_BLOG_SUBJECT,
-  subject
+  subject: subject,
+  index: index
 });
 
 // SET_START_DATE

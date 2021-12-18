@@ -4,7 +4,8 @@ import {SORT_BY_BLOG_SUBJECT} from '../helpers/types'
 const INITIAL_STATE = {
     blogData: [],
     filteredData: [],
-    sortBy: []
+    sortBy: '',
+    activeButton: 1
 }
 
 const blogsReducer = (state = INITIAL_STATE, action) => {
@@ -22,7 +23,8 @@ const blogsReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 sortBy: action.subject,
-                filteredData: filteredValues
+                filteredData: filteredValues,
+                activeButton: action.index
             };
         default:
             return state;
