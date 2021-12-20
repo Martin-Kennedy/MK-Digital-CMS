@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-component';
-import { connect } from 'react-redux';
-import { generateHsl } from '../helpers/utilities';
-import FilterButtons from './filterButtons';
-
-let dynamicStylesPositionTop = [];
+import {connect} from 'react-redux';
+import {generateHsl} from '../helpers/utilities';
 
 const MasonryBlog = styled(Masonry)`
 width: 80%;
@@ -15,7 +12,7 @@ margin-right: auto;
 padding: 0;
 `;
 
-const StampLi = styled.li`
+const StampLi = styled.li `
 width: calc(100% - 1rem);
 margin: 0rem;
 padding: 0rem;
@@ -78,20 +75,22 @@ const mapStateToProps = state => {
     }
 };
 
-class FilteredCards extends Component { 
-    render(){
-        return (<MasonryBlog
-            elementType={'ul'}
-            disableImagesLoaded={false}
-            updateOnEachImageLoad={true}>
+class FilteredCards extends Component {
+    render() {
+        return (
+            <MasonryBlog
+                elementType={'ul'}
+                disableImagesLoaded={false}
+                updateOnEachImageLoad={true}>
 
-            <StampLi ></StampLi>
-    {this.props
-    .blogs
-    .filteredData
-    .map((blogEntry) => {
-        let id = blogEntry.id;
-        const ContainerDiv = styled.div `
+                <StampLi ></StampLi>
+                {this
+                    .props
+                    .blogs
+                    .filteredData
+                    .map((blogEntry) => {
+                        let id = blogEntry.id;
+                        const ContainerDiv = styled.div `
                     background-color: ${generateHsl()};
                     height: ${blogEntry.height + 100}px;
                     box-shadow: -3px 3px 2px rgba(0,0,0, .3);
@@ -112,7 +111,7 @@ class FilteredCards extends Component {
                     
                         
                 `;
-        const MasonryBlogLi = styled.li `
+                        const MasonryBlogLi = styled.li `
                 width: calc(100% - 1rem);
                 margin: 0rem;
                 padding: 0rem;
@@ -129,7 +128,7 @@ class FilteredCards extends Component {
                     margin-right: 0.5rem;
                 }
                 `;
-        const FittedImage = styled.img `
+                        const FittedImage = styled.img `
                 width: 50%;
                 height: auto;
                 max-height: ${blogEntry.height - 100}px;
@@ -140,20 +139,22 @@ class FilteredCards extends Component {
                 transition: 500ms ease-in;
                 `;
 
-        const card = <MasonryBlogLi key={id}>
-            <ContainerDiv>
-                <Row>
-                    <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage}/></Col>
-                </Row>
-                <CardTextRow>
-                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
-                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
-                </CardTextRow>
-            </ContainerDiv>
-        </MasonryBlogLi>;
-        return card;
-    })}
-        </MasonryBlog>)}
+                        const card = <MasonryBlogLi key={id}>
+                            <ContainerDiv>
+                                <Row>
+                                    <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage}/></Col>
+                                </Row>
+                                <CardTextRow>
+                                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
+                                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
+                                </CardTextRow>
+                            </ContainerDiv>
+                        </MasonryBlogLi>;
+                        return card;
+                    })}
+            </MasonryBlog>
+        )
+    }
 }
 
 export default connect(mapStateToProps)(FilteredCards);

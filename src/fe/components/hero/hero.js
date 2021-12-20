@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Row, Col} from 'react-bootstrap';
 import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
 import TextTranslation from "./textTranslation";
+import faker from 'faker';
 
 
 const stylingObject = {

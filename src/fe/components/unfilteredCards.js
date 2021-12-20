@@ -5,8 +5,6 @@ import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
 import {generateHsl} from '../helpers/utilities';
 
-let dynamicStylesPositionTop = [];
-
 const MasonryBlog = styled(Masonry)`
 width: 80%;
 margin-left: auto;

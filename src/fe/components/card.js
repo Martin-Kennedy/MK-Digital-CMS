@@ -26,7 +26,6 @@ const buildCardArray = (props) => {
             ? <FilteredCards/>
             : <UnfilteredCards/>
 }
-
     </Row>
     return cardArray;
 }
