@@ -9,6 +9,13 @@ const initalState = {
         filteredData: [],
         sortBy: '',
         activeButton: 1
+    },
+    homepage: {
+        homepageData: {
+            homepageCarousel: {
+                homepageCarouselArray: []
+            }
+        }
     }
 }
 

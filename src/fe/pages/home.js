@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import Hero from '../../fe/components/hero/hero'
 import faker from 'faker';
 
@@ -17,13 +18,12 @@ const stylingObject = {
   }
 }
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      options: []
-    };
-  }
+const mapStateToProps = state => {
+   return { homepage: state.homepage };
+} 
+
+class Home extends Component {
+
 
   render() {
     return (
@@ -31,6 +31,9 @@ export default class Home extends Component {
         
         {/* Hero Section */}
         <Hero />
+
+        {console.log(this.props)
+          }
 
          {/* Bio Section  */}
         <Row style={stylingObject.section}>
@@ -131,3 +134,5 @@ export default class Home extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(Home);

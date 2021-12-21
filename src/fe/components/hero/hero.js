@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import {Row, Col} from 'react-bootstrap';
-import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
-import TextTranslation from "./textTranslation";
-import faker from 'faker';
+import CarouselComponent from '../carousel';
+
 
 
 const stylingObject = {
@@ -43,15 +42,7 @@ export default class Hero extends Component  {
                 
                 <Col sm={8}>
                     {/* Carousel */}
-                    <div style={stylingObject.text}>
-                    
-                    <LineAnimationL2R />
-                    
-                    <TextTranslation text="Long long text to scroll" />
-                    
-                    <LineAnimationR2L />
-                    
-                    </div>
+                    <CarouselComponent />
                 </Col>
                 <Col sm={2}>
                 </Col>

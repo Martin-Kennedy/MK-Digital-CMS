@@ -9,6 +9,8 @@ import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
 import { connect } from 'react-redux';
 import { getBlogs } from '../actions/blogs.actions';
+import { getHomepage } from '../actions/homepage.actions';
+
 let history = createBrowserHistory();
 
 const Page = styled(Container)`
@@ -22,7 +24,8 @@ const Page = styled(Container)`
 
 const mapDispatchToProps = dispatch => ({
     getBlogs: blogData => dispatch(getBlogs(blogData)),
-    sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject))
+    sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject)),
+    getHomepage: homepageData => dispatch(getHomepage(homepageData)),
 });
 
         
@@ -31,7 +34,9 @@ class WebAppRouter extends Component {
 
     componentDidMount() {
         const {getBlogs} = this.props;
+        const { getHomepage } = this.props;
         getBlogs();
+        getHomepage();
     }
 
    
