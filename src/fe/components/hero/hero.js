@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import {Row, Col} from 'react-bootstrap';
 import CarouselComponent from '../carousel';
-
-
+import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
 
 const stylingObject = {
     homepageHero: {
@@ -11,44 +10,36 @@ const stylingObject = {
         width: "100vw",
         margin: "0",
         backgroundColor: "#1d1e22",
-        display: "flex",
-        alignItems: "center",
         padding: "120px 0 100px 0"
     },
-    text: {
-        fontFamily: "mr-eaves-modern, sans-serif",
-        fontWeight: "700",
-        fontSize: "100px",
-        color: "#fff",
-        textTransform: "uppercase",
-        whiteSpace: "nowrap"
+    height: {
+        height: "calc(80vh - 120px)",
+        position: "absolute",
+        width: "inherit"
     }
 }
 
+export default class Hero extends Component {
 
-export default class Hero extends Component  {
-
-    constructor(){
+    constructor() {
         super(),
-        this.state = {
-           
-        }
+        this.state = {}
     }
-    render(){
+    render() {
         return (
             <Row style={stylingObject.homepageHero}>
-                <Col sm={2}>
+                <Col xs={1}></Col>
+                <Col xs={10}>
+                    <div style={stylingObject.height}>
+                        <LineAnimationL2R/>
+                        <LineAnimationR2L/>
+                    </div>
+                    <CarouselComponent/>
                 </Col>
-                
-                <Col sm={8}>
-                    {/* Carousel */}
-                    <CarouselComponent />
-                </Col>
-                <Col sm={2}>
-                </Col>
-                </Row>
+                <Col xs={1}></Col>
+            </Row>
 
         );
     }
-    
+
 }

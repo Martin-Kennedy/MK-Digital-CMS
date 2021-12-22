@@ -1,5 +1,6 @@
 
 import { GET_HOMEPAGE } from '../helpers/types'
+import { CAROUSEL_CURRENT_SLIDE } from '../helpers/types'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:5000/homepage';
@@ -21,3 +22,10 @@ export const getHomepage = () => {
             });
     };
 };
+
+export const getCurrentCarouselSlide = (currentSlide, totalSlides) => ({
+    type: CAROUSEL_CURRENT_SLIDE,
+    currentSlide: currentSlide,
+    totalSlides: totalSlides
+
+})

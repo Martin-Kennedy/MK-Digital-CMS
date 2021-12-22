@@ -13,7 +13,9 @@ const initalState = {
     homepage: {
         homepageData: {
             homepageCarousel: {
-                homepageCarouselArray: []
+                homepageCarouselArray: [],
+                currentSlide: 0,
+                totalSlides: 0
             }
         }
     }
