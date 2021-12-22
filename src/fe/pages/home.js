@@ -31,9 +31,7 @@ class Home extends Component {
         
         {/* Hero Section */}
         <Hero />
-
-        {console.log(this.props)
-          }
+          
 
          {/* Bio Section  */}
         <Row style={stylingObject.section}>

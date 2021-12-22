@@ -14,10 +14,12 @@ const initalState = {
         homepageData: {
             homepageCarousel: {
                 homepageCarouselArray: [],
-                currentSlide: 0,
-                totalSlides: 0
+                
             }
-        }
+        },
+        currentSlide: 0,
+        totalSlides: 0,
+        autoPlay: true
     }
 }
 

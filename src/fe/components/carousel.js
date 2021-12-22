@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 import TextTranslation from "./hero/textTranslation";
 import styled from 'styled-components';
-import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, WithStore} from 'pure-react-carousel';
-import { getCurrentCarouselSlide } from '../actions/homepage.actions';
+import {
+    CarouselProvider,
+    Slider,
+    Slide,
+    ButtonBack,
+    ButtonNext
+} from 'pure-react-carousel';
+import { getCurrentCarouselSlide, stopCarouselAutoPlay, startCarouselAutoPlay} from '../actions/homepage.actions';
 import {connect} from 'react-redux';
 
 const StyledCarouselProvider = styled(CarouselProvider)`
@@ -11,7 +17,7 @@ overflow: hidden;
 
 `;
 
-const SlideImage = styled.img`
+const SlideImage = styled.img `
 position: relative;
 top: 10%;
 left: 38.5%;
@@ -19,22 +25,40 @@ width: 25%;
 z-index: 2;
 `;
 
-
+const slideShowInterval = 5000;
 
 const mapStateToProps = state => {
-    
-    return {
-        homepageData: state.homepage.homepageData,
-        totalSlides: state.homepage.homepageData.homepageCarousel.homepageCarouselArray.length,
-        currentSlide: state.homepage.homepageData.homepageCarousel.currentSlide,
+
+    return {homepageData: state.homepage.homepageData, 
+        totalSlides: state.homepage.homepageData.homepageCarousel.homepageCarouselArray.length, 
+        currentSlide: state.homepage.currentSlide,
+        autoPlay: state.homepage.autoPlay
     }
 }
 
+var intervalID;
+function playSlideShow (props, slideShowInterval) {
+     intervalID = setInterval(() => {
+        let slide = props.currentSlide;
+        let currentSlide = slide + 1;
+        let totalSlides = props.homepageData.homepageCarousel.homepageCarouselArray.length;
+        (currentSlide === totalSlides)
+            ? currentSlide = 0
+            : null;
+        props.dispatch(getCurrentCarouselSlide(currentSlide, totalSlides));
+    }, slideShowInterval);
+}
+
 const createHeroCarouselItem = (props) => (props.homepageData.homepageCarousel.homepageCarouselArray.map((carousel, index) => {
-    return <Slide classNameVisible key={index}>
-                <TextTranslation text={carousel.subject}/>
-                <SlideImage src={carousel.homepageHeroCardImage}/>
-             </Slide>;
+    return <Slide
+        classNameVisible={'visible'}
+        key={index}
+        index={index}
+        onMouseEnter={() => clearInterval(intervalID)}
+        onMouseLeave={() => playSlideShow(props, slideShowInterval)}>
+        <TextTranslation text={carousel.subject}/>
+        <SlideImage src={carousel.homepageHeroCardImage}/>
+    </Slide>;
 }));
 
 class CarouselComponent extends Component {
@@ -44,23 +68,22 @@ class CarouselComponent extends Component {
     }
 
     componentDidMount() {
-        let currentSlide = this.props.homepageData.homepageCarousel.currentSlide;
-        let totalSlides = this.props.homepageData.homepageCarousel.homepageCarouselArray.length;
-        this.props.dispatch(getCurrentCarouselSlide(currentSlide, totalSlides));
-        
+        playSlideShow(this.props, slideShowInterval);
     }
+
+
+
     render() {
         return (
-            <StyledCarouselProvider 
+            <StyledCarouselProvider
                 orientation="vertical"
                 naturalSlideWidth={200}
                 naturalSlideHeight={100}
                 totalSlides={this.props.totalSlides}
                 playDirection={'forward'}
-                currentSlide={this.props.homepageData.homepageCarousel.currentSlide}
-            >
-                {console.log(this.props, "this props")}
-                <Slider>
+                currentSlide={this.props.currentSlide}>
+
+                <Slider >
                     {createHeroCarouselItem(this.props)}
                 </Slider>
             </StyledCarouselProvider>

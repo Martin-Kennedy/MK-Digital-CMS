@@ -1,9 +1,9 @@
-import { GET_HOMEPAGE } from '../helpers/types';
-import { CAROUSEL_CURRENT_SLIDE } from '../helpers/types';
+import { CAROUSEL_STOP_AUTOPLAY, CAROUSEL_START_AUTOPLAY, GET_HOMEPAGE, CAROUSEL_CURRENT_SLIDE } from '../helpers/types';
 
 const INITIAL_STATE = {
     homepageData: [],
-    currentSlide: 0
+    currentSlide: 0,
+    autoPlay: true
 }
 
 const homepageReducer = (state = INITIAL_STATE, action) => {
@@ -14,17 +14,21 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                 homepageData: action.payload
             }
         case CAROUSEL_CURRENT_SLIDE:
-             const playSlideShow = () => {
-                setInterval(() => {
-                let currentSlide = action.currentSlide;
-                let totalSlides = action.totalSlides;
-                if (currentSlide === totalSlides) currentSlide = 0;
-                console.log(state)
-                return currentSlide ++;
-            }, 5000)}
             return {
                 ...state,
-                currentSlide: playSlideShow(),
+                currentSlide: action.currentSlide
+            }
+        case CAROUSEL_STOP_AUTOPLAY:
+            console.log('stop running')
+          
+            return {
+                ...state,
+                autoPlay: false
+            }
+        case CAROUSEL_START_AUTOPLAY:
+            return {
+                ...state,
+                autoPlay: true
             }
         default:
             return state;
