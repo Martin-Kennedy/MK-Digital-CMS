@@ -41,7 +41,6 @@ const BlogLanding = () => (
                     </Col>
                 </Row>
                 <Row>
-                    {console.log(faker.image.image())}
                 </Row>
             </Hero>
             <Col sm={2}></Col>

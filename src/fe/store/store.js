@@ -18,8 +18,7 @@ const initalState = {
             }
         },
         currentSlide: 0,
-        totalSlides: 0,
-        autoPlay: true
+        totalSlides: 0
     }
 }
 
