@@ -17,7 +17,6 @@ const blogsReducer = (state = INITIAL_STATE, action) => {
             }
 
         case SORT_BY_BLOG_SUBJECT:
-            //the value received from our presentational component
             let value = action.subject;
             let filteredValues = state.blogData.filter(card => card.subject === value);
             return {

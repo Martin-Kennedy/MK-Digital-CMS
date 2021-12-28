@@ -9,8 +9,7 @@ import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
 import { connect } from 'react-redux';
 import { getBlogs } from '../actions/blogs.actions';
-import { getHomepage } from '../actions/homepage.actions';
-import { getCarouselHoverState, getCurrentCarouselIntervalID } from '../actions/homepage.actions';
+import { getHomepage, getCarouselHoverState, getCurrentCarouselIntervalID, getCurrentCarouselAnimatedText } from '../actions/homepage.actions';
 
 let history = createBrowserHistory();
 
@@ -28,7 +27,8 @@ const mapDispatchToProps = dispatch => ({
     sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject)),
     getHomepage: homepageData => dispatch(getHomepage(homepageData)),
     getCarouselHoverState: isHovered => dispatch(getCarouselHoverState(isHovered)),
-    getCurrentCarouselIntervalID: intervalID => dispatch(getCurrentCarouselIntervalID(intervalID))
+    getCurrentCarouselIntervalID: intervalID => dispatch(getCurrentCarouselIntervalID(intervalID)),
+    getCurrentCarouselAnimatedText: carouselText => dispatch(getCurrentCarouselAnimatedText(carouselText)),
     
 });
 
@@ -41,10 +41,12 @@ class WebAppRouter extends Component {
         const {getHomepage} = this.props;
         const {getCarouselHoverState} = this.props;
         const { getCurrentCarouselIntervalID } = this.props;
+        const { getCurrentCarouselAnimatedText } = this.props;
         getBlogs();
         getHomepage();
         getCarouselHoverState();
         getCurrentCarouselIntervalID();
+        getCurrentCarouselAnimatedText();
     }
 
    

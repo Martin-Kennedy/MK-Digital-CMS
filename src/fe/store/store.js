@@ -20,7 +20,8 @@ const initalState = {
         currentSlide: 0,
         totalSlides: 0,
         hoverState: false,
-        intervalID: 0
+        intervalID: 0,
+        carouselText: []
     }
 }
 

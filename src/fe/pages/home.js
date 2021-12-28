@@ -3,6 +3,7 @@ import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import Hero from '../../fe/components/hero/hero'
 import faker from 'faker';
+import styled, { keyframes } from 'styled-components';
 
 const stylingObject = {
   section: {
@@ -17,6 +18,9 @@ const stylingObject = {
     fontWeight: "200"
   }
 }
+
+
+
 
 const mapStateToProps = state => {
    return { homepage: state.homepage };
@@ -63,7 +67,7 @@ class Home extends Component {
             <Col>
             <h2 style={stylingObject.h2}>BIO</h2>
           </Col>
-          <Col>
+          <Col> 
             <p>{faker.lorem.paragraph(8)}</p>
           </Col>
           </Row>

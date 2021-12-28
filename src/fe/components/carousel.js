@@ -2,12 +2,16 @@ import React, {Component} from 'react';
 import TextTranslation from "./hero/textTranslation";
 import styled from 'styled-components';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, WithStore} from 'pure-react-carousel';
-import { getCurrentCarouselSlide, getCarouselHoverState, getCurrentCarouselIntervalID } from '../actions/homepage.actions';
+import { getCurrentCarouselSlide, getCarouselHoverState, getCurrentCarouselIntervalID, getCurrentCarouselAnimatedText } from '../actions/homepage.actions';
 import {connect} from 'react-redux';
 
 const StyledCarouselProvider = styled(CarouselProvider)`
 height: calc(80vh - 120px);
 overflow: hidden;
+cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png')
+      39 39,
+    auto;
+}
 
 `;
 
@@ -17,6 +21,7 @@ top: 10%;
 left: 38.5%;
 width: 25%;
 z-index: 2;
+
 `;
 
 const slideShowInterval = 5000;
@@ -24,14 +29,12 @@ const slideShowInterval = 5000;
 
 
 const mapStateToProps = state => {
-    console.log(state)
-    
     return {
         homepageData: state.homepage.homepageData,
         totalSlides: state.homepage.homepageData.homepageCarousel.homepageCarouselArray.length,
         currentSlide: state.homepage.currentSlide,
         hoverState: state.homepage.hoverState,
-        intervalID: state.homepage.intervalID,
+        intervalID: state.homepage.intervalID
     }
 }
 
@@ -40,8 +43,8 @@ const createHeroCarouselItem = (props) => (props.homepageData.homepageCarousel.h
                 key={index} 
                 index={index} 
                 onMouseEnter={() => { props.dispatch(getCarouselHoverState(true))}}
-                onMouseLeave={() => { props.dispatch(getCarouselHoverState(false))}}>
-                <TextTranslation text={carousel.subject}/>
+                onMouseLeave={() => { props.dispatch(getCarouselHoverState(false))}}
+                onLoad={() => props.dispatch(getCurrentCarouselAnimatedText(carousel.subject))}>
                 <SlideImage src={carousel.homepageHeroCardImage}/>
              </Slide>;
 }));

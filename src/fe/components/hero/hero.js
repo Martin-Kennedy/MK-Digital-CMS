@@ -1,7 +1,12 @@
 import React, {Component} from "react";
 import {Row, Col} from 'react-bootstrap';
+import { connect } from "react-redux";
+import { getCurrentCarouselAnimatedText } from "../../actions/homepage.actions";
 import CarouselComponent from '../carousel';
 import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
+import TextTranslation from "./textTranslation";
+import styled from 'styled-components'
+import SvgBlob from "../blobSvg";
 
 const stylingObject = {
     homepageHero: {
@@ -19,12 +24,24 @@ const stylingObject = {
     }
 }
 
-export default class Hero extends Component {
+const PositionAbsolute = styled.div`
+position: relative;
+`
 
-    constructor() {
-        super(),
-        this.state = {}
+const mapStateToProps = state => {
+    console.log(state)
+    return {
+        carouselText: state.homepage.carouselText,
+        currentSlide: state.homepage.currentSlide
     }
+}
+
+const getCarouselText = (text, currentSlide) => {
+    const currentText = text[currentSlide];
+    return currentText;
+}
+
+class Hero extends Component {
     render() {
         return (
             <Row style={stylingObject.homepageHero}>
@@ -32,6 +49,8 @@ export default class Hero extends Component {
                 <Col xs={10}>
                     <div style={stylingObject.height}>
                         <LineAnimationL2R/>
+                        <TextTranslation text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
+                        <SvgBlob/>
                         <LineAnimationR2L/>
                     </div>
                     <CarouselComponent/>
@@ -43,3 +62,5 @@ export default class Hero extends Component {
     }
 
 }
+
+export default connect(mapStateToProps)(Hero)
