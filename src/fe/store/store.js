@@ -18,7 +18,9 @@ const initalState = {
             }
         },
         currentSlide: 0,
-        totalSlides: 0
+        totalSlides: 0,
+        hoverState: false,
+        intervalID: 0
     }
 }
 

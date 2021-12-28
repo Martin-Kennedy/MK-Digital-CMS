@@ -10,6 +10,7 @@ import { createBrowserHistory } from 'history'
 import { connect } from 'react-redux';
 import { getBlogs } from '../actions/blogs.actions';
 import { getHomepage } from '../actions/homepage.actions';
+import { getCarouselHoverState, getCurrentCarouselIntervalID } from '../actions/homepage.actions';
 
 let history = createBrowserHistory();
 
@@ -26,6 +27,9 @@ const mapDispatchToProps = dispatch => ({
     getBlogs: blogData => dispatch(getBlogs(blogData)),
     sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject)),
     getHomepage: homepageData => dispatch(getHomepage(homepageData)),
+    getCarouselHoverState: isHovered => dispatch(getCarouselHoverState(isHovered)),
+    getCurrentCarouselIntervalID: intervalID => dispatch(getCurrentCarouselIntervalID(intervalID))
+    
 });
 
         
@@ -34,9 +38,13 @@ class WebAppRouter extends Component {
 
     componentDidMount() {
         const {getBlogs} = this.props;
-        const { getHomepage } = this.props;
+        const {getHomepage} = this.props;
+        const {getCarouselHoverState} = this.props;
+        const { getCurrentCarouselIntervalID } = this.props;
         getBlogs();
         getHomepage();
+        getCarouselHoverState();
+        getCurrentCarouselIntervalID();
     }
 
    
