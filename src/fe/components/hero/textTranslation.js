@@ -10,7 +10,7 @@ const AnimatedSliderText = styled.div`
         text-transform: uppercase;
         white-space: nowrap;
         position: absolute;
-        top: 33%;
+        top: 38%;
         right: 0;
 `;
 
@@ -18,9 +18,9 @@ const TextTranslation = ({ text }) => {
     const [key, setKey] = useState(1);
 
     const scrolling = useSpring({
-        from: { transform: "translate(60%,0)" },
-        to: { transform: "translate(-60%,0)" },
-        config: { duration: 50000 },
+        from: { transform: "translate(60vw,0)" },
+        to: { transform: "translate(-100vw,0)" },
+        config: { duration: 5000 },
         reset: true,
         //reverse: key % 2 == 0,
         onRest: () => {

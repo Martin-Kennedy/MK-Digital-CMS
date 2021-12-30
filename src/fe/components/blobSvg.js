@@ -5,8 +5,12 @@ import { useSpring, animated } from "react-spring";
 
 const StyledSVG = styled.svg`
 position: relative;
-top: calc(50vh - 560px);
-left: calc(50vw - 440px);
+top: calc(50vh - 470px);
+left: calc(50vw - 520px);
+`
+
+const StyledPath = styled(animated.path)`
+transform: scale(1.25, 0.8);
 `
 
  const SvgBlob = () => {
@@ -30,10 +34,10 @@ left: calc(50vw - 440px);
          setActive(true);
      }, []);
 
-     return <StyledSVG x="0px" y="0px" width="600" height="800" viewBox="0 0 600 800"
+     return <StyledSVG x="0px" y="0px" width="800" height="800" viewBox="0 0 800 800"
          >
          
-         <animated.path fill="#fff" d={x.to(
+         <StyledPath fill="#fff" d={x.to(
              {
                  range: [0,0.25,0.5,0.75,1],
                  output: [
@@ -46,7 +50,7 @@ left: calc(50vw - 440px);
              })
              
          } >
-         </animated.path>
+         </StyledPath>
          
         
      </StyledSVG>

@@ -3,7 +3,6 @@ import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import Hero from '../../fe/components/hero/hero'
 import faker from 'faker';
-import styled, { keyframes } from 'styled-components';
 
 const stylingObject = {
   section: {

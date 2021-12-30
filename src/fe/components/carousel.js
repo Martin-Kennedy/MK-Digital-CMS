@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import TextTranslation from "./hero/textTranslation";
 import styled from 'styled-components';
-import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, WithStore} from 'pure-react-carousel';
+import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup} from 'pure-react-carousel';
 import { getCurrentCarouselSlide, getCarouselHoverState, getCurrentCarouselIntervalID, getCurrentCarouselAnimatedText } from '../actions/homepage.actions';
 import {connect} from 'react-redux';
 
@@ -24,7 +23,16 @@ z-index: 2;
 
 `;
 
-const slideShowInterval = 5000;
+const StyleDotGroup = styled(DotGroup)`
+    position: absolute;
+    top: 55vh;
+    left: 50vw;
+    z-index: 9;
+    color: white;
+    background-color: antiquewhite;
+`
+
+const slideShowInterval = 8000;
 
 
 
@@ -53,6 +61,7 @@ class CarouselComponent extends Component {
 
     constructor() {
         super();
+        this.myRef = React.createRef();
     }
 
     slideShow(intervalMS){
@@ -69,13 +78,26 @@ class CarouselComponent extends Component {
 
     componentDidMount() {
         this.slideShow(slideShowInterval);
+        
+    
     }
 
     componentDidUpdate(prevState) {
         ((prevState.hoverState !== this.props.hoverState) && this.props.hoverState) ? clearInterval(this.props.intervalID) :
         ((prevState.hoverState !== this.props.hoverState) && !this.props.hoverState) ? this.slideShow(slideShowInterval) :
         null;
+
+        const node = this.myRef.current;
+        console.log(node.props)
+
+        // use ref to access current slide for drag events and updating events for slides !!!!!
+       
+        
     }
+
+    
+
+    
 
 
     render() {
@@ -87,10 +109,12 @@ class CarouselComponent extends Component {
                 totalSlides={this.props.totalSlides}
                 playDirection={'forward'}
                 currentSlide={this.props.currentSlide}
+                ref={this.myRef}
             >
                 <Slider >
                     {createHeroCarouselItem(this.props)}
                 </Slider>
+                <StyleDotGroup dotNumbers={true} ></StyleDotGroup>
             </StyledCarouselProvider>
         )
     }

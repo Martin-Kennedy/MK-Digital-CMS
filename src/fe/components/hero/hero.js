@@ -29,7 +29,6 @@ position: relative;
 `
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
         carouselText: state.homepage.carouselText,
         currentSlide: state.homepage.currentSlide
