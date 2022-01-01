@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup} from 'pure-react-carousel';
-import { getCurrentCarouselSlide, getCarouselHoverState, getCurrentCarouselIntervalID, getCurrentCarouselAnimatedText } from '../actions/homepage.actions';
+import Slider from 'react-slick';
+import { getCurrentSlide, getCarouselHoverState, getCurrentCarouselAnimatedText } from '../actions/homepage.actions';
 import {connect} from 'react-redux';
 
-const StyledCarouselProvider = styled(CarouselProvider)`
+const StyledCarouselProvider = styled(Slider)`
 height: calc(80vh - 120px);
 overflow: hidden;
 cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png')
@@ -13,7 +13,9 @@ cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941
 }
 
 `;
-
+const Slide = styled.div`
+    padding: 35px 0;
+`
 const SlideImage = styled.img`
 position: relative;
 top: 10%;
@@ -23,14 +25,6 @@ z-index: 2;
 
 `;
 
-const StyleDotGroup = styled(DotGroup)`
-    position: absolute;
-    top: 55vh;
-    left: 50vw;
-    z-index: 9;
-    color: white;
-    background-color: antiquewhite;
-`
 
 const slideShowInterval = 8000;
 
@@ -40,7 +34,9 @@ const mapStateToProps = state => {
     return {
         homepageData: state.homepage.homepageData,
         totalSlides: state.homepage.homepageData.homepageCarousel.homepageCarouselArray.length,
-        currentSlide: state.homepage.currentSlide,
+        carouselCurrentState: {
+            currentSlide: state.homepage.carouselCurrentState.currentSlide
+        },
         hoverState: state.homepage.hoverState,
         intervalID: state.homepage.intervalID
     }
@@ -54,67 +50,37 @@ const createHeroCarouselItem = (props) => (props.homepageData.homepageCarousel.h
                 onMouseLeave={() => { props.dispatch(getCarouselHoverState(false))}}
                 onLoad={() => props.dispatch(getCurrentCarouselAnimatedText(carousel.subject))}>
                 <SlideImage src={carousel.homepageHeroCardImage}/>
-             </Slide>;
+            </Slide >;
 }));
 
 class CarouselComponent extends Component {
 
     constructor() {
         super();
-        this.myRef = React.createRef();
     }
 
-    slideShow(intervalMS){
-        const intervalID = setInterval(() => {
-            let slide = this.props.currentSlide;
-            let currentSlide = slide + 1;
-            let totalSlides = this.props.homepageData.homepageCarousel.homepageCarouselArray.length;
-            (currentSlide === totalSlides) ? currentSlide = 0 : null;
-            this.props.dispatch(getCurrentCarouselSlide(currentSlide, totalSlides));
-        }, intervalMS)
-        this.props.dispatch(getCurrentCarouselIntervalID(intervalID))
-    }
-
-
-    componentDidMount() {
-        this.slideShow(slideShowInterval);
-        
-    
-    }
-
-    componentDidUpdate(prevState) {
-        ((prevState.hoverState !== this.props.hoverState) && this.props.hoverState) ? clearInterval(this.props.intervalID) :
-        ((prevState.hoverState !== this.props.hoverState) && !this.props.hoverState) ? this.slideShow(slideShowInterval) :
-        null;
-
-        const node = this.myRef.current;
-        console.log(node.props)
-
-        // use ref to access current slide for drag events and updating events for slides !!!!!
-       
-        
-    }
-
-    
-
-    
 
 
     render() {
+
+            const settings = {
+                dots: true,
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                vertical: true,
+                verticalSwiping: true,
+                adaptiveHeight: true,
+                beforeChange: function (currentSlide, nextSlide) {
+                    console.log("before change", currentSlide, nextSlide);
+                },
+                afterChange: function (currentSlide) {
+                    console.log("after change", currentSlide);
+                }
+            };
         return (
-            <StyledCarouselProvider 
-                orientation="vertical"
-                naturalSlideWidth={200}
-                naturalSlideHeight={100}
-                totalSlides={this.props.totalSlides}
-                playDirection={'forward'}
-                currentSlide={this.props.currentSlide}
-                ref={this.myRef}
-            >
-                <Slider >
+            <StyledCarouselProvider {...settings}>
                     {createHeroCarouselItem(this.props)}
-                </Slider>
-                <StyleDotGroup dotNumbers={true} ></StyleDotGroup>
             </StyledCarouselProvider>
         )
     }

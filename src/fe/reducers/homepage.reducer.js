@@ -1,10 +1,12 @@
 import {GET_HOMEPAGE} from '../helpers/types';
-import {CAROUSEL_CURRENT_SLIDE} from '../helpers/types';
+import {CAROUSEL_CURRENT_STATE} from '../helpers/types';
 import {CAROUSEL_HOVER_STATE, CAROUSEL_INTERVAL, CAROUSEL_TEXT} from '../helpers/types';
 
 const INITIAL_STATE = {
     homepageData: [],
-    currentSlide: 0,
+    carouselCurrentState: {
+        currentSlide: 0
+    },
     hoverState: false,
     intervalFunc: null,
     carouselText: []
@@ -17,10 +19,13 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 homepageData: action.payload
             }
-        case CAROUSEL_CURRENT_SLIDE:
+        case CAROUSEL_CURRENT_STATE:
+            console.log(state)
             return {
                 ...state,
-                currentSlide: action.currentSlide
+                carouselCurrentState: {
+                    currentSlide: action.currentSlide
+                }
             }
         case CAROUSEL_HOVER_STATE:
             return {
