@@ -1,14 +1,11 @@
 import React, {Component} from "react";
 import {Row, Col} from 'react-bootstrap';
 import { connect } from "react-redux";
-import { getCurrentCarouselAnimatedText } from "../../actions/homepage.actions";
 import CarouselComponent from '../carousel';
 import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
 import TextTranslation from "./textTranslation";
 import styled from 'styled-components'
 import SvgBlob from "../blobSvg";
-import { values } from "regenerator-runtime";
-
 const stylingObject = {
     homepageHero: {
         height: "100vh",
@@ -25,21 +22,24 @@ const stylingObject = {
     }
 }
 
-const PositionAbsolute = styled.div`
-position: relative;
-`
-
 const mapStateToProps = state => {
     return {
         carouselText: state.homepage.carouselText,
         currentSlide: state.homepage.currentSlide,
-        previousSlide: state.homepage.previousSlide
+        previousSlide: state.homepage.previousSlide,
+        bkgColor: state.homepage.bkgColor,
     }
 }
 
 const getCarouselText = (text, currentSlide) => {
     const currentText = text[currentSlide];
     return currentText;
+}
+
+const getCarouselBkgColor = (bkgColor, currentSlide) => {
+    const currentBkgColor = bkgColor[currentSlide];
+ 
+    return currentBkgColor;
 }
 
 const getSlides = (currentSlide, previousSlide) => {
@@ -60,8 +60,8 @@ class Hero extends Component {
                     <div style={stylingObject.height}>
                         <LineAnimationL2R/>
                         <TextTranslation text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
-                        <SvgBlob slides={getSlides(this.props.currentSlide, this.props.previousSlide)} />
                         <LineAnimationR2L/>
+                        <SvgBlob slides={getSlides(this.props.currentSlide, this.props.previousSlide)} bkgcolor={getCarouselBkgColor(this.props.bkgColor, this.props.currentSlide)} />
                     </div>
                     <CarouselComponent/>
                 </Col>

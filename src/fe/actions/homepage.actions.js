@@ -1,6 +1,6 @@
 
 import { GET_HOMEPAGE } from '../helpers/types'
-import { CAROUSEL_HOVER_STATE, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE } from '../helpers/types'
+import { CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR } from '../helpers/types'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:5000/homepage';
@@ -29,12 +29,17 @@ export const getCurrentSlide = (previousSlide, currentSlide) => ({
     currentSlide: currentSlide
 });
 
-export const getCarouselHoverState = (isHovered = false) => ({
-    type: CAROUSEL_HOVER_STATE,
-    hoverState: isHovered
-});
-
 export const getCurrentCarouselAnimatedText = (text) => ({
     type: CAROUSEL_TEXT,
     carouselText: text
+});
+
+export const getCurrentCarouselBkgColor = (color) => ({
+    type: CAROUSEL_BKG_COLOR,
+    bkgColor: color
+})
+
+export const getImgWidth = (width) => ({
+    type: CAROUSEL_IMG_WIDTH,
+    imgWidth: width
 })

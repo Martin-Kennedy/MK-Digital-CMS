@@ -22,7 +22,9 @@ const initalState = {
         totalSlides: 0,
         hoverState: false,
         intervalID: 0,
-        carouselText: []
+        carouselText: [],
+        bkgColor: [],
+        imgWidth: 200
     }
 }
 

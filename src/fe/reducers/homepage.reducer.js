@@ -1,13 +1,13 @@
-import { GET_HOMEPAGE, CAROUSEL_HOVER_STATE, CAROUSEL_INTERVAL, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE} from '../helpers/types';
+import { GET_HOMEPAGE, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR} from '../helpers/types';
 
 const INITIAL_STATE = {
     homepageData: [],
-    carouselCurrentState: {
-        currentSlide: 0
-    },
+    currentSlide: 0,
     hoverState: false,
     intervalFunc: null,
-    carouselText: []
+    carouselText: [],
+    bkgColor: [],
+    carouselImgWidth: null
 }
 
 const homepageReducer = (state = INITIAL_STATE, action) => {
@@ -18,17 +18,18 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                 homepageData: action.payload
             }
         case CAROUSEL_CURRENT_SLIDE:
-            console.log(action)
             return {
                 ...state,
                 previousSlide: action.previousSlide,
                 currentSlide: action.currentSlide
                 }
             
-        case CAROUSEL_HOVER_STATE:
+        case CAROUSEL_IMG_WIDTH:
+            
+            const imgWidth = action.imgWidth != undefined ? action.imgWidth.getBoundingClientRect().width : 200;
             return {
                 ...state,
-                hoverState: action.hoverState
+                imgWidth: imgWidth
             }
 
         case CAROUSEL_TEXT:
@@ -41,6 +42,19 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                             ...state,
                             carouselText: state.carouselText
                         }
+                default:
+                    return state;
+            }
+        case CAROUSEL_BKG_COLOR:
+            switch (true) {
+                case (typeof action.bkgColor === 'string'):
+                    state
+                        .bkgColor
+                        .push(action.bkgColor);
+                    return {
+                        ...state,
+                        bkgColor: state.bkgColor
+                    }
                 default:
                     return state;
             }

@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
 import { connect } from 'react-redux';
 import { getBlogs } from '../actions/blogs.actions';
-import { getHomepage, getCarouselHoverState, getCurrentCarouselAnimatedText, getCurrentSlide} from '../actions/homepage.actions';
+import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth} from '../actions/homepage.actions';
 
 let history = createBrowserHistory();
 
@@ -28,7 +28,10 @@ const mapDispatchToProps = dispatch => ({
     getHomepage: homepageData => dispatch(getHomepage(homepageData)),
     getCarouselHoverState: isHovered => dispatch(getCarouselHoverState(isHovered)),
     getCurrentCarouselAnimatedText: carouselText => dispatch(getCurrentCarouselAnimatedText(carouselText)),
-    getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide))
+    getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide)),
+    getCurrentCarouselBkgColor: color => dispatch(getCurrentCarouselBkgColor(color)),
+    getImgWidth: width => dispatch(getImgWidth(width))
+    
 });
 
         
@@ -38,14 +41,16 @@ class WebAppRouter extends Component {
     componentDidMount() {
         const {getBlogs} = this.props;
         const {getHomepage} = this.props;
-        const {getCarouselHoverState} = this.props;
         const { getCurrentCarouselAnimatedText } = this.props;
         const { getCurrentSlide } = this.props;
+        const { getCurrentCarouselBkgColor } = this.props;
+        const { getImgWidth } = this.props;
         getBlogs();
         getHomepage();
-        getCarouselHoverState();
         getCurrentCarouselAnimatedText();
         getCurrentSlide();
+        getCurrentCarouselBkgColor();
+        getImgWidth();
     }
 
    

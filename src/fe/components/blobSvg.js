@@ -1,5 +1,5 @@
 import React from 'react';
-const { useEffect } = React;
+const {useEffect, useState} = React;
 import styled from 'styled-components';
 import {useSpring, animated, useSpringRef} from "react-spring";
 
@@ -11,10 +11,10 @@ left: calc(50vw - 520px);
 
 const StyledPath = styled(animated.path)`
 transform: scale(1.25, 0.8);
+fill: ${props => props.bkgcolor};
 `
 
-const SvgBlob = () => {
-
+const SvgBlob = ({slides, bkgcolor}) => {
     const ref = useSpringRef();
     const {x} = useSpring({
         config: {
@@ -22,15 +22,26 @@ const SvgBlob = () => {
             tension: 800,
             friction: 2500,
             damping: 500,
-            frequency: 30
+            frequency: 30,
         },
-        reset: true,
         x: 0,
         ref
     });
 
     useEffect(() => {
-        ref
+        const previousSlide = slides.previousSlide;
+        const currentSlide = slides.currentSlide;
+
+        const animateForward = () => ref
+            .current[0]
+            .springs
+            .x
+            .start(0)
+            .then(() => {
+                x.set(1);
+            });
+
+        const animateBackward = () => ref
             .current[0]
             .springs
             .x
@@ -39,12 +50,15 @@ const SvgBlob = () => {
                 x.set(0);
             });
 
+        currentSlide < previousSlide
+            ? animateForward()
+            : animateBackward();
+
     })
 
     return <StyledSVG x="0px" y="0px" width="800" height="800" viewBox="0 0 800 800">
-
         <StyledPath
-            fill="#fff"
+            bkgcolor={bkgcolor}
             d={x.to({
             range: [
                 0, 0.25, 0.5, 0.75, 1
