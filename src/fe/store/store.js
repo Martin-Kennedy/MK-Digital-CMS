@@ -17,9 +17,8 @@ const initalState = {
                 
             }
         },
-        carouselCurrentState: {
-            currentSlide: 1,
-        },
+        previousSlide: 0,
+        currentSlide: 0,
         totalSlides: 0,
         hoverState: false,
         intervalID: 0,

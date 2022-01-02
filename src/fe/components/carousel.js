@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
-import { getCurrentSlide, getCarouselHoverState, getCurrentCarouselAnimatedText } from '../actions/homepage.actions';
+import { getCurrentSlide, getCurrentCarouselAnimatedText } from '../actions/homepage.actions';
 import {connect} from 'react-redux';
 
 const StyledCarouselProvider = styled(Slider)`
@@ -26,17 +26,11 @@ z-index: 2;
 `;
 
 
-const slideShowInterval = 8000;
-
-
-
 const mapStateToProps = state => {
     return {
         homepageData: state.homepage.homepageData,
         totalSlides: state.homepage.homepageData.homepageCarousel.homepageCarouselArray.length,
-        carouselCurrentState: {
-            currentSlide: state.homepage.carouselCurrentState.currentSlide
-        },
+        currentSlide: state.homepage.currentSlide,
         hoverState: state.homepage.hoverState,
         intervalID: state.homepage.intervalID
     }
@@ -46,9 +40,7 @@ const createHeroCarouselItem = (props) => (props.homepageData.homepageCarousel.h
     return <Slide 
                 key={index} 
                 index={index} 
-                onMouseEnter={() => { props.dispatch(getCarouselHoverState(true))}}
-                onMouseLeave={() => { props.dispatch(getCarouselHoverState(false))}}
-                onLoad={() => props.dispatch(getCurrentCarouselAnimatedText(carousel.subject))}>
+                onLoad={() => props.dispatch(getCurrentCarouselAnimatedText(carousel.title))}>
                 <SlideImage src={carousel.homepageHeroCardImage}/>
             </Slide >;
 }));
@@ -57,6 +49,10 @@ class CarouselComponent extends Component {
 
     constructor() {
         super();
+    }
+
+    dispatchNextSlide(previousSlide, currentSlide){
+        this.props.dispatch(getCurrentSlide(previousSlide, currentSlide));
     }
 
 
@@ -71,12 +67,8 @@ class CarouselComponent extends Component {
                 vertical: true,
                 verticalSwiping: true,
                 adaptiveHeight: true,
-                beforeChange: function (currentSlide, nextSlide) {
-                    console.log("before change", currentSlide, nextSlide);
-                },
-                afterChange: function (currentSlide) {
-                    console.log("after change", currentSlide);
-                }
+                beforeChange: (previousSlide, currentSlide) => this.dispatchNextSlide(previousSlide, currentSlide),
+
             };
         return (
             <StyledCarouselProvider {...settings}>

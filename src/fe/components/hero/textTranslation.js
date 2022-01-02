@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useSpring, animated } from "react-spring";
+import React, {useState} from "react";
+import {useSpring, animated} from "react-spring";
 import styled from 'styled-components';
 
-const AnimatedSliderText = styled.div`
+const AnimatedSliderText = styled.div `
         font-family: mr-eaves-modern, sans-serif;
         font-weight: 700;
         font-size: 100px;
@@ -14,13 +14,37 @@ const AnimatedSliderText = styled.div`
         right: 0;
 `;
 
-const TextTranslation = ({ text }) => {
-    const [key, setKey] = useState(1);
+const TextTranslation = ({text}) => {
+    const [key,
+        setKey] = useState(1);
 
     const scrolling = useSpring({
-        from: { transform: "translate(60vw,0)" },
-        to: { transform: "translate(-100vw,0)" },
-        config: { duration: 5000 },
+        from: {
+            transform: "translate(60vw,0)",
+            opacity: 0
+        },
+        to: [
+            {
+                transform: "translate(30vw,0)",
+                opacity: 1
+            }, {
+                transform: "translate(0vw,0)"
+            }, {
+                transform: "translate(-30vw,0)"
+            }, {
+                transform: "translate(-60vw,0)"
+            }, {
+                transform: "translate(-90vw,0)"
+            }, {
+                transform: "translate(-120vw,0)"
+            }
+        ],
+        config: {
+            tension: 800,
+            friction: 800,
+            duration: 1500
+        },
+        loop: false,
         reset: true,
         //reverse: key % 2 == 0,
         onRest: () => {

@@ -7,6 +7,7 @@ import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
 import TextTranslation from "./textTranslation";
 import styled from 'styled-components'
 import SvgBlob from "../blobSvg";
+import { values } from "regenerator-runtime";
 
 const stylingObject = {
     homepageHero: {
@@ -29,10 +30,10 @@ position: relative;
 `
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
         carouselText: state.homepage.carouselText,
-        currentSlide: state.homepage.carouselCurrentState.currentSlide
+        currentSlide: state.homepage.currentSlide,
+        previousSlide: state.homepage.previousSlide
     }
 }
 
@@ -41,7 +42,16 @@ const getCarouselText = (text, currentSlide) => {
     return currentText;
 }
 
+const getSlides = (currentSlide, previousSlide) => {
+    return {
+        currentSlide: currentSlide,
+        previousSlide: previousSlide
+    }
+}
+
 class Hero extends Component {
+
+
     render() {
         return (
             <Row style={stylingObject.homepageHero}>
@@ -50,7 +60,7 @@ class Hero extends Component {
                     <div style={stylingObject.height}>
                         <LineAnimationL2R/>
                         <TextTranslation text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
-                        <SvgBlob/>
+                        <SvgBlob slides={getSlides(this.props.currentSlide, this.props.previousSlide)} />
                         <LineAnimationR2L/>
                     </div>
                     <CarouselComponent/>

@@ -26,7 +26,7 @@ function useAnimatedPathL() {
         const animatedStyle = useSpring({
             from: { strokeDashoffset: length },
             to: { strokeDashoffset: 0 },
-            config: { duration: 3000 },
+            config: { duration: 2000 },
         });
     
 
@@ -47,7 +47,7 @@ function useAnimatedPathR() {
     const animatedStyle = useSpring({
         from: { strokeDashoffset: -length },
         to: { strokeDashoffset:  0},
-        config: { duration: 3000 },
+        config: { duration: 2000 },
         
     });
 
