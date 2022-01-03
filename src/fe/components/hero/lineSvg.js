@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const AnimatedLineL2R = styled.svg`
     position: absolute; 
-    top: 20%;
+    top: 25%;
     padding: 0 40px;
     width: 100%;
     left: 0;

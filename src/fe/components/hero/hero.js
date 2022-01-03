@@ -8,17 +8,17 @@ import styled from 'styled-components'
 import SvgBlob from "../blobSvg";
 const stylingObject = {
     homepageHero: {
-        height: "100vh",
-        minHeight: "500px",
         width: "100vw",
-        margin: "0",
+        height: '100vh',
+        padding: "120px 0 0 0",
         backgroundColor: "#1d1e22",
-        padding: "120px 0 100px 0"
+        
     },
     height: {
-        height: "calc(80vh - 120px)",
-        position: "absolute",
-        width: "inherit"
+        
+        width: "inherit",
+        height: '80vh',
+        padding: '25px 0',
     }
 }
 
@@ -62,8 +62,9 @@ class Hero extends Component {
                         <TextTranslation text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
                         <LineAnimationR2L/>
                         <SvgBlob slides={getSlides(this.props.currentSlide, this.props.previousSlide)} bkgcolor={getCarouselBkgColor(this.props.bkgColor, this.props.currentSlide)} />
+                        <CarouselComponent />
                     </div>
-                    <CarouselComponent/>
+                    
                 </Col>
                 <Col xs={1}></Col>
             </Row>

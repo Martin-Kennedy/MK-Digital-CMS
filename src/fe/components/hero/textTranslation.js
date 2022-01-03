@@ -4,13 +4,14 @@ import styled from 'styled-components';
 
 const AnimatedSliderText = styled.div `
         font-family: mr-eaves-modern, sans-serif;
-        font-weight: 700;
+        font-weight: 200;
         font-size: 100px;
         color: #fff;
         text-transform: uppercase;
         white-space: nowrap;
         position: absolute;
-        top: 38%;
+        letter-spacing: 1.5rem;
+        top: 40%;
         right: 0;
 `;
 
@@ -20,15 +21,13 @@ const TextTranslation = ({text}) => {
 
     const scrolling = useSpring({
         from: {
-            transform: "translate(60vw,0)",
+            transform: "translate(30vw,0)",
             opacity: 0
         },
         to: [
-            {
-                transform: "translate(30vw,0)",
+             {
+                transform: "translate(0vw,0)",
                 opacity: 1
-            }, {
-                transform: "translate(0vw,0)"
             }, {
                 transform: "translate(-30vw,0)"
             }, {
@@ -42,7 +41,7 @@ const TextTranslation = ({text}) => {
         config: {
             tension: 800,
             friction: 800,
-            duration: 1500
+            duration: 3500
         },
         loop: false,
         reset: true,

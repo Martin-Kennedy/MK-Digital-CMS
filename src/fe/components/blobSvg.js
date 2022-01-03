@@ -7,23 +7,20 @@ const StyledSVG = styled.svg `
 position: relative;
 top: calc(50vh - 470px);
 left: calc(50vw - 520px);
+
 `
 
 const StyledPath = styled(animated.path)`
 transform: scale(1.25, 0.8);
+transition: 1s;
+transition-timing-function: cubic-bezier(0.07, 2.0, 1.0, 0.1);
 fill: ${props => props.bkgcolor};
 `
 
 const SvgBlob = ({slides, bkgcolor}) => {
     const ref = useSpringRef();
     const {x} = useSpring({
-        config: {
-            mass: 1.8,
-            tension: 800,
-            friction: 2500,
-            damping: 500,
-            frequency: 30,
-        },
+        config: { duration: 5000 },
         x: 0,
         ref
     });
