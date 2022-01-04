@@ -1,7 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
-@import "~pure-react-carousel/dist/react-carousel.es.css";
-@import "slick-carousel/slick/slick.css";
-@import "slick-carousel/slick/slick-theme.css";
+@import "swiper/css/bundle";
 
 body {
     font: 14px 300 regular "mr-eaves-modern", sans-serif;
@@ -11,5 +9,12 @@ body {
     li {
         list-style: none;
     }
+
+    .swiper-wrapper {
+        height: 500px;
+    }
+
+   
+    
    
 }

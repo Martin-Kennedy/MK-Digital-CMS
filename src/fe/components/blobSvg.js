@@ -5,14 +5,14 @@ import {useSpring, animated, useSpringRef} from "react-spring";
 
 const StyledSVG = styled.svg `
 position: relative;
-top: calc(50vh - 470px);
+top: calc(50vh - 330px);
 left: calc(50vw - 520px);
 
 `
 
 const StyledPath = styled(animated.path)`
 transform: scale(1.25, 0.8);
-transition: 1s;
+transition: transform 1s;
 transition-timing-function: cubic-bezier(0.07, 2.0, 1.0, 0.1);
 fill: ${props => props.bkgcolor};
 `
@@ -28,6 +28,9 @@ const SvgBlob = ({slides, bkgcolor}) => {
     useEffect(() => {
         const previousSlide = slides.previousSlide;
         const currentSlide = slides.currentSlide;
+
+
+        console.log('previous slide', previousSlide, 'current slide', currentSlide);
 
         const animateForward = () => ref
             .current[0]
@@ -47,9 +50,36 @@ const SvgBlob = ({slides, bkgcolor}) => {
                 x.set(0);
             });
 
+        const setZero = () => ref
+            .current[0]
+            .springs
+            .x.set(0);
+
+        const setOne = () => ref
+            .current[0]
+            .springs
+            .x.set(1);
+
+            const animationOne = () => {
+                    setOne();
+                    animateForward();
+                
+            };
+            const animationTwo = () => {
+                setZero();
+                animateBackward();
+            }
+            
+
         currentSlide < previousSlide
-            ? animateForward()
-            : animateBackward();
+            ? animationOne()
+            : null;
+
+        
+
+        currentSlide > previousSlide
+            ? animationTwo()
+            : null;
 
     })
 

@@ -4,23 +4,24 @@ import { connect } from "react-redux";
 import CarouselComponent from '../carousel';
 import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
 import TextTranslation from "./textTranslation";
-import styled from 'styled-components'
+import styled from 'styled-components';
 import SvgBlob from "../blobSvg";
 const stylingObject = {
     homepageHero: {
-        width: "100vw",
         height: '100vh',
-        padding: "120px 0 0 0",
         backgroundColor: "#1d1e22",
         
     },
-    height: {
-        
-        width: "inherit",
-        height: '80vh',
-        padding: '25px 0',
-    }
+    
 }
+
+const CarouselContainer = styled.div`
+    position: relative;
+    top: -600px;
+    left: calc(50% - 190px);
+    overflow: hidden;
+    display: flex;
+`
 
 const mapStateToProps = state => {
     return {
@@ -28,6 +29,7 @@ const mapStateToProps = state => {
         currentSlide: state.homepage.currentSlide,
         previousSlide: state.homepage.previousSlide,
         bkgColor: state.homepage.bkgColor,
+        imgWidth: state.homepage.imgWidth
     }
 }
 
@@ -38,7 +40,6 @@ const getCarouselText = (text, currentSlide) => {
 
 const getCarouselBkgColor = (bkgColor, currentSlide) => {
     const currentBkgColor = bkgColor[currentSlide];
- 
     return currentBkgColor;
 }
 
@@ -57,13 +58,16 @@ class Hero extends Component {
             <Row style={stylingObject.homepageHero}>
                 <Col xs={1}></Col>
                 <Col xs={10}>
-                    <div style={stylingObject.height}>
+                    <section>
                         <LineAnimationL2R/>
                         <TextTranslation text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
                         <LineAnimationR2L/>
                         <SvgBlob slides={getSlides(this.props.currentSlide, this.props.previousSlide)} bkgcolor={getCarouselBkgColor(this.props.bkgColor, this.props.currentSlide)} />
-                        <CarouselComponent />
-                    </div>
+                        <CarouselContainer imgWidth={this.props.imgWidth}>
+                            <CarouselComponent />
+                        </CarouselContainer>
+                        
+                    </section>
                     
                 </Col>
                 <Col xs={1}></Col>
