@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import Hero from '../../fe/components/hero/hero'
+import HomepageHero from '../components/heros/homepageHero'
 import faker from 'faker';
 
 const stylingObject = {
@@ -33,7 +33,7 @@ class Home extends Component {
       <div>
         
         {/* Hero Section */}
-        <Hero />
+        <HomepageHero />
           
 
          {/* Bio Section  */}

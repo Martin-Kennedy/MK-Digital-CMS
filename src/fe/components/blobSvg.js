@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import {useSpring, animated, useSpringRef} from "react-spring";
 
 const StyledSVG = styled.svg `
-position: relative;
+position: absolute;
 top: calc(50vh - 330px);
-left: calc(50vw - 520px);
+left: calc(50vw - 380px);
 
 `
 
@@ -28,9 +28,6 @@ const SvgBlob = ({slides, bkgcolor}) => {
     useEffect(() => {
         const previousSlide = slides.previousSlide;
         const currentSlide = slides.currentSlide;
-
-
-        console.log('previous slide', previousSlide, 'current slide', currentSlide);
 
         const animateForward = () => ref
             .current[0]

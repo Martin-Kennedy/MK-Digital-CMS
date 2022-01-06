@@ -9,10 +9,7 @@ const AnimatedSliderText = styled.div `
         color: #fff;
         text-transform: uppercase;
         white-space: nowrap;
-        position: absolute;
         letter-spacing: 1.5rem;
-        top: 40%;
-        right: 0;
 `;
 
 const TextTranslation = ({text}) => {

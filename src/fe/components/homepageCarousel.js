@@ -1,11 +1,10 @@
-import React, { Component, useRef, useState } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { getCurrentSlide, getCurrentCarouselAnimatedText, getCurrentCarouselBkgColor, getImgWidth } from '../actions/homepage.actions';
 import {connect} from 'react-redux';
 import Swiper from 'react-id-swiper';
 
 const StyledCarouselProvider = styled(Swiper)`
-cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
     margin: 30px auto 50px;
     width: 100%;
     height: 500px;
@@ -13,11 +12,12 @@ cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941
 
 `;
 const Slide = styled.div`
-    text-align: center;
+  text-align: center;
   font-size: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
 `
 
 const SlideImage = styled.img`
@@ -28,7 +28,6 @@ const SlideImage = styled.img`
 `;
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
         homepageData: state.homepage.homepageData,
         totalSlides: state.homepage.homepageData.homepageCarousel.homepageCarouselArray.length,
@@ -42,7 +41,6 @@ const mapStateToProps = state => {
 }
 
 const createHeroCarouselItem = (props) => props.homepageData.homepageCarousel.homepageCarouselArray.map((carousel, index) => {
-    console.log('this is running');
     return <Slide
         key={index}
         index={index}
@@ -54,7 +52,7 @@ const createHeroCarouselItem = (props) => props.homepageData.homepageCarousel.ho
     </Slide >;
 });
 
-class CarouselComponent extends Component{
+class HomepageCarouselComponent extends Component{
 
     dispatchNextSlide(previousSlide, currentSlide) {
         this.props.dispatch(getCurrentSlide(previousSlide, currentSlide));
@@ -69,18 +67,21 @@ class CarouselComponent extends Component{
             clickable: true,
                 loop: true,
             },
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
             on: { slideChange: index => { this.dispatchNextSlide(index.previousIndex, index.activeIndex); }, },
         
         };
     return (
         <StyledCarouselProvider {...settings}>
             {createHeroCarouselItem(this.props)}
-            </StyledCarouselProvider> 
+        </StyledCarouselProvider> 
     )
     }
 };
 
-export default connect(mapStateToProps)(CarouselComponent);
+export default connect(mapStateToProps)(HomepageCarouselComponent);
 
 // SwiperCore.use([Pagination]);
 

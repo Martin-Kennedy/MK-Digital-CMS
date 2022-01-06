@@ -1,23 +1,6 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import styled from 'styled-components';
 
-const AnimatedLineL2R = styled.svg`
-    position: absolute; 
-    top: 25%;
-    padding: 0 40px;
-    width: 100%;
-    left: 0;
-`;
-
-const AnimatedLineR2L = styled.svg`
-    position: absolute; 
-    top: 60%;
-    z-index: 0;
-    padding: 0 40px;
-    width: 100%;
-    left: 0;
-`;
 
 function useAnimatedPathL() {
     
@@ -67,7 +50,7 @@ function LineAnimationL2R() {
     const animatedProps = useAnimatedPathL();
 
     return (
-        <AnimatedLineL2R viewBox={[0,0,1100,100]}>
+        <svg viewBox={[0,0,1100,100]}>
         <animated.line
             stroke='white'
             strokeWidth='1'
@@ -79,7 +62,7 @@ function LineAnimationL2R() {
             y2="48.85"
             {...animatedProps}
         />
-        </AnimatedLineL2R>
+        </svg>
         
     );
 }
@@ -88,7 +71,7 @@ function LineAnimationR2L() {
     const animatedProps = useAnimatedPathR();
 
     return (
-        <AnimatedLineR2L viewBox={[0, 0, 1100, 100]}>
+        <svg viewBox={[0, 0, 1100, 100]}>
         <animated.line
             stroke='white'
             strokeWidth='1'
@@ -100,7 +83,7 @@ function LineAnimationR2L() {
             strokeDasharray={1144}
             {...animatedProps}
         />  
-        </AnimatedLineR2L >
+        </svg >
     );
 }
 export { LineAnimationL2R,

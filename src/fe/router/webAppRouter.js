@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Switch, Route } from 'react-router-dom';
 import {Container} from 'react-bootstrap';
-import Header from '../components/navigation/header';
+import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
 import Home from '../pages/home';
+import About from '../pages/about';
 import BlogLanding from '../pages/blogLanding';
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
@@ -12,6 +13,8 @@ import { getBlogs } from '../actions/blogs.actions';
 import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth} from '../actions/homepage.actions';
 
 let history = createBrowserHistory();
+
+
 
 const Page = styled(Container)`
         height: 100vh;
@@ -59,10 +62,11 @@ class WebAppRouter extends Component {
         return (
             <BrowserRouter>
                 <Page fluid> 
-                    <Header location={history.location} />
+                    <HeaderComponent location={history.location} />
                     <Switch>
-                        <Route path="/" component={Home} exact={true}/>
-                        <Route path="/blog" component={BlogLanding}/>
+                        <Route path="/" component={Home} exact={true} />
+                        <Route path="/blog" component={BlogLanding} />
+                        <Route path="/about" component={About} />
                     </Switch>
                     <Footer/>
                 </Page>

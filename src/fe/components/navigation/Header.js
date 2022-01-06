@@ -1,7 +1,10 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {Col} from 'react-bootstrap';
 import Nav from './nav.js';
 import styled from 'styled-components';
+
+
 
 const HeaderWrapper = styled.div`
     color: ${props => props.location === "/blog" ? "#1d1e22" : "white"};
@@ -43,26 +46,35 @@ const Logo = styled.div`
     width: 101px;
     height: 68px;
     display: inline-block;
-    alt: logo;
     float: left;
     margin: 0 13px 0 20px;
 `;
+const StlyedHeaderLink = styled(Link)`
+color: ${props => props.location === "/blog" ? "#1d1e22" : "white"};
+text-decoration: none;
+display: contents;
+align-items: center;
+
+`
 
 
 
-const Header = (props) => {
+const HeaderComponent = (props) => {
+  
     return (
       <HeaderWrapper location={props.location.pathname}>
-            <LogoCol xs={6}>
-          <Logo location={props.location.pathname}></Logo>
-          <LogoLine location={props.location.pathname}></LogoLine>
+          <LogoCol xs={6}>
+          <StlyedHeaderLink to={'/'} >
+            <Logo location={props.location.pathname}></Logo>
+            <LogoLine location={props.location.pathname}></LogoLine>
           <LogoText location={props.location.pathname}>MK Digital</LogoText>
+          </StlyedHeaderLink>
             </LogoCol>
             <Col xs={6}>
-            <Nav/>
+            <Nav location={props.location.pathname}/>
             </Col>
       </HeaderWrapper>
     );
 };
 
-export default Header;
+export default HeaderComponent;
