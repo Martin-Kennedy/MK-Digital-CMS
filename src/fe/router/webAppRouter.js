@@ -13,6 +13,7 @@ import { getBlogs } from '../actions/blogs.actions';
 import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth} from '../actions/homepage.actions';
 
 let history = createBrowserHistory();
+let currentLocation = history.location
 
 
 
@@ -56,13 +57,16 @@ class WebAppRouter extends Component {
         getImgWidth();
     }
 
+    
+
    
 
     render() {
+        
         return (
-            <BrowserRouter>
+            <BrowserRouter forceRefresh={true}>
                 <Page fluid> 
-                    <HeaderComponent location={history.location} />
+                    <HeaderComponent location={currentLocation} />
                     <Switch>
                         <Route path="/" component={Home} exact={true} />
                         <Route path="/blog" component={BlogLanding} />

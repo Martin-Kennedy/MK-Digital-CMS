@@ -49,14 +49,13 @@ const Logo = styled.div`
     float: left;
     margin: 0 13px 0 20px;
 `;
+
 const StlyedHeaderLink = styled(Link)`
 color: ${props => props.location === "/blog" ? "#1d1e22" : "white"};
 text-decoration: none;
 display: contents;
 align-items: center;
-
-`
-
+`;
 
 
 const HeaderComponent = (props) => {

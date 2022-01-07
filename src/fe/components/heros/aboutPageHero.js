@@ -126,7 +126,6 @@ class AboutPageHero extends Component {
 
         );
     }
-
 }
 
 export default connect(mapStateToProps)(AboutPageHero)
