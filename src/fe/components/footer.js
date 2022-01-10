@@ -6,12 +6,13 @@ const stylingObject = {
         color: "#fff",
         width: "100vw",
         padding: "20px 10px 10px",
-        margin: "20px 0px 10px 0",
+        margin: "0",
         display: "flex",
         alignItems: "center",
         height: "100px",
-        position: "absolute",
-        background: "#1d1e22"
+        position: "relative",
+        background: "#1d1e22",
+        bottom: 0,
 
     }
 }

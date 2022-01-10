@@ -1,4 +1,4 @@
-import { GET_HOMEPAGE, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR} from '../helpers/types';
+import { GET_HOMEPAGE, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES } from '../helpers/types';
 
 const INITIAL_STATE = {
     homepageData: [],
@@ -57,6 +57,12 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                     }
                 default:
                     return state;
+            }
+            case CAROUSEL_TOTAL_SLIDES:
+                console.log(action)
+            return {  
+                ...state,
+                totalSlides: action.totalSlide
             }
 
         default:

@@ -14,7 +14,9 @@ const HeaderWrapper = styled.div`
     display: flex;
     align-items: center;
     height: 100px;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    z-index: 99;
   `;
 
 const LogoCol = styled(Col)`
@@ -59,18 +61,18 @@ align-items: center;
 
 
 const HeaderComponent = (props) => {
-  
     return (
-      <HeaderWrapper location={props.location.pathname}>
+      <HeaderWrapper location={props.location}>
+      
           <LogoCol xs={6}>
           <StlyedHeaderLink to={'/'} >
-            <Logo location={props.location.pathname}></Logo>
-            <LogoLine location={props.location.pathname}></LogoLine>
-          <LogoText location={props.location.pathname}>MK Digital</LogoText>
+            <Logo location={props.location}></Logo>
+            <LogoLine location={props.location}></LogoLine>
+          <LogoText location={props.location}>MK Digital</LogoText>
           </StlyedHeaderLink>
             </LogoCol>
             <Col xs={6}>
-            <Nav location={props.location.pathname}/>
+            <Nav location={props.location}/>
             </Col>
       </HeaderWrapper>
     );

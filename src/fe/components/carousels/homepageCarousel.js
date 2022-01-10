@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { getCurrentSlide, getCurrentCarouselAnimatedText, getCurrentCarouselBkgColor, getImgWidth } from '../actions/homepage.actions';
+import { getCurrentSlide, getCurrentCarouselAnimatedText, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../../actions/homepage.actions';
 import {connect} from 'react-redux';
 import Swiper from 'react-id-swiper';
 
@@ -30,7 +30,7 @@ const SlideImage = styled.img`
 const mapStateToProps = state => {
     return {
         homepageData: state.homepage.homepageData,
-        totalSlides: state.homepage.homepageData.homepageCarousel.homepageCarouselArray.length,
+        totalSlides: state.homepage.totalSlides,
         currentSlide: state.homepage.currentSlide,
         hoverState: state.homepage.hoverState,
         intervalID: state.homepage.intervalID,
@@ -46,7 +46,7 @@ const createHeroCarouselItem = (props) => props.homepageData.homepageCarousel.ho
         index={index}
         onLoad={() => {
             props.dispatch(getCurrentCarouselAnimatedText(carousel.title));
-            props.dispatch(getCurrentCarouselBkgColor(carousel.bkgColor))
+            props.dispatch(getCurrentCarouselBkgColor(carousel.bkgColor));
         }}>
         <SlideImage ref={props.imageElement} src={carousel.homepageHeroCardImage} onLoad={() => props.dispatch(getImgWidth(props.imageElement.current))} dynamicWidth={props.imgWidth / 2} />
     </Slide >;
@@ -57,6 +57,13 @@ class HomepageCarouselComponent extends Component{
     dispatchNextSlide(previousSlide, currentSlide) {
         this.props.dispatch(getCurrentSlide(previousSlide, currentSlide));
     }
+
+    dispatchTotalSlideCount(props){
+        console.log(props.homepageData.homepageCarousel.homepageCarouselArray.length);
+        props.dispatch(getTotalSlides(props.homepageData.homepageCarousel.homepageCarouselArray.length));
+    }
+
+    
     
     render() { 
         const settings = {
@@ -70,12 +77,20 @@ class HomepageCarouselComponent extends Component{
             slidesPerView: 1,
             spaceBetween: 30,
             loop: true,
-            on: { slideChange: index => { this.dispatchNextSlide(index.previousIndex, index.activeIndex); }, },
+            on: { 
+                slideChange: index => { 
+                    this.dispatchNextSlide(index.previousIndex, index.activeIndex);
+                    this.dispatchTotalSlideCount(this.props);
+                }
+                }
+            };
+
+
+
         
-        };
     return (
         <StyledCarouselProvider {...settings}>
-            {createHeroCarouselItem(this.props)}
+            {createHeroCarouselItem(this.props) }
         </StyledCarouselProvider> 
     )
     }

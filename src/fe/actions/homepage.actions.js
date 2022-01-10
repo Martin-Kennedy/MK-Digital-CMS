@@ -1,6 +1,6 @@
 
 import { GET_HOMEPAGE } from '../helpers/types'
-import { CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR } from '../helpers/types'
+import { CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES } from '../helpers/types'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:5000/homepage';
@@ -42,4 +42,9 @@ export const getCurrentCarouselBkgColor = (color) => ({
 export const getImgWidth = (width) => ({
     type: CAROUSEL_IMG_WIDTH,
     imgWidth: width
+})
+
+export const getTotalSlides = (totalSlides) => ({
+    type: CAROUSEL_TOTAL_SLIDES,
+    totalSlide: totalSlides
 })

@@ -3,6 +3,8 @@ import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import HomepageHero from '../components/heros/homepageHero'
 import faker from 'faker';
+import HeaderComponent from '../components/navigation/header';
+import Footer from '../components/footer';
 
 const stylingObject = {
   section: {
@@ -32,6 +34,7 @@ class Home extends Component {
     return (
       <div>
         
+        <HeaderComponent location={this.props.location.pathname} />
         {/* Hero Section */}
         <HomepageHero />
           
@@ -130,6 +133,7 @@ class Home extends Component {
           <Col sm={2}>
           </Col>
         </Row>
+        <Footer />
         </div>
       
     );

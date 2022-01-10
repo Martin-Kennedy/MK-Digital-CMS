@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
 import { connect } from 'react-redux';
 import { getBlogs } from '../actions/blogs.actions';
-import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth} from '../actions/homepage.actions';
+import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides} from '../actions/homepage.actions';
 
 let history = createBrowserHistory();
 let currentLocation = history.location
@@ -34,7 +34,8 @@ const mapDispatchToProps = dispatch => ({
     getCurrentCarouselAnimatedText: carouselText => dispatch(getCurrentCarouselAnimatedText(carouselText)),
     getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide)),
     getCurrentCarouselBkgColor: color => dispatch(getCurrentCarouselBkgColor(color)),
-    getImgWidth: width => dispatch(getImgWidth(width))
+    getImgWidth: width => dispatch(getImgWidth(width)),
+    getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides)),
     
 });
 
@@ -49,12 +50,14 @@ class WebAppRouter extends Component {
         const { getCurrentSlide } = this.props;
         const { getCurrentCarouselBkgColor } = this.props;
         const { getImgWidth } = this.props;
+        const { getTotalSlides } = this.props;
         getBlogs();
         getHomepage();
         getCurrentCarouselAnimatedText();
         getCurrentSlide();
         getCurrentCarouselBkgColor();
         getImgWidth();
+        getTotalSlides();
     }
 
     
@@ -65,15 +68,15 @@ class WebAppRouter extends Component {
         
         return (
             <BrowserRouter forceRefresh={true}>
+                
                 <Page fluid> 
-                    <HeaderComponent location={currentLocation} />
                     <Switch>
-                        <Route path="/" component={Home} exact={true} />
-                        <Route path="/blog" component={BlogLanding} />
-                        <Route path="/about" component={About} />
+                        <Route path="/"  component={Home} exact={true} />
+                        <Route component={BlogLanding}  path="/blog" />
+                        <Route path="/about"  component={About} />
                     </Switch>
-                    <Footer/>
                 </Page>
+                
             </BrowserRouter >
         )
     };

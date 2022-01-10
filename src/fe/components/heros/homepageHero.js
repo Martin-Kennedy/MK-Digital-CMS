@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import {Row, Col} from 'react-bootstrap';
 import {connect} from "react-redux";
-import HomepageCarouselComponent from '../homepageCarousel';
+import HomepageCarouselComponent from '../carousels/homepageCarousel';
 import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
 import TextTranslation from "./textTranslation";
 import styled from 'styled-components';
 import SvgBlob from "../blobSvg";
+import SlideCounterComponent from "../carousels/slideCounter";
 
 const StyledHomepageHero = styled(Row)`
     height: 100vh;
@@ -100,6 +101,7 @@ class HomepageHero extends Component {
                     <CarouselContainer imgWidth={this.props.imgWidth}>
                     <HomepageCarouselComponent/>
                     </CarouselContainer>
+                    <SlideCounterComponent />
                 </Col>
                 <Col xs={1}></Col>
             </StyledHomepageHero>

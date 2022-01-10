@@ -3,6 +3,7 @@ import { Row, Col} from 'react-bootstrap';
 import faker from 'faker';
 import styled from 'styled-components';
 import BlogCard from '../components/card';
+import HeaderComponent from '../components/navigation/header';
 
 const TopRow = styled(Row)`
 padding-top: 120px;
@@ -25,9 +26,10 @@ const H2Line = styled(Col)`
         border-top: 1px solid #1d1e22;
 `
 
-const BlogLanding = () => (
+const BlogLanding = (props) => (
 
     <div>
+        <HeaderComponent location={props.location.pathname} />
         <TopRow>
             <Col sm={2}></Col>
             <Hero xs={8}>

@@ -8,3 +8,18 @@ export const generateHsl = () => {
         return hsl;
     }
 }
+
+export const listenToScroll = (setState) => {
+    const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+
+    const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+
+    const scrolled = winScroll / height;
+
+    setState = {
+        scrollPosition: scrolled,
+    }
+}

@@ -8,6 +8,8 @@ import styled from 'styled-components';
 const StyledAboutPageHero = styled(Row)`
     height: 100vh;
     background-color: #1d1e22;
+    z-index: 2;
+    position: relative;
 `
 
 const FirstLine = styled.div`
@@ -126,6 +128,7 @@ class AboutPageHero extends Component {
 
         );
     }
+
 }
 
 export default connect(mapStateToProps)(AboutPageHero)

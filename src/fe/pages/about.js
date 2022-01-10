@@ -1,37 +1,40 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect }  from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import faker from 'faker';
 import styled from 'styled-components';
+import HeaderComponent from '../components/navigation/header';
+import Footer from '../components/footer'
 import AboutPageHero from '../components/heros/aboutPageHero';
 import { LineAnimationL2R } from "../components/heros/lineSvg";
+import {
+  useViewportScroll,
+  motion,
+  useTransform
+} from 'framer-motion';
+// import { useInView } from 'react-intersection-observer';
 
 
 
-const stylingObject = {
-    section: {
-        minHeight: "500px",
-        width: "100vw",
-        margin: "0",
-        display: "flex",
-        alignItems: "center"
-    },
-    h2: {
-        fontSize: "0.75rem",
-        fontWeight: "200"
-    }
-}
+const BaseLayer = styled.div`
+background-color: #fff;
+`
+
 
 const IntroSection = styled(Row)`
 background-color: #1d1e22;
 min-height: 500px;
 color: #fff;
+z-index: 1;
+position: relative;
 `;
+
 
 const AboutSection = styled(Row)`
 background-color: #fff;
 min-height: 500px;
 color: #fff;
+z-index: 1;
+position: relative;
+height: 100vh;
 `
 
 const Line = styled.div`
@@ -50,13 +53,14 @@ const IntroBlurb1 = styled.h1`
     font-weight: 200;
     font-size: 16px;
 `
-const  IntroBlurb2 = styled.h2`
+const IntroBlurb2 = styled.h2`
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: none;
     font-weight: 300;
     font-size: 36px;
+    height: 450px;
 `
 const FifthLine = styled.div`
     height: 0;
@@ -75,21 +79,19 @@ const FifthLine = styled.div`
 
 const ImgSection = styled(Row)`
     width: 100vw;
-    min-height: 600px;
     background-image: url(coding.gif);
     background-position: center;
-    background-size: cover;
+    background-size: 100vw auto;
     background-repeat: no-repeat;
     margin: 0;
-    position: inherit;
-    top: 0;
-    left: 0;
-    display: block;
+    z-index: 0;
+    position: relative;
+    height: 100vh;
     
 
 `
 
-    const AboutMain = styled(Row)`
+const AboutMain = styled(Row)`
     color: #1d1e22;
     h2 {
         margin: 10px 0 140px 150px;
@@ -125,52 +127,72 @@ const ImgSection = styled(Row)`
         line-height: 4.2rem;
         font-size: 3rem;
         font-weight: 300;
-        }
-        
+        }   
     `
 
 
 
 
+const About = (props) => {
+    // const { scrollY } = useViewportScroll();
+    const [elementTop1, setElementTop1] = useState(0);
+    const [elementTop2, setElementTop2] = useState(0);
+    const ref1 = useRef(null);
+    const ref2 = useRef(null);
+    const { scrollY } = useViewportScroll();
 
-// const mapStateToProps = state => {
-//     return { homepage: state.homepage };
-// }
+    const y = useTransform(scrollY, [elementTop1, elementTop1 + 1], [0, 1], {
+        clamp: false
+    });
 
-class About extends Component {
+    const y2 = useTransform(scrollY, [elementTop2, elementTop2 + 1], [0, 1], {
+        clamp: false
+    });
 
+    useLayoutEffect(() => {
+        const element1 = ref1.current;
+        setElementTop1(element1.offsetTop);
+        
+    }, [ref1]);
 
-    render() {
+    useLayoutEffect(() => {
+        const element2 = ref2.current;
+        setElementTop2(element2.offsetTop);
+    }, [ref2]);
+
+    
+
         return (
-            <div>
-
-                {/* Hero Section */ }
-                <AboutPageHero location={this.props.location.pathname} />
-
-                <IntroSection>
+                    
+            <BaseLayer>
+                <IntroSection >
+                    <HeaderComponent location={props.location.pathname} />
+                    <AboutPageHero />
+                    
                     <Col sm={2}>
                     </Col>
                     <Col sm={8}>
-
+                        
                         <Row>
-                            <Col>
+                            <Col sm={6}>
                             </Col>
-                            <Col>
+                            <Col sm={6}>
                                 <Row>
-                                    <IntroBlurb1>With more than a decade of development experience, 
-                                        MK Digital has become the reference for all that’s digital, web
-                                         design and branding. We’re not just bragging, we’re good. Our
-                                          promise: finding tomorrow’s creative solutions — today.
+                                    <IntroBlurb1 >
+                                        With years of development experience,
+                                        MK Digital can create a digital solution for you that will become the reference for all that’s digital, web
+                                        design and branding. I'm not just bragging, I'm good. My
+                                        promise: finding tomorrow’s creative solutions — today.
                                     </IntroBlurb1>
                                 </Row>
                                 <Row>
                                     <FifthLine>
                                         <LineAnimationL2R />
                                     </FifthLine>
-                                    
+
                                 </Row>
-                                <Row>
-                                    <IntroBlurb2>
+                                <Row >
+                                    <IntroBlurb2 >
                                         A forward-thinking
                                         developer driven by
                                         passion — and fuelled by
@@ -182,55 +204,49 @@ class About extends Component {
                     </Col>
                     <Col sm={2}>
                     </Col>
+                    
                 </IntroSection>
                 
-                <ImgSection>
-                </ImgSection>
-
-                <AboutSection >
-                    <Col sm={2}>
-                    </Col>
-                    <Col sm={8}>
-
-                        <AboutMain>
-                            <h2><span>Why</span><span>MK Digital?</span></h2>
-                            <span>About</span>
-                            <p> MK Digital stands out among web
-                                agencies, 
-                            </p>
-                            <p> and offers a wide range of creative and
-                                strategic services for brands, companies,
-                                foundations and other remarkable organizations. We
-                                assist and educate our clients in making the best use
-                                of the solutions we build with them.
-                            </p> 
-                        </AboutMain>
-                        <Row>
-                            <Line></Line>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <h2 style={stylingObject.h2}>BIO</h2>
-                            </Col>
-                            <Col>
-                                <p>{faker.lorem.paragraph(8)}</p>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col sm={2}>
-                    </Col>
-                </AboutSection>
-                </div>
-
-
-               
-
-               
                 
-            
+                
+                <motion.div style={{ y }} ref={ref1}>
+                    <ImgSection  ></ImgSection>
+                </motion.div>
+                
+                    
+    
+                <motion.div ref={ref2} style={{ y2 }} >
+                    <AboutSection >
+                        <Col sm={2}>
+                        </Col>
+                        <Col sm={8}>
 
+                            <AboutMain>
+                                <h2><span>Why</span><span>MK Digital?</span></h2>
+                                <span>About</span>
+                                <p> MK Digital stands out among digital creators,
+                                </p>
+                                <p> and offers a wide range of creative and
+                                    digital services for brands, companies,
+                                    foundations and other remarkable organizations. I
+                                    assist and educate my clients in making the best use
+                                    of the solutions I build with them.
+                                </p>
+                            </AboutMain>
+                            <Row>
+                                <Line></Line>
+                            </Row>
+                            
+                        </Col>
+                        <Col sm={2}>
+                        </Col>
+                    </AboutSection>
+                </motion.div>
+
+                
+                <Footer />
+            </BaseLayer>
         );
     }
-}
 
 export default About;
