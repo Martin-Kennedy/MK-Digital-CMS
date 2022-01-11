@@ -1,5 +1,6 @@
 const path = require('path');
 
+
 module.exports = {
   mode: "development",
   entry: './src/fe/app.js',
@@ -10,7 +11,7 @@ module.exports = {
   module: {
     rules: [
       {
-      loader: 'babel-loader',
+      use: 'babel-loader',
       test: /\.js$/,
       exclude: /node_modules/
     },
@@ -20,7 +21,10 @@ module.exports = {
       }
   ]
   },
-  devtool: 'eval-source-map',
+  resolve: {
+    fallback: { "path": require.resolve("path-browserify") }
+  },
+  devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true
   }

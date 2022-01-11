@@ -90,7 +90,7 @@ class HomepageHero extends Component {
                         <LineAnimationL2R/>
                     </TopLine>
                     <AnimatedTextContainer>
-                        <TextTranslation text={getCarouselText(this.props.carouselText, this.props.currentSlide)} />
+                        <TextTranslation  text={getCarouselText(this.props.carouselText, this.props.currentSlide)} />
                     </AnimatedTextContainer>
                     <BottomLine>
                         <LineAnimationR2L/>

@@ -112,7 +112,7 @@ class AboutPageHero extends Component {
                         <LineAnimationR2L />
                     </SecondLine>
                     <AnimatedTextContainer>
-                        <TextScrollTranslation text={'herp a derp derp'} />
+                        <TextScrollTranslation text={'herp a derp derp'}  />
                     </AnimatedTextContainer>
                     <ThirdLine>
                         <LineAnimationL2R />
