@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Row, Col } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { LineAnimationL2R, LineAnimationR2L } from "./lineSvg";
-import TextTranslation from "./textTranslation";
+import {TextScrollTranslation} from "./textTranslation";
 import styled from 'styled-components';
 
 const StyledAboutPageHero = styled(Row)`
@@ -112,7 +112,7 @@ class AboutPageHero extends Component {
                         <LineAnimationR2L />
                     </SecondLine>
                     <AnimatedTextContainer>
-                        <TextTranslation text={'herp a derp derp'} />
+                        <TextScrollTranslation text={'herp a derp derp'} />
                     </AnimatedTextContainer>
                     <ThirdLine>
                         <LineAnimationL2R />

@@ -1,58 +1,98 @@
-import React, {useState} from "react";
-import {useSpring, animated} from "react-spring";
+import React, {useRef} from "react";
 import styled from 'styled-components';
+import {
+    useViewportScroll,
+    motion,
+    useTransform
+} from "framer-motion";
 
-const AnimatedSliderText = styled.div `
-        font-family: mr-eaves-modern, sans-serif;
+const Track = styled(motion.div)`
+
+white-space: nowrap;
+will-change: transform;
+font-family: mr-eaves-modern, sans-serif;
         font-weight: 200;
         font-size: 100px;
         color: #fff;
         text-transform: uppercase;
         white-space: nowrap;
         letter-spacing: 1.5rem;
-`;
+        text-align: center;
+`
 
-const TextTranslation = ({text}) => {
-    const [key,
-        setKey] = useState(1);
+const Marquee = styled.div`
+  position: relative;
+  width: 100vw;
+  max-width: 100%;
+  height: 206px;
+  overflow-x: hidden;
+`
 
-    const scrolling = useSpring({
-        from: {
-            transform: "translate(30vw,0)",
-            opacity: 0
+
+
+
+export const TextTranslation = ({text}) => {
+
+    
+    const marqueeVariants = {
+        animate: {
+            x: [1000, -1000],
+            transition: {
+                x: {
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 10,
+                    ease: "linear",
+                },
+            },
         },
-        to: [
-             {
-                transform: "translate(0vw,0)",
-                opacity: 1
-            }, {
-                transform: "translate(-30vw,0)"
-            }, {
-                transform: "translate(-60vw,0)"
-            }, {
-                transform: "translate(-90vw,0)"
-            }, {
-                transform: "translate(-120vw,0)"
-            }
-        ],
-        config: {
-            tension: 800,
-            friction: 800,
-            duration: 3500
-        },
-        loop: false,
-        reset: true,
-        //reverse: key % 2 == 0,
-        onRest: () => {
-            setKey(key + 1);
-        }
-    });
-
+    };
     return (
-        <AnimatedSliderText key={key}>
-            <animated.div style={scrolling}>{text}</animated.div>
-        </AnimatedSliderText>
+        <div>
+            <Marquee>
+                <Track
+                    variants={marqueeVariants}
+                    animate="animate" 
+                    >
+                    {text}
+                    </Track>
+            </Marquee>
+        </div>
     );
 };
 
-export default TextTranslation;
+
+export const TextScrollTranslation = ({ text }) => {
+    const { scrollY } = useViewportScroll();
+    const x = useTransform(scrollY, value => value * -2);
+    const refMarquee = useRef(null);
+
+    const marqueeVariants = {
+        animate: {
+            x: [1000, -1000],
+            transition: {
+                x: {
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 10,
+                    ease: "linear",
+                },
+            },
+        },
+    };
+
+
+    return (
+        <div>
+            <Marquee>
+                <Track
+                    style={{ x, scrollY }}
+                    ref={ refMarquee }
+                    >
+                        
+                    {text}
+                </Track>
+            </Marquee>
+        </div>
+    );
+};

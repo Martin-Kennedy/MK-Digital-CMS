@@ -59,7 +59,6 @@ class HomepageCarouselComponent extends Component{
     }
 
     dispatchTotalSlideCount(props){
-        console.log(props.homepageData.homepageCarousel.homepageCarouselArray.length);
         props.dispatch(getTotalSlides(props.homepageData.homepageCarousel.homepageCarouselArray.length));
     }
 

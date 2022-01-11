@@ -3,7 +3,7 @@ import {Row, Col} from 'react-bootstrap';
 import {connect} from "react-redux";
 import HomepageCarouselComponent from '../carousels/homepageCarousel';
 import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
-import TextTranslation from "./textTranslation";
+import {TextTranslation} from "./textTranslation";
 import styled from 'styled-components';
 import SvgBlob from "../blobSvg";
 import SlideCounterComponent from "../carousels/slideCounter";

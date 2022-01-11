@@ -134,7 +134,6 @@ const AboutMain = styled(Row)`
 
 
 const About = (props) => {
-    // const { scrollY } = useViewportScroll();
     const [elementTop1, setElementTop1] = useState(0);
     const [elementTop2, setElementTop2] = useState(0);
     const ref1 = useRef(null);
