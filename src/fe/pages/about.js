@@ -6,6 +6,7 @@ import Footer from '../components/footer'
 import AboutPageHero from '../components/heros/aboutPageHero';
 import {LineAnimationL2R} from "../components/heros/lineSvg";
 import Parallax from '../helpers/parallax';
+import { FadeInWhenVisibleScale, FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
 // import { useInView } from 'react-intersection-observer';
 
 const BaseLayer = styled.div `
@@ -180,10 +181,13 @@ const About = (props) => {
     return (
 
         <BaseLayer>
-        <Parallax>
+        <Parallax offset={-25}>
             <IntroSection >
+                    <FadeInWhenVisibleOpacity duration={2}>
                 <HeaderComponent location={props.location.pathname}/>
+                
                 <AboutPageHero/>
+                    </FadeInWhenVisibleOpacity>
 
                 <Col sm={2}></Col>
                 <Col sm={8}>
@@ -191,14 +195,18 @@ const About = (props) => {
                     <Row>
                         <Col sm={6}></Col>
                         <Col sm={6}>
+                                <FadeInWhenVisibleScale>
                             <Row>
+                                    
                                 <IntroBlurb1 >
                                     With years of development experience, MK Digital can create a digital solution
                                     for you that will become the reference for all that’s digital, web design and
                                     branding. I'm not just bragging, I'm good. My promise: finding tomorrow’s
                                     creative solutions — today.
                                 </IntroBlurb1>
+                                    
                             </Row>
+                                
                             <Row>
                                 <FifthLine>
                                     <LineAnimationL2R/>
@@ -206,10 +214,13 @@ const About = (props) => {
 
                             </Row>
                             <Row >
+                                    
                                 <IntroBlurb2 >
                                     A forward-thinking developer driven by passion — and fuelled by curiosity.
                                 </IntroBlurb2>
+                                       
                             </Row>
+                                </FadeInWhenVisibleScale>
                         </Col>
                     </Row>
                 </Col>
@@ -224,12 +235,14 @@ const About = (props) => {
                 <AboutSection >
                     <Col sm={2}></Col>
                     <Col sm={8}>
-
+                        <FadeInWhenVisibleScale>
                         <AboutMain>
-                            <h2>
-                                <span>Why</span>
-                                <span>MK Digital?</span>
-                            </h2>
+                            
+                                <h2>
+                                    <span>Why</span>
+                                    <span>MK Digital?</span>
+                                </h2>
+                           
                             <span>About</span>
                             <p>
                                 MK Digital stands out among digital creators,
@@ -239,7 +252,9 @@ const About = (props) => {
                                 foundations and other remarkable organizations. I assist and educate my clients
                                 in making the best use of the solutions I build with them.
                             </p>
+                            
                         </AboutMain>
+                        </FadeInWhenVisibleScale>
                         <Row>
                             <Line></Line>
                         </Row>
@@ -252,12 +267,15 @@ const About = (props) => {
                 <ServicesSection >
                     <Col sm={2}></Col>
                     <Col sm={8}>
-
+                        <FadeInWhenVisibleScale>
                         <Services>
+                            
                             <h2>
                                 <span>Why</span>
                                 <span>MK Digital?</span>
                             </h2>
+                            
+                            
                             <span>About</span>
                             <p>
                                 MK Digital stands out among digital creators,
@@ -267,7 +285,9 @@ const About = (props) => {
                                 foundations and other remarkable organizations. I assist and educate my clients
                                 in making the best use of the solutions I build with them.
                             </p>
+                            
                         </Services>
+                        </FadeInWhenVisibleScale>
                         <Row>
                             <Line></Line>
                         </Row>

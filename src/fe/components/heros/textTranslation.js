@@ -16,12 +16,8 @@ letter-spacing: 1.5rem;
 text-align: center;
 `
 
-const Marquee = styled.div `
-  position: relative;
-  width: 100vw;
-  max-width: 100%;
-  height: 206px;
-  overflow-x: hidden;
+const Marquee = styled(motion.div) `
+
 `
 
 export const TextTranslation = (props) => {
@@ -79,9 +75,18 @@ export const TextTranslation = (props) => {
             }
         }
     };
+    const container = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                duration: 2,
+            }
+        }
+    }
     return (
         <div>
-            <Marquee>
+            <Marquee initial="hidden" animate="show" variants={container}>
                 <Track variants={marqueeVariants} animate="animate">
                     {props.text}
                 </Track>
@@ -130,24 +135,9 @@ export const TextScrollTranslation = (props) => {
     const x = useTransform(scrollY, value => value * x3);
     const refMarquee = useRef(null);
 
-    const marqueeVariants = {
-        animate: {
-            x: [
-                x1, x2
-            ],
-            transition: {
-                x: {
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    duration: 10,
-                    ease: "linear"
-                }
-            }
-        }
-    };
-
     return (
         <div>
+            
             <Marquee>
                 <Track
                     style={{

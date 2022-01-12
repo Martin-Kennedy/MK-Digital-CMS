@@ -7,6 +7,7 @@ import {TextTranslation} from "./textTranslation";
 import styled from 'styled-components';
 import SvgBlob from "../blobSvg";
 import SlideCounterComponent from "../carousels/slideCounter";
+import { FadeInWhenVisibleOpacity } from "../../helpers/fadeInOnViewport";
 
 const StyledHomepageHero = styled(Row)`
     height: 100vh;
@@ -90,6 +91,7 @@ class HomepageHero extends Component {
                         <LineAnimationL2R/>
                     </TopLine>
                     <AnimatedTextContainer>
+                        
                         <TextTranslation  text={getCarouselText(this.props.carouselText, this.props.currentSlide)} />
                     </AnimatedTextContainer>
                     <BottomLine>
