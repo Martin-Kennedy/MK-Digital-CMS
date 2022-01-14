@@ -3,11 +3,10 @@ import {Row, Col} from 'react-bootstrap';
 import {connect} from "react-redux";
 import HomepageCarouselComponent from '../carousels/homepageCarousel';
 import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
-import {TextTranslation} from "./textTranslation";
+import { TextTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
 import SvgBlob from "../blobSvg";
 import SlideCounterComponent from "../carousels/slideCounter";
-import { FadeInWhenVisibleOpacity } from "../../helpers/fadeInOnViewport";
 
 const StyledHomepageHero = styled(Row)`
     height: 100vh;
@@ -16,10 +15,11 @@ const StyledHomepageHero = styled(Row)`
 
 const CarouselContainer = styled.div `
     position: absolute;
-    top: 220px;
+    top: 0;
     left: calc(50% - 190px);
     overflow: hidden;
     display: flex;
+    height: 100vh;
 `
 
 const TopLine = styled.div `
@@ -91,8 +91,7 @@ class HomepageHero extends Component {
                         <LineAnimationL2R/>
                     </TopLine>
                     <AnimatedTextContainer>
-                        
-                        <TextTranslation  text={getCarouselText(this.props.carouselText, this.props.currentSlide)} />
+                        <TextTranslation text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
                     </AnimatedTextContainer>
                     <BottomLine>
                         <LineAnimationR2L/>

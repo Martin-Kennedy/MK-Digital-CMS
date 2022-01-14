@@ -23,7 +23,7 @@ const Slide = styled.div`
 const SlideImage = styled.img`
     display: block;
     width: 100%;
-    height: 100%;
+    height: 460px;
     object-fit: cover;
 `;
 

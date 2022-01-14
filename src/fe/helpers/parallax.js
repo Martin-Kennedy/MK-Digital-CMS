@@ -2,7 +2,6 @@ import React, { useState, useRef, useLayoutEffect } from 'react'
 import { motion, useViewportScroll, useTransform, useSpring } from 'framer-motion'
 
 
-
 const Parallax = ({ children, offset = 100 }) => {
     const [elementTop, setElementTop] = useState(0)
     const [clientHeight, setClientHeight] = useState(0)

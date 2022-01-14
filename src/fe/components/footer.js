@@ -10,7 +10,7 @@ const stylingObject = {
         display: "flex",
         alignItems: "center",
         height: "100px",
-        position: "relative",
+        position: "absolute",
         background: "#1d1e22",
         bottom: 0,
 

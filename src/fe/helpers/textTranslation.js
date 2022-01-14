@@ -1,4 +1,11 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {
+    useEffect,
+    useRef,
+    useState,
+    Children,
+    isValidElement,
+    cloneElement
+} from "react";
 import styled from 'styled-components';
 import {useViewportScroll, motion, useTransform} from "framer-motion";
 
@@ -16,16 +23,14 @@ letter-spacing: 1.5rem;
 text-align: center;
 `
 
-const Marquee = styled(motion.div) `
+const Marquee = styled.div `
 
 `
 
 export const TextTranslation = (props) => {
 
-    const [x1,
-        setX1] = useState(0);
-    const [x2,
-        setX2] = useState(0)
+    const [x1,setX1] = useState(0);
+    const [x2,setX2] = useState(0);
 
     useEffect(() => {
 
@@ -58,6 +63,9 @@ export const TextTranslation = (props) => {
                         setX2(finish);
                 }
         }
+       
+        
+
     })
 
     const marqueeVariants = {
@@ -65,35 +73,38 @@ export const TextTranslation = (props) => {
             x: [
                 x1, x2
             ],
+            opacity: [
+                0, 1
+            ],
             transition: {
                 x: {
                     repeat: Infinity,
                     repeatType: "loop",
                     duration: 10,
                     ease: "linear"
+                },
+                opacity: {
+                    delay: 1,
+                    repeat: 0,
+                    duration: 2,
+                    ease: "linear"
                 }
             }
         }
     };
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                duration: 2,
-            }
-        }
-    }
+
     return (
         <div>
-            <Marquee initial="hidden" animate="show" variants={container}>
-                <Track variants={marqueeVariants} animate="animate">
+            <Marquee >
+                <Track key={props.text} variants={marqueeVariants} animate="animate">
                     {props.text}
                 </Track>
             </Marquee>
         </div>
     );
 };
+
+
 
 export const TextScrollTranslation = (props) => {
 
@@ -137,7 +148,7 @@ export const TextScrollTranslation = (props) => {
 
     return (
         <div>
-            
+
             <Marquee>
                 <Track
                     style={{
@@ -145,7 +156,6 @@ export const TextScrollTranslation = (props) => {
                     scrollY
                 }}
                     ref={refMarquee}>
-
                     {props.text}
                 </Track>
             </Marquee>

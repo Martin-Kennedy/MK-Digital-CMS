@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Row, Col } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { LineAnimationL2R, LineAnimationR2L } from "./lineSvg";
-import {TextScrollTranslation} from "./textTranslation";
+import { TextScrollTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
 
 const StyledAboutPageHero = styled(Row)`

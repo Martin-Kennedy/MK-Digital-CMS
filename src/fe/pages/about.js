@@ -7,6 +7,7 @@ import AboutPageHero from '../components/heros/aboutPageHero';
 import {LineAnimationL2R} from "../components/heros/lineSvg";
 import Parallax from '../helpers/parallax';
 import { FadeInWhenVisibleScale, FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
+import XaxisScrollContainer from '../helpers/dragOnXaxis'
 // import { useInView } from 'react-intersection-observer';
 
 const BaseLayer = styled.div `
@@ -129,7 +130,7 @@ const ServicesSection = styled(Row)`
     color: #fff;
     z-index: 1;
     position: relative;
-    height: 100vh;
+    height: 100% ;
 `
 
 const Services = styled(Row)`
@@ -285,19 +286,22 @@ const About = (props) => {
                                 foundations and other remarkable organizations. I assist and educate my clients
                                 in making the best use of the solutions I build with them.
                             </p>
-                            
+                                <Line></Line>
+                                <XaxisScrollContainer />
                         </Services>
                         </FadeInWhenVisibleScale>
-                        <Row>
-                            <Line></Line>
-                        </Row>
+                        
+                        
+                        
+                        
 
                     </Col>
                     <Col sm={2}></Col>
+                    <Footer />
                 </ServicesSection>
             </Parallax>
 
-            <Footer/>
+            
         </BaseLayer>
     );
 }
