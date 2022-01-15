@@ -1,31 +1,24 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-const stylingObject = {
-    footerStyles: {
-        color: "#fff",
-        width: "100vw",
-        padding: "20px 10px 10px",
-        margin: "0",
-        display: "flex",
-        alignItems: "center",
-        height: "100px",
-        position: "absolute",
-        background: "#1d1e22",
-        bottom: 0,
+const Footer = () => {
 
-    }
-}
-
-export default class Footer extends Component {
-    render(){
-        return(
-            <Row style={stylingObject.footerStyles}>
-                <Col>
-                    MK Digital © 2021
-                </Col>
-            </Row>
-        )
-        
-    }
+    return (
+        <Row >
+            <Col sm={2}></Col>
+            <Col>
+                <span>MK Digital © {new Date().getFullYear()}</span>
+            </Col>
+            <Col>
+                <li>Contact</li>
+            </Col>
+            <Col sm={2}></Col>
+        </Row>
+    )
 } 
+
+
+
+
+
+export default Footer;

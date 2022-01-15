@@ -7,7 +7,7 @@ import AboutPageHero from '../components/heros/aboutPageHero';
 import {LineAnimationL2R} from "../components/heros/lineSvg";
 import Parallax from '../helpers/parallax';
 import { FadeInWhenVisibleScale, FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
-import XaxisScrollContainer from '../helpers/dragOnXaxis'
+import XaxisScrollComponent from '../helpers/dragOnXaxis'
 // import { useInView } from 'react-intersection-observer';
 
 const BaseLayer = styled.div `
@@ -22,21 +22,14 @@ const IntroSection = styled(Row)`
     position: relative;
 `;
 
-const AboutSection = styled(Row)`
-    background-color: #fff;
-    min-height: 500px;
-    color: #fff;
-    z-index: 1;
-    position: relative;
-    height: 100vh;
-`
+
 
 const Line = styled.div `
     position: relative;
     display: block;
     width: 100%;
-    margin: 2rem 0;
-    border-bottom: #1d1e22 1px solid;
+    margin: 0 0 3rem ;
+    border-bottom: ${props => props.white ? "#fff" : "#1d1e22"} 1px solid;
 `
 
 const IntroBlurb1 = styled.h1 `
@@ -80,13 +73,21 @@ const ImgSection = styled(Row)`
     margin: 0;
     z-index: 0;
     position: relative;
-    height: 100vh;
+    height: 60vh;
 `
-
+const AboutSection = styled(Row)`
+    background-color: #fff;
+    min-height: 500px;
+    color: #fff;
+    z-index: 1;
+    position: relative;
+    height: auto;
+`
 const AboutMain = styled(Row)`
     color: #1d1e22;
     position: relative;
     z-index: 1;
+    margin-bottom: 3rem;
     h2 {
         margin: 10px 0 140px 150px;
         span {
@@ -137,24 +138,30 @@ const Services = styled(Row)`
     color: #fff;
     position: relative;
     z-index: 2;
+    display: block;
+    
     h2 {
+        display: flex;
+        flex-direction: column;
         margin: 10px 0 140px 150px;
+        position: relative;
+        top: -3rem;
+        
         span {
-            display: block;
-            padding: 10px 0 ;
+        display: block;
+        padding: 10px 0;
             
         line-height: 4.2rem;
         font-size: 4rem;
         font-weight: 300;
         }
-
     }
+    
     span {
         font-size: 16px;
         font-weight: 200;
         position: relative;
         top: 55px;
-
     }
     
     p:nth-child(3) {
@@ -167,38 +174,88 @@ const Services = styled(Row)`
         margin: 0;
         }
         p:nth-child(4) {
-            position: relative;
+        position: relative;
         line-height: 4.2rem;
         font-size: 3rem;
         font-weight: 300;
         }   
     `
+const ScrollComponentContainer = styled.div`
+position: relative;
+top: -100px;
+`
+
+const Section = styled(Row)`
+    margin-bottom: 9rem;
+    span {
+        top: 0;
+    }
+    p {
+        font-weight: 200;
+    }
+`
+const ServicesMain = styled(Section)`
+margin-bottom: 2rem;
+.col {
+    span {
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+`
+
+const MediumText = styled.p`
+font-size: 2rem;
+font-weight: 300;
+`
+
+const DigitalServicesList = styled(Row)`
+ul {
+
+    padding: 10px 0 10px 0;
+    margin-boottom: 10px;
+    
+    li {
+        margin: 10px 0;
+        font-size: 13px;
+        font-weight: 100;
+        letter-spacing: 1px;
+    }
+}
+`
+
+const AboutFooter = styled.div`
+    height: 100px;
+    background-color: #1d1e22;
+    .row {
+        color: #fff;
+        width: 100vw;
+        padding: 20px 10px 10px 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+`
 
 const About = (props) => {
   
-
-  
-
     return (
 
         <BaseLayer>
         <Parallax offset={-25}>
             <IntroSection >
-                    <FadeInWhenVisibleOpacity duration={2}>
+                <FadeInWhenVisibleOpacity duration={2}>
                 <HeaderComponent location={props.location.pathname}/>
-                
                 <AboutPageHero/>
                     </FadeInWhenVisibleOpacity>
-
                 <Col sm={2}></Col>
                 <Col sm={8}>
 
                     <Row>
                         <Col sm={6}></Col>
                         <Col sm={6}>
-                                <FadeInWhenVisibleScale>
+                        <FadeInWhenVisibleScale>
                             <Row>
-                                    
                                 <IntroBlurb1 >
                                     With years of development experience, MK Digital can create a digital solution
                                     for you that will become the reference for all that’s digital, web design and
@@ -207,7 +264,6 @@ const About = (props) => {
                                 </IntroBlurb1>
                                     
                             </Row>
-                                
                             <Row>
                                 <FifthLine>
                                     <LineAnimationL2R/>
@@ -215,13 +271,11 @@ const About = (props) => {
 
                             </Row>
                             <Row >
-                                    
                                 <IntroBlurb2 >
                                     A forward-thinking developer driven by passion — and fuelled by curiosity.
-                                </IntroBlurb2>
-                                       
+                                </IntroBlurb2> 
                             </Row>
-                                </FadeInWhenVisibleScale>
+                        </FadeInWhenVisibleScale>
                         </Col>
                     </Row>
                 </Col>
@@ -229,7 +283,7 @@ const About = (props) => {
 
             </IntroSection>
             </Parallax>
-            <Parallax offset={-50}>
+            <Parallax offset={-100}>
                 <ImgSection ></ImgSection>
             </Parallax>
             <Parallax>
@@ -259,48 +313,169 @@ const About = (props) => {
                         <Row>
                             <Line></Line>
                         </Row>
-
+                        <FadeInWhenVisibleScale>
+                        <AboutMain>
+                        <Section>
+                            
+                            <Col><span>Established in 2016</span></Col>
+                            <Col> 
+                            <p>In a few short years, MK Digital has made its mark on The New York Metro — our home 
+                                and a powerhouse recognized internationally for its creativity. With a unique 
+                                identity rooted in Manhattan, its reputation branches far beyond its borders.</p>
+                                
+                            </Col>
+                        </Section>
+                        <Section>
+                            <Col></Col>
+                            <Col>
+                                <Line></Line>
+                                <MediumText>MK Digital® isn’t just a team — it’s a family. We all share the 
+                                    same vision here: to push ideas all the way, 
+                                    without taking ourselves too seriously, and overcoming challenges together.
+                                </MediumText>
+                                
+                            </Col>
+                        </Section>
+                        <ScrollComponentContainer>
+                            <XaxisScrollComponent />
+                                </ScrollComponentContainer>
+                        </AboutMain>
+                        </FadeInWhenVisibleScale>
                     </Col>
                     <Col sm={2}></Col>
                 </AboutSection>
             </Parallax>
-            <Parallax offset={-50}>
-                <ServicesSection >
+            <Parallax offset={100}>
+                <ServicesSection>
                     <Col sm={2}></Col>
                     <Col sm={8}>
                         <FadeInWhenVisibleScale>
                         <Services>
-                            
+                            <Line white></Line>
+                            <span>Services</span>
                             <h2>
-                                <span>Why</span>
-                                <span>MK Digital?</span>
+                                <span>Digital</span> 
+                                <span>First Design</span>
                             </h2>
-                            
-                            
-                            <span>About</span>
-                            <p>
-                                MK Digital stands out among digital creators,
-                            </p>
-                            <p>
-                                and offers a wide range of creative and digital services for brands, companies,
-                                foundations and other remarkable organizations. I assist and educate my clients
-                                in making the best use of the solutions I build with them.
-                            </p>
-                                <Line></Line>
-                                <XaxisScrollContainer />
+                                <ServicesMain>
+                                <Col>
+                                    <span>Digital Experience</span>
+                                    <Line white></Line>
+                                </Col>
+                                <Col sm={1}></Col>
+                                <Col>
+                                    <span>01</span>
+                                    <Line white></Line>
+                                </Col>
+                                </ServicesMain>
+                                <ServicesMain>
+                                    <Col>
+                                    </Col>
+                                    <Col sm={1}></Col>
+                                    <Col>
+                                        <MediumText> 
+                                            We make digital the starting point around which revolve creative, strategy and technology. 
+                                            We work this way whatever the size of your project, because it works.
+                                        </MediumText>
+                                        <DigitalServicesList>
+                                            <Col>
+                                            <ul>
+                                                <li>
+                                                    Digital strategy
+                                                </li>
+                                                <li>
+                                                    User experience (UX)
+                                                </li>
+                                                <li>
+                                                    Front End Development
+                                                </li>
+                                            </ul>
+                                            </Col>
+                                            <Col>
+                                            <ul>
+                                                <li>
+                                                    Web design
+                                                </li>
+                                                <li>
+                                                    Web development
+                                                </li>
+                                                <li>
+                                                    Application Development
+                                                </li>
+                                            </ul>
+                                            
+                                            </Col>
+                                        </DigitalServicesList>
+                                        
+                                    </Col>
+                                </ServicesMain>
+                                <ServicesMain>
+                                    <Col>
+                                        <span>Brand Experience</span>
+                                        <Line white></Line>
+                                    </Col>
+                                    <Col sm={1}></Col>
+                                    <Col>
+                                        <span>02</span>
+                                        <Line white></Line>
+                                    </Col>
+                                </ServicesMain>
+                                <ServicesMain>
+                                    <Col>
+                                    </Col>
+                                    <Col sm={1}></Col>
+                                    <Col>
+                                        <MediumText>
+                                            We make digital the starting point around which revolve creative, strategy and technology.
+                                            We work this way whatever the size of your project, because it works.
+                                        </MediumText>
+                                        <DigitalServicesList>
+                                            <Col>
+                                                <ul>
+                                                    <li>
+                                                        Digital strategy
+                                                    </li>
+                                                    <li>
+                                                        User experience (UX)
+                                                    </li>
+                                                    <li>
+                                                        Front End Development
+                                                    </li>
+                                                </ul>
+                                            </Col>
+                                            <Col>
+                                                <ul>
+                                                    <li>
+                                                        Web design
+                                                    </li>
+                                                    <li>
+                                                        Web development
+                                                    </li>
+                                                    <li>
+                                                        Application Development
+                                                    </li>
+                                                </ul>
+
+                                            </Col>
+                                        </DigitalServicesList>
+
+                                    </Col>
+                                </ServicesMain>
+                           
                         </Services>
                         </FadeInWhenVisibleScale>
-                        
-                        
-                        
-                        
-
                     </Col>
                     <Col sm={2}></Col>
-                    <Footer />
                 </ServicesSection>
+                    
+                
+                
             </Parallax>
-
+                <AboutFooter>
+                <Footer />
+                </AboutFooter>
+            
+            
             
         </BaseLayer>
     );
