@@ -1,13 +1,14 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
+import { MediumText } from '../helpers/commonStyledComponents'
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer'
 import AboutPageHero from '../components/heros/aboutPageHero';
 import {LineAnimationL2R} from "../components/heros/lineSvg";
-import Parallax from '../helpers/parallax';
 import { FadeInWhenVisibleScale, FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
-import XaxisScrollComponent from '../helpers/dragOnXaxis'
+import XaxisScrollComponent from '../helpers/dragOnXaxis';
+import Sticky from 'react-stickynode';
 // import { useInView } from 'react-intersection-observer';
 
 const BaseLayer = styled.div `
@@ -182,7 +183,7 @@ const Services = styled(Row)`
     `
 const ScrollComponentContainer = styled.div`
 position: relative;
-top: -100px;
+top: -200px;
 `
 
 const Section = styled(Row)`
@@ -202,11 +203,6 @@ margin-bottom: 2rem;
         margin-bottom: 20px;
     }
 }
-`
-
-const MediumText = styled.p`
-font-size: 2rem;
-font-weight: 300;
 `
 
 const DigitalServicesList = styled(Row)`
@@ -242,7 +238,7 @@ const About = (props) => {
     return (
 
         <BaseLayer>
-        <Parallax offset={-25}>
+            <Sticky>
             <IntroSection >
                 <FadeInWhenVisibleOpacity duration={2}>
                 <HeaderComponent location={props.location.pathname}/>
@@ -254,6 +250,7 @@ const About = (props) => {
                     <Row>
                         <Col sm={6}></Col>
                         <Col sm={6}>
+
                         <FadeInWhenVisibleScale>
                             <Row>
                                 <IntroBlurb1 >
@@ -282,15 +279,17 @@ const About = (props) => {
                 <Col sm={2}></Col>
 
             </IntroSection>
-            </Parallax>
-            <Parallax offset={-100}>
-                <ImgSection ></ImgSection>
-            </Parallax>
-            <Parallax>
+            </Sticky>
+            <Sticky>
+            <ImgSection ></ImgSection>
+            </Sticky>
+                
+            <Sticky >
                 <AboutSection >
                     <Col sm={2}></Col>
                     <Col sm={8}>
                         <FadeInWhenVisibleScale>
+                            
                         <AboutMain>
                             
                                 <h2>
@@ -337,15 +336,15 @@ const About = (props) => {
                             </Col>
                         </Section>
                         <ScrollComponentContainer>
-                            <XaxisScrollComponent />
-                                </ScrollComponentContainer>
+                        <XaxisScrollComponent />
+                        </ScrollComponentContainer>
                         </AboutMain>
                         </FadeInWhenVisibleScale>
                     </Col>
                     <Col sm={2}></Col>
                 </AboutSection>
-            </Parallax>
-            <Parallax offset={100}>
+                </Sticky>
+            <Sticky>
                 <ServicesSection>
                     <Col sm={2}></Col>
                     <Col sm={8}>
@@ -409,6 +408,7 @@ const About = (props) => {
                                         
                                     </Col>
                                 </ServicesMain>
+                                    
                                 <ServicesMain>
                                     <Col>
                                         <span>Brand Experience</span>
@@ -420,6 +420,7 @@ const About = (props) => {
                                         <Line white></Line>
                                     </Col>
                                 </ServicesMain>
+                                
                                 <ServicesMain>
                                     <Col>
                                     </Col>
@@ -460,20 +461,17 @@ const About = (props) => {
                                         </DigitalServicesList>
 
                                     </Col>
-                                </ServicesMain>
-                           
+                                </ServicesMain>                                
                         </Services>
                         </FadeInWhenVisibleScale>
                     </Col>
                     <Col sm={2}></Col>
                 </ServicesSection>
-                    
                 
-                
-            </Parallax>
                 <AboutFooter>
                 <Footer />
                 </AboutFooter>
+            </Sticky>
             
             
             

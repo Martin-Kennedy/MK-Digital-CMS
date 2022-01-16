@@ -1,11 +1,9 @@
 import React, { useRef, useEffect, useState }from "react";
 import { useMotionValue, motion, useTransform } from "framer-motion";
-import { useWindowDimensions } from '../helpers/utilities'
+import { useWindowDimensions } from '../helpers/utilities';
 
 export default function XaxisScrollComponent(props) {
     const scrollX = useMotionValue(0);
-
-    
 
     const widthRef = useRef();
     const [currentWidth, setCurrentWidth] = useState(0);

@@ -6,6 +6,7 @@ import Footer from '../components/footer';
 import Home from '../pages/home';
 import About from '../pages/about';
 import BlogLanding from '../pages/blogLanding';
+import ProjectsLanding from '../pages/projectsLanding';
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
 import { connect } from 'react-redux';
@@ -74,6 +75,7 @@ class WebAppRouter extends Component {
                         <Route path="/"  component={Home} exact={true} />
                         <Route component={BlogLanding}  path="/blog" />
                         <Route path="/about"  component={About} />
+                        <Route path="/case-studies" component={ProjectsLanding} />
                     </Switch>
                 </Page>
                 
