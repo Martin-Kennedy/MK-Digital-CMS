@@ -3,10 +3,11 @@ import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
-import {generateHsl} from '../helpers/utilities';
+import {generateHsl} from '../../helpers/utilities';
+import { FadeInWhenVisibleOpacity } from '../../helpers/fadeInOnViewport';
 
 const MasonryBlog = styled(Masonry)`
-width: 80%;
+width: 100%;
 margin-left: auto;
 margin-right: auto;
 padding: 0;
@@ -75,7 +76,7 @@ const mapStateToProps = state => {
     }
 };
 
-class FilteredCards extends Component {
+class UnfilteredCards extends Component {
     render() {
         return (
             <MasonryBlog
@@ -87,7 +88,7 @@ class FilteredCards extends Component {
                 {this
                     .props
                     .blogs
-                    .filteredData
+                    .blogData
                     .map((blogEntry) => {
                         let id = blogEntry.id;
                         const ContainerDiv = styled.div `
@@ -140,6 +141,7 @@ class FilteredCards extends Component {
                 `;
 
                         const card = <MasonryBlogLi key={id}>
+                            <FadeInWhenVisibleOpacity>
                             <ContainerDiv>
                                 <Row>
                                     <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage}/></Col>
@@ -149,6 +151,7 @@ class FilteredCards extends Component {
                                     <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
                                 </CardTextRow>
                             </ContainerDiv>
+                            </FadeInWhenVisibleOpacity>
                         </MasonryBlogLi>;
                         return card;
                     })}
@@ -157,4 +160,4 @@ class FilteredCards extends Component {
     }
 }
 
-export default connect(mapStateToProps)(FilteredCards);
+export default connect(mapStateToProps)(UnfilteredCards);

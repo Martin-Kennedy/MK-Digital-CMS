@@ -2,9 +2,11 @@ import React from "react";
 import SlideMenu from './slideMenu.js'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import { displayValueArray } from "../../helpers/commonStyledComponents.js";
 
 const StyledNav = styled.nav`
 margin-left: auto;
+margin-right: 50px;
 `
 
 const Ul = styled.ul`
@@ -14,7 +16,12 @@ const Ul = styled.ul`
 `
 
 const Li = styled.li`
-    color: ${props => props.location === "/blog" ? "#1d1e22" : "white"} !important;
+    color: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"} !important;
+    svg {
+        path {
+            stroke: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"} !important;
+        }
+    }
 `
 
 const StyledLink = styled(Link)`

@@ -3,11 +3,12 @@ import {Link} from 'react-router-dom';
 import {Col} from 'react-bootstrap';
 import Nav from './nav.js';
 import styled from 'styled-components';
+import { displayValueArray } from '../../helpers/commonStyledComponents';
 
 
 
 const HeaderWrapper = styled.div`
-    color: ${props => props.location === "/blog" ? "#1d1e22" : "white"};
+    color: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"};
     width: 100%;
     padding: 0px 10px 20px;
     margin: 20px 10px 10px;
@@ -27,7 +28,7 @@ const LogoCol = styled(Col)`
 const LogoLine = styled.div`
     width: 13px;
     height: 90px;
-    border-left: 1px solid ${props => props.location === "/blog" ? "#1d1e22" : "white"};
+    border-left: 1px solid ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"};
     `;
 
 const LogoText = styled.div`
@@ -36,12 +37,12 @@ const LogoText = styled.div`
     font-weight: 100;
     font-size: 25px;
     margin-top: 0;
-    color: ${props => props.location === "/blog" ? "#1d1e22" : "white"};
+    color: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"};
     text-transform: uppercase;
     `;
 
 const Logo = styled.div`
-    background-image: ${props => props.location === "/blog" ? "url('logoDark.png')" : "url('logo.png')"};
+    background-image: ${props => displayValueArray.includes(props.location)  ? "url('logoDark.png')" : "url('logo.png')"};
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -53,7 +54,7 @@ const Logo = styled.div`
 `;
 
 const StlyedHeaderLink = styled(Link)`
-color: ${props => props.location === "/blog" ? "#1d1e22" : "white"};
+color: ${props => displayValueArray.includes(props.location)  ? "#1d1e22" : "white"};
 text-decoration: none;
 display: contents;
 align-items: center;

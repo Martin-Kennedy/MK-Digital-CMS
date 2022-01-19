@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route } from 'react-router-dom';
 import {Container} from 'react-bootstrap';
-import HeaderComponent from '../components/navigation/header';
-import Footer from '../components/footer';
 import Home from '../pages/home';
 import About from '../pages/about';
 import BlogLanding from '../pages/blogLanding';
@@ -69,7 +67,6 @@ class WebAppRouter extends Component {
         
         return (
             <BrowserRouter forceRefresh={true}>
-                
                 <Page fluid> 
                     <Switch>
                         <Route path="/"  component={Home} exact={true} />
@@ -78,7 +75,6 @@ class WebAppRouter extends Component {
                         <Route path="/case-studies" component={ProjectsLanding} />
                     </Switch>
                 </Page>
-                
             </BrowserRouter >
         )
     };

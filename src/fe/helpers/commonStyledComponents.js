@@ -2,6 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Row, Col } from 'react-bootstrap';
 
+export const displayValueArray = [
+    "/blog", "/case-studies"
+]
+
 export const MediumText = styled.p`
 font-size: 2rem;
 font-weight: 300;

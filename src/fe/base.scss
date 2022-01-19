@@ -18,7 +18,18 @@ body {
         height: 500px;
     }
 
-   
-    
+   .grid-sizer,
+    .grid-item {
+    width: 20%;
+    }
+    /* 2 columns wide */
+    .grid-item--width2 {
+        width: 40%;
+    }
+
+    .grid-item--width3 {
+        width: 60%;
+    }
+
    
 }

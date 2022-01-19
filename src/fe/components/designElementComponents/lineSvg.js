@@ -50,9 +50,8 @@ function LineAnimationL2R() {
     const animatedProps = useAnimatedPathL();
 
     return (
-        <svg viewBox={[0,0,1100,100]}>
+        <svg viewBox={[0,0,1100,50]}>
         <animated.line
-            stroke='white'
             strokeWidth='1'
             strokeDasharray={1144}
             fill='none'
@@ -71,9 +70,8 @@ function LineAnimationR2L() {
     const animatedProps = useAnimatedPathR();
 
     return (
-        <svg viewBox={[0, 0, 1100, 100]}>
+        <svg viewBox={[0, 0, 1100, 50]}>
         <animated.line
-            stroke='white'
             strokeWidth='1'
             fill='none'
             x1="24.54"

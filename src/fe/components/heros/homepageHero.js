@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import {Row, Col} from 'react-bootstrap';
 import {connect} from "react-redux";
 import HomepageCarouselComponent from '../carousels/homepageCarousel';
-import {LineAnimationL2R, LineAnimationR2L} from "./lineSvg";
+import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
 import { TextTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
-import SvgBlob from "../blobSvg";
+import SvgBlob from "../designElementComponents/blobSvg";
 import SlideCounterComponent from "../carousels/slideCounter";
 
 const StyledHomepageHero = styled(Row)`
@@ -33,6 +33,9 @@ const TopLine = styled.div `
     position: relative; 
     top: 25%;
     left: 0;
+    line {
+        stroke: #fff;
+    }
     }
     `;
 
@@ -47,6 +50,9 @@ const BottomLine = styled.div `
     position: relative; 
     top: 60%;
     left: 0;
+    line {
+        stroke: #fff;
+    }
     }
     `;
 

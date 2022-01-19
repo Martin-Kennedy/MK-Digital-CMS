@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
-import BlogCard from '../components/card';
+import BlogCard from '../components/cards/card';
 import HeaderComponent from '../components/navigation/header';
 import { Main } from '../helpers/commonStyledComponents';
 
@@ -10,8 +10,8 @@ padding-top: 120px;
 `
 
 const Hero = styled(Col)`
-min-height: calc(80vh - 120px);
-padding: 60px 0 100px 0;
+min-height: calc(60vh - 120px);
+padding: 60px 0 25px 0;
 `
 
 const H2 = styled.h2`
@@ -35,8 +35,8 @@ const ProjectsLanding = (props) => (
     <div>
         <HeaderComponent location={props.location.pathname} />
         <TopRow>
-            <Col sm={2}></Col>
-            <Hero xs={8}>
+            <Col sm={1}></Col>
+            <Hero xs={10}>
                 <ProjectsLandingMain>
                     
                         <h2 >My Work</h2>
@@ -51,12 +51,15 @@ const ProjectsLanding = (props) => (
                 <Row>
                 </Row>
             </Hero>
-            <Col sm={2}></Col>
+            <Col sm={1}></Col>
         </TopRow>
         {/* Above the Fold Text and CTA */}
         <Row>
-
+            <Col sm={1}></Col>
+            <Col sm={10}>
             <BlogCard />
+            </Col>
+            <Col sm={1}></Col>
 
         </Row>
         <Row>

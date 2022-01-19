@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col } from 'react-bootstrap';
 import { connect } from "react-redux";
-import { LineAnimationL2R, LineAnimationR2L } from "./lineSvg";
+import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
 import { TextScrollTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
 

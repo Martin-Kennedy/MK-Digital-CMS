@@ -5,7 +5,7 @@ import { MediumText } from '../helpers/commonStyledComponents'
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer'
 import AboutPageHero from '../components/heros/aboutPageHero';
-import {LineAnimationL2R} from "../components/heros/lineSvg";
+import { LineAnimationL2R } from "../components/designElementComponents/lineSvg";
 import { FadeInWhenVisibleScale, FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
 import XaxisScrollComponent from '../helpers/dragOnXaxis';
 import Sticky from 'react-stickynode';

@@ -2,17 +2,18 @@ import React from 'react';
 import { Button, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { sortByBlogSubject } from '../actions/filters.actions';
+import { sortByBlogSubject } from '../../actions/filters.actions';
 
 const BlogFilterBtn = styled(Button)`
 display: flex;
 flex: 1;
-justify-content: center;
+justify-content: left;
 width: auto;
 background-color: transparent;
 color: #000;
 border: 0;
 transition: .5s ease;
+padding: 0;
 &:hover, &:focus {
     font-size: 20px;
     color: #000;
@@ -28,9 +29,7 @@ const FilterContainer = styled(Col)`
 display: flex;
 flex-direction: row;
 background-color: transparent;
-border-bottom: 1px solid #000;
-border-top: 1px solid #000;
-margin-bottom: 50px;
+margin-bottom: 10px;
 padding: 20px 0;
 height: 80px;
 `;
@@ -52,7 +51,7 @@ const buildSubjectArray = (props) => {
     return subjectArray;
 }
 
-const FilterButtons = (props) => <FilterContainer sm={8}>
+const FilterButtons = (props) => <FilterContainer>
 {
     buildSubjectArray(props).map((subject, index) => {
         const FilterButton = <BlogFilterBtn

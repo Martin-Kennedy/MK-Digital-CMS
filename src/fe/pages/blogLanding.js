@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col} from 'react-bootstrap';
 import faker from 'faker';
 import styled from 'styled-components';
-import BlogCard from '../components/card';
+import BlogCard from '../components/cards/card';
 import HeaderComponent from '../components/navigation/header';
 
 const TopRow = styled(Row)`

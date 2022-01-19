@@ -3,10 +3,11 @@ import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
-import {generateHsl} from '../helpers/utilities';
+import {generateHsl} from '../../helpers/utilities';
+import {FadeInWhenVisibleOpacity} from '../../helpers/fadeInOnViewport';
 
 const MasonryBlog = styled(Masonry)`
-width: 80%;
+width: 100%;
 margin-left: auto;
 margin-right: auto;
 padding: 0;
@@ -75,9 +76,10 @@ const mapStateToProps = state => {
     }
 };
 
-class UnfilteredCards extends Component {
+class FilteredCards extends Component {
     render() {
         return (
+
             <MasonryBlog
                 elementType={'ul'}
                 disableImagesLoaded={false}
@@ -87,7 +89,7 @@ class UnfilteredCards extends Component {
                 {this
                     .props
                     .blogs
-                    .blogData
+                    .filteredData
                     .map((blogEntry) => {
                         let id = blogEntry.id;
                         const ContainerDiv = styled.div `
@@ -140,21 +142,24 @@ class UnfilteredCards extends Component {
                 `;
 
                         const card = <MasonryBlogLi key={id}>
-                            <ContainerDiv>
-                                <Row>
-                                    <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage}/></Col>
-                                </Row>
-                                <CardTextRow>
-                                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
-                                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
-                                </CardTextRow>
-                            </ContainerDiv>
+                            <FadeInWhenVisibleOpacity>
+                                <ContainerDiv>
+                                    <Row>
+                                        <Col ><FittedImage className='styledImage' src={blogEntry.blogCardImage}/></Col>
+                                    </Row>
+                                    <CardTextRow>
+                                        <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
+                                        <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
+                                    </CardTextRow>
+                                </ContainerDiv>
+                            </FadeInWhenVisibleOpacity>
                         </MasonryBlogLi>;
                         return card;
                     })}
             </MasonryBlog>
+
         )
     }
 }
 
-export default connect(mapStateToProps)(UnfilteredCards);
+export default connect(mapStateToProps)(FilteredCards);
