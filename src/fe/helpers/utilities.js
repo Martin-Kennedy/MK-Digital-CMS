@@ -6,7 +6,7 @@ export const randomValue = (min, max) => {
 
 export const generateHsl = () => {
     for (let i = 0; i < 5; i++) {
-        const hsl = 'hsl(' + randomValue(0, 60) + ', ' + randomValue(10, 30) + '%,  ' + randomValue(70, 80) + '%)';
+        const hsl = 'hsl(' + randomValue(0, 360) + ', ' + randomValue(30, 40) + '%,  ' + randomValue(50, 70) + '%)';
         return hsl;
     }
 }

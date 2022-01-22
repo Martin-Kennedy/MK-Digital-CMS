@@ -18,6 +18,7 @@ const blogsReducer = (state = INITIAL_STATE, action) => {
 
         case SORT_BY_BLOG_SUBJECT:
             let value = action.subject;
+            console.log(value);
             let filteredValues = state.blogData.filter(card => card.subject === value);
             return {
                 ...state,

@@ -6,21 +6,33 @@ import { sortByBlogSubject } from '../../actions/filters.actions';
 
 const BlogFilterBtn = styled(Button)`
 display: flex;
-flex: 1;
-justify-content: left;
+font-size: 14px;
+font-weight: 100;
 width: auto;
 background-color: transparent;
 color: #000;
 border: 0;
 transition: .5s ease;
 padding: 0;
+margin: 0 90px;
+transform-style: preserve-3d;
+transform: translateZ(-25px);
+transition: transform 0.3s;
+
+
+&:first-child {
+    margin-left: 0;
+}
+
 &:hover, &:focus {
-    font-size: 20px;
     color: #000;
     background-color: transparent;
+    border: none !important;
+    box-shadow: none !important;
 }
 &.active {
-    font-size: 20px;
+    border: none !important;
+    box-shadow: none !important;
     color: #000;
     background-color: transparent;
 }`;
@@ -55,12 +67,19 @@ const FilterButtons = (props) => <FilterContainer>
 {
     buildSubjectArray(props).map((subject, index) => {
         const FilterButton = <BlogFilterBtn
+        className="flip"
             key={index}
             value={subject}
             active={props.blogs.activeButton === index ? true : false}
             onClick={(e) => {
-                props.dispatch(sortByBlogSubject(e.target.value, index));
-            }}>{subject}</BlogFilterBtn>
+                props.dispatch(sortByBlogSubject(subject, index));
+            }}>
+            <div className="textContainer">
+            <div className="front">{subject}</div>
+            <div className="back">{subject}</div>
+            </div>
+            </BlogFilterBtn>
+            
         return FilterButton;
     })
 }

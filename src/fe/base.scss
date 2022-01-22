@@ -18,18 +18,70 @@ body {
         height: 500px;
     }
 
-   .grid-sizer,
-    .grid-item {
-    width: 20%;
-    }
-    /* 2 columns wide */
-    .grid-item--width2 {
-        width: 40%;
+    .grid-item-margin {
+        margin-top: 26vw;
     }
 
-    .grid-item--width3 {
-        width: 60%;
-    }
 
-   
+.flip .textContainer {
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+  width: 100px;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transform: translateZ(-25px);
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+.flip .textContainer .front,
+.flip .textContainer .back {
+  margin: 0;
+  width: 140px;
+  height: 38px;
+  line-height: 38px;
+  position: absolute;
+  text-align: center;
+}
+.flip .textContainer .front {
+  background-color: #fff;
+  color: #222;
+  transform: rotateY(0) translateZ(24px);
+}
+.flip .textContainer .back {
+  background-color: #fff;
+  color: #fff;
+  transform: rotateX(90deg) translateZ(24px);
+  overflow: hidden;
+}
+.flip .textContainer .back:after {
+  content: '';
+  position: absolute;
+  top: -32%;
+  left: -10%;
+  width: 120%;
+  height: 50%;
+  background: #fff;
+  transform: rotate(8deg);
+  transition: all 0.5s ease;
+  transition-delay: 0.15s;
+}
+.flip .textContainer:hover, .flip .textContainer:active {
+  transform: translateZ(-24px) rotateX(-90deg);
+}
+.flip .textContainer:hover .front, .flip .textContainer:active .front  {
+  background: #fff;
+  transition: all 0.8s ease;
+}
+.flip .textContainer:hover .back, .flip .textContainer:active .back  {
+  color: #fff;
+  transition: color 0.4s linear;
+  background: #000;
+}
+.flip .textContainer:hover .back:after, .flip .textContainer:hover .back:after {
+  transform: rotate(6deg) translate(100px, -18px);
+}
+
+
 }

@@ -23,7 +23,7 @@ const FilterLine = styled(Row)`
     
     svg  {
         position: relative;
-        top: -30px;
+        top: -40px;
         left: -30px;
         padding-left: 0;
         line {
