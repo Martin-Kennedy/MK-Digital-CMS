@@ -50,7 +50,7 @@ export default function XaxisScrollComponent(props) {
                                     fontSize: "300px",
                                     whiteSpace: "nowrap"
                                 }}
-                            >WORK HARD PLAY HARD SUCK DICK</div>
+                            >WORK HARD, PLAY HARDER, NEVER PLAY IT SAFE </div>
                         
                 </motion.div>
             </motion.div>

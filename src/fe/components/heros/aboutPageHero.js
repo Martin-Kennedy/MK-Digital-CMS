@@ -21,6 +21,9 @@ const FirstLine = styled.div`
     svg {
     position: relative; 
     left: 0;
+    line {
+        stroke: #fff;
+    }
     }
     `;
 
@@ -35,6 +38,9 @@ const SecondLine = styled.div`
     svg  {
     position: relative; 
     left: 0;
+    line {
+        stroke: #fff;
+    }
     }
     `;
 
@@ -50,6 +56,9 @@ const ThirdLine = styled.div`
     svg  {
     position: relative; 
     left: 0;
+    line {
+        stroke: #fff;
+    }
     }
     `;
 
@@ -64,12 +73,15 @@ const FourthLine = styled.div`
     svg  {
     position: relative; 
     left: 0;
+    line {
+        stroke: #fff;
+    }
     }
     `;
 
 const AnimatedTextContainer = styled.div`
         position: absolute;
-        top: 44%;
+        top: calc(50% - 65px);
         right: 0;
 `
 const TextTop = styled.div`
@@ -81,9 +93,10 @@ const TextTop = styled.div`
         white-space: nowrap;
         letter-spacing: 1.5rem;
         position: relative;
-        top: -50px;
         left: 3%;
 `
+
+
 
 const mapStateToProps = state => {
     return { 

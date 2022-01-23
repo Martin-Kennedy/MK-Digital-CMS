@@ -62,6 +62,9 @@ const FifthLine = styled.div `
     position: relative; 
     left: 0;
     padding-top: 25px;
+    line {
+        stroke: #fff;
+    }
     }
     `;
 

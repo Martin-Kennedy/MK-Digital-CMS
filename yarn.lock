@@ -4081,9 +4081,9 @@
     "csstype" "^3.0.2"
 
 "dom7@^4.0.2":
-  "integrity" "sha512-Ji4t3Y/vNQg6Q9bR+Syx6Td8qiq8116LE9h4OzbPuxdxK7DyyX7i8EXkYgBX6+EiX6+oYXDTH5BSN29G/n4jug=="
-  "resolved" "https://registry.npmjs.org/dom7/-/dom7-4.0.2.tgz"
-  "version" "4.0.2"
+  "integrity" "sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw=="
+  "resolved" "https://registry.npmjs.org/dom7/-/dom7-4.0.4.tgz"
+  "version" "4.0.4"
   dependencies:
     "ssr-window" "^4.0.0"
 
@@ -8994,7 +8994,7 @@
   dependencies:
     "has-flag" "^4.0.0"
 
-"swiper@^7.4.1", "swiper@>=5.0.0":
+"swiper@^7.0.0", "swiper@>=5.0.0":
   "integrity" "sha512-dhbL4tpYFvHug1J7GnKElfTi6EYhlZy/vNZRhHkWFyUsWZ1Vovipxj3la5gqllMogygXJMe3zvVv+f6eppvWiA=="
   "resolved" "https://registry.npmjs.org/swiper/-/swiper-7.4.1.tgz"
   "version" "7.4.1"

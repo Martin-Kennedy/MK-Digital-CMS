@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { getCurrentSlide, getCurrentCarouselAnimatedText, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../../actions/homepage.actions';
 import {connect} from 'react-redux';
-import Swiper from 'react-id-swiper';
+import Swiper, {Pagination, Navigation} from 'react-id-swiper';
 
 const StyledCarouselProvider = styled(Swiper)`
     margin: 30px auto 50px;
@@ -48,7 +48,12 @@ const createHeroCarouselItem = (props) => props.homepageData.homepageCarousel.ho
             props.dispatch(getCurrentCarouselAnimatedText(carousel.title));
             props.dispatch(getCurrentCarouselBkgColor(carousel.bkgColor));
         }}>
-        <SlideImage ref={props.imageElement} src={carousel.homepageHeroCardImage} onLoad={() => props.dispatch(getImgWidth(props.imageElement.current))} dynamicWidth={props.imgWidth / 2} />
+        <SlideImage 
+        ref={props.imageElement} 
+        src={carousel.homepageHeroCardImage} 
+        onLoad={() => props.dispatch(getImgWidth(props.imageElement.current))} 
+        dynamicWidth={props.imgWidth / 2} 
+        />
     </Slide >;
 });
 
@@ -62,21 +67,29 @@ class HomepageCarouselComponent extends Component{
         props.dispatch(getTotalSlides(props.homepageData.homepageCarousel.homepageCarouselArray.length));
     }
 
+
+
     
     
     render() { 
         const settings = {
             
             direction: 'vertical',
+            lazy: true,
             pagination: {
             el: '.swiper-pagination',
             clickable: true,
                 loop: true,
             },
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
+            
+            rebuildOnUpdate: false,
             on: { 
+                'init': (index) => {
+                    console.log(this.props);
+                    this.dispatchNextSlide(index.previousIndex, index.activeIndex);
+                    this.dispatchTotalSlideCount(this.props);
+                    
+                },
                 slideChange: index => { 
                     this.dispatchNextSlide(index.previousIndex, index.activeIndex);
                     this.dispatchTotalSlideCount(this.props);
