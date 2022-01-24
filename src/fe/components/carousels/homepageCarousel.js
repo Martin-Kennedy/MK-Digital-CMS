@@ -2,23 +2,20 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { getCurrentSlide, getCurrentCarouselAnimatedText, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../../actions/homepage.actions';
 import {connect} from 'react-redux';
-import Swiper, {Pagination, Navigation} from 'react-id-swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore ,{ Autoplay } from 'swiper'; 
 
 const StyledCarouselProvider = styled(Swiper)`
     margin: 30px auto 50px;
     width: 100%;
-    height: 500px;
-    
-
-`;
-const Slide = styled.div`
-  text-align: center;
+    height: 100%;
+    text-align: center;
   font-size: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
-`
+`;
 
 const SlideImage = styled.img`
     display: block;
@@ -40,24 +37,16 @@ const mapStateToProps = state => {
     }
 }
 
-const createHeroCarouselItem = (props) => props.homepageData.homepageCarousel.homepageCarouselArray.map((carousel, index) => {
-    return <Slide
-        key={index}
-        index={index}
-        onLoad={() => {
-            props.dispatch(getCurrentCarouselAnimatedText(carousel.title));
-            props.dispatch(getCurrentCarouselBkgColor(carousel.bkgColor));
-        }}>
-        <SlideImage 
-        ref={props.imageElement} 
-        src={carousel.homepageHeroCardImage} 
-        onLoad={() => props.dispatch(getImgWidth(props.imageElement.current))} 
-        dynamicWidth={props.imgWidth / 2} 
-        />
-    </Slide >;
-});
 
 class HomepageCarouselComponent extends Component{
+
+    constructor(){
+        super();
+        this.swiperRef = React.createRef();
+        SwiperCore.use([Autoplay]);
+    }
+     
+    
 
     dispatchNextSlide(previousSlide, currentSlide) {
         this.props.dispatch(getCurrentSlide(previousSlide, currentSlide));
@@ -72,82 +61,56 @@ class HomepageCarouselComponent extends Component{
     
     
     render() { 
-        const settings = {
+        
+        const params = {
             
             direction: 'vertical',
-            lazy: true,
-            pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-                loop: true,
+            rewind: true,
+            speed: 1000,
+            updateOnImagesReady: true,
+            autoplay: {
+                delay: 7000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+            onUpdate: (swiper) => {
+                this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
+                this.dispatchTotalSlideCount(this.props);
+            },
+            onSlideChange: (swiper) => {
+                this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
+                this.dispatchTotalSlideCount(this.props);
             },
             
-            rebuildOnUpdate: false,
-            on: { 
-                'init': (index) => {
-                    console.log(this.props);
-                    this.dispatchNextSlide(index.previousIndex, index.activeIndex);
-                    this.dispatchTotalSlideCount(this.props);
-                    
-                },
-                slideChange: index => { 
-                    this.dispatchNextSlide(index.previousIndex, index.activeIndex);
-                    this.dispatchTotalSlideCount(this.props);
-                }
-                }
-            };
+        };
 
 
 
         
     return (
-        <StyledCarouselProvider {...settings}>
-            {createHeroCarouselItem(this.props) }
+        
+        <StyledCarouselProvider {...params}  >
+            {this.props.homepageData.homepageCarousel.homepageCarouselArray.map((carousel, index) => {
+                return <SwiperSlide
+                    key={index}
+                    index={index}
+                    onLoad={() => {
+                        this.props.dispatch(getCurrentCarouselAnimatedText(carousel.title));
+                        this.props.dispatch(getCurrentCarouselBkgColor(carousel.bkgColor));
+                    }}>
+                    <SlideImage
+                        ref={this.props.imageElement}
+                        src={carousel.homepageHeroCardImage}
+                        onLoad={() => this.props.dispatch(getImgWidth(this.props.imageElement.current))}
+                        dynamicWidth={this.props.imgWidth / 2}
+                    />
+                </SwiperSlide >
+                })
+            }
         </StyledCarouselProvider> 
+        
     )
     }
 };
 
 export default connect(mapStateToProps)(HomepageCarouselComponent);
-
-// SwiperCore.use([Pagination]);
-
-
-
-
-
-
-
-
-// const createHeroCarouselItem = (props) => (props.homepageData.homepageCarousel.homepageCarouselArray.map((carousel, index) => {
-
-//     return <Slide key={index}>
-//             <img ref={props.imageElement} src={carousel.homepageHeroCardImage} onLoad={() => props.dispatch(getImgWidth(props.imageElement.current))} dynamicWidth={props.imgWidth / 2}/>
-//             </Slide >;
-// }));
-
-// class CarouselComponent extends Component {
-
-//     constructor(props) {
-//         super(props);
-        
-//     }
-
-//     dispatchNextSlide(previousSlide, currentSlide){
-//         this.props.dispatch(getCurrentSlide(previousSlide, currentSlide));
-//     }
-
-
-
-//     render() {
-           
-//                 //  (previousSlide, currentSlide) => this.dispatchNextSlide(previousSlide, currentSlide),
-//         return (
-//             <Swiper direction={'vertical'} pagination={{
-//                 "clickable": true}} className="mySwiper">
-//                 {createHeroCarouselItem(this.props)}
-//             </Swiper>
-//         )
-        
-//     }
-// };

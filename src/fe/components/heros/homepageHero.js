@@ -74,6 +74,7 @@ const mapStateToProps = state => {
 
 const getCarouselText = (text, currentSlide) => {
     const currentText = text[currentSlide];
+    console.log(currentText)
     return currentText;
 }
 

@@ -8994,7 +8994,7 @@
   dependencies:
     "has-flag" "^4.0.0"
 
-"swiper@^7.0.0", "swiper@>=5.0.0":
+"swiper@^7.4.1", "swiper@>=5.0.0":
   "integrity" "sha512-dhbL4tpYFvHug1J7GnKElfTi6EYhlZy/vNZRhHkWFyUsWZ1Vovipxj3la5gqllMogygXJMe3zvVv+f6eppvWiA=="
   "resolved" "https://registry.npmjs.org/swiper/-/swiper-7.4.1.tgz"
   "version" "7.4.1"
