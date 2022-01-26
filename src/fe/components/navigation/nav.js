@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Hamburger from './hamburger.js'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import { displayValueArray } from "../../helpers/commonStyledComponents.js";
+import NavOffCanvasLeft from './slideNavigation';
 
 const StyledNav = styled.nav`
 margin-left: auto;
@@ -29,6 +30,11 @@ const Li = styled.li`
 `
 
 const HamburgerContainer = styled.div`
+display: block;
+position: absolute;
+top: 0;
+right: 100px;
+z-index: 999;
     color: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"} !important;
     svg {
         path {
@@ -49,8 +55,18 @@ const StyledLink = styled(Link)`
 `
 
 
+
 const Nav =  (props) => {
+    const [isOpen, setOpen] = useState(null);
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "scroll";
+        };
+    }, [isOpen])
     return (
+        <div>
         <StyledNav >
             <Ul >
                 <Li location={props.location}>
@@ -76,13 +92,17 @@ const Nav =  (props) => {
                         Blog
                     </StyledLink>
                 </Li> */}
-                <HamburgerContainer location={props.location} onClick={''}>
-                    <Hamburger />
-                </HamburgerContainer>
+                
                     
                 
             </Ul>
+            
         </StyledNav>
+        <NavOffCanvasLeft isOpen={isOpen}/>
+        <HamburgerContainer location={props.location} onClick={() => setOpen(!isOpen)}>
+            <Hamburger isOpen={isOpen} />
+        </HamburgerContainer>
+        </div>
     )
 }
 

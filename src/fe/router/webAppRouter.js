@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
     getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide)),
     getCurrentCarouselBkgColor: color => dispatch(getCurrentCarouselBkgColor(color)),
     getImgWidth: width => dispatch(getImgWidth(width)),
-    getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides)),
+    getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides))
     
 });
 

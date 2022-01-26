@@ -31,7 +31,6 @@ span:nth-child(2) {
 `
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
         totalSlides: state.homepage.totalSlides,
         currentSlide: state.homepage.currentSlide + 1,

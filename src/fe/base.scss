@@ -23,6 +23,8 @@ body {
     }
 
 
+  // Flip and Slide Button Animation
+
 .flip .textContainer {
   font-weight: 100;
   margin: 0;
@@ -83,16 +85,124 @@ body {
   transform: rotate(6deg) translate(100px, -18px);
 }
 
-.animate {
+// Hamburger Animation
+
+
+
+.hamburger-container.animateIn {
+  animation:  2s linear slideIn forwards;
   svg {
-    transform: rotate(45deg) translate(5px, 2px);
+    transform: rotate(45deg) translate(12px, 4px);
+  }
+  svg:nth-child(2) {
+      transform: rotate(-45deg) translate(-2px, -9px);
+  }
 }
-svg:nth-child(2) {
-    transform: rotate(-45deg) translate(-2px, -9px);
+
+.hamburger-container.animateOut {
+  animation:  .75s ease-in-out slideOut forwards;
+  
+  }
+
+
+.circle {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  top: 10px;
 }
+
+.circle.animateIn {
+  border: 1px solid black;
+  background-color: #fff;
+  border-radius: 25px;
+  animation:  3s linear pulse forwards;
+ 
+}
+
+.slideInRight {
+  left: -10px;
 }
 
 
 
+@keyframes slideIn {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  40% {
+    transform: translateX(calc(-22vw + 115px));
+    opacity: 0;
+  }
+
+  45% {
+    transform: translateX(calc(-25vw + 115px));
+    opacity: .75;
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(calc(-30vw + 115px));
+  }
+ 
+  60% {
+    transform: translateX(calc(-30vw + 115px));
+  }
+  70% {
+    transform: translateX(calc(-30vw + 115px));
+  }
+  80% {
+    transform: translateX(calc(-30vw + 115px));
+  }
+  90% {
+    transform: translateX(calc(-30vw + 115px));
+    box-shadow: 0 0 0 0 rgba(#5a99d4, 0);
+  }
+
+  100% {
+   transform: translateX(calc(-30vw + 115px));
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(calc(-30vw +  115px));
+  }
+ 
+  100% {
+    transform: translateX(0);
+  }
+
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1); 
+  }
+  25% {
+    transform: scale(1); 
+  }
+  50% {
+   
+    transform: scale(.9);
+  }
+ 
+  60% {
+    transform: scale(1); 
+  }
+  70% {
+    transform: scale(.9); 
+  }
+  80% {
+    transform: scale(1); 
+  }
+  90% {
+    transform: scale(.9); 
+  }
+
+  100% {
+   transform: scale(1);  
+  }
+}
 
 }
