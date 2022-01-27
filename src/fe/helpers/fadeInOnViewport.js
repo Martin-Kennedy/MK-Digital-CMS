@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export const FadeInWhenVisibleScale = ({ children, duration = .75 }) => {
+export const FadeInWhenVisibleScale = ({ children, duration = 0.75 }) => {
     return (
         <motion.div
             initial="hidden"

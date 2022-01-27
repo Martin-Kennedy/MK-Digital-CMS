@@ -11,6 +11,24 @@ font-size: 2rem;
 font-weight: 300;
 `
 
+export const SmallAndThinText = styled.p`
+font-size: 14px;
+font-weight: 100;
+margin-bottom: .5rem;
+`
+
+export const SmallAndThinTextSpaced = styled(SmallAndThinText)`
+letter-spacing: .25rem;
+`
+
+export const Line = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0 0 3rem ;
+    border-bottom: ${props => props.white ? "#fff" : "#1d1e22"} 1px solid;
+`
+
 export const Main = styled(Row)`
     color: #1d1e22;
     position: relative;
