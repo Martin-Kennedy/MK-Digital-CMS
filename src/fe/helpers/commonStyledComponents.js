@@ -9,16 +9,18 @@ export const displayValueArray = [
 export const MediumText = styled.p`
 font-size: 2rem;
 font-weight: 300;
+color: ${props => props.white ? "#fff" : "#1d1e22"} 
 `
 
 export const SmallAndThinText = styled.p`
 font-size: 14px;
 font-weight: 100;
 margin-bottom: .5rem;
+color: ${props => props.white ? "#fff" : "#1d1e22"} 
 `
 
 export const SmallAndThinTextSpaced = styled(SmallAndThinText)`
-letter-spacing: .25rem;
+letter-spacing: .2rem;
 `
 
 export const Line = styled.div`
@@ -30,7 +32,7 @@ export const Line = styled.div`
 `
 
 export const Main = styled(Row)`
-    color: #1d1e22;
+    color: ${props => props.white ? "#fff" : "#1d1e22"} 
     position: relative;
     z-index: 1;
     margin-bottom: 3rem;
