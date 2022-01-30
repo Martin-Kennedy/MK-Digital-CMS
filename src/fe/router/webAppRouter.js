@@ -8,8 +8,9 @@ import ProjectsLanding from '../pages/projectsLanding';
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history'
 import { connect } from 'react-redux';
+import { getIntersectingState } from '../actions/pages.actions';
 import { getBlogs } from '../actions/blogs.actions';
-import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides} from '../actions/homepage.actions';
+import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
 
 let history = createBrowserHistory();
 let currentLocation = history.location
@@ -34,7 +35,8 @@ const mapDispatchToProps = dispatch => ({
     getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide)),
     getCurrentCarouselBkgColor: color => dispatch(getCurrentCarouselBkgColor(color)),
     getImgWidth: width => dispatch(getImgWidth(width)),
-    getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides))
+    getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides)),
+    getIntersectingState: isIntersecting => dispatch(getIntersectingState(isIntersecting))
     
 });
 
@@ -50,6 +52,7 @@ class WebAppRouter extends Component {
         const { getCurrentCarouselBkgColor } = this.props;
         const { getImgWidth } = this.props;
         const { getTotalSlides } = this.props;
+        const { getIntersectingState } = this.props;
         getBlogs();
         getHomepage();
         getCurrentCarouselAnimatedText();
@@ -57,6 +60,7 @@ class WebAppRouter extends Component {
         getCurrentCarouselBkgColor();
         getImgWidth();
         getTotalSlides();
+        getIntersectingState();
     }
 
     

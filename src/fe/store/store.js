@@ -25,6 +25,9 @@ const initalState = {
         carouselText: [],
         bkgColor: [],
         imgWidth: 200
+    },
+    pages: {
+        isIntersecting: false
     }
 }
 

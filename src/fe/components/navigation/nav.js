@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import { displayValueArray } from "../../helpers/commonStyledComponents.js";
 import {NavOffCanvasLeft, NavOffCanvasRight} from './slideNavigation';
+import { connect } from 'react-redux';
 
 const StyledNav = styled.nav`
 margin-left: auto;
@@ -38,7 +39,7 @@ z-index: 999;
     color: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"} ;
     svg {
         path {
-            stroke: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"} ;
+            stroke: ${props => (displayValueArray.includes(props.location) && props.isIntersecting) ? "#fff" : (displayValueArray.includes(props.location) && props.isIntersecting) ? "white" : displayValueArray.includes(props.location) ? "#1d1e22" : props.isIntersecting ? "#1d1e22" : "white"} ;
         }
     }
     &:hover {
@@ -53,6 +54,12 @@ const StyledLink = styled(Link)`
     margin: 0 3rem;
     text-decoration: none !important;
 `
+const mapStateToProps = state => {
+    return {
+        isIntersecting: state.pages.isIntersecting
+    }
+}
+
 
 
 
@@ -100,7 +107,7 @@ const Nav =  (props) => {
         </StyledNav>
         <NavOffCanvasLeft isOpen={isOpen}/>
         <NavOffCanvasRight isOpen={isOpen} />
-        <HamburgerContainer location={props.location} onClick={() => setOpen(!isOpen)}>
+        <HamburgerContainer isIntersecting={props.isIntersecting} location={props.location} onClick={() => setOpen(!isOpen)}>
             <Hamburger isOpen={isOpen} />
         </HamburgerContainer>
 
@@ -108,4 +115,4 @@ const Nav =  (props) => {
     )
 }
 
-export default Nav;
+export default connect(mapStateToProps)(Nav);

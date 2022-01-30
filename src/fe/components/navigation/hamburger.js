@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Wave from '../designElementComponents/waveSvg'
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 
 const StyledHamburger = styled.div`
@@ -27,7 +28,11 @@ svg:nth-child(2) {
 
 
 
-
+const mapStateToProps = state => {
+    return {
+        isIntersecting: state.pages.isIntersecting
+    }
+}
 
 const Hamburger = (props) => {
 
@@ -49,4 +54,4 @@ const Hamburger = (props) => {
     
 }
 
-export default Hamburger;
+export default connect(mapStateToProps)(Hamburger);

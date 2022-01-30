@@ -4,6 +4,7 @@ import {Col} from 'react-bootstrap';
 import Nav from './nav.js';
 import styled from 'styled-components';
 import { displayValueArray } from '../../helpers/commonStyledComponents';
+import { connect } from 'react-redux';
 
 
 
@@ -29,7 +30,7 @@ const LogoCol = styled(Col)`
 const LogoLine = styled.div`
     width: 13px;
     height: 90px;
-    border-left: 1px solid ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"};
+    border-left: 1px solid ${props => (displayValueArray.includes(props.location) && props.isIntersecting) ? "#fff" : (displayValueArray.includes(props.location) && props.isIntersecting) ? "white" : displayValueArray.includes(props.location) ? "#1d1e22" : props.isIntersecting ? "#1d1e22" : "white"};
     `;
 
 const LogoText = styled.div`
@@ -38,7 +39,7 @@ const LogoText = styled.div`
     font-weight: 100;
     font-size: 25px;
     margin-top: 0;
-    color: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"};
+    color: ${props => (displayValueArray.includes(props.location) && props.isIntersecting) ? "#fff" : (displayValueArray.includes(props.location) && props.isIntersecting) ? "white" : displayValueArray.includes(props.location) ? "#1d1e22" : props.isIntersecting ? "#1d1e22" : "white"};
     text-transform: uppercase;
     `;
 
@@ -61,25 +62,28 @@ display: contents;
 align-items: center;
 `;
 
+const mapStateToProps = state => {
+  return {
+    isIntersecting: state.pages.isIntersecting
+  }
+}
 
 const HeaderComponent = (props) => {
 
     return (
       <HeaderWrapper location={props.location}>
-        {console.log(props.invertLogo)}
-      
           <LogoCol xs={6}>
           <StlyedHeaderLink to={'/'} >
-            <Logo id='logo' invertLogo={props.invertLogo} style={{position: 'sticky'}} location={props.location}></Logo>
-            <LogoLine location={props.location}></LogoLine>
-          <LogoText location={props.location}>MK Digital</LogoText>
+          <Logo id='logo' invertLogo={props.isIntersecting} style={{position: 'sticky'}} location={props.location}></Logo>
+            <LogoLine isIntersecting={props.isIntersecting} location={props.location}></LogoLine>
+          <LogoText isIntersecting={props.isIntersecting} location={props.location}>MK Digital</LogoText>
           </StlyedHeaderLink>
-            </LogoCol>
-            <Col xs={6}>
-            <Nav location={props.location}/>
-            </Col>
+          </LogoCol>
+          <Col xs={6}>
+          <Nav location={props.location}/>
+          </Col>
       </HeaderWrapper>
     );
 };
 
-export default HeaderComponent;
+export default connect(mapStateToProps)(HeaderComponent);
