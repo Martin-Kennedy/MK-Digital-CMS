@@ -1,6 +1,16 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'swiper/css';
 
+:root {
+  --black: #1d1e22;
+  --white: #fff;
+  --color-1: #1d1e22;
+  --gutter: 2rem;
+  /* this value is going to be changed by javascript */
+  --replace-offset: 50%;
+  --replace-offset-2: calc((100% - var(--replace-offset) ) * -1)
+}
+
 body {
     font: 14px 300 regular "mr-eaves-modern", sans-serif;
     background-color: #fff;
@@ -24,7 +34,7 @@ body {
     }
 
 
-  // Flip and Slide Button Animation
+// Flip and Slide Button Animation
 
 .flip .textContainer {
   font-weight: 100;
@@ -87,8 +97,6 @@ body {
 }
 
 // Hamburger Animation
-
-
 
 .hamburger-container.animateIn {
   animation:  2s linear slideIn forwards;
@@ -210,6 +218,59 @@ body {
   100% {
    transform: scale(1);  
   }
+}
+
+/* align content above each other without absolute */
+.js-replace {
+  display: grid;
+}
+
+.js-replace__item {
+  grid-row: -1 / 1;
+  grid-column: -1 / 1; 
+  overflow: hidden;
+  will-change: transform;
+}
+
+/* item to replace with */
+.js-replace__item {
+  transform: translateY(calc(var(--replace-offset) * 1));  
+}
+.js-replace__content {
+  /* fixes problem with calculating correct height in js */
+  border: 1px solid transparent; 
+  will-change: transform;
+
+  transform: translateY(calc(var(--replace-offset) * -1));
+}
+
+/* previous replace item*/
+.js-replace__item--active {
+  transform: translateY(calc(var(--replace-offset-2) * 1));  
+}
+.js-replace__item--active .js-replace__content {
+  transform: translateY(calc(var(--replace-offset-2) * -1));  
+}
+
+
+/* REVERSE ANIMATION */
+.js-replace--reverse 
+.js-replace__item {
+  transform: translateY(calc(var(--replace-offset-2) * 1));  
+}
+.js-replace--reverse 
+.js-replace__content {
+  transform: translateY(calc(var(--replace-offset-2) * -1));
+}
+
+/* previous replace item*/
+.js-replace--reverse 
+.js-replace__item--active {
+  transform: translateY(calc(var(--replace-offset) * 1));  
+}
+.js-replace--reverse 
+.js-replace__item--active .js-replace__content {
+  transform: translateY(calc(var(--replace-offset) * -1));
 }
 
 }

@@ -7,6 +7,7 @@ import { displayValueArray } from '../../helpers/commonStyledComponents';
 
 
 
+
 const HeaderWrapper = styled.div`
     color: ${props => displayValueArray.includes(props.location) ? "#1d1e22" : "white"};
     width: 100%;
@@ -42,7 +43,7 @@ const LogoText = styled.div`
     `;
 
 const Logo = styled.div`
-    background-image: ${props => displayValueArray.includes(props.location)  ? "url('logoDark.png')" : "url('logo.png')"};
+    background-image: ${props => props.invertLogo  ? "url('logoDark.png')" : "url('logo.png')"};
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -62,12 +63,14 @@ align-items: center;
 
 
 const HeaderComponent = (props) => {
+
     return (
       <HeaderWrapper location={props.location}>
+        {console.log(props.invertLogo)}
       
           <LogoCol xs={6}>
           <StlyedHeaderLink to={'/'} >
-            <Logo location={props.location}></Logo>
+            <Logo id='logo' invertLogo={props.invertLogo} style={{position: 'sticky'}} location={props.location}></Logo>
             <LogoLine location={props.location}></LogoLine>
           <LogoText location={props.location}>MK Digital</LogoText>
           </StlyedHeaderLink>

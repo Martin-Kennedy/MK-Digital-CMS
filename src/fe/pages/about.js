@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect}from 'react';
 import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import { MediumText } from '../helpers/commonStyledComponents'
@@ -9,7 +9,7 @@ import { LineAnimationL2R } from "../components/designElementComponents/lineSvg"
 import { FadeInWhenVisibleScale, FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
 import XaxisScrollComponent from '../helpers/dragOnXaxis';
 import Sticky from 'react-stickynode';
-// import { useInView } from 'react-intersection-observer';
+import { Waypoint } from 'react-waypoint';
 
 const BaseLayer = styled.div `
     background-color: #1d1e22;
@@ -237,14 +237,18 @@ const AboutFooter = styled.div`
 `
 
 const About = (props) => {
+
+    const [inView, setInView] = useState(null);
+    
   
     return (
 
         <BaseLayer>
+            <HeaderComponent invertLogo={inView} location={props.location.pathname} />
             <Sticky>
             <IntroSection >
                 <FadeInWhenVisibleOpacity duration={2}>
-                <HeaderComponent location={props.location.pathname}/>
+                
                 <AboutPageHero/>
                     </FadeInWhenVisibleOpacity>
                 <Col sm={2}></Col>
@@ -287,12 +291,12 @@ const About = (props) => {
             <ImgSection ></ImgSection>
             </Sticky>
                 
-            <Sticky >
+            
+            <Waypoint onEnter={() => setInView(true)} bottomOffset={'100%'} topOffset={100} onLeave={() => setInView(false)}>
                 <AboutSection >
                     <Col sm={2}></Col>
                     <Col sm={8}>
                         <FadeInWhenVisibleScale>
-                            
                         <AboutMain>
                             
                                 <h2>
@@ -346,7 +350,8 @@ const About = (props) => {
                     </Col>
                     <Col sm={2}></Col>
                 </AboutSection>
-                </Sticky>
+                </Waypoint>
+                
             <Sticky>
                 <ServicesSection>
                     <Col sm={2}></Col>
