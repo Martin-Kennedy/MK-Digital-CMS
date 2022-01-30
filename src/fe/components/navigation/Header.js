@@ -44,7 +44,7 @@ const LogoText = styled.div`
     `;
 
 const Logo = styled.div`
-    background-image: ${props => props.invertLogo  ? "url('logoDark.png')" : "url('logo.png')"};
+    background-image: ${props => (displayValueArray.includes(props.location) && props.isIntersecting) ? "url('logo.png')" : (displayValueArray.includes(props.location) && props.isIntersecting) ? "white" : displayValueArray.includes(props.location) ? "url('logoDark.png')" : props.isIntersecting ? "url('logoDark.png')" : "url('logo.png')"};
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -74,7 +74,7 @@ const HeaderComponent = (props) => {
       <HeaderWrapper location={props.location}>
           <LogoCol xs={6}>
           <StlyedHeaderLink to={'/'} >
-          <Logo id='logo' invertLogo={props.isIntersecting} style={{position: 'sticky'}} location={props.location}></Logo>
+            <Logo id='logo' isIntersecting={props.isIntersecting} style={{position: 'sticky'}} location={props.location}></Logo>
             <LogoLine isIntersecting={props.isIntersecting} location={props.location}></LogoLine>
           <LogoText isIntersecting={props.isIntersecting} location={props.location}>MK Digital</LogoText>
           </StlyedHeaderLink>

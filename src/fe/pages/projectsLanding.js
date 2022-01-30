@@ -35,8 +35,8 @@ const ProjectsLanding = (props) => (
     <div>
         <HeaderComponent location={props.location.pathname} />
         <TopRow>
-            <Col sm={1}></Col>
-            <Hero xs={10}>
+            <Col sm={2}></Col>
+            <Hero xs={8}>
                 <ProjectsLandingMain>
                     
                         <h2 >My Work</h2>
@@ -51,15 +51,15 @@ const ProjectsLanding = (props) => (
                 <Row>
                 </Row>
             </Hero>
-            <Col sm={1}></Col>
+            <Col sm={2}></Col>
         </TopRow>
         {/* Above the Fold Text and CTA */}
         <Row>
-            <Col sm={1}></Col>
-            <Col sm={10}>
+            <Col sm={2}></Col>
+            <Col sm={8}>
             <BlogCard />
             </Col>
-            <Col sm={1}></Col>
+            <Col sm={2}></Col>
 
         </Row>
         <Row>
