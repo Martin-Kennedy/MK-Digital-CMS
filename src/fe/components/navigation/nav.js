@@ -80,7 +80,7 @@ const Nav =  (props) => {
             <Ul >
                 <Li location={props.location}>
                     
-                    <StyledLink to={'case-studies'} >
+                    <StyledLink to={'/projects'} >
                         Projects
                     </StyledLink>
                 </Li>
@@ -91,7 +91,7 @@ const Nav =  (props) => {
                     </StyledLink>
                 </Li> */}
                 <Li location={props.location}>
-                        <StyledLink to={'about'} location={props.location}>
+                        <StyledLink to={'/about'} location={props.location}>
                         About
                     </StyledLink>
                 </Li>

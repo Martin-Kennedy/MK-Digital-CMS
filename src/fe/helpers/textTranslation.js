@@ -1,10 +1,7 @@
 import React, {
     useEffect,
     useRef,
-    useState,
-    Children,
-    isValidElement,
-    cloneElement
+    useState
 } from "react";
 import styled from 'styled-components';
 import {useViewportScroll, motion, useTransform} from "framer-motion";
@@ -16,7 +13,7 @@ will-change: transform;
 font-family: mr-eaves-modern, sans-serif;
 font-weight: 200;
 font-size: 100px;
-color: #fff;
+color: ${props => props.black ? 'var(--black)' : 'var(--white)'};
 text-transform: uppercase;
 white-space: nowrap;
 letter-spacing: 1.5rem;
@@ -33,21 +30,17 @@ export const TextTranslation = (props) => {
     const [x2,setX2] = useState(0);
 
     useEffect(() => {
-
+        
         switch (props.reverse) {
-            case(props.reverse != 'undefined'):
-                switch (props.reverse) {
-                    case(props.reverse === true):
-                        const intital1 = 1000;
-                        const intital2 = -1000;
-                        const x1 = intital1 * -1;
-                        const x2 = intital2 * -1;
-                        setX1(x1);
-                        setX2(x2);
-                }
+            case(props.reverse === true):
+            setX1(-1000);
+            setX2(1000);
+                break;
+                
             default:
                 setX1(1000);
                 setX2(-1000);
+                console.log(props.reverse);
         }
         switch (props.start) {
             case(props.start != 'undefined'):
@@ -80,8 +73,9 @@ export const TextTranslation = (props) => {
                 x: {
                     repeat: Infinity,
                     repeatType: "loop",
-                    duration: 10,
-                    ease: "linear"
+                    duration: props.duration ? props.duration : 10,
+                    ease: "linear",
+                    delay: props.delay ? props.delay : 0,
                 },
                 opacity: {
                     delay: 1,
@@ -96,7 +90,7 @@ export const TextTranslation = (props) => {
     return (
         <div>
             <Marquee >
-                <Track key={props.text} variants={marqueeVariants} animate="animate">
+                <Track black={props.black} duration={props.duration} key={props.text} variants={marqueeVariants} animate="animate">
                     {props.text}
                 </Track>
             </Marquee>
@@ -150,7 +144,7 @@ export const TextScrollTranslation = (props) => {
         <div>
 
             <Marquee>
-                <Track
+                <Track black={props.black}
                     style={{
                     x,
                     scrollY

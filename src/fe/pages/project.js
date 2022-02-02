@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import { Row, Col } from 'react-bootstrap';
+import HeaderComponent from '../components/navigation/header';
+import ProjectPageHero from '../components/heros/projectPageHero';
+import { FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
 import { connect } from 'react-redux';
 import { getBlogItem } from '../actions/blogs.actions';
 
@@ -26,20 +29,35 @@ class ProjectPage extends Component {
             const revertedTitle = slug.replace(/-/g, ' ').replace(/_/g, ' ');
             this.props.dispatch(getBlogItem(revertedTitle))
         }
-        
+    }
+
+    getFirstPathSegmennt(props) {
+        const derp = props.split('/')[1];
+        console.log(derp)
+        return props.split('/')[1];
         
     }
     
 
     render(){
-
-        
-        
+        let item = this.props.blogs.blogItem[0];
         return (<div>
-            derp it up {console.log(this.props.blogs.blogItem)}
+            {this.props.blogs.blogItem.length
+                ? <FadeInWhenVisibleOpacity duration={2}>
+                    
+                    <HeaderComponent location={this.getFirstPathSegmennt(this.props.location.pathname)} />
+                    <ProjectPageHero />
+
+                    <Row><div>this is the first name {item.first_name}</div></Row>
+                    <Row><div>this is the last name {item.last_name}</div></Row>
+                    <Row><img src={item.blogCardImage} /></Row>
+                </FadeInWhenVisibleOpacity>
+                : 'loading'
+            }
         </div>)
-    }
     
+    
+}
 }
 
 export default connect(mapStateToProps)(ProjectPage);
