@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import { displayValueArray } from "../../helpers/commonStyledComponents.js";
 import {NavOffCanvasLeft, NavOffCanvasRight} from './slideNavigation';
+import  HideOnScroll  from '../../helpers/hideOnScroll';
 import { connect } from 'react-redux';
 
 const StyledNav = styled.nav`
@@ -75,6 +76,7 @@ const Nav =  (props) => {
     return (
         <div>
         <StyledNav >
+                <HideOnScroll>
             <Ul >
                 <Li location={props.location}>
                     
@@ -93,6 +95,7 @@ const Nav =  (props) => {
                         About
                     </StyledLink>
                 </Li>
+                
 
                 {/* <Li location={props.location}>
                     <StyledLink to='/blog' location={props.location.pathname}>
@@ -103,7 +106,7 @@ const Nav =  (props) => {
                     
                 
             </Ul>
-            
+            </HideOnScroll>
         </StyledNav>
         <NavOffCanvasLeft isOpen={isOpen}/>
         <NavOffCanvasRight isOpen={isOpen} />

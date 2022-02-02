@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import store from './store/store'
-import WebAppRouter from './router/webAppRouter';
+import ReduxHOC from './router/reduxHOC';
 import "./base.scss";
 
 const jsx = (
     <Provider store={store}>
-        <WebAppRouter />
+        <ReduxHOC />
     </Provider>
 );
 

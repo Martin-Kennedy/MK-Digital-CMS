@@ -1,5 +1,5 @@
-import {GET_BLOGS} from '../helpers/types';
-import {SORT_BY_BLOG_SUBJECT} from '../helpers/types'
+import {} from '../helpers/types';
+import { GET_BLOGS, SORT_BY_BLOG_SUBJECT, GET_BLOG_ITEM} from '../helpers/types'
 
 const INITIAL_STATE = {
     blogData: [],
@@ -16,6 +16,13 @@ const blogsReducer = (state = INITIAL_STATE, action) => {
                 blogData: action.payload
             }
 
+            case GET_BLOG_ITEM:
+            return {
+                ...state,
+                blogItem: action.payload,
+                sortByItem: action.title
+            }
+
         case SORT_BY_BLOG_SUBJECT:
             let value = action.subject;
             let filteredValues = state.blogData.filter(card => card.subject === value);
@@ -24,7 +31,7 @@ const blogsReducer = (state = INITIAL_STATE, action) => {
                 sortBy: action.subject,
                 filteredData: filteredValues,
                 activeButton: action.index
-            };
+            }
         default:
             return state;
     }

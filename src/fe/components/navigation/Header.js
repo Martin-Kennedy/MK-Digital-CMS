@@ -4,6 +4,7 @@ import {Col} from 'react-bootstrap';
 import Nav from './nav.js';
 import styled from 'styled-components';
 import { displayValueArray } from '../../helpers/commonStyledComponents';
+import HideOnScroll from '../../helpers/hideOnScroll';
 import { connect } from 'react-redux';
 
 
@@ -62,6 +63,8 @@ display: contents;
 align-items: center;
 `;
 
+
+const customStyles = 'display: flex; align-items: center;';
 const mapStateToProps = state => {
   return {
     isIntersecting: state.pages.isIntersecting
@@ -69,14 +72,17 @@ const mapStateToProps = state => {
 }
 
 const HeaderComponent = (props) => {
+  
 
     return (
       <HeaderWrapper location={props.location}>
           <LogoCol xs={6}>
           <StlyedHeaderLink to={'/'} >
             <Logo id='logo' isIntersecting={props.isIntersecting} style={{position: 'sticky'}} location={props.location}></Logo>
-            <LogoLine isIntersecting={props.isIntersecting} location={props.location}></LogoLine>
-          <LogoText isIntersecting={props.isIntersecting} location={props.location}>MK Digital</LogoText>
+            <HideOnScroll customStyles={customStyles}>
+              <LogoLine isIntersecting={props.isIntersecting} location={props.location}></LogoLine>
+              <LogoText isIntersecting={props.isIntersecting} location={props.location}>MK Digital</LogoText>
+            </HideOnScroll>
           </StlyedHeaderLink>
           </LogoCol>
           <Col xs={6}>

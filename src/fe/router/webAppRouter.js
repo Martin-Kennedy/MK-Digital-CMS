@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Switch, Route } from 'react-router-dom';
+import {BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
 import {Container} from 'react-bootstrap';
 import Home from '../pages/home';
 import About from '../pages/about';
 import BlogLanding from '../pages/blogLanding';
 import ProjectsLanding from '../pages/projectsLanding';
+import ProjectPage from '../pages/project';
 import styled from 'styled-components';
-import { createBrowserHistory } from 'history'
-import { connect } from 'react-redux';
-import { getIntersectingState } from '../actions/pages.actions';
-import { getBlogs } from '../actions/blogs.actions';
-import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
+import { createBrowserHistory } from 'history';
+
 
 let history = createBrowserHistory();
 let currentLocation = history.location
@@ -26,62 +24,35 @@ const Page = styled(Container)`
         
 
 
-const mapDispatchToProps = dispatch => ({
-    getBlogs: blogData => dispatch(getBlogs(blogData)),
-    sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject)),
-    getHomepage: homepageData => dispatch(getHomepage(homepageData)),
-    getCarouselHoverState: isHovered => dispatch(getCarouselHoverState(isHovered)),
-    getCurrentCarouselAnimatedText: carouselText => dispatch(getCurrentCarouselAnimatedText(carouselText)),
-    getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide)),
-    getCurrentCarouselBkgColor: color => dispatch(getCurrentCarouselBkgColor(color)),
-    getImgWidth: width => dispatch(getImgWidth(width)),
-    getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides)),
-    getIntersectingState: isIntersecting => dispatch(getIntersectingState(isIntersecting))
-    
-});
+
 
         
 
-class WebAppRouter extends Component {
-
-    componentDidMount() {
-        const {getBlogs} = this.props;
-        const {getHomepage} = this.props;
-        const { getCurrentCarouselAnimatedText } = this.props;
-        const { getCurrentSlide } = this.props;
-        const { getCurrentCarouselBkgColor } = this.props;
-        const { getImgWidth } = this.props;
-        const { getTotalSlides } = this.props;
-        const { getIntersectingState } = this.props;
-        getBlogs();
-        getHomepage();
-        getCurrentCarouselAnimatedText();
-        getCurrentSlide();
-        getCurrentCarouselBkgColor();
-        getImgWidth();
-        getTotalSlides();
-        getIntersectingState();
-    }
-
-    
-
-   
-
-    render() {
-        
+const WebAppRouter = (props) => {
         return (
             <BrowserRouter forceRefresh={true}>
                 <Page fluid> 
                     <Switch>
-                        <Route path="/"  component={Home} exact={true} />
-                        <Route component={BlogLanding}  path="/blog" />
-                        <Route path="/about"  component={About} />
-                        <Route path="/case-studies" component={ProjectsLanding} />
+                        <Route path="/" exact={true} >
+                            <Home location={props} />
+                        </Route>
+                        <Route   path="/blog" >
+                            <BlogLanding location={currentLocation} />
+                        </Route>
+                        <Route path="/about"  >
+                            <About location={currentLocation} />
+                        </Route>
+                        <Route path="/projects" >
+                            <ProjectsLanding location={currentLocation} />
+                        </Route>
+                        <Route path="/project/:id"  >
+                            <ProjectPage location={currentLocation} />
+                        </Route>
+                        
                     </Switch>
                 </Page>
             </BrowserRouter >
         )
-    };
 }
 
-export default connect(null, mapDispatchToProps)(WebAppRouter);
+export default WebAppRouter;

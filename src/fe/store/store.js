@@ -7,14 +7,14 @@ const initalState = {
     blogs: {
         blogData: [],
         filteredData: [],
-        sortBy: '',
+        blogItem: [],
+        sortByItem: '',
         activeButton: 1
     },
     homepage: {
         homepageData: {
             homepageCarousel: {
                 homepageCarouselArray: [],
-                
             }
         },
         previousSlide: 0,

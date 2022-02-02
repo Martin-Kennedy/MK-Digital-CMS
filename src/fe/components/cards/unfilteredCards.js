@@ -5,6 +5,7 @@ import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
 import {generateHsl} from '../../helpers/utilities';
 import {FadeInWhenVisibleOpacity} from '../../helpers/fadeInOnViewport';
+import {Link} from 'react-router-dom';
 
 const MasonryBlog = styled(Masonry)`
 margin-left: auto;
@@ -12,9 +13,6 @@ margin-right: auto;
 padding: 0;
 width: 100%;
 `;
-
-
-
 
 const CardTextRow = styled(Row)`
 --bs-gutter-x: 0;
@@ -46,8 +44,6 @@ transition-delay: .2s;
 opacity: 0;
 `;
 
-
-
 const mapStateToProps = state => {
     return {
         blogs: {
@@ -74,14 +70,14 @@ class UnfilteredCards extends Component {
                     .map((blogEntry, index) => {
                         let id = blogEntry.id;
 
-                        const FittedImage = styled.img`
+                        const FittedImage = styled.img `
                                 max-width: calc(100% - 20px);
                                 height: calc(${blogEntry.height}px - 20px);
                                 object-fit: contain;
                                 transition: 500ms ease-in;
                                 `;
 
-                        const ContainerDiv = styled.div`
+                        const ContainerDiv = styled.div `
                                 background-color: ${generateHsl()};
                                 transition: 500ms ease-in;
                                 margin-top: 20px;
@@ -109,30 +105,26 @@ class UnfilteredCards extends Component {
                                     transform: translateY(-10px);
                                     }
                                 }`;
-
-                                
-                                
-
+                        let titleSlug = blogEntry.title;
+                        titleSlug = titleSlug
+                            .replace(/\s+/g, '-');
                         const card = <MasonryBlogCard key={id} className="grid-item">
-                            <FadeInWhenVisibleOpacity>
-                                
-                                <ContainerDiv>
-                                <Row>
-                                    <FittedImage className='styledImage' src={blogEntry.blogCardImage}/>
-                                </Row>
-                                </ContainerDiv>
-                                <CardTextRow>
-                                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
-                                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
-                                </CardTextRow>
-                            </FadeInWhenVisibleOpacity>
-                        </MasonryBlogCard>;
+                            <Link to={`project/${titleSlug}`}>
+                                <FadeInWhenVisibleOpacity>
+                                    <ContainerDiv>
+                                        <Row>
+                                            <FittedImage className='styledImage' src={blogEntry.blogCardImage}/>
+                                        </Row>
+                                    </ContainerDiv>
+                                    <CardTextRow>
+                                        <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
+                                        <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
+                                    </CardTextRow>
+                                </FadeInWhenVisibleOpacity>
+                            </Link>
+                        </MasonryBlogCard>
 
-                        
-
-                       
-                            return card;
-                       
+                        return card;
 
                     })}
             </MasonryBlog>

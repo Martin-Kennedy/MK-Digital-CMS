@@ -1,4 +1,4 @@
-import { SORT_BY_BLOG_SUBJECT } from '../helpers/types'
+import { SORT_BY_BLOG_SUBJECT, GET_BLOG_ITEM } from '../helpers/types';
 
 // SORT_BY_BLOG_SUBJECT
 export const sortByBlogSubject = (subject = null, index = 1) => ({
@@ -6,4 +6,6 @@ export const sortByBlogSubject = (subject = null, index = 1) => ({
   subject: subject,
   index: index
 });
+
+
 
