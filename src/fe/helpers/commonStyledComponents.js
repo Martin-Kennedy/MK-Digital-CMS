@@ -23,6 +23,12 @@ export const SmallAndThinTextSpaced = styled(SmallAndThinText)`
 letter-spacing: .2rem;
 `
 
+export const VerySmallText = styled.span`
+        font-size: 12px;
+        font-weight: 200;
+        position: relative;
+`
+
 export const Line = styled.div`
     position: relative;
     display: block;

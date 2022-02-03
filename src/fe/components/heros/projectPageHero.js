@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
 import { TextTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
+import { VerySmallText } from '../../helpers/commonStyledComponents';
 
 const StyledProjectPageHero = styled(Row)`
     height: 100vh;
@@ -13,9 +14,9 @@ const StyledProjectPageHero = styled(Row)`
 `
 
 const FirstLine = styled.div`
-    height: 0;
+    height: calc(25vh - 40px);
     position: relative;
-    padding: 120px 0 calc(25vh - 40px) 0;
+    margin: 120px 0 0;
     width: 100%;
     top: 0%;
     svg {
@@ -25,6 +26,7 @@ const FirstLine = styled.div`
         stroke: var(--black);
     }
     }
+    
     `;
 
 const SecondLine = styled.div`
@@ -79,11 +81,6 @@ const FourthLine = styled.div`
     }
     `;
 
-const AnimatedTextContainer = styled.div`
-        position: absolute;
-        top: calc(50% - 65px);
-        right: 0;
-`
 const StaticHeroText = styled.div`
         font-family: mr-eaves-modern, sans-serif;
         font-weight: 200;
@@ -94,6 +91,10 @@ const StaticHeroText = styled.div`
         letter-spacing: 1.5rem;
         position: relative;
         left: 3%;
+`
+const ProjectHeroVerySmallText = styled(VerySmallText)`
+padding-left: 20px;
+
 `
 
 
@@ -119,25 +120,27 @@ class ProjectPageHero extends Component {
                 <Col xs={8}>
                     <FirstLine>
                         <LineAnimationL2R />
+                        <ProjectHeroVerySmallText>Project</ProjectHeroVerySmallText>
                         <TextTranslation 
                         duration={15} 
                         delay={.5}
                         reverse
                         black
                         text={'herp a derp derp'} />
-                    </FirstLine>
-                    <SecondLine>
+                        </FirstLine>
+                        <SecondLine>
                         <LineAnimationR2L />
-                    </SecondLine>
-                    <AnimatedTextContainer>
+                        
+                        <ProjectHeroVerySmallText>Client</ProjectHeroVerySmallText>
                         <TextTranslation 
                         duration={20}
                          delay={.75} 
                          black 
                          text={'herp a derp derp'} />
-                    </AnimatedTextContainer>
-                    <ThirdLine>
+                    </SecondLine>
+                        <ThirdLine>
                         <LineAnimationL2R />
+                        <ProjectHeroVerySmallText>Launch Date</ProjectHeroVerySmallText>
                         <StaticHeroText >
                         March 31, 2020
                             </StaticHeroText>

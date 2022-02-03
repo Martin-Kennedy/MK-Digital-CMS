@@ -4,13 +4,6 @@ import thunk from 'redux-thunk'
 import rootReducer from '../reducers/root.reducer'
 
 const initalState = {
-    blogs: {
-        blogData: [],
-        filteredData: [],
-        blogItem: [],
-        sortByItem: '',
-        activeButton: 1
-    },
     homepage: {
         homepageData: {
             homepageCarousel: {
@@ -26,6 +19,21 @@ const initalState = {
         bkgColor: [],
         imgWidth: 200
     },
+    projects: {
+        projectsData: [],
+        filteredData: [],
+        projectItem: [],
+        sortByItem: '',
+        activeButton: 1
+    },
+    blogs: {
+        blogData: [],
+        filteredData: [],
+        blogItem: [],
+        sortByItem: '',
+        activeButton: 1
+    },
+    
     pages: {
         isIntersecting: false
     }

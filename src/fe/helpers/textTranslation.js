@@ -1,8 +1,4 @@
-import React, {
-    useEffect,
-    useRef,
-    useState
-} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styled from 'styled-components';
 import {useViewportScroll, motion, useTransform} from "framer-motion";
 
@@ -13,7 +9,9 @@ will-change: transform;
 font-family: mr-eaves-modern, sans-serif;
 font-weight: 200;
 font-size: 100px;
-color: ${props => props.black ? 'var(--black)' : 'var(--white)'};
+color: ${props => props.black
+    ? 'var(--black)'
+    : 'var(--white)'};
 text-transform: uppercase;
 white-space: nowrap;
 letter-spacing: 1.5rem;
@@ -21,26 +19,32 @@ text-align: center;
 `
 
 const Marquee = styled.div `
-
+position: relative;
+top: -20px;
+height: calc(25vh - 40px);
+display: flex;
+justify-content: center;      
+align-items: center;
 `
 
 export const TextTranslation = (props) => {
 
-    const [x1,setX1] = useState(0);
-    const [x2,setX2] = useState(0);
+    const [x1,
+        setX1] = useState(0);
+    const [x2,
+        setX2] = useState(0);
 
     useEffect(() => {
-        
+
         switch (props.reverse) {
             case(props.reverse === true):
-            setX1(-1000);
-            setX2(1000);
+                setX1(-1000);
+                setX2(1000);
                 break;
-                
+
             default:
                 setX1(1000);
                 setX2(-1000);
-                console.log(props.reverse);
         }
         switch (props.start) {
             case(props.start != 'undefined'):
@@ -56,8 +60,6 @@ export const TextTranslation = (props) => {
                         setX2(finish);
                 }
         }
-       
-        
 
     })
 
@@ -73,9 +75,13 @@ export const TextTranslation = (props) => {
                 x: {
                     repeat: Infinity,
                     repeatType: "loop",
-                    duration: props.duration ? props.duration : 10,
+                    duration: props.duration
+                        ? props.duration
+                        : 10,
                     ease: "linear",
-                    delay: props.delay ? props.delay : 0,
+                    delay: props.delay
+                        ? props.delay
+                        : 0
                 },
                 opacity: {
                     delay: 1,
@@ -90,15 +96,18 @@ export const TextTranslation = (props) => {
     return (
         <div>
             <Marquee >
-                <Track black={props.black} duration={props.duration} key={props.text} variants={marqueeVariants} animate="animate">
+                <Track
+                    black={props.black}
+                    duration={props.duration}
+                    key={props.text}
+                    variants={marqueeVariants}
+                    animate="animate">
                     {props.text}
                 </Track>
             </Marquee>
         </div>
     );
 };
-
-
 
 export const TextScrollTranslation = (props) => {
 
@@ -144,7 +153,8 @@ export const TextScrollTranslation = (props) => {
         <div>
 
             <Marquee>
-                <Track black={props.black}
+                <Track
+                    black={props.black}
                     style={{
                     x,
                     scrollY
