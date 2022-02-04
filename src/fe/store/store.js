@@ -20,7 +20,7 @@ const initalState = {
         imgWidth: 200
     },
     projects: {
-        projectsData: [],
+        projectData: [],
         filteredData: [],
         projectItem: [],
         sortByItem: '',

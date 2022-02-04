@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
-import BlogCard from '../components/cards/card';
+import ProjectCardContainer from '../components/cards/projectCardsContainer';
 import HeaderComponent from '../components/navigation/header';
 import { Main } from '../helpers/commonStyledComponents';
 
@@ -58,7 +58,7 @@ const ProjectsLanding = (props) => (
         <Row>
             <Col sm={2}></Col>
             <Col sm={8}>
-            <BlogCard />
+                <ProjectCardContainer />
             </Col>
             <Col sm={2}></Col>
 

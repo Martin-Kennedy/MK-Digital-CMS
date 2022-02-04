@@ -96,26 +96,28 @@ const ProjectHeroVerySmallText = styled(VerySmallText)`
 padding-left: 20px;
 
 `
-
-
-
-const mapStateToProps = state => {
-    return {
-        carouselText: state.homepage.carouselText,
-        currentSlide: state.homepage.currentSlide,
-        previousSlide: state.homepage.previousSlide,
-        bkgColor: state.homepage.bkgColor,
-        imgWidth: state.homepage.imgWidth
-    }
-}
-
+const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
 
 
 class ProjectPageHero extends Component {
 
+    
+    formatDate(date){
+        const d = new Date(date);
+        return `${monthNames[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+    }
+    
+
+    constructor(){
+        super();
+    }
+
     render() {
         return (
             <StyledProjectPageHero>
+                {console.log(this.props.item.title)}
                 <Col xs={2}></Col>
                 <Col xs={8}>
                     <FirstLine>
@@ -126,7 +128,7 @@ class ProjectPageHero extends Component {
                         delay={.5}
                         reverse
                         black
-                        text={'herp a derp derp'} />
+                        text={this.props.item.title} />
                         </FirstLine>
                         <SecondLine>
                         <LineAnimationR2L />
@@ -136,13 +138,13 @@ class ProjectPageHero extends Component {
                         duration={20}
                          delay={.75} 
                          black 
-                         text={'herp a derp derp'} />
+                            text={this.props.item.client} />
                     </SecondLine>
                         <ThirdLine>
                         <LineAnimationL2R />
                         <ProjectHeroVerySmallText>Launch Date</ProjectHeroVerySmallText>
                         <StaticHeroText >
-                        March 31, 2020
+                            {this.formatDate(this.props.item.launchDate)}
                             </StaticHeroText>
                     </ThirdLine>
 
@@ -158,4 +160,4 @@ class ProjectPageHero extends Component {
 
 }
 
-export default connect(mapStateToProps)(ProjectPageHero)
+export default ProjectPageHero;

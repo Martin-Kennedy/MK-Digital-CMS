@@ -14,6 +14,7 @@ width: 70vw;
 height: 100vh;
 background-color: #000;
 transition: .75s ease-in-out;
+z-index: 2;
 `
 
 const SlideLogo = styled.div`
@@ -72,6 +73,7 @@ height: 100vh;
 background-color: #0e5d97;
 transition: .75s ease-in-out;
 overflow: hidden;
+z-index: 2;
 `
 const HeadingRight = styled(Row)`
 position: relative;
@@ -374,7 +376,7 @@ export const NavOffCanvasLeft = (props) => {
 }
 
 export const NavOffCanvasRight = (props) => {
-    console.log(props)
+    
     return (<SlideNavLeft
         className={props.isOpen ? 'slideInRight' : null}
     >

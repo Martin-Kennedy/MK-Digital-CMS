@@ -1,5 +1,5 @@
 import React from "react";
-import Wave from '../designElementComponents/waveSvg'
+import {Wave} from '../designElementComponents/waveSvg'
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 

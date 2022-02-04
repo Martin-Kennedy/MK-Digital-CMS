@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import FilterButtons from './filterButtons';
-import FilteredCards from './filteredCards';
-import UnfilteredCards from './unfilteredCards';
+import { FilteredCardsContainer } from './blogCards';
+import { UnfilteredCardsContainer} from './blogCards';
 import { LineAnimationR2L } from "../designElementComponents/lineSvg";
+
+const UnfilteredCards = UnfilteredCardsContainer;
+const FilteredCards = FilteredCardsContainer;
 import styled from 'styled-components';
 
 const mapStateToProps = state => {
@@ -62,7 +65,7 @@ const buildCardArray = (props) => {
     return cardArray;
 }
 
-class BlogCard extends Component {
+class BlogCardContainer extends Component {
 
     render() {
         return (
@@ -75,4 +78,4 @@ class BlogCard extends Component {
     }
 }
 
-export default connect(mapStateToProps)(BlogCard);
+export default connect(mapStateToProps)(BlogCardContainer);

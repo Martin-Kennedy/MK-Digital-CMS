@@ -23,6 +23,7 @@ export const getProjects = () => {
 };
 
 export const getProjectItem = (title) => {
+    console.log(title);
     return (dispatch) => {
         return axios.get(apiUrl + '?title=' + title)
             .then(response => {
