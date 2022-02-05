@@ -94,7 +94,22 @@ const StaticHeroText = styled.div`
 `
 const ProjectHeroVerySmallText = styled(VerySmallText)`
 padding-left: 20px;
+`
 
+const HeromImageContainer = styled.div`
+height: 58vh;
+width: 30vw;
+margin: 30vh 0;
+position: absolute;
+right: 15vw;
+top: 0;
+`
+const HeroImage = styled.div`
+background-image: url(/macbook_transparent.png);
+background-size: cover;
+background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
 `
 const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -117,7 +132,6 @@ class ProjectPageHero extends Component {
     render() {
         return (
             <StyledProjectPageHero>
-                {console.log(this.props.item.title)}
                 <Col xs={2}></Col>
                 <Col xs={8}>
                     <FirstLine>
@@ -151,6 +165,12 @@ class ProjectPageHero extends Component {
                     <FourthLine>
                         <LineAnimationR2L />
                     </FourthLine>
+                    <HeromImageContainer>
+                        <HeroImage>
+
+                        </HeroImage>
+                    </HeromImageContainer>
+                    
                 </Col>
                 <Col xs={2}></Col>
             </StyledProjectPageHero>

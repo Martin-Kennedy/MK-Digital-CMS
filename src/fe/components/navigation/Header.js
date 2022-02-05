@@ -76,6 +76,7 @@ const HeaderComponent = (props) => {
 
     return (
       <HeaderWrapper location={props.location}>
+        {console.log(props)}
           <LogoCol xs={6}>
           <StlyedHeaderLink to={'/'} >
             <Logo id='logo' isIntersecting={props.isIntersecting} style={{position: 'sticky'}} location={props.location}></Logo>

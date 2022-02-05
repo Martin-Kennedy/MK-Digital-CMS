@@ -31,6 +31,10 @@ class ProjectPage extends Component {
         }
     }
     
+    getFirstPathSegmennt(props) {
+        return props.split('/')[1];
+
+    }
 
     render(){
         let item = this.props.projects.projectItem[0];
@@ -38,7 +42,7 @@ class ProjectPage extends Component {
             {this.props.projects.projectItem.length
                 ? <FadeInWhenVisibleOpacity duration={2}>
                     
-                    <HeaderComponent />
+                    <HeaderComponent location={this.getFirstPathSegmennt(this.props.location.pathname)} />
                     <ProjectPageHero item={item} />
 
                     <Row><div>this is the first name {item.client}</div></Row>
