@@ -74,7 +74,7 @@ export const TextTranslation = (props) => {
             transition: {
                 x: {
                     repeat: Infinity,
-                    repeatType: "loop",
+                    repeatType: "reverse",
                     duration: props.duration
                         ? props.duration
                         : 10,

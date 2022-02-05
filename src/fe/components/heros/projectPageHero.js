@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from 'react-bootstrap';
-import { connect } from "react-redux";
 import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
 import { TextTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
@@ -97,9 +96,9 @@ padding-left: 20px;
 `
 
 const HeromImageContainer = styled.div`
-height: 58vh;
-width: 30vw;
-margin: 30vh 0;
+height: 60vh;
+width: 72vh;
+margin: 20vh 0;
 position: absolute;
 right: 15vw;
 top: 0;
@@ -111,54 +110,67 @@ background-repeat: no-repeat;
     width: 100%;
     height: 100%;
 `
-const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+const WebsiteLink = styled.a`
+    background-color: #a33416;
+    width: 15vh;
+    height: 15vh;
+    border-radius: 100%;
+    position: absolute;
+    top: 0;
+    margin: 50vh 0 0 0;
+    left: 25vw;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 15vh;
+    transition: transform .5s ease-in-out;
+    &:hover {
+        cursor: pointer;
+        color: var(--white);
+    }
+`
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+    "July", "Aug", "Sept", "Oct", "Nove", "Dec"
 ];
+const formatDate = (date) => {
+    const d = new Date(date);
+    return `${monthNames[d.getMonth()]} - ${d.getFullYear()}`;
+}
 
 
-class ProjectPageHero extends Component {
+const ProjectPageHero = props => {
 
-    
-    formatDate(date){
-        const d = new Date(date);
-        return `${monthNames[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-    }
-    
+    const [mouseLeft, setMouseLeft] = useState(null);
 
-    constructor(){
-        super();
-    }
-
-    render() {
-        return (
-            <StyledProjectPageHero>
+        return <StyledProjectPageHero>
                 <Col xs={2}></Col>
                 <Col xs={8}>
                     <FirstLine>
                         <LineAnimationL2R />
                         <ProjectHeroVerySmallText>Project</ProjectHeroVerySmallText>
                         <TextTranslation 
-                        duration={15} 
+                        duration={35} 
                         delay={.5}
                         reverse
                         black
-                        text={this.props.item.title} />
+                        text={props.item.title} />
                         </FirstLine>
                         <SecondLine>
                         <LineAnimationR2L />
                         
-                        <ProjectHeroVerySmallText>Client</ProjectHeroVerySmallText>
+                        <ProjectHeroVerySmallText>Client / Expertise</ProjectHeroVerySmallText>
                         <TextTranslation 
-                        duration={20}
+                        duration={40}
                          delay={.75} 
                          black 
-                            text={this.props.item.client} />
+                            text={`${props.item.client}  -  ${props.item.expertise}`} />
                     </SecondLine>
                         <ThirdLine>
                         <LineAnimationL2R />
                         <ProjectHeroVerySmallText>Launch Date</ProjectHeroVerySmallText>
                         <StaticHeroText >
-                            {this.formatDate(this.props.item.launchDate)}
+                            {formatDate(props.item.launchDate)}
                             </StaticHeroText>
                     </ThirdLine>
 
@@ -167,17 +179,14 @@ class ProjectPageHero extends Component {
                     </FourthLine>
                     <HeromImageContainer>
                         <HeroImage>
-
                         </HeroImage>
                     </HeromImageContainer>
+                <WebsiteLink className={mouseLeft === true ? 'projectSiteLinkHoverOut' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
                     
                 </Col>
                 <Col xs={2}></Col>
             </StyledProjectPageHero>
 
-        );
-    }
-
-}
+};
 
 export default ProjectPageHero;

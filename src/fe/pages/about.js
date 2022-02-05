@@ -260,7 +260,6 @@ class About extends Component {
                 <Sticky>
                     <IntroSection >
                         <FadeInWhenVisibleOpacity duration={2}>
-                            {console.log(this.props.isIntersecting)}
                             <AboutPageHero />
                         </FadeInWhenVisibleOpacity>
                         <Col sm={2}></Col>

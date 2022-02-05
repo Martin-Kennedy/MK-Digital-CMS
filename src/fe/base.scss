@@ -130,7 +130,6 @@ body {
       stroke: #1d1e22;
     }
   }
- 
 }
 
 .slideInRight {
@@ -140,7 +139,9 @@ body {
   right: 10px;
 }
 
-
+.projectSiteLinkHoverOut {
+animation: 1s linear bounceOut forwards;
+}
 
 @keyframes slideIn {
   0% {
@@ -218,6 +219,30 @@ body {
   100% {
    transform: scale(1);  
   }
+}
+
+@keyframes bounceOut {
+  0% {
+    transform: scale(1.2); 
+  }
+  25% {
+    transform: scale(1); 
+  }
+  50% {
+   
+    transform: scale(.9);
+  }
+ 
+  70% {
+    transform: scale(.8); 
+  }
+  90% {
+    transform: scale(.9); 
+  }
+  100% {
+    transform: scale(1); 
+  }
+
 }
 
 /* align content above each other without absolute */
