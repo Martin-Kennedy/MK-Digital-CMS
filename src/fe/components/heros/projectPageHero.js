@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Row, Col } from 'react-bootstrap';
 import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
 import { TextTranslation } from "../../helpers/textTranslation";
@@ -124,7 +124,6 @@ const WebsiteLink = styled.a`
     font-weight: 500;
     text-align: center;
     line-height: 15vh;
-    transition: transform .5s ease-in-out;
     &:hover {
         cursor: pointer;
         color: var(--white);
@@ -173,7 +172,6 @@ const ProjectPageHero = props => {
                             {formatDate(props.item.launchDate)}
                             </StaticHeroText>
                     </ThirdLine>
-
                     <FourthLine>
                         <LineAnimationR2L />
                     </FourthLine>
@@ -181,8 +179,7 @@ const ProjectPageHero = props => {
                         <HeroImage>
                         </HeroImage>
                     </HeromImageContainer>
-                <WebsiteLink className={mouseLeft === true ? 'projectSiteLinkHoverOut' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
-                    
+                <WebsiteLink href="https://www.shinolahotel.com/" className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
                 </Col>
                 <Col xs={2}></Col>
             </StyledProjectPageHero>

@@ -140,7 +140,11 @@ body {
 }
 
 .projectSiteLinkHoverOut {
-animation: 1s linear bounceOut forwards;
+animation: 450ms linear bounceOut forwards;
+}
+
+.projectSiteLinkHoverIn {
+animation: 450ms linear bounceIn forwards;
 }
 
 @keyframes slideIn {
@@ -226,23 +230,39 @@ animation: 1s linear bounceOut forwards;
     transform: scale(1.2); 
   }
   25% {
-    transform: scale(1); 
+    transform: scale(1.1); 
   }
   50% {
    
-    transform: scale(.9);
+    transform: scale(1);
   }
  
   70% {
-    transform: scale(.8); 
-  }
-  90% {
     transform: scale(.9); 
   }
   100% {
     transform: scale(1); 
   }
+}
 
+@keyframes bounceIn {
+  0% {
+    transform: scale(1); 
+  }
+  25% {
+    transform: scale(.9); 
+  }
+  50% {
+   
+    transform: scale(1);
+  }
+ 
+  70% {
+    transform: scale(1.1); 
+  }
+  100% {
+    transform: scale(1.2); 
+  }
 }
 
 /* align content above each other without absolute */
