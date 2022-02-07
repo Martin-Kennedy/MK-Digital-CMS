@@ -92,7 +92,7 @@ const StaticHeroText = styled.div`
         left: 3%;
 `
 const ProjectHeroVerySmallText = styled(VerySmallText)`
-padding-left: 20px;
+padding-left: 26px;
 `
 
 const HeromImageContainer = styled.div`
@@ -179,7 +179,7 @@ const ProjectPageHero = props => {
                         <HeroImage>
                         </HeroImage>
                     </HeromImageContainer>
-                <WebsiteLink href="https://www.shinolahotel.com/" className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
+                <WebsiteLink href="https://www.shinolahotel.com/" target="_blank" className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
                 </Col>
                 <Col xs={2}></Col>
             </StyledProjectPageHero>
