@@ -260,6 +260,7 @@ const mapStateToProps = state => {
         projects: {
             projectData: state.projects.projectData,
             nextProjectItem: state.projects.nextProjectItem,
+            nextProjectItemPathname: state.projects.nextProjectItemPathname,
             projectItem: state.projects.projectItem,
             isIntersecting: state.pages.isIntersecting
         }
@@ -289,17 +290,7 @@ class ProjectPage extends Component {
            
     }
        
-        if (prevProps.projects.nextProjectItem !== this.props.projects.nextProjectItem) {
-            console.log('nextProject is updating', this.props.projects.nextProjectItem.title)
-            let titleSlug = this.props.projects.nextProjectItem.title;
-            titleSlug = titleSlug.replace(/\s+/g, '-');
-            console.log(titleSlug)
-            this.state.titleSlug = titleSlug;
-            console.log(this.state.titleSlug)
-            console.log(this.state)
-
-            // not updating hook into redux for route update.
-        }
+        
          
     }
 
@@ -312,6 +303,7 @@ class ProjectPage extends Component {
         const d = new Date(date);
         return `${monthNames[d.getMonth()]} - ${d.getFullYear()}`;
     }
+
 
 
 
@@ -496,7 +488,7 @@ class ProjectPage extends Component {
                                 this
                                     .props
                                     .dispatch(getIntersectingState(true))
-                                 this.props.dispatch(getNextProjectItem(item.id)) 
+                                 this.props.dispatch(getNextProjectItem(item.id + 1)) 
                             }}
                                 bottomOffset={'100%'}
                                 topOffset={100}
@@ -506,7 +498,7 @@ class ProjectPage extends Component {
                                     .dispatch(getIntersectingState(false))
                             }}>
                                 <NextProject>
-                                <Link to={`${this.state.titleSlug}`}>
+                                <Link to={this.props.projects.nextProjectItemPathname} >
                                     <Wrapper >
                                         <Col xs={2}></Col>
                                         <Col xs={8}>

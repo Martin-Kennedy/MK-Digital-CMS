@@ -23,9 +23,12 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
             }
 
         case GET_NEXT_PROJECT_ITEM:
+            let titleSlug = action.payload.title;
+            titleSlug = titleSlug.replace(/\s+/g, '-');
             return {
                 ...state,
                 nextProjectItem: action.payload,
+                nextProjectItemPathname: titleSlug
             }
 
         case SORT_BY_PROJECT_EXPERTISE:

@@ -22,6 +22,7 @@ const initalState = {
     projects: {
         projectData: [],
         nextProjectItem: [],
+        nextProjectItemPathname: '',
         filteredData: [],
         projectItem: [],
         sortByItem: '',

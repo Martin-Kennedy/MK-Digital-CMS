@@ -299,7 +299,7 @@ class About extends Component {
 
                     </IntroSection>
                 </Sticky>
-                <Sticky innerZ={0}>
+                <Sticky >
                     <ImgSection ></ImgSection>
                 </Sticky>
 

@@ -23,9 +23,9 @@ export const getProjects = () => {
 };
 
 export const getNextProjectItem = (NextId) => {
-    console.log('next project is running');
+    console.log('next project is running', NextId);
     return (dispatch) => {
-        Number.isSafeInteger(NextId) ? NextId++ : NextId = 1;
+        
         return axios.get(apiUrl + '/' + NextId)
             .then(response => {
                 return response.data
