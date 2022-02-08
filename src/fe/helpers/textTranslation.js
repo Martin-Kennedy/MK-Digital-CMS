@@ -26,6 +26,10 @@ display: flex;
 justify-content: center;      
 align-items: center;
 `
+const Marquee3rd = styled(Marquee)`
+top: 0;
+height: calc(33vh - 40px);
+`
 
 export const TextTranslation = (props) => {
 
@@ -93,18 +97,31 @@ export const TextTranslation = (props) => {
         }
     };
 
+    const marquee = <Marquee >
+        <Track
+            black={props.black}
+            duration={props.duration}
+            key={props.text}
+            variants={marqueeVariants}
+            animate="animate">
+            {props.text}
+        </Track>
+    </Marquee>;
+
+    const marquee3rd = <Marquee3rd >
+        <Track
+            black={props.black}
+            duration={props.duration}
+            key={props.text}
+            variants={marqueeVariants}
+            animate="animate">
+            {props.text}
+        </Track>
+    </Marquee3rd>;
+
     return (
         <div>
-            <Marquee >
-                <Track
-                    black={props.black}
-                    duration={props.duration}
-                    key={props.text}
-                    variants={marqueeVariants}
-                    animate="animate">
-                    {props.text}
-                </Track>
-            </Marquee>
+            {props.ratio3rd ? marquee3rd : marquee}
         </div>
     );
 };

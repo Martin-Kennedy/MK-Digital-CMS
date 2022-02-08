@@ -3,13 +3,14 @@ import WebAppRouter from './webAppRouter';
 import { connect } from 'react-redux';
 import { getIntersectingState } from '../actions/pages.actions';
 import { getBlogs, getBlogItem } from '../actions/blogs.actions';
-import { getProjects, getProjectItem } from '../actions/projects.actions';
+import { getProjects, getProjectItem, getNextProjectItem } from '../actions/projects.actions';
 import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
 
 const mapDispatchToProps = dispatch => ({
     getBlogs: blogData => dispatch(getBlogs(blogData)),
     getProjects: projectData => dispatch(getProjects(projectData)),
     getProjectItem: projectItem => dispatch(getProjectItem(projectItem)),
+    getNextProjectItem: nextProjectItem => dispatch(getNextProjectItem(nextProjectItem)),
     sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject)),
     sortByProjectSubject: subject => dispatch(sortByBlogSubject(subject)),
     getHomepage: homepageData => dispatch(getHomepage(homepageData)),
@@ -38,8 +39,10 @@ class ReduxHOC extends Component {
         const { getIntersectingState } = this.props;
         const { getBlogItem } = this.props;
         const { getProjectItem } = this.props; 
+        const { getNextProjectItem } = this.props;
         getProjects();
         getProjectItem();
+        getNextProjectItem();
         getBlogs();
         getBlogItem();
         getHomepage();

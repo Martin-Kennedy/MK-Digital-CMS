@@ -131,6 +131,21 @@ const AboutMain = styled(Row)`
         }   
     `
 
+
+const ScrollComponentContainer = styled.div`
+position: relative;
+top: -100px;
+`
+
+const Section = styled(Row)`
+    margin-bottom: 9rem;
+    span {
+        top: 0;
+    }
+    p {
+        font-weight: 200;
+    }
+`
 const ServicesSection = styled(Row)`
     background-color: #1d1e22;
     min-height: 500px;
@@ -186,20 +201,6 @@ const Services = styled(Row)`
         font-weight: 300;
         }   
     `
-const ScrollComponentContainer = styled.div`
-position: relative;
-top: -100px;
-`
-
-const Section = styled(Row)`
-    margin-bottom: 9rem;
-    span {
-        top: 0;
-    }
-    p {
-        font-weight: 200;
-    }
-`
 const ServicesMain = styled(Section)`
 margin-bottom: 2rem;
 .col {

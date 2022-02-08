@@ -21,6 +21,7 @@ const initalState = {
     },
     projects: {
         projectData: [],
+        nextProjectItem: [],
         filteredData: [],
         projectItem: [],
         sortByItem: '',

@@ -1,5 +1,5 @@
 
-import { GET_PROJECTS, GET_PROJECT_ITEM } from '../helpers/types'
+import { GET_PROJECTS, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM } from '../helpers/types'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:7000/projects';
@@ -22,8 +22,28 @@ export const getProjects = () => {
     };
 };
 
+export const getNextProjectItem = (NextId) => {
+    console.log('next project is running');
+    return (dispatch) => {
+        Number.isSafeInteger(NextId) ? NextId++ : NextId = 1;
+        return axios.get(apiUrl + '/' + NextId)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: GET_NEXT_PROJECT_ITEM,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+
 export const getProjectItem = (title) => {
-    console.log(title);
+    
     return (dispatch) => {
         return axios.get(apiUrl + '?title=' + title)
             .then(response => {

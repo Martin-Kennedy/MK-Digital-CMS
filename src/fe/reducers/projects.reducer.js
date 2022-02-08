@@ -1,4 +1,4 @@
-import { GET_PROJECTS, SORT_BY_PROJECT_EXPERTISE, GET_PROJECT_ITEM } from '../helpers/types'
+import { GET_PROJECTS, SORT_BY_PROJECT_EXPERTISE, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM } from '../helpers/types'
 
 const INITIAL_STATE = {
     projectData: [],
@@ -20,6 +20,12 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 projectItem: action.payload,
                 sortByItem: action.title
+            }
+
+        case GET_NEXT_PROJECT_ITEM:
+            return {
+                ...state,
+                nextProjectItem: action.payload,
             }
 
         case SORT_BY_PROJECT_EXPERTISE:
