@@ -49,10 +49,14 @@ const BlogLanding = (props) => (
         </TopRow>
         {/* Above the Fold Text and CTA */}
         <Row>
-
-            <BlogCardsContainer />
+            <Col sm={2}></Col>
+            <Col sm={8}>
+                 <BlogCardsContainer />
+            </Col>
+            <Col sm={2}></Col>
 
         </Row>
+           
         <Row>
             <Col>
 

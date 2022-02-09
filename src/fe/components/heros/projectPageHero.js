@@ -90,6 +90,7 @@ const StaticHeroText = styled.div`
         letter-spacing: 1.5rem;
         position: relative;
         left: 3%;
+        line-height: 100px;
 `
 const ProjectHeroVerySmallText = styled(VerySmallText)`
 padding-left: 26px;
@@ -111,7 +112,7 @@ background-repeat: no-repeat;
     height: 100%;
 `
 const WebsiteLink = styled.a`
-    background-color: #a33416;
+    background-color: ${props => props.color ? props.color : 'var(--black)'};
     width: 15vh;
     height: 15vh;
     border-radius: 100%;
@@ -179,7 +180,7 @@ const ProjectPageHero = props => {
                         <HeroImage>
                         </HeroImage>
                     </HeromImageContainer>
-                <WebsiteLink href="https://www.shinolahotel.com/" target="_blank" className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
+                <WebsiteLink href="https://www.shinolahotel.com/" target="_blank" color={props.item.bkgColorArray[0]} className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
                 </Col>
                 <Col xs={2}></Col>
             </StyledProjectPageHero>

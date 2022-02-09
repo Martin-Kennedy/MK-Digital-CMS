@@ -33,16 +33,16 @@ const WebAppRouter = (props) => {
             <BrowserRouter forceRefresh={true}>
                 <Page fluid> 
                     <Switch>
-                        <Route path="/" exact={true} >
+                        <Route path="/" exact={true} replace >
                             <Home location={props} />
                         </Route>
-                        <Route   path="/blog" >
+                        <Route   path="/blogs" replace >
                             <BlogLanding location={currentLocation} />
                         </Route>
-                        <Route path="/about"  >
+                        <Route path="/about" replace >
                             <About location={currentLocation} />
                         </Route>
-                        <Route path="/projects" >
+                        <Route path="/projects" replace>
                             <ProjectsLanding location={currentLocation} />
                         </Route>
                         <Route path="/project/:id"  >

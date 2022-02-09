@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Row, Col} from 'react-bootstrap';
-import {connect} from 'react-redux';
-import FilterButtons from './filterButtons';
-import { FilteredCardsContainer } from './blogCards';
-import { UnfilteredCardsContainer} from './blogCards';
-import { LineAnimationR2L } from "../designElementComponents/lineSvg";
+import {Row} from 'react-bootstrap';
 
+import Spinner from 'react-bootstrap/Spinner'
+import {connect} from 'react-redux';
+import {BlogFilterButtonsContainer} from './filterButtons';
+import { FilteredCardsContainer, UnfilteredCardsContainer } from './blogCards';
+import { LineAnimationR2L } from "../designElementComponents/lineSvg";
+const BlogFilterButtons = BlogFilterButtonsContainer;
 const UnfilteredCards = UnfilteredCardsContainer;
 const FilteredCards = FilteredCardsContainer;
 import styled from 'styled-components';
@@ -26,7 +27,7 @@ const FilterLine = styled(Row)`
     
     svg  {
         position: relative;
-        top: -40px;
+        top: -20px;
         left: -30px;
         padding-left: 0;
         line {
@@ -36,36 +37,32 @@ const FilterLine = styled(Row)`
 `
 
 const FilterContainer = styled(Row)`
-    height: 50px;
+    height: 100px;
     z-index: 1;
 `
 
 const buildCardArray = (props) => {
-    const cardArray = <Row>
-       
+    const cardArray =
+        <Row>
             <FilterContainer >
-                <FilterButtons />
+                <BlogFilterButtons />
             </FilterContainer>
-        
+
             <FilterLine>
                 <LineAnimationR2L />
             </FilterLine>
-        
-        
-        
-        <Row>
-            {props.blogs.filteredData.length
-                ? <FilteredCards />
-                : <UnfilteredCards />
-            }
+            <Row>
+                {props.blogs.filteredData.length
+                    ? <FilteredCards />
+                    : <UnfilteredCards />
+                }
+                <Spinner animation="border" />
+            </Row>
         </Row>
-
-        
-    </Row>
     return cardArray;
 }
 
-class BlogCardContainer extends Component {
+class BlogCardsContainer extends Component {
 
     render() {
         return (
@@ -78,4 +75,4 @@ class BlogCardContainer extends Component {
     }
 }
 
-export default connect(mapStateToProps)(BlogCardContainer);
+export default connect(mapStateToProps)(BlogCardsContainer);
