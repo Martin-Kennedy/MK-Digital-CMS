@@ -6,6 +6,7 @@ import About from '../pages/about';
 import BlogLanding from '../pages/blogLanding';
 import ProjectsLanding from '../pages/projectsLanding';
 import ProjectPage from '../pages/project';
+import BlogPage from '../pages/blogArticle';
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history';
 
@@ -38,6 +39,9 @@ const WebAppRouter = (props) => {
                         </Route>
                         <Route   path="/blogs" replace >
                             <BlogLanding location={currentLocation} />
+                        </Route>
+                        <Route path="/blog/:id"  >
+                            <BlogPage location={currentLocation} />
                         </Route>
                         <Route path="/about" replace >
                             <About location={currentLocation} />

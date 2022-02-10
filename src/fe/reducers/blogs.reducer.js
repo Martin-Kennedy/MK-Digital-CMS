@@ -1,5 +1,5 @@
 import {} from '../helpers/types';
-import { GET_BLOGS, SORT_BY_BLOG_SUBJECT, GET_BLOG_ITEM} from '../helpers/types'
+import { GET_BLOGS, SORT_BY_BLOG_SUBJECT, GET_BLOG_ITEM, GET_NEXT_BLOG_ITEM} from '../helpers/types'
 
 const INITIAL_STATE = {
     blogData: [],
@@ -16,11 +16,20 @@ const blogsReducer = (state = INITIAL_STATE, action) => {
                 blogData: action.payload
             }
 
-            case GET_BLOG_ITEM:
+        case GET_BLOG_ITEM:
             return {
                 ...state,
                 blogItem: action.payload,
                 sortByItem: action.title
+            }
+
+        case GET_NEXT_BLOG_ITEM:
+            let titleSlug = action.payload.title;
+            titleSlug = titleSlug.replace(/\s+/g, '-');
+            return {
+                ...state,
+                nextBlogItem: action.payload,
+                nextBlogItemPathname: titleSlug
             }
 
         case SORT_BY_BLOG_SUBJECT:

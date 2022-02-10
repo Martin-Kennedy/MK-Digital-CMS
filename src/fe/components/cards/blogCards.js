@@ -5,7 +5,7 @@ import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
 import {generateHsl} from '../../helpers/utilities';
 import {FadeInWhenVisibleOpacity} from '../../helpers/fadeInOnViewport';
-
+import Spinner from 'react-bootstrap/spinner';
 import { Link } from 'react-router-dom';
 
 const MasonryBlog = styled(Masonry)`
@@ -16,7 +16,15 @@ width: 100%;
 
 `;
 
-
+const StyledSpinner = styled(Spinner)`
+position: absolute;
+top: 115vh;
+left: calc(50vw - 50px);
+width: 100px;
+height: 100px;
+z-index: 3;
+transition: 1.25s ease-in-out;
+`
 
 
 const CardTextRow = styled(Row)`
@@ -61,8 +69,17 @@ const mapStateToProps = state => {
 };
 
 class FilteredCards extends Component {
+    constructor() {
+        super()
+        this.state = {
+            hideSpinner: false
+        }
+    }
     render() {
         return (
+           <div>
+               <StyledSpinner className={this.state.hideSpinner ? 'hidden' : null} animation="border" ></StyledSpinner>
+          
             <MasonryBlog
                 elementType={'div'}
                 disableImagesLoaded={false}
@@ -74,6 +91,9 @@ class FilteredCards extends Component {
                     .filteredData
                     .map((blogEntry, index) => {
                         let id = blogEntry.id;
+                        if (this.props.blogs.blogData.length - 1 === index) {
+                            this.state.hideSpinner = true;
+                        } 
 
                         const FittedImage = styled.img`
                                 max-width: calc(100% - 20px);
@@ -139,14 +159,24 @@ class FilteredCards extends Component {
 
                     })}
             </MasonryBlog>
+            </div>
 
         )
     }
 }
 
 class UnfilteredCards extends Component {
+    constructor(){
+        super()
+        this.state = {
+            hideSpinner: false
+        }
+    }
     render() {
         return (
+            <div>
+
+            <StyledSpinner className={this.state.hideSpinner ? 'hidden' : null} animation="border" ></StyledSpinner>
             <MasonryBlog
                 elementType={'div'}
                 disableImagesLoaded={false}
@@ -158,6 +188,9 @@ class UnfilteredCards extends Component {
                     .blogData
                     .map((blogEntry, index) => {
                         let id = blogEntry.id;
+                        if(this.props.blogs.blogData.length - 1 === index){
+                            this.state.hideSpinner = true;
+                        } 
 
                         const FittedImage = styled.img`
                                 max-width: calc(100% - 20px);
@@ -199,7 +232,7 @@ class UnfilteredCards extends Component {
                         titleSlug = titleSlug
                             .replace(/\s+/g, '-');
                         const card = <MasonryBlogCard key={id} className="grid-item">
-                            <Link to={`project/${titleSlug}`}>
+                            <Link to={`blog/${titleSlug}`}>
                                 <FadeInWhenVisibleOpacity>
                                     <ContainerDiv>
                                         <Row>
@@ -218,6 +251,7 @@ class UnfilteredCards extends Component {
 
                     })}
             </MasonryBlog>
+            </div>
         )
     }
 }

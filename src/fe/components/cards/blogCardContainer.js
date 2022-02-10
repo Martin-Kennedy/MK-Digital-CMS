@@ -1,7 +1,5 @@
 import React, {Component, useState, useEffect} from 'react';
 import {Row} from 'react-bootstrap';
-
-import Spinner from 'react-bootstrap/Spinner'
 import {connect} from 'react-redux';
 import {BlogFilterButtonsContainer} from './filterButtons';
 import { FilteredCardsContainer, UnfilteredCardsContainer } from './blogCards';
@@ -40,13 +38,8 @@ const FilterContainer = styled(Row)`
     height: 100px;
     z-index: 1;
 `
-const StyledSpinner = styled(Spinner)`
-position: absolute;
-top: 115vh;
-left: calc(50vw - 50px);
-width: 100px;
-height: 100px;
-z-index: 1;
+const CardArrayRow = styled(Row)`
+background-color: transparent;
 `
 
 const BuildCardArray = (props) => {
@@ -54,7 +47,7 @@ const BuildCardArray = (props) => {
 
     
     const cardArray =
-        <Row>
+        <CardArrayRow>
             <FilterContainer >
                 <BlogFilterButtons />
             </FilterContainer>
@@ -71,7 +64,7 @@ const BuildCardArray = (props) => {
                 
                 
             </Row>
-        </Row>
+        </CardArrayRow>
     return cardArray;
 }
 
@@ -83,7 +76,7 @@ class BlogCardsContainer extends Component {
                 {Array.isArray(this.props.blogs.blogData)
                     ? <BuildCardArray data={this.props} />
                     : null}
-                <StyledSpinner animation="border" ></StyledSpinner>
+                
             </div>
         )
     }

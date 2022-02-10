@@ -32,6 +32,9 @@ const initalState = {
         blogData: [],
         filteredData: [],
         blogItem: [],
+        nextBlogtItem: [],
+        nextBlogItemPathname: '',
+        filteredData: [],
         sortByItem: '',
         activeButton: 1
     },
