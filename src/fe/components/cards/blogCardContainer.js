@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {Row} from 'react-bootstrap';
 
 import Spinner from 'react-bootstrap/Spinner'
@@ -40,23 +40,36 @@ const FilterContainer = styled(Row)`
     height: 100px;
     z-index: 1;
 `
+const StyledSpinner = styled(Spinner)`
+position: absolute;
+top: 115vh;
+left: calc(50vw - 50px);
+width: 100px;
+height: 100px;
+z-index: 1;
+`
 
-const buildCardArray = (props) => {
+const BuildCardArray = (props) => {
+    
+
+    
     const cardArray =
         <Row>
             <FilterContainer >
                 <BlogFilterButtons />
             </FilterContainer>
-
+            
             <FilterLine>
                 <LineAnimationR2L />
             </FilterLine>
             <Row>
-                {props.blogs.filteredData.length
+                
+                {props.data.blogs.filteredData.length
                     ? <FilteredCards />
                     : <UnfilteredCards />
                 }
-                <Spinner animation="border" />
+                
+                
             </Row>
         </Row>
     return cardArray;
@@ -68,8 +81,9 @@ class BlogCardsContainer extends Component {
         return (
             <div>
                 {Array.isArray(this.props.blogs.blogData)
-                    ? buildCardArray(this.props)
+                    ? <BuildCardArray data={this.props} />
                     : null}
+                <StyledSpinner animation="border" ></StyledSpinner>
             </div>
         )
     }

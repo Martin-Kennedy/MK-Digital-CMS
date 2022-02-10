@@ -13,6 +13,7 @@ margin-left: auto;
 margin-right: auto;
 padding: 0;
 width: 100%;
+
 `;
 
 
@@ -91,7 +92,9 @@ class FilteredCards extends Component {
                                 margin: 20px;
                                 padding: 0;
                                 margin-bottom: 0;
+                                z-index: 2;
                                 border: none;
+                                background-color: tranparent;
                                 &:hover, &:focus {
                                     ${ContainerDiv} {
                                     filter: brightness(70%);
@@ -174,6 +177,7 @@ class UnfilteredCards extends Component {
                                 padding: 0;
                                 margin-bottom: 0;
                                 border: none;
+                                    z-index: 2;
                                 &:hover, &:focus {
                                     ${ContainerDiv} {
                                     filter: brightness(70%);
