@@ -294,7 +294,7 @@ class ProjectPage extends Component {
          
     }
 
-    getFirstPathSegmennt(props) {
+    getFirstPathSegment(props) {
         return props.split('/')[1];
 
     }
@@ -315,7 +315,7 @@ class ProjectPage extends Component {
                 {this.props.projects.projectItem.length
                     ? <BaseLayer>
                             <HeaderComponent
-                                location={this.getFirstPathSegmennt(this.props.location.pathname)}/>
+                                location={this.getFirstPathSegment(this.props.location.pathname)}/>
                             <Sticky >
                                 <FadeInWhenVisibleOpacity duration={2}>
                                     <ProjectPageHero item={item}/>

@@ -32,7 +32,7 @@ const initalState = {
         blogData: [],
         filteredData: [],
         blogItem: [],
-        nextBlogtItem: [],
+        nextBlogItem: [],
         nextBlogItemPathname: '',
         filteredData: [],
         sortByItem: '',

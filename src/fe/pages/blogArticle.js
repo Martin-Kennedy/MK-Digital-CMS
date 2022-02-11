@@ -2,16 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import styled from "styled-components";
-import { Line, MediumText } from '../helpers/commonStyledComponents';
+import { SmallAndThinText } from '../helpers/commonStyledComponents';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
-import ProjectPageHero from '../components/heros/projectPageHero';
 import { FadeInWhenVisibleOpacity, FadeInWhenVisibleScale } from '../helpers/fadeInOnViewport';
-import { LineAnimationL2R, LineAnimationR2L } from '../components/designElementComponents/lineSvg';
-import { TextTranslation } from "../helpers/textTranslation";
+import { LineAnimationL2R } from '../components/designElementComponents/lineSvg';
 import { connect } from 'react-redux';
-import { getProjectItem, getNextProjectItem } from '../actions/projects.actions';
-import Sticky from 'react-stickynode';
+import { getBlogItem, getNextBlogItem } from '../actions/blogs.actions';
 import { Waypoint } from 'react-waypoint';
 import { getIntersectingState } from '../actions/pages.actions';
 
@@ -25,7 +22,8 @@ const IntroSection = styled(Row)`
     color: var(--black);
     z-index: 1;
     position: relative;
-    padding-bottom: 35vh;
+    margin-top: 150px;
+
 `;
 
 const IntroBlurb1 = styled.h2`
@@ -55,213 +53,57 @@ const IntroBlurb2 = styled.h2`
 `
 
 const Img = styled.img`
+    height: 50vh;
     width: 100%;
-    height: 100%;
-margin: 100px 0;
-`
-
-const ImgSection = styled(Row)`
-    width: 100vw;
-    background-image: url(${props => props.img});
-    background-position: center;
-    background-size: 100vw auto;
-    background-repeat: no-repeat;
-    margin: 0;
-    z-index: 0;
-    position: absolute;
-    height: 1000px;
-`
+    object-fit: contain;
+    margin-top: 5%;
+ `
 const Section = styled(Row)`
 min-height: 1000px;
 height: 100%;
 background-color: var(--white);
 `
 
-const ServicesSection = styled(Row)`
-    margin-bottom: 9rem;
-    span {
-        top: 0;
-    }
-    p {
-        font-weight: 200;
-    }
+const HeroImgSection = styled(Section)`
+height: 60vh;
+min-height: 0;
+margin-bottom: 10vh;
 `
-
-const Section100VW = styled(Row)`
-min-height: 1000px;
+const ImgBkg = styled.div`
+width: 100%;
 height: 100%;
-width: 100vw;
-padding: 0 !important;
-margin: 0 !important;
+background-color: ${props => props.bkgColor};
 `
 
-const FiftyVW = styled(Row)`
-padding: 0 !important;
-margin: 0 !important;
-width: 50vw;
-height: 100vh;
-background-color: ${props => props.color
-        ? props.color
-        : 'var(--white)'};
+const Title = styled.div`
+font-size: 50px;
+color: var(--black);
+letter-spacing: 2px;
+margin-left: 0;
+padding-left: 0;
 `
 
-const FiftyVWImg = styled.div`
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -ms-flex-align: center;
-    align-items: center;
-    height: 50vh;
-    padding: 50vh 33%;
-`
-
-const AssetSection1 = styled.div`
-padding-bottom: 35vh;
-background-color: var(--white);
-`
-
-const ProjectFooter = styled.div`
-    height: 100px;
-    background-color: #1d1e22;
-    .row {
-        color: #fff;
-        width: 100vw;
-        padding: 20px 10px 10px 0;
-        margin: 0;
-        display: flex;
-        align-items: center;
-    }
-`
-
-const ResultsSection = styled(Row)`
-    background-color: var(--white);
-    min-height: 500px;
-    color: var(--black);
-    z-index: 1;
-    position: relative;
-    height: 100vh ;
-    font-weight: 200;
-    font-size: .8rem;
-    .row {
-        flex-wrap: nowrap;
-    }
-`
-
-const ResultsMetricType = styled(Row)`
-    margin-top: 10vh;
-    margin-bottom: 2rem;
-    flex-wrap: nowrap;
-    p {
-    margin-left: 20px;
- }
- .col:first-child p {
-     margin-left: 5px;
- }
-    `
-
-const ResultsMetricData = styled(Row)`
-margin-bottom: 2rem;
-flex-wrap: nowrap;
- p {
-    font-size: 10rem;
-    font-weight: 400;
-    line-height: 150px;
- }
-
-`
-
-const ResultsBlurb = styled(Row)`
-flex-wrap: nowrap;
- p {
-    margin-left: 20px;
- }
- .col:first-child p {
-     margin-left: 5px;
- }
-`
-
-const NextProject = styled(Row)`
-background-color: var(--black);
-height: 100vh;
-z-index: 2;
+const TopLine = styled.div`
 position: relative;
+top: -20px;
+left: -30px;
+svg{
+    stroke: var(--black);
+}
 `
 
-const Wrapper = styled(Row)`
-height: calc(100vh - 100px);
-`
-
-const FirstLine = styled.div`
-    height: calc(33vh - 40px);
-    position: relative;
-    margin: 120px 0 0;
-    width: 100%;
-    top: 0%;
-    svg {
-    position: relative; 
-    left: 0;
-    line {
-        stroke: var(--white);
-    }
-    }
-    
-    `;
-
-const SecondLine = styled.div`
-    height: 0;
-    position: relative;
-    z-index: 0;
-    padding: 0 0 calc(33vh - 40px) 0;
-    width: 100%;
-    top: 0%;
-
-    svg  {
-    position: relative; 
-    left: 0;
-    line {
-        stroke: var(--white);
-    }
-    `;
-
-const ThirdLine = styled.div`
-    height: 0;
-    position: relative;
-    z-index: 0;
-    padding: 0 0 calc(33vh - 40px) 0;
-    
-    width: 100%;
-    top: 0%;
-
-    svg  {
-    position: relative; 
-    left: 0;
-    line {
-        stroke: var(--white);
-    }
-    }
-    `;
-
-const StaticHeroText = styled.div`
-        font-family: mr-eaves-modern, sans-serif;
-        font-weight: 200;
-        font-size: 100px;
-        color: var(--white);
-        text-transform: uppercase;
-        white-space: nowrap;
-        letter-spacing: 1.5rem;
-        position: relative;
-        left: 3%;
-        line-height: calc(33vh - 40px);
+const BlogArticleFooter = styled(Row)`
+height: 120px;
+ align-content: center;
 `
 
 const mapStateToProps = state => {
     return {
-        projects: {
-            projectData: state.projects.projectData,
-            nextProjectItem: state.projects.nextBlogItem,
-            nextBlogItemPathname: state.projects.nextBlogItemPathname,
-            projectItem: state.projects.BlogItem,
+        blogs: {
+            blogData: state.blogs.blogData,
+            nextBlogItem: state.blogs.nextBlogItem,
+            nextBlogItemPathname: state.blogs.nextBlogItemPathname,
+            blogItem: state.blogs.blogItem,
             isIntersecting: state.pages.isIntersecting
         }
     }
@@ -279,22 +121,25 @@ class BlogPage extends Component {
     componentDidUpdate(prevProps) {
 
         if (prevProps.blogs.blogData !== this.props.blogs.blogData) {
+            
             let path = this.props.location.pathname;
             let slug = path.substring(path.lastIndexOf('/') + 1)
             const revertedTitle = slug
                 .replace(/-/g, ' ')
                 .replace(/_/g, ' ');
+
+            console.log(revertedTitle)
             this
                 .props
                 .dispatch(getBlogItem(revertedTitle));
 
         }
-
+        this.props.dispatch(getNextBlogItem(this.props.blogs.blogItem.id + 1))
 
 
     }
 
-    getFirstPathSegmennt(props) {
+    getFirstPathSegment(props) {
         return props.split('/')[1];
 
     }
@@ -309,60 +154,48 @@ class BlogPage extends Component {
 
         return (
             <div>
-                {this.props.projects.blogItem.length
+                {this.props.blogs.blogItem.length
                     ? <BaseLayer>
                         <HeaderComponent
-                            location={this.getFirstPathSegmennt(this.props.location.pathname)} />
-                        <Sticky >
-                            <FadeInWhenVisibleOpacity duration={2}>
-                            </FadeInWhenVisibleOpacity>
+                            location={this.getFirstPathSegment(this.props.location.pathname)} />
+                   
 
                             <IntroSection >
                                 <Col xs={2}></Col>
                                 <Col xs={8}>
+                                <HeroImgSection><ImgBkg bkgColor={item.bkgColor}><FadeInWhenVisibleOpacity duration={2}><Img src={item.blogCardImage} /></FadeInWhenVisibleOpacity></ImgBkg></HeroImgSection>
                                     <Row>
-                                       
+                                        <FadeInWhenVisibleOpacity duration={2}>
+                                            <Title>{item.title}</Title>
+                                        </FadeInWhenVisibleOpacity>
                                     </Row>
                                     <Row>
+                                        <Col xs={10}><TopLine><LineAnimationL2R/></TopLine></Col>
+                                        <Col xs={2}>
                                         <FadeInWhenVisibleScale duration={1}>
-                                           
+                                            <SmallAndThinText>Oct 2, 2021</SmallAndThinText>
                                         </FadeInWhenVisibleScale>
+                                        </Col>
                                     </Row>
+                                    <Row>
+                                        <p>{item.article}</p>
+                                    </Row>
+                              
+                                <Row>
+                                        <Link to={this.props.blogs.nextBlogItemPathname}><p>{this.props.blogs.nextBlogItem.title}</p></Link>
+                                </Row>
                                 </Col>
                                 <Col xs={2}></Col>
                             </IntroSection>
-                        </Sticky>
-                        <Sticky >
-                            <Section>
-                            </Section>
-                        </Sticky>
-                        <Sticky >
-                            <AssetSection1>
-                                <Section >
-                                    <Col xs={2}></Col>
-                                    <Col >
-                                        <FadeInWhenVisibleScale duration={1}>
-                                           
-                                        </FadeInWhenVisibleScale>
-                                    </Col>
-                                    <Col xs={2}></Col>
-                                </Section>
-                                <Section>
-                                    <Col xs={2}></Col>
-                                    <Col >
-                                        <FadeInWhenVisibleScale duration={1}>
-                                            
-                                        </FadeInWhenVisibleScale>
-                                    </Col>
-                                    <Col xs={2}></Col>
-                                </Section>
-                            </AssetSection1>
-                        </Sticky>
+                        
+                       
 
                       
 
-                      
-                        <Footer />
+                      <BlogArticleFooter>
+                            <Footer />
+                        </BlogArticleFooter>
+                        
 
                     </BaseLayer>
                     : 'loading'

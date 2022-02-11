@@ -24,7 +24,7 @@ export const getBlogs = () => {
 
 export const getBlogItem = (title) => {
     return (dispatch) => {
-        return axios.get(apiUrl + '?title=' + title)
+        return axios.get(apiUrl + '?title=' + encodeURI(title))
             .then(response => {
                 return response.data
             })
@@ -41,7 +41,6 @@ export const getBlogItem = (title) => {
 };
 
 export const getNextBlogItem = (NextId) => {
-    console.log('next blog is running', NextId);
     return (dispatch) => {
 
         return axios.get(apiUrl + '/' + NextId)
