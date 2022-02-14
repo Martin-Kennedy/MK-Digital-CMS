@@ -38,6 +38,16 @@ const initalState = {
         sortByItem: '',
         activeButton: 1
     },
+    surf: {
+        locations: [],
+        geoLocation: {
+            latitude: '',
+            longitude: ''
+        },
+        towns: [],
+        countries: [],
+        forecast: []
+    },
     
     pages: {
         isIntersecting: false

@@ -117,7 +117,7 @@ class FilteredCards extends Component {
 
                                 <ContainerDiv>
                                     <Row>
-                                        <FittedImage className='styledImage' src={projectEntry.blogCardImage} />
+                                        <FittedImage className='styledImage' src={projectEntry.projectCardImage} />
                                     </Row>
                                 </ContainerDiv>
                                 <CardTextRow>

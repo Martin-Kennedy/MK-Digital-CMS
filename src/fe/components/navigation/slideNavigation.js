@@ -162,7 +162,7 @@ export const NavOffCanvasLeft = (props) => {
                 </Row>
                 <Row>
                     <Col xs={1}></Col>
-                    <Col><MediumText white> When the wave breaks here, don’t be there. </MediumText><SmallAndThinText white>-Turtle</SmallAndThinText></Col>
+                        <Col><Link to='/charge-and-bless'><MediumText white> When the wave breaks here, don’t be there. </MediumText><SmallAndThinText white>-Turtle</SmallAndThinText></Link></Col>
                     <Col xs={1}></Col>
                 </Row>
             </HeadingRight>
@@ -439,7 +439,7 @@ export const NavOffCanvasRight = (props) => {
                     </Li>
                     <Li location={props.location}>
                                 <FadeInWhenVisibleScale duration={1.75}>
-                    <StyledLink to={'/blog'} location={props.location}>
+                    <StyledLink to={'/blogs'} location={props.location}>
                                     Blog 
                     </StyledLink>
                                 </FadeInWhenVisibleScale>

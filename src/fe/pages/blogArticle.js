@@ -6,7 +6,7 @@ import { SmallAndThinText } from '../helpers/commonStyledComponents';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
 import { FadeInWhenVisibleOpacity, FadeInWhenVisibleScale } from '../helpers/fadeInOnViewport';
-import { LineAnimationL2R } from '../components/designElementComponents/lineSvg';
+import { LineAnimationL2R, LineAnimationR2L } from '../components/designElementComponents/lineSvg';
 import { connect } from 'react-redux';
 import { getBlogItem, getNextBlogItem } from '../actions/blogs.actions';
 import { Waypoint } from 'react-waypoint';
@@ -92,6 +92,28 @@ svg{
 }
 `
 
+const BottomLine = styled.div`
+    width: calc(95% - 20vw);
+    position: relative;
+    top: -7px;
+    margin-right: 5%;
+svg{
+    stroke: var(--black);
+}
+`
+const NextArticle = styled.div`
+color: var(--black);
+margin-top: 30px;
+font-size: 14px;
+font-weight: 200;
+display: flex;
+width: 100%;
+a {
+    width: 20vw;
+    white-space: nowrap;
+}
+`
+
 const BlogArticleFooter = styled(Row)`
 height: 120px;
  align-content: center;
@@ -134,7 +156,6 @@ class BlogPage extends Component {
                 .dispatch(getBlogItem(revertedTitle));
 
         }
-        this.props.dispatch(getNextBlogItem(this.props.blogs.blogItem.id + 1))
 
 
     }
@@ -170,20 +191,35 @@ class BlogPage extends Component {
                                         </FadeInWhenVisibleOpacity>
                                     </Row>
                                     <Row>
-                                        <Col xs={10}><TopLine><LineAnimationL2R/></TopLine></Col>
                                         <Col xs={2}>
                                         <FadeInWhenVisibleScale duration={1}>
                                             <SmallAndThinText>Oct 2, 2021</SmallAndThinText>
                                         </FadeInWhenVisibleScale>
                                         </Col>
+                                        <Col xs={10}><TopLine><LineAnimationR2L/></TopLine></Col>
                                     </Row>
                                     <Row>
                                         <p>{item.article}</p>
                                     </Row>
+                                <Waypoint
+                                    onEnter={() => {
+                                        this
+                                            .props
+                                            .dispatch(getIntersectingState(true))
+                                        this.props.dispatch(getNextBlogItem(item.id + 1))
+                                    }}
+                                    onLeave={() => {
+                                        this
+                                            .props
+                                            .dispatch(getIntersectingState(false))
+                                    }}>
                               
-                                <Row>
-                                        <Link to={this.props.blogs.nextBlogItemPathname}><p>{this.props.blogs.nextBlogItem.title}</p></Link>
-                                </Row>
+                                <NextArticle>
+                                        <BottomLine><LineAnimationL2R /></BottomLine>
+                                        <Link to={this.props.blogs.nextBlogItemPathname} className="btn-flip" data-back={this.props.blogs.nextBlogItem.title} data-front="NEXT ARTICLE"> 
+                                        </Link>
+                                </NextArticle>
+                                </Waypoint>
                                 </Col>
                                 <Col xs={2}></Col>
                             </IntroSection>

@@ -5,6 +5,7 @@ import Home from '../pages/home';
 import About from '../pages/about';
 import BlogLanding from '../pages/blogLanding';
 import ProjectsLanding from '../pages/projectsLanding';
+import SurfGUILanding from '../pages/surfGuiLanding';
 import ProjectPage from '../pages/project';
 import BlogPage from '../pages/blogArticle';
 import styled from 'styled-components';
@@ -52,7 +53,9 @@ const WebAppRouter = (props) => {
                         <Route path="/project/:id"  >
                             <ProjectPage location={currentLocation} />
                         </Route>
-                        
+                        <Route path='/charge-and-bless'>
+                            <SurfGUILanding />
+                        </Route>
                     </Switch>
                 </Page>
             </BrowserRouter >

@@ -41,6 +41,7 @@ export const getBlogItem = (title) => {
 };
 
 export const getNextBlogItem = (NextId) => {
+    console.log(NextId)
     return (dispatch) => {
 
         return axios.get(apiUrl + '/' + NextId)

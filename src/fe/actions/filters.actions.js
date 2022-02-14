@@ -8,9 +8,9 @@ export const sortByBlogSubject = (subject = null, index = 1) => ({
 });
 
 // SORT_BY_BLOG_SUBJECT
-export const sortByProjectExpertise = (subject = null, index = 1) => ({
+export const sortByProjectExpertise = (expertise = null, index = 1) => ({
   type: SORT_BY_PROJECT_EXPERTISE,
-  subject: subject,
+  expertise: expertise,
   index: index
 });
 

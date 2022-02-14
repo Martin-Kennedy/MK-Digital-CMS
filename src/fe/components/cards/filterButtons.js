@@ -8,13 +8,13 @@ const BlogFilterBtn = styled(Button)`
 display: flex;
 font-size: 14px;
 font-weight: 100;
-width: auto;
+width: fit-content;
 background-color: transparent;
 color: #000;
 border: 0;
 transition: .5s ease;
 padding: 0;
-margin: 0 90px;
+margin: 0 15px;
 transform-style: preserve-3d;
 transform: translateZ(-25px);
 transition: transform 0.3s;
@@ -78,17 +78,16 @@ const BlogFilterButtons = (props) => <FilterContainer>
 {
     buildSubjectArray(props).map((subject, index) => {
         const FilterButton = <BlogFilterBtn
-        className="flip"
+            className="btn-flip" 
+            data-back={subject} 
+            data-front={subject}
             key={index}
             value={subject}
             active={props.blogs.activeButton === index ? true : false}
             onClick={(e) => {
                 props.dispatch(sortByBlogSubject(subject, index));
             }}>
-            <div className="textContainer">
-            <div className="front">{subject}</div>
-            <div className="back">{subject}</div>
-            </div>
+           
             </BlogFilterBtn>
             
         return FilterButton;
@@ -100,17 +99,15 @@ const ProjectFilterButtons = (props) => <FilterContainer>
     {
         buildExpertiseArray(props).map((expertise, index) => {
             const FilterButton = <BlogFilterBtn
-                className="flip"
+                className="btn-flip"
+                data-back={expertise}
+                data-front={expertise}
                 key={index}
                 value={expertise}
                 active={props.projects.activeButton === index ? true : false}
                 onClick={(e) => {
                     props.dispatch(sortByProjectExpertise(expertise, index));
                 }}>
-                <div className="textContainer">
-                    <div className="front">{expertise}</div>
-                    <div className="back">{expertise}</div>
-                </div>
             </BlogFilterBtn>
 
             return FilterButton;

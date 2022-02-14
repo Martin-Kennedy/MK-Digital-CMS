@@ -38,20 +38,3 @@ export const useMediaQuery = (query) => {
     return matches;
 };
 
-
-function getWindowDimensions() {
-    const width = window.innerWidth;
-    return  width;
-}
-
-export function useWindowDimensions ()  {
-    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-
-    useEffect(() => {
-        
-        setWindowDimensions(getWindowDimensions());
-       
-    }, []);
-
-    return windowDimensions;
-}

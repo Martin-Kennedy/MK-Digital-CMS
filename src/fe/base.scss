@@ -100,6 +100,79 @@ body {
   transform: rotate(6deg) translate(100px, -18px);
 }
 
+
+// Flip Buttons
+
+$speed: 0.5s;
+
+.btn-flip{
+  opacity: 1;
+  outline: 0;
+  color: var(--white);
+  line-height: 40px;
+  position: relative;
+  text-align: center;
+  letter-spacing: 1px;
+  display: inline-block;
+  text-decoration: none;
+  text-transform: uppercase;
+  
+  &:hover{
+    
+    &:after{
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
+    }
+    
+    &:before{
+      opacity: 0;
+      transform: translateY(50%) rotateX(90deg);
+    }
+  }
+  
+  &:after{
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    color:  var(--black);
+    border: 1px solid var(--black);
+    display: block;
+    transition: $speed;
+    position: absolute;
+    background: var(--white);
+    content: attr(data-back);
+    transform: translateY(-50%) rotateX(90deg);
+  }
+  
+  &:before{
+    top: 0;
+    left: 0;
+    opacity: 1;
+    color: var(--white);
+    display: block;
+    padding: 0 18px;
+    line-height: 40px;
+    transition: $speed;
+    position: relative;
+    background: #323237;
+    content: attr(data-front);
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+.btn-flip.active {
+  
+   &:after{
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
+    }
+    
+    &:before{
+      opacity: 0;
+      transform: translateY(50%) rotateX(90deg);
+    }
+}
 // Hamburger Animation
 
 .hamburger-container.animateIn {

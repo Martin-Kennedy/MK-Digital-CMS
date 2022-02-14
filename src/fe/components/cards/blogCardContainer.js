@@ -25,7 +25,7 @@ const FilterLine = styled(Row)`
     
     svg  {
         position: relative;
-        top: -20px;
+        top: -10px;
         left: -30px;
         padding-left: 0;
         line {
@@ -35,7 +35,7 @@ const FilterLine = styled(Row)`
 `
 
 const FilterContainer = styled(Row)`
-    height: 100px;
+    height: 50px;
     z-index: 1;
 `
 const CardArrayRow = styled(Row)`
