@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import HeaderComponent from '../components/navigation/header';
 import BarChartWithEvent from '../components/SurfAppDataComponents/barChartWithEvent';
 import Footer from '../components/footer';
+import {getCloseSurfSpots} from '../actions/surfApp.actions';
 
 
 
@@ -37,11 +38,8 @@ const mapStateToProps = state => {
     }
 }
 
+
 class SurfGUILanding extends Component {
-
-    ComponentDidMount(){
-
-    }
 
 
     render() {
@@ -49,7 +47,6 @@ class SurfGUILanding extends Component {
             <SurfGUILadingContainer>
                 <Row>
                     <Col sm={2}>
-                        {console.log(this.props)}
                     </Col>
                     <Col sm={7}>
                         <Row>

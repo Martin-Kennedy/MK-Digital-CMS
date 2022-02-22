@@ -1,4 +1,4 @@
-import { GET_GEO_LOCATION, GET_LOCATION_OBJECT } from '../helpers/types';
+import { GET_GEO_LOCATION, GET_LOCATION_OBJECT, GET_CLOSE_SURFSPOTS } from '../helpers/types';
 
 const INITIAL_STATE = {
     surf: {
@@ -18,15 +18,20 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 locations: action.payload
             }
         case GET_GEO_LOCATION:
-            console.log('making it to geo locatoin reducer', action)
             return {
                 ...state,
                 geoLocation: {
                     latitude: action.latitude,
                     longitude: action.longitude
                 }
-                
             }
+        case GET_CLOSE_SURFSPOTS:
+                return{
+                    ...state,
+                    closeSurfSpots: {
+
+                    }
+                }
         default:
             return state;
     }
