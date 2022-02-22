@@ -24,8 +24,6 @@ const mapDispatchToProps = dispatch => ({
     getIntersectingState: isIntersecting => dispatch(getIntersectingState(isIntersecting)),
     getBlogItem: item => dispatch(getBlogItem(item)),
     getNextBlogItem: nextBlogItem => dispatch(getNextBlogItem(nextBlogItem)),
-    getLocationObject: locations => dispatch(getLocationObject(locations)),
-    getGeoLocation: geoLocation => dispatch(getGeoLocation(geoLocation)),
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots))
 });
 
@@ -45,8 +43,6 @@ class ReduxHOC extends Component {
         const { getNextBlogItem } = this.props;
         const { getProjectItem } = this.props; 
         const { getNextProjectItem } = this.props;
-        const { getLocationObject } = this.props;
-        const { getGeoLocation } = this.props;
         getProjects();
         getProjectItem();
         getNextProjectItem();
@@ -60,8 +56,6 @@ class ReduxHOC extends Component {
         getImgWidth();
         getTotalSlides();
         getIntersectingState();
-        getLocationObject();
-        getGeoLocation();
     }
 
     render() {

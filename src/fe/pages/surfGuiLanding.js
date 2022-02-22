@@ -41,10 +41,17 @@ const mapStateToProps = state => {
 
 class SurfGUILanding extends Component {
 
+    componentDidMount(){
+        getCloseSurfSpots();
+    }
+
 
     render() {
         return (
             <SurfGUILadingContainer>
+                <Row>
+                    <HeaderComponent />
+                </Row>
                 <Row>
                     <Col sm={2}>
                     </Col>
