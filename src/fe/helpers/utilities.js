@@ -58,3 +58,10 @@ function deg2rad(deg) {
     return deg * (Math.PI / 180)
 }
 
+export const requestAsPromise = (url, locationsAndCoords) => {
+    return new Promise((resolve, reject) => {
+       
+
+            resolve(data)
+        });
+    }
