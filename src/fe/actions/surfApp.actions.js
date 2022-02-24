@@ -1,5 +1,5 @@
 import {GET_LOCATION_OBJECT, GET_GEO_LOCATION, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS} from '../helpers/types'
-import {getDistanceFromLatLonInKm} from '../helpers/utilities'
+import {getDistanceFromLatLonInKm, processAsync} from '../helpers/utilities'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:9000/Locations';
@@ -28,79 +28,64 @@ export const getCloseSurfSpots = () => {
         .catch(error => {
             throw(error);
         });
-    const getCountries = (locationsAndCoords) => new Promise((resolve, rej) => {
+
+    const getCloseSurfSpots = (locationsAndCoords) => {
 
         const currentLat = locationsAndCoords.coords.latitude;
         const currentLng = locationsAndCoords.coords.longitude;
         const _obj = locationsAndCoords.locations;
-        let promises1 = [];
-        let promises2 = [];
-        Object.keys(_obj).reduce((previousValue, country) => {
-            promises1.push(new Promise((resolve, reject) => {
-            if (_obj[country]){
-                for (let i = 0; i < _obj[country].length; i++) {
-                    promises2.push(new Promise((resolve, reject) => {
-                        const results = {
-                            country: country,
-                            data: _obj[country][i],
-                            currentLat: currentLat,
-                            currentLng: currentLng
+
+        return new Promise((resolve) => {
+            const data = Object.keys(_obj);
+            resolve(data)
+        }).then((data) => {
+            return data.map((country) => {
+                if (country) {
+                    return _obj[country].map((item) => {
+                        const distanceFromLocation = getDistanceFromLatLonInKm(currentLat, currentLng, item.lat, item.lng);
+                        if (distanceFromLocation < 100) {
+                            item.countryOrState = country;
+
+                            return item;
                         }
-                        console.log(results)
-                        resolve(results);
-                    }))
-                }  
-            }
-               
-        }
-    ))
-    const data = [promises1, promises2];
-            const flat = data.flat();
-            console.log(flat)
+                    })
+                }
+            })
 
-        resolve(Promise.all(flat))
-})
-    })
-    const getCloseSurfSpots = (closeCountries) => new Promise((resolve, reject) => {
-        console.log(closeCountries)
-        let promises = []
+        })
 
-        // for (let i = 0; i < closeCountries[i].data.length; i++) {
-            
-
-        //     const surfSpot = closeCountries[i];
-        //     const currentLat = closeCountries[i].currentLat;
-        //     const currentLng = closeCountries[i].currentLng;
-        //     console.log(currentLat, currentLng, surfSpot)
-        //     promises.push(new Promise((resolve, reject) => {
-        //         const distanceFromLocation = getDistanceFromLatLonInKm(currentLat, currentLng, surfSpot.lat, surfSpot.lng);
-        //         if (distanceFromLocation < 100) {
-        //             surfSpot.country = country;
-        //             resolve(surfSpot)
-        //         }
-        //     }))
-        // }
-        resolve(Promise.all(promises))
-    })
-    const getCloseSpotForecasts = (closeLocations) => {
-        console.log(closeLocations);
-        // closeLocations.map(location => {     console.log(location);
-        // console.log(msUrl + location.spotId);     axios         .get(msUrl +
-        // location.spotId)         .then(response => {             return
-        // location.forecast = response.data;         })         .catch(error => {
-        //       throw(error);         }) })
     }
-
-  
+    const getCloseSpotForecasts = (closeLocations) => {
+        return new Promise((resolve) => {
+            resolve(closeLocations.map((location) => {
+                return location.filter( Boolean )
+        }))
+        }).then((item) => item.map((location) => {
+            if (location.length > 0) {
+                return location.map((surfSpot) => {
+                    console.log(msUrl + surfSpot.spotId);
+                    axios
+                        .get(msUrl + surfSpot.spotId)
+                        .then(response => {
+                             surfSpot.forecast = response.data;
+                             console.log(surfSpot)
+                             return surfSpot;
+                        })
+                        .catch(error => {
+                            throw (error);
+                        })
+                })
+            }
+        }))
+    }
+    
 
     async function getCloseSpotsandForecast() {
         try {
             const result = await latLng();
             const locationsAndCoords = await getLocations(result);
-            const closeCountries = await getCountries(locationsAndCoords);
-            const closeSurfSpots = await getCloseSurfSpots(closeCountries);
+            const closeSurfSpots = await getCloseSurfSpots(locationsAndCoords);
             const closeSpotForecasts = await getCloseSpotForecasts(closeSurfSpots);
-            
 
         } catch (error) {
             console.log(error);
@@ -109,19 +94,3 @@ export const getCloseSurfSpots = () => {
     getCloseSpotsandForecast();
 
 };
-
-export const getSurfApiSpotForecast = (spotId) => {
-    return (dispatch) => {
-        return axios
-            .get(msUrl + spotId)
-            .then(response => {
-                return response.data
-            })
-            .then(data => {
-                dispatch({type: GET_SPOT_FORECAST, payload: data})
-            })
-            .catch(error => {
-                throw(error);
-            });
-    };
-}
