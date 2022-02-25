@@ -44,9 +44,7 @@ const initalState = {
             latitude: '',
             longitude: ''
         },
-        towns: [],
-        countries: [],
-        forecast: []
+        closeSurfSpots: []
     },
     
     pages: {

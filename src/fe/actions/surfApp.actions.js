@@ -1,11 +1,11 @@
 import {GET_LOCATION_OBJECT, GET_GEO_LOCATION, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS} from '../helpers/types'
-import {getDistanceFromLatLonInKm, processAsync} from '../helpers/utilities'
+import {getDistanceFromLatLonInKm} from '../helpers/utilities'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:9000/Locations';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
 
-export const getCloseSurfSpots = () => {
+
 
     const latLng = () => new Promise((res, rej) => {
         navigator
@@ -29,7 +29,7 @@ export const getCloseSurfSpots = () => {
             throw(error);
         });
 
-    const getCloseSurfSpots = (locationsAndCoords) => {
+const getCloseSurfSpotsArr = (locationsAndCoords) => {
 
         const currentLat = locationsAndCoords.coords.latitude;
         const currentLng = locationsAndCoords.coords.longitude;
@@ -45,7 +45,7 @@ export const getCloseSurfSpots = () => {
                         const distanceFromLocation = getDistanceFromLatLonInKm(currentLat, currentLng, item.lat, item.lng);
                         if (distanceFromLocation < 100) {
                             item.countryOrState = country;
-
+                            item.distanceFromLocation = distanceFromLocation;
                             return item;
                         }
                     })
@@ -55,42 +55,36 @@ export const getCloseSurfSpots = () => {
         })
 
     }
-    const getCloseSpotForecasts = (closeLocations) => {
+    const closeSurfSpotArrayFiltering = (closeLocations) => {
         return new Promise((resolve) => {
             resolve(closeLocations.map((location) => {
-                return location.filter( Boolean )
-        }))
-        }).then((item) => item.map((location) => {
+                return location.filter(Boolean)
+            }))
+        }).then((item) => item.filter((location) => {
             if (location.length > 0) {
-                return location.map((surfSpot) => {
-                    console.log(msUrl + surfSpot.spotId);
-                    axios
-                        .get(msUrl + surfSpot.spotId)
-                        .then(response => {
-                             surfSpot.forecast = response.data;
-                             console.log(surfSpot)
-                             return surfSpot;
-                        })
-                        .catch(error => {
-                            throw (error);
-                        })
-                })
+                return location
             }
-        }))
+        })).then((data) => {
+            const flatArr = data.flat();
+            return flatArr.sort((a, b) => {
+                if (a.distanceFromLocation > b.distanceFromLocation) 
+                    return 1;
+                if (a.distanceFromLocation < b.distanceFromLocation) 
+                    return -1;
+                return 0;
+            });
+        })
     }
-    
 
-    async function getCloseSpotsandForecast() {
+export async function getCloseSurfSpots(dispatch) {
         try {
             const result = await latLng();
             const locationsAndCoords = await getLocations(result);
-            const closeSurfSpots = await getCloseSurfSpots(locationsAndCoords);
-            const closeSpotForecasts = await getCloseSpotForecasts(closeSurfSpots);
-
+            const closeSurfSpotsRaw = await getCloseSurfSpotsArr(locationsAndCoords);
+            const closeSurfSpotsFiltered = await closeSurfSpotArrayFiltering(closeSurfSpotsRaw);
+            return closeSurfSpotsFiltered;
         } catch (error) {
             console.log(error);
         }
     }
-    getCloseSpotsandForecast();
 
-};

@@ -7,6 +7,7 @@ import HeaderComponent from '../components/navigation/header';
 import BarChartWithEvent from '../components/SurfAppDataComponents/barChartWithEvent';
 import Footer from '../components/footer';
 import {getCloseSurfSpots} from '../actions/surfApp.actions';
+import { GET_LOCATION_OBJECT, GET_GEO_LOCATION, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS } from '../helpers/types'
 
 
 
@@ -31,8 +32,7 @@ const mapStateToProps = state => {
                 latitude: state.surf.geoLocation.latitude,
                 longitude: state.surf.geoLocation.longitude
             },
-            towns: [],
-            countries: [],
+            closeSurfSpots: state.surf.closeSurfSpots,
             forecast: []
         }
     }
@@ -42,13 +42,17 @@ const mapStateToProps = state => {
 class SurfGUILanding extends Component {
 
     componentDidMount(){
-        getCloseSurfSpots();
+        this.props.dispatch({
+            type: GET_CLOSE_SURFSPOTS,
+            payload: getCloseSurfSpots()
+        });
     }
 
 
     render() {
         return (
             <SurfGUILadingContainer>
+                {console.log(this.props.surf.closeSurfSpots)}
                 <Row>
                     <HeaderComponent />
                 </Row>
