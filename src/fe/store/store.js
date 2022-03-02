@@ -44,7 +44,8 @@ const initalState = {
             latitude: '',
             longitude: ''
         },
-        closeSurfSpots: []
+        closeSurfSpots: [],
+        initialSurfForecast: [],
     },
     
     pages: {

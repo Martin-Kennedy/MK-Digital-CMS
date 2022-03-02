@@ -36,7 +36,7 @@ const LogoLine = styled.div`
 
 const LogoText = styled.div`
     text-align: left;
-    font-family: mr-eaves-modern; sans-serif;
+    font-family: mr-eaves-modern sans-serif;
     font-weight: 100;
     font-size: 25px;
     margin-top: 0;

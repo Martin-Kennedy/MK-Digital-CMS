@@ -12,7 +12,9 @@
 }
 
 body {
-    font: 14px 300 regular "mr-eaves-modern", sans-serif;
+    font-family: 'mr-eaves-modern', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
     background-color: #fff;
     color: #1d1e22;
     overflow-x: hidden !important;

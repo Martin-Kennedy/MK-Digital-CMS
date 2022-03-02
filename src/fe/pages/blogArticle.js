@@ -94,6 +94,7 @@ svg{
 
 const BottomLine = styled.div`
     width: calc(95% - 20vw);
+    /* padding-bottom: 19px; */
     position: relative;
     top: -7px;
     margin-right: 5%;

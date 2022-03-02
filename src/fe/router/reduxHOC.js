@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { getIntersectingState } from '../actions/pages.actions';
 import { getBlogs, getBlogItem, getNextBlogItem } from '../actions/blogs.actions';
 import { getProjects, getProjectItem, getNextProjectItem } from '../actions/projects.actions';
-import { getLocationObject, getGeoLocation, getCloseSurfSpots } from '../actions/surfApp.actions';
 import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
 
 const mapDispatchToProps = dispatch => ({
@@ -24,7 +23,6 @@ const mapDispatchToProps = dispatch => ({
     getIntersectingState: isIntersecting => dispatch(getIntersectingState(isIntersecting)),
     getBlogItem: item => dispatch(getBlogItem(item)),
     getNextBlogItem: nextBlogItem => dispatch(getNextBlogItem(nextBlogItem)),
-    getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots))
 });
 
 class ReduxHOC extends Component {
@@ -42,7 +40,6 @@ class ReduxHOC extends Component {
         const { getBlogItem } = this.props;
         const { getNextBlogItem } = this.props;
         const { getProjectItem } = this.props; 
-        const { getNextProjectItem } = this.props;
         getProjects();
         getProjectItem();
         getNextProjectItem();
