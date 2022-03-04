@@ -45,7 +45,9 @@ const initalState = {
             longitude: ''
         },
         closeSurfSpots: [],
-        initialSurfForecast: [],
+        closestSurfSpot: [],
+        surfForecast: [],
+        currentConditions: []
     },
     
     pages: {

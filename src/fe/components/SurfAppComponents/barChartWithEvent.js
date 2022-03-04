@@ -3,6 +3,8 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Resp
 
 export default class BarChartWithEvent extends PureComponent {
 
+    
+
     state = {
         data: [
             {
@@ -63,7 +65,7 @@ export default class BarChartWithEvent extends PureComponent {
 
         return (
             <div style={{ width: '100%' }}>
-                
+                {console.log(this.props.swellHeight)}
                 <ResponsiveContainer width="100%" height={100}>
                     <BarChart width={150} height={40} data={data}>
                         <Bar dataKey="uv" onClick={this.handleClick}>
@@ -72,6 +74,8 @@ export default class BarChartWithEvent extends PureComponent {
                             ))}
                         </Bar>
                         <Tooltip />
+                        <Bar dataKey="pv" stackId="a" fill="#8884d8" />
+                        <Bar dataKey="uv" stackId="a" fill="#82ca9d" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

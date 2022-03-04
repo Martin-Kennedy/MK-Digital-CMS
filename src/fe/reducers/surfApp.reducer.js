@@ -1,4 +1,4 @@
-import { GET_CLOSE_SURFSPOTS, GET_INITIAL_SPOT_FORECAST } from '../helpers/types';
+import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST } from '../helpers/types';
 
 const INITIAL_STATE = {
     surf: {
@@ -13,13 +13,22 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
         case GET_CLOSE_SURFSPOTS:
                 return{
                     ...state,
-                    closeSurfSpots: action.payload
+                    closeSurfSpots: action.payload,
+                    closestSurfSpot: action.payload[0]
                 }
-        case GET_INITIAL_SPOT_FORECAST:
+        case GET_SPOT_FORECAST:
+            const getCurrentConditions = () => {
+                const now = Date.now() / 1000 | 0;
+                return action.payload.filter((d) => {
+                    return d.localTimestamp < now;
+                })
+            }
+
+            let currentConditions = getCurrentConditions()[getCurrentConditions().length - 1];
             return {
                 ...state,
-                initialSurfForecast: action.payload
-
+                surfForecast: action.payload,
+                currentConditions: currentConditions
             }
         
         default:

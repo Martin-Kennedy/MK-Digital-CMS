@@ -3,7 +3,7 @@ import { Row, Col, } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import BarChartWithEvent from '../components/SurfAppComponents/barChartWithEvent';
-import { getLocationObject, getInitialSurfForecast, getCloseSurfSpots } from '../actions/surfApp.actions';
+import { getLocationObject, getSurfForecast, getCloseSurfSpots } from '../actions/surfApp.actions';
 
 
 
@@ -83,14 +83,16 @@ const mapStateToProps = state => {
         surf: {
             locations: state.surf.locations,
             closeSurfSpots: state.surf.closeSurfSpots,
-            initialSurfForecast: state.surf.initialSurfForecast
+            closestSurfSpot: state.surf.closestSurfSpot,
+            surfForecast: state.surf.surfForecast,
+            currentConditions: state.surf.currentConditions
         }
     }
 }
 
 const mapDispatchToProps = dispatch => ({
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
-    getInitialSurfForecast: initialSurfForecast => dispatch(getInitialSurfForecast(initialSurfForecast))
+    getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast))
 });
 
 
@@ -103,8 +105,8 @@ class SurfGUILanding extends Component {
 
     componentDidUpdate(prevProps){
         if(prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots){
-            const { getInitialSurfForecast } = this.props;
-            getInitialSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
+            const { getSurfForecast } = this.props;
+            getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
         }
         
 
@@ -135,23 +137,13 @@ class SurfGUILanding extends Component {
                         </LeftNavBkg>
                         <Col>
                                 {console.log(this.props)}
-                            {/* <Row>
+                            <Row>
                                 <Col xs={4}>
                                     <BarChartContainer>
                                         <BarChartWithEvent />
                                     </BarChartContainer>
                                 </Col>
-                                <Col xs={4}>
-                                    <BarChartContainer>
-                                        <BarChartWithEvent />
-                                    </BarChartContainer>
-                                </Col>
-                                <Col xs={4}>
-                                    <BarChartContainer>
-                                        <BarChartWithEvent />
-                                    </BarChartContainer>
-                                </Col>
-                            </Row> */}
+                            </Row>
                         </Col>
                     </GlassContainerBkg>
                     </Col>

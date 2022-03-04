@@ -1,4 +1,4 @@
-import { GET_LOCATION_OBJECT, GET_GEO_LOCATION, GET_INITIAL_SPOT_FORECAST, GET_CLOSE_SURFSPOTS} from '../helpers/types'
+import { GET_LOCATION_OBJECT, GET_GEO_LOCATION, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS} from '../helpers/types'
 import {getDistanceFromLatLonInKm} from '../helpers/utilities'
 import axios from 'axios'
 
@@ -75,19 +75,14 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
     })
 }
 
-export const getInitialSurfForecast = (spotId) => {
+export const getSurfForecast = (spotId) => {
     return (dispatch) => {
         return axios.get(msUrl + spotId)
             .then(response => {
                 return response.data
             }).then(data => {
-                const now = Date.now() / 1000 | 0;
-                return data.filter((d) => {
-                    return d.localTimestamp >= now;
-                })
-            }).then(data => {
                 dispatch({
-                    type: GET_INITIAL_SPOT_FORECAST,
+                    type: GET_SPOT_FORECAST,
                     payload: data
                 })
             })
