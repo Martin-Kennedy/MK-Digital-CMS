@@ -1,4 +1,4 @@
-import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST } from '../helpers/types';
+import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_SWELL_FORECAST  } from '../helpers/types';
 
 const INITIAL_STATE = {
     surf: {
@@ -35,10 +35,18 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
 
             let currentConditions = getCurrentConditions()[getCurrentConditions().length - 1];
             let forecastGroupedByDate = groupByDate();
+            
+            
             return {
                 ...state,
-                surfForecast: forecastGroupedByDate,
+                hourlyForecast: forecastGroupedByDate,
                 currentConditions: currentConditions
+            }
+        case GET_SWELL_FORECAST:
+           
+            return {
+                ...state,
+                swellForecast: action.payload,
             }
         
         default:
@@ -47,3 +55,4 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
 }
 
 export default surfAppReducer;
+

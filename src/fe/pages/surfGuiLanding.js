@@ -3,7 +3,7 @@ import { Row, Col, } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import BarChartWithEvent from '../components/SurfAppComponents/barChartWithEvent';
-import { getLocationObject, getSurfForecast, getCloseSurfSpots } from '../actions/surfApp.actions';
+import { getLocationObject, getSurfForecast, getCloseSurfSpots, getSwellForecast } from '../actions/surfApp.actions';
 
 
 
@@ -84,15 +84,17 @@ const mapStateToProps = state => {
             locations: state.surf.locations,
             closeSurfSpots: state.surf.closeSurfSpots,
             closestSurfSpot: state.surf.closestSurfSpot,
-            surfForecast: state.surf.surfForecast,
-            currentConditions: state.surf.currentConditions
+            hourlyForecast: state.surf.hourlyForecast,
+            currentConditions: state.surf.currentConditions,
+            swellForecast: state.surf.swellForecast
         }
     }
 }
 
 const mapDispatchToProps = dispatch => ({
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
-    getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast))
+    getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast)),
+    getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast))
 });
 
 
@@ -107,6 +109,10 @@ class SurfGUILanding extends Component {
         if(prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots){
             const { getSurfForecast } = this.props;
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
+        }
+        if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
+            const { getSwellForecast } = this.props;
+            getSwellForecast(this.props.surf.hourlyForecast)
         }
         
 
@@ -140,7 +146,7 @@ class SurfGUILanding extends Component {
                             <Row>
                                 <Col xs={4}>
                                     <BarChartContainer>
-                                        <BarChartWithEvent forecast={this.props.surf.surfForecast} />
+                                        <BarChartWithEvent forecast={this.props.surf.hourlyForecast} />
                                     </BarChartContainer>
                                 </Col>
                             </Row>

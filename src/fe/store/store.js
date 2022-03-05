@@ -46,7 +46,8 @@ const initalState = {
         },
         closeSurfSpots: [],
         closestSurfSpot: [],
-        surfForecast: [],
+            hourlyForecast: [],
+            swellForecast: [],
         currentConditions: []
     },
     

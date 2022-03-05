@@ -1,4 +1,5 @@
-import { GET_LOCATION_OBJECT, GET_GEO_LOCATION, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS} from '../helpers/types'
+import {  GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_SWELL_FORECAST } from '../helpers/types'
+import { formatAMPM } from '../helpers/utilities'
 import {getDistanceFromLatLonInKm} from '../helpers/utilities'
 import axios from 'axios'
 
@@ -100,7 +101,7 @@ export const getCloseSurfSpots = () => {
     });
     return (dispatch) => {
         function onSuccess(data) {
-            dispatch({type: GET_CLOSE_SURFSPOTS, payload: data});
+            dispatch({ type: GET_CLOSE_SURFSPOTS, payload: data});
             return data;
         }
 
@@ -117,3 +118,45 @@ export const getCloseSurfSpots = () => {
         })
     };
 }
+
+ export const getSwellForecast = (data) => {
+     let request = new Promise((resolve) => {
+         let arr1 = [];
+         for (const [key, value] of Object.entries(data)) {
+             let arr = [];
+             value.map((hourlyForecast) => {
+                 arr.push(
+                     {
+                         date: key,
+                         time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+                         minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
+                         maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
+                         primarySwellDirection: hourlyForecast.swell.components.primary.compassDirection,
+                         primaryHeight: hourlyForecast.swell.components.primary.height,
+                         primaryPeriod: hourlyForecast.swell.components.primary.period,
+                         secondarySwellDirection: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.compassDirection : '',
+                         secondaryHeight: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.height : '',
+                         secondaryPeriod: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.period : '',
+                     }
+                 )
+             })
+             arr1.push(arr)
+             resolve(arr1);
+         }
+
+     })
+     return (dispatch) => {
+         function onSuccess(data) {
+             dispatch({ type: GET_SWELL_FORECAST, payload: data });
+             return data;
+         }
+
+         request.then(data => {
+             onSuccess(data)
+         }).catch((error) => {
+             console.log(error);
+         })
+     };
+ }
+
+
