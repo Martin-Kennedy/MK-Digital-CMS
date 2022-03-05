@@ -140,7 +140,7 @@ class SurfGUILanding extends Component {
                             <Row>
                                 <Col xs={4}>
                                     <BarChartContainer>
-                                        <BarChartWithEvent />
+                                        <BarChartWithEvent forecast={this.props.surf.surfForecast} />
                                     </BarChartContainer>
                                 </Col>
                             </Row>

@@ -5,78 +5,44 @@ export default class BarChartWithEvent extends PureComponent {
 
     
 
-    state = {
-        data: [
-            {
-                name: 'Page A',
-                uv: 4000,
-                pv: 2400,
-                amt: 2400,
-            },
-            {
-                name: 'Page B',
-                uv: 3000,
-                pv: 1398,
-                amt: 2210,
-            },
-            {
-                name: 'Page C',
-                uv: 2000,
-                pv: 9800,
-                amt: 2290,
-            },
-            {
-                name: 'Page D',
-                uv: 2780,
-                pv: 3908,
-                amt: 2000,
-            },
-            {
-                name: 'Page E',
-                uv: 1890,
-                pv: 4800,
-                amt: 2181,
-            },
-            {
-                name: 'Page F',
-                uv: 2390,
-                pv: 3800,
-                amt: 2500,
-            },
-            {
-                name: 'Page G',
-                uv: 3490,
-                pv: 4300,
-                amt: 2100,
-            },
-        ],
-        activeIndex: 0,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {}
+        }
+    }
 
-    handleClick = (data, index) => {
-        this.setState({
-            activeIndex: index,
-        });
-    };
+
+    componentDidMount(){
+        if(this.props.forecast.length > 0){ Object.keys(this.props.forecast).map((keyName, keyIndex) => {
+            this.state.data =
+                {
+                    keyName: this.props.forecast[keyName]
+                }
+
+            })
+        }
+    }
+
+
+
+    
 
     render() {
-        const { activeIndex, data } = this.state;
-        const activeItem = data[activeIndex];
+       
 
         return (
             <div style={{ width: '100%' }}>
-                {console.log(this.props.swellHeight)}
                 <ResponsiveContainer width="100%" height={100}>
-                    <BarChart width={150} height={40} data={data}>
-                        <Bar dataKey="uv" onClick={this.handleClick}>
-                            {data.map((entry, index) => (
-                                <Cell cursor="pointer" fill={index === activeIndex ? '#82ca9d' : '#8884d8'} key={`cell-${index}`} />
-                            ))}
-                        </Bar>
-                        <Tooltip />
-                        <Bar dataKey="pv" stackId="a" fill="#8884d8" />
-                        <Bar dataKey="uv" stackId="a" fill="#82ca9d" />
-                    </BarChart>
+                    {this.props.forecast.length > 0 ? Object.keys(this.props.forecast).map((keyName, keyIndex) => {
+                        return (<BarChart width={150} height={40} data={this.props.forecast[keyName]}>
+                            <Tooltip />
+                            <Bar dataKey="swell.maxBreakingHeight" stackId="a" fill="#8884d8" />
+                            <Bar dataKey="swell.minBreakingHeight" stackId="a" fill="#82ca9d" />
+                        </BarChart>)
+                    }) : <div></div>}
+                        
+                    
                 </ResponsiveContainer>
             </div>
         );

@@ -23,11 +23,21 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                     return d.localTimestamp < now;
                 })
             }
+            const groupByDate = () => {
+                function callBack({ localTimestamp }) {
+                    let dateObj = new Date(localTimestamp * 1000);
+                    let fullDate = `${dateObj.getMonth()+1}/${dateObj.getDate()}`
+                    return `${fullDate}`;
+                }
+                const result = action.payload.groupBy(callBack);
+                return result;
+            }
 
             let currentConditions = getCurrentConditions()[getCurrentConditions().length - 1];
+            let forecastGroupedByDate = groupByDate();
             return {
                 ...state,
-                surfForecast: action.payload,
+                surfForecast: forecastGroupedByDate,
                 currentConditions: currentConditions
             }
         

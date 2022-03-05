@@ -66,3 +66,13 @@ export const processAsync = (n) => {
         );
     });
 }
+
+
+export const formatAMPM = (date) => {
+    var hours = date.getHours();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    var strTime = hours + ampm;
+    return strTime;
+}
