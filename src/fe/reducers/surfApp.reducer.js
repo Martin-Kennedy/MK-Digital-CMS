@@ -23,13 +23,25 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                     return d.localTimestamp < now;
                 })
             }
+            const getFutureConditions = () => {
+                const now = Date.now();
+                const date = new Date(now).getDate();
+                return action.payload.filter((d) => {
+                    const forecastDate = new Date(d.localTimestamp * 1000).getDate()
+                    console.log(date);
+                    console.log(forecastDate);
+
+                    return forecastDate >= date;
+                })
+            }
             const groupByDate = () => {
                 function callBack({ localTimestamp }) {
                     let dateObj = new Date(localTimestamp * 1000);
                     let fullDate = `${dateObj.getMonth()+1}/${dateObj.getDate()}`
                     return `${fullDate}`;
                 }
-                const result = action.payload.groupBy(callBack);
+                const result = getFutureConditions().groupBy(callBack);
+                console.log(result)
                 return result;
             }
 

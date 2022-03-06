@@ -1,5 +1,4 @@
-
-import { createStore, applyMiddleware } from 'redux'
+import {createStore, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers/root.reducer'
 
@@ -7,7 +6,7 @@ const initalState = {
     homepage: {
         homepageData: {
             homepageCarousel: {
-                homepageCarouselArray: [],
+                homepageCarouselArray: []
             }
         },
         previousSlide: 0,
@@ -39,18 +38,13 @@ const initalState = {
         activeButton: 1
     },
     surf: {
-        locations: [],
-        geoLocation: {
-            latitude: '',
-            longitude: ''
-        },
         closeSurfSpots: [],
         closestSurfSpot: [],
-            hourlyForecast: [],
-            swellForecast: [],
+        hourlyForecast: [],
+        swellForecast: [],
         currentConditions: []
     },
-    
+
     pages: {
         isIntersecting: false
     }

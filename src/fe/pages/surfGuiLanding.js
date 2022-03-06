@@ -16,7 +16,9 @@ const SurfGUILandingContainer = styled(Row)`
 `
 
 const BarChartContainer = styled.div`
-
+width: 100%;
+display: flex;
+flex-direction: row;
 `
 
 const GlassContainerBkg = styled(Row)`
@@ -141,15 +143,14 @@ class SurfGUILanding extends Component {
                             </ul>
                             </Row>
                         </LeftNavBkg>
-                        <Col>
-                                {console.log(this.props)}
-                            <Row>
-                                <Col xs={4}>
+                        <Col sm={10}>
                                     <BarChartContainer>
-                                        <BarChartWithEvent forecast={this.props.surf.hourlyForecast} />
+                                            {this.props.surf.swellForecast.length > 0 ? this.props.surf.swellForecast.map((dateForecast) => {
+                                                console.log(dateForecast)
+                                            return <BarChartWithEvent forecast={dateForecast} />
+                                            }) : null}
                                     </BarChartContainer>
-                                </Col>
-                            </Row>
+                              
                         </Col>
                     </GlassContainerBkg>
                     </Col>
