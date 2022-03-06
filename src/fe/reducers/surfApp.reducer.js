@@ -28,33 +28,42 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 const date = new Date(now).getDate();
                 return action.payload.filter((d) => {
                     const forecastDate = new Date(d.localTimestamp * 1000).getDate()
-                    console.log(date);
-                    console.log(forecastDate);
-
                     return forecastDate >= date;
                 })
             }
-            const groupByDate = () => {
-                function callBack({ localTimestamp }) {
-                    let dateObj = new Date(localTimestamp * 1000);
-                    let fullDate = `${dateObj.getMonth()+1}/${dateObj.getDate()}`
-                    return `${fullDate}`;
-                }
-                const result = getFutureConditions().groupBy(callBack);
-                console.log(result)
-                return result;
-            }
-
+            
             let currentConditions = getCurrentConditions()[getCurrentConditions().length - 1];
-            let forecastGroupedByDate = groupByDate();
+            let forecast = getFutureConditions();
+            
             
             
             return {
                 ...state,
-                hourlyForecast: forecastGroupedByDate,
+                hourlyForecast: forecast,
                 currentConditions: currentConditions
+                
             }
         case GET_SWELL_FORECAST:
+            const getMaxWaveSizeInForecast = async () => {
+                Array.prototype.max = function () {
+                    return Math.max.apply(null, this);
+                };
+                const waveHeightsArr = new Promise((resolve) => {
+                    let waveHeights = [];
+                    forecast.map((hourlyForecast) => [
+                        waveHeights.push(hourlyForecast.swell.maxBreakingHeight)
+                    ])
+                    resolve(waveHeights)
+                })
+                return waveHeightsArr.then((data) => {
+                    console.log(data)
+                    console.log(data.max())
+                    return data.max();
+                })
+
+            } 
+
+            let maxWaveHeightInForecast = getMaxWaveSizeInForecast(action.payload);
            
             return {
                 ...state,

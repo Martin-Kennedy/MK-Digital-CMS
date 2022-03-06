@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import BarChartWithEvent from '../components/SurfAppComponents/barChartWithEvent';
+import SwellBarChart from '../components/SurfAppComponents/swellBarChart';
 import { getLocationObject, getSurfForecast, getCloseSurfSpots, getSwellForecast } from '../actions/surfApp.actions';
 
 
@@ -30,9 +30,9 @@ const GlassContainerBkg = styled(Row)`
   margin-top: 5vh;
 `
 
-const LeftNavBkg = styled(Col)`
+const LeftNavBkg = styled.div`
   margin-top: 2vh;
-  margin-left: 2vh;    
+  margin-left: 2vh;
   height: 86vh;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.05);
@@ -88,7 +88,8 @@ const mapStateToProps = state => {
             closestSurfSpot: state.surf.closestSurfSpot,
             hourlyForecast: state.surf.hourlyForecast,
             currentConditions: state.surf.currentConditions,
-            swellForecast: state.surf.swellForecast
+            swellForecast: state.surf.swellForecast,
+            maxWaveHeightInForecast: state.surf.maxWaveHeightInForecast
         }
     }
 }
@@ -131,8 +132,9 @@ class SurfGUILanding extends Component {
                     </Col>
                     <Col sm={10}>
                     <GlassContainerBkg>
-                        
-                        <LeftNavBkg sm={2}>
+                        {console.log(this.props.surf.hourlyForecast)}
+                            <Col sm={2}>
+                        <LeftNavBkg >
                             <Title>
                             <p>Surf Spots Near You</p>
                             <span>within a 100km radius</span>
@@ -143,15 +145,12 @@ class SurfGUILanding extends Component {
                             </ul>
                             </Row>
                         </LeftNavBkg>
+                            </Col>
                         <Col sm={10}>
-                                    <BarChartContainer>
-                                            {this.props.surf.swellForecast.length > 0 ? this.props.surf.swellForecast.map((dateForecast) => {
-                                                console.log(dateForecast)
-                                            return <BarChartWithEvent forecast={dateForecast} />
-                                            }) : null}
-                                    </BarChartContainer>
-                              
+                                <SwellBarChart maxWaveHeightInForecast={this.props.surf.maxWaveHeightInForecast + 2} forecast={this.props.surf.swellForecast} />
                         </Col>
+                              
+                        
                     </GlassContainerBkg>
                     </Col>
                     <Col sm={1}>

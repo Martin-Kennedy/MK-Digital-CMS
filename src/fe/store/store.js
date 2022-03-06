@@ -42,7 +42,8 @@ const initalState = {
         closestSurfSpot: [],
         hourlyForecast: [],
         swellForecast: [],
-        currentConditions: []
+        currentConditions: [],
+        maxWaveHeightInForecast: ''
     },
 
     pages: {

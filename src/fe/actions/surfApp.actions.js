@@ -121,13 +121,14 @@ export const getCloseSurfSpots = () => {
 
  export const getSwellForecast = (data) => {
      let request = new Promise((resolve) => {
-         let arr1 = [];
-         for (const [key, value] of Object.entries(data)) {
-             let arr = [];
-             value.map((hourlyForecast) => {
+        let arr = [];
+         data.map((hourlyForecast) => {
+             let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
+             let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
+            
                  arr.push(
                      {
-                         date: key,
+                         date: fullDate,
                          time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
                          minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
                          maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
@@ -140,11 +141,8 @@ export const getCloseSurfSpots = () => {
                      }
                  )
              })
-             arr1.push(arr)
-             resolve(arr1);
-         }
-
-     })
+             resolve(arr);
+         })
      return (dispatch) => {
          function onSuccess(data) {
              dispatch({ type: GET_SWELL_FORECAST, payload: data });
