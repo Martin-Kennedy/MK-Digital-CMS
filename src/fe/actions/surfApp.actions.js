@@ -130,6 +130,7 @@ export const getCloseSurfSpots = () => {
                      {
                          date: fullDate,
                          time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+                         localTime: hourlyForecast.localTimestamp * 1000,
                          minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
                          maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
                          primarySwellDirection: hourlyForecast.swell.components.primary.compassDirection,

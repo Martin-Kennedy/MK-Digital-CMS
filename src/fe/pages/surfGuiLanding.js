@@ -15,10 +15,13 @@ const SurfGUILandingContainer = styled(Row)`
     overflow: hide;
 `
 
-const BarChartContainer = styled.div`
-width: 100%;
-display: flex;
-flex-direction: row;
+const DataDashBoardRow = styled(Row)`
+height: 20vh;
+margin: 5vh 0;
+`
+
+const SwellChartContainer = styled.div`
+margin-left: -2vw;
 `
 
 const GlassContainerBkg = styled(Row)`
@@ -147,7 +150,16 @@ class SurfGUILanding extends Component {
                         </LeftNavBkg>
                             </Col>
                         <Col sm={10}>
-                                <SwellBarChart maxWaveHeightInForecast={this.props.surf.maxWaveHeightInForecast + 2} forecast={this.props.surf.swellForecast} />
+                                <DataDashBoardRow>
+                                    <SwellChartContainer>
+                                    <SwellBarChart maxWaveHeightInForecast={this.props.surf.maxWaveHeightInForecast + 2} forecast={this.props.surf.swellForecast} />
+                                    </SwellChartContainer>
+                                </DataDashBoardRow>
+                                <DataDashBoardRow>
+                                    
+                                </DataDashBoardRow>
+                                <DataDashBoardRow></DataDashBoardRow>
+                                
                         </Col>
                               
                         
