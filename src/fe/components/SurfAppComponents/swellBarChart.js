@@ -7,6 +7,23 @@ color: #fff !important;
 fill: #666;
 `
 
+const SwellChartToolTip = styled.div`
+width: 10vw;
+height: 12vw;
+border-radius: 5px;
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(2px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-right-color: rgba(255, 255, 255, 0.1);
+border-bottom-color: rgba(255, 255, 255, 0.1);
+box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+padding: 15px;
+position: relative;
+color: white;
+`
+
+
+
 const renderDateTick = (tickProps) => {
     const { x, y, payload } = tickProps;
     const { value, offset } = payload;
@@ -26,6 +43,20 @@ const renderDateTick = (tickProps) => {
         const pathX = Math.floor(isLast ? x + offset : x - offset) + 0.5;
 
         return <path d={`M${pathX},${y - 4}v${-35}`} stroke="#666" />;
+    }
+
+    return null;
+};
+
+const SwellInfoTooltip = ({ active, payload, data }) => {
+    if (active && payload && payload.length) {
+        return (
+            <SwellChartToolTip>
+                <p className="label">{`${payload[0].payload.date} - ${payload[0].payload.time}`}</p>
+                <p className="intro">{`Wave Height: ${payload[0].payload.maxBreakingHeight}ft`}</p>
+                <p className="intro">{`Primary Swell: ${payload[0].payload.primaryHeight}ft at ${payload[0].payload.primaryPeriod}`}</p>
+            </SwellChartToolTip>
+        );
     }
 
     return null;
@@ -68,8 +99,11 @@ export default class SwellBarChart extends PureComponent {
                         left: 0,
                         bottom: 5,
                     }} />
-                    <Tooltip />
-                    <Bar dataKey="maxBreakingHeight" fill="#8884d8" />
+                    <Tooltip content={<SwellInfoTooltip />} />
+                    <Bar 
+                    dataKey="maxBreakingHeight" 
+                    shape={renderShape('maxBreakingHeight')} 
+                    fill="red"/>
                 </BarChart>
             </ResponsiveContainer>
         );
