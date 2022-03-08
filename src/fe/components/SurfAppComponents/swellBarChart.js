@@ -13,13 +13,14 @@ height: 12vw;
 border-radius: 5px;
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(2px);
-border: 1px solid rgba(255, 255, 255, 0.2);
+border: 1px solid rgba(255, 255, 255, 0.15);
 border-right-color: rgba(255, 255, 255, 0.1);
 border-bottom-color: rgba(255, 255, 255, 0.1);
 box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
 padding: 15px;
 position: relative;
 color: white;
+z-index: 999;
 `
 
 
@@ -63,14 +64,22 @@ const SwellInfoTooltip = ({ active, payload, data }) => {
 };
 
 export default class SwellBarChart extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = { 
+            focusBar: null,
+            mouseLeave: true
+        
+        };
+        console.log(this.state)
+    }
+    
 
     render() {
-        let maxWaveHeightInForecast = this.props.maxWaveHeightInForecast;
-        let domain = [0, maxWaveHeightInForecast.data]
-        console.log(maxWaveHeightInForecast.data)
+       
         return (
 
-            <ResponsiveContainer width="100%" height="100%" >
+            <ResponsiveContainer width="100%" height="90%" >
                 <BarChart
                     width={500}
                     height={300}
@@ -81,7 +90,22 @@ export default class SwellBarChart extends PureComponent {
                         left: 20,
                         bottom: 5,
                     }}
-                >
+                    onMouseMove={(state) => {
+                        if (state.isTooltipActive) {
+                            console.log(state.activeTooltipIndex)
+                            console.log(this.state)
+                            this.setState({
+                                focusBar: state.activeTooltipIndex,
+                                mouseLeave: false
+                            }) ;
+                            } else {
+                            this.setState({
+                                focusBar: null,
+                                mouseLeave: true
+                            }) 
+                            }
+                        
+                    }}>
                     <XAxis dataKey="time" />
                     <XAxis
                         dataKey="localTime"
@@ -93,17 +117,26 @@ export default class SwellBarChart extends PureComponent {
                         scale="band"
                         xAxisId="Date"
                     />
-                    <YAxis type="number" domain={domain} margin={{
+                    <YAxis type="number"  margin={{
                         top: 5,
                         right: 10,
                         left: 0,
                         bottom: 5,
                     }} />
-                    <Tooltip content={<SwellInfoTooltip />} />
+                    <Tooltip content={<SwellInfoTooltip />} cursor={false} />
                     <Bar 
                     dataKey="maxBreakingHeight" 
-                    shape={renderShape('maxBreakingHeight')} 
-                    fill="red"/>
+                        fill="#7ecaed">
+                        {this.props.forecast.map((entry, index) => {
+                           return <Cell
+                                fill={
+                                    this.state.focusBar === index  
+                                       ? "#37bedb" : this.state.mouseLeave ? "rgba(50, 190, 219, 0.8)"
+                                        : "rgba(50, 190, 219, 0.35)"
+                                }
+                            />
+                        })}
+                            </Bar>
                 </BarChart>
             </ResponsiveContainer>
         );

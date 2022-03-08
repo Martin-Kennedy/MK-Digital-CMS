@@ -21,7 +21,20 @@ margin: 5vh 0;
 `
 
 const SwellChartContainer = styled.div`
-margin-left: -2vw;
+margin-left: 0;
+`
+
+const BackDrop = styled.div`
+border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-right-color: rgba(255, 255, 255, 0.07);
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
+  position: relative;
+  height: 22vh;
+  width: calc(100% - 5vh);
+  padding-top: 2vh;
 `
 
 const GlassContainerBkg = styled(Row)`
@@ -38,12 +51,11 @@ const LeftNavBkg = styled.div`
   margin-left: 2vh;
   height: 86vh;
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(2px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-right-color: rgba(255, 255, 255, 0.1);
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-right-color: rgba(255, 255, 255, 0.07);
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
   padding: 15px;
   position: relative;
   ul {
@@ -152,7 +164,9 @@ class SurfGUILanding extends Component {
                         <Col sm={10}>
                                 <DataDashBoardRow>
                                     <SwellChartContainer>
+                                        <BackDrop>
                                     <SwellBarChart maxWaveHeightInForecast={this.props.surf.maxWaveHeightInForecast + 2} forecast={this.props.surf.swellForecast} />
+                                        </BackDrop>
                                     </SwellChartContainer>
                                 </DataDashBoardRow>
                                 <DataDashBoardRow>
