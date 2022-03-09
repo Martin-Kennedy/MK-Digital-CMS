@@ -1,4 +1,4 @@
-import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_SWELL_FORECAST  } from '../helpers/types';
+import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_SWELL_FORECAST, GET_WIND_FORECAST  } from '../helpers/types';
 
 const INITIAL_STATE = {
     surf: {
@@ -44,30 +44,17 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 
             }
         case GET_SWELL_FORECAST:
-            const getMaxWaveSizeInForecast = async () => {
-                Array.prototype.max = function () {
-                    return Math.max.apply(null, this);
-                };
-                const waveHeightsArr = new Promise((resolve) => {
-                    let waveHeights = [];
-                    forecast.map((hourlyForecast) => [
-                        waveHeights.push(hourlyForecast.swell.maxBreakingHeight)
-                    ])
-                    resolve(waveHeights)
-                })
-                return waveHeightsArr.then((data) => {
-                    console.log(data)
-                    console.log(data.max())
-                    return data.max();
-                })
-
-            } 
-
-            let maxWaveHeightInForecast = getMaxWaveSizeInForecast(action.payload);
            
             return {
                 ...state,
                 swellForecast: action.payload,
+            }
+
+        case GET_WIND_FORECAST:
+
+            return {
+                ...state,
+                windForecast: action.payload,
             }
         
         default:

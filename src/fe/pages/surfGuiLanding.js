@@ -5,11 +5,12 @@ import styled from 'styled-components';
 import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellBarChart';
-import {getSurfForecast, getCloseSurfSpots, getSwellForecast} from '../actions/surfApp.actions';
+import WindBarChart from '../components/SurfAppComponents/windBarChart';
+import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast} from '../actions/surfApp.actions';
 
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
-background-imgae: linear-gradient(320deg, #0f2a46 0%, #022f5c 50%, #061a2e 100%);
+background-image: linear-gradient(0deg, #0f2a46 0%, #022f5c 50%, #061a2e 100%);
 height: 100vh;
 min-height: 600px;
 overflow: hide;
@@ -40,14 +41,18 @@ padding-top: 5vh;
 const SwellChartLabel = styled.p `
 color: var(--white);
 opacity: .7;
-font-size: 15px;
+font-size: 1vw;
 margin-left: 25px;
 font-weight: 200;
 position: relative;
 top: -3vh;
 height: 0;
 margin-bottom: 0;
+`
 
+const WindChartContainer = styled(SwellChartContainer)`
+`
+const WindChartLabel = styled(SwellChartLabel)`
 `
 
 const GlassContainerBkg = styled(Row)`
@@ -87,7 +92,7 @@ const Title = styled(Row)`
 p {
     width: 100%;
     text-align: center;
-    font-size: 18px;
+    font-size: 1.2vw;
     font-weight: 200;
     color: var(--white);
     opacity: .8;
@@ -99,7 +104,7 @@ p {
 span {
     width: 100%;
     text-align: center;
-    font-size: 12px;
+    font-size: .75vw;
     font-weight: 200;
     color: var(--white);
     margin: 3px 0 10px 0;
@@ -116,7 +121,7 @@ letter-spacing: 1.25px;
 width: 100%;
 text-align: center;
 font-weight: 400;
-font-size: 14px;
+font-size: .9vw;
 margin-top: 3px;
 &:hover {
     cursor: pointer;
@@ -138,7 +143,7 @@ const WaveWrapper = styled(motion.div)`
         x: 0;
         svg {
             position: relative;
-            left: calc(100vw -2000px);
+            transform: translateX(calc(100vw -2000px));
             transform: scale(3, 1);
             opacity: 0.065;
             stroke-width: 1.5px;
@@ -180,7 +185,8 @@ const mapStateToProps = state => {
             hourlyForecast: state.surf.hourlyForecast,
             currentConditions: state.surf.currentConditions,
             swellForecast: state.surf.swellForecast,
-            maxWaveHeightInForecast: state.surf.maxWaveHeightInForecast
+            windForecast: state.surf.windForecast
+            
         }
     }
 }
@@ -188,7 +194,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
     getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast)),
-    getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast))
+    getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast)),
+    getWindForecast: windForecast => dispatch(getWindForecast(windForecast))
 });
 
 class SurfGUILanding extends Component {
@@ -211,9 +218,12 @@ class SurfGUILanding extends Component {
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
-            const {getSwellForecast} = this.props;
-            getSwellForecast(this.props.surf.hourlyForecast)
+            const { getSwellForecast } = this.props;
+            const {getWindForecast} = this.props;
+            getSwellForecast(this.props.surf.hourlyForecast);
+            getWindForecast(this.props.surf.hourlyForecast)
         }
+        
 
     }
 
@@ -253,7 +263,7 @@ class SurfGUILanding extends Component {
 
         return (
             <SurfGUILandingContainer>
-
+                {console.log(this.props.surf.windForecast)}
                 <Row>
                     <Col sm={1}></Col>
                     <Col sm={10}>
@@ -291,7 +301,15 @@ class SurfGUILanding extends Component {
                                         </BackDrop>
                                     </SwellChartContainer>
                                 </DataDashBoardRow>
-                                <DataDashBoardRow></DataDashBoardRow>
+                                <DataDashBoardRow>
+                                    <WindChartContainer>
+                                        <BackDrop>
+                                            <WindChartLabel>WIND SPEED / DIRECTION (mph)</WindChartLabel>
+                                            <WindBarChart
+                                                forecast={this.props.surf.windForecast} />
+                                        </BackDrop>
+                                    </WindChartContainer>
+                                </DataDashBoardRow>
                                 <DataDashBoardRow></DataDashBoardRow>
                             </Col>
 

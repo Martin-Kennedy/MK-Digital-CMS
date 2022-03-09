@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import {
     BarChart,
     Bar,
@@ -12,12 +12,12 @@ import {
 } from 'recharts';
 import styled from 'styled-components'
 
-const MonthText = styled.text `
+const MonthText = styled.text`
 color: #fff !important;
 fill: #666;
 `
 
-const SwellChartToolTip = styled.div `
+const WindChartToolTip = styled.div`
 
 `
 
@@ -38,7 +38,7 @@ const toolTipGlassMorphism = {
     zIndex: '999'
 }
 
-const SwellChartDateTime = styled.p `
+const WindChartDateTime = styled.p`
 width: 100%;
 display: block;
 margin: .2vh 0 1.75vh 0;
@@ -50,7 +50,7 @@ margin: .2vh 0 1.75vh 0;
 
 `
 
-const SwellChartWaveHeight = styled.p `
+const WindChartWaveHeight = styled.p`
    width: 100%;
 display: block;
 margin: .2vh 0 1.25vh 0;
@@ -66,7 +66,7 @@ margin: .2vh 0 1.25vh 0;
     
 `
 
-const SwellChartPrimary = styled.p `
+const WindChartPrimary = styled.p`
 width: 100%;
 display: block;
 margin: .2vh 0 1.25vh 0;
@@ -85,13 +85,13 @@ margin: .2vh 0 1.25vh 0;
     }
 `;
 
-const SwellChartSecondary = styled(SwellChartPrimary)`
+const WindChartSecondary = styled(WindChartPrimary)`
 
 `;
 
 const renderDateTick = (tickProps) => {
-    const {x, y, payload} = tickProps;
-    const {value, offset} = payload;
+    const { x, y, payload } = tickProps;
+    const { value, offset } = payload;
 
     const localTimeHours = new Date(value).getHours();
 
@@ -108,51 +108,29 @@ const renderDateTick = (tickProps) => {
             ? x + offset
             : x - offset) + 0.5;
 
-        return <path d={`M${pathX},${y - 4}v${ - 35}`} stroke="#666"/>;
+        return <path d={`M${pathX},${y - 4}v${- 35}`} stroke="#666" />;
     }
 
     return null;
 };
 
-const SwellInfoTooltip = ({active, payload, data}) => {
+const WindInfoTooltip = ({ active, payload, data }) => {
     if (active && payload && payload.length) {
         console.log(payload[0])
         return (
-            <SwellChartToolTip>
-                <SwellChartDateTime>{payload[0].payload.date} - {payload[0].payload.time}</SwellChartDateTime>
-                <SwellChartWaveHeight>Wave Height:
-                    <span> {payload[0].payload.minBreakingHeight} - {payload[0].payload.maxBreakingHeight}ft</span>
-                </SwellChartWaveHeight>
-
-                <SwellChartPrimary>
-                    <div>Primary:
-                        <span> {payload[0].payload.primaryHeight}ft </span>
-                        at 
-                        <span> {payload[0].payload.primaryPeriod}s </span>
-                    </div>
-                    <div>Direction: 
-                        <span> {payload[0].payload.primarySwellDirection}</span>
-                    </div>
-                </SwellChartPrimary>
-
-                {payload[0].payload.secondaryHeight ? <SwellChartSecondary>
-                    <div>Secondary:
-                        <span> {payload[0].payload.secondaryHeight}ft </span>
-                        at
-                        <span> {payload[0].payload.secondaryPeriod}s </span>
-                    </div>
-                    <div>Direction:
-                        <span> {payload[0].payload.secondarySwellDirection} </span>
-                    </div>
-                </SwellChartSecondary> : null}
-            </SwellChartToolTip>
+            <WindChartToolTip>
+                <WindChartDateTime>{payload[0].payload.date} - {payload[0].payload.time}</WindChartDateTime>
+                <WindChartWaveHeight>Wind Speed:
+                    <span> {payload[0].payload.speed} - {payload[0].payload.gusts}mph</span>
+                </WindChartWaveHeight>
+            </WindChartToolTip>
         );
     }
 
     return null;
 };
 
-export default class SwellBarChart extends PureComponent {
+export default class WindBarChart extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -168,25 +146,25 @@ export default class SwellBarChart extends PureComponent {
         return (
 
             <ResponsiveContainer width="100%" height="90%">
-
+                    
                 <BarChart
                     width={500}
                     height={300}
                     data={this.props.forecast}
                     margin={{
-                    top: 8,
-                    right: 25,
-                    left: -25,
-                    bottom: 10
-                }}
+                        top: 8,
+                        right: 25,
+                        left: -25,
+                        bottom: 10
+                    }}
                     onMouseMove={(state) => {
-                    if (state.isTooltipActive) {
-                        this.setState({focusBar: state.activeTooltipIndex, mouseLeave: false});
-                    } else {
-                        this.setState({focusBar: null, mouseLeave: true})
-                    }
-                }}>
-                    <XAxis dataKey="time"/>
+                        if (state.isTooltipActive) {
+                            this.setState({ focusBar: state.activeTooltipIndex, mouseLeave: false });
+                        } else {
+                            this.setState({ focusBar: null, mouseLeave: true })
+                        }
+                    }}>
+                    <XAxis dataKey="time" />
                     <XAxis
                         dataKey="localTime"
                         axisLine={false}
@@ -195,30 +173,33 @@ export default class SwellBarChart extends PureComponent {
                         tick={renderDateTick}
                         height={1}
                         scale="band"
-                        xAxisId="Date"/>
+                        xAxisId="Date" />
                     <YAxis
                         type="number"
                         margin={{
-                        top: 5,
-                        right: 10,
-                        left: 0,
-                        bottom: 5
-                    }}/>
+                            top: 5,
+                            right: 10,
+                            left: 0,
+                            bottom: 5
+                        }} />
                     <Tooltip
                         wrapperStyle={toolTipGlassMorphism}
-                        content={< SwellInfoTooltip />}
-                        cursor={false}/>
-                    <Bar dataKey="maxBreakingHeight" fill="#7ecaed">
+                        content={< WindInfoTooltip />}
+                        cursor={false} />
+
+                        {/* Use shape props in bar chart por line chart to create custom sized and direction based wind barbs for forecast */}
+                        
+                    <Bar dataKey="speed" fill="#7ecaed">
                         {this
                             .props
                             .forecast
                             .map((entry, index) => {
                                 return <Cell
                                     fill={this.state.focusBar === index
-                                    ? "#40bcf0"
-                                    : this.state.mouseLeave
-                                        ? "rgba(64, 188, 240, 0.8)"
-                                        : "rgba(64, 188, 240, 0.35)"}/>
+                                        ? "#40bcf0"
+                                        : this.state.mouseLeave
+                                            ? "rgba(64, 188, 240, 0.8)"
+                                            : "rgba(64, 188, 240, 0.35)"} />
                             })}
                     </Bar>
                 </BarChart>

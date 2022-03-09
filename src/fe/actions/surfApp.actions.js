@@ -1,4 +1,4 @@
-import {  GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_SWELL_FORECAST } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_SWELL_FORECAST, GET_WIND_FORECAST } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import {getDistanceFromLatLonInKm} from '../helpers/utilities'
 import axios from 'axios'
@@ -157,5 +157,43 @@ export const getCloseSurfSpots = () => {
          })
      };
  }
+
+
+export const getWindForecast = (data) => {
+    let request = new Promise((resolve) => {
+        let arr = [];
+        data.map((hourlyForecast) => {
+            let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
+            let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
+
+            arr.push(
+                {
+                    date: fullDate,
+                    time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+                    localTime: hourlyForecast.localTimestamp * 1000,
+                    chill: hourlyForecast.wind.chill,
+                    compassDirection: hourlyForecast.wind.compassDirection,
+                    direction: hourlyForecast.wind.direction,
+                    gusts: hourlyForecast.wind.gusts,
+                    speed: hourlyForecast.wind.speed,
+                    unit: hourlyForecast.wind.unit
+                }
+            )
+        })
+        resolve(arr);
+    })
+    return (dispatch) => {
+        function onSuccess(data) {
+            dispatch({ type: GET_WIND_FORECAST, payload: data });
+            return data;
+        }
+
+        request.then(data => {
+            onSuccess(data)
+        }).catch((error) => {
+            console.log(error);
+        })
+    };
+}
 
 
