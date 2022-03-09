@@ -8,20 +8,25 @@ fill: #666;
 `
 
 const SwellChartToolTip = styled.div`
-width: 10vw;
-height: 12vw;
-border-radius: 5px;
-background: rgba(255, 255, 255, 0.05);
-backdrop-filter: blur(2px);
-border: 1px solid rgba(255, 255, 255, 0.15);
-border-right-color: rgba(255, 255, 255, 0.1);
-border-bottom-color: rgba(255, 255, 255, 0.1);
-box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
-padding: 15px;
-position: relative;
-color: white;
-z-index: 999;
+
 `
+
+const toolTipGlassMorphism = {
+width: '10vw',
+height: '12vw',
+borderRadius: '5px',
+background: 'rgba(255, 255, 255, 0.05)',
+backdropFilter: 'blur(1px)',
+border: '1px solid rgba(255, 255, 255, 0.15)',
+borderRightColor: 'rgba(255, 255, 255, 0.1)',
+borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
+padding: '15px',
+position: 'relative',
+top: '-60px',
+color: 'white',
+zIndex: '999',
+}
 
 
 
@@ -79,16 +84,17 @@ export default class SwellBarChart extends PureComponent {
        
         return (
 
-            <ResponsiveContainer width="100%" height="90%" >
+            <ResponsiveContainer width="100%" height="90%"  >
+                
                 <BarChart
                     width={500}
                     height={300}
                     data={this.props.forecast}
                     margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
+                        top: 8,
+                        right: 25,
+                        left: -25,
+                        bottom: 10,
                     }}
                     onMouseMove={(state) => {
                         if (state.isTooltipActive) {
@@ -123,7 +129,7 @@ export default class SwellBarChart extends PureComponent {
                         left: 0,
                         bottom: 5,
                     }} />
-                    <Tooltip content={<SwellInfoTooltip />} cursor={false} />
+                    <Tooltip wrapperStyle={toolTipGlassMorphism} content={<SwellInfoTooltip />} cursor={false} />
                     <Bar 
                     dataKey="maxBreakingHeight" 
                         fill="#7ecaed">
@@ -131,8 +137,8 @@ export default class SwellBarChart extends PureComponent {
                            return <Cell
                                 fill={
                                     this.state.focusBar === index  
-                                       ? "#37bedb" : this.state.mouseLeave ? "rgba(50, 190, 219, 0.8)"
-                                        : "rgba(50, 190, 219, 0.35)"
+                                       ? "#40bcf0" : this.state.mouseLeave ? "rgba(64, 188, 240, 0.8)"
+                                           : "rgba(64, 188, 240, 0.35)"
                                 }
                             />
                         })}
