@@ -10,7 +10,6 @@ import {
     Legend,
     ResponsiveContainer
 } from 'recharts';
-import {WindBarb} from '../designElementComponents/windBarb';
 import styled from 'styled-components'
 
 const MonthText = styled.text`
@@ -91,10 +90,15 @@ const WindChartSecondary = styled(WindChartPrimary)`
 `;
 
 
-const TriangleBar = (props) => {
-    const { fill, x, y, width, height } = props;
+const WindBarb = (props) => {
+    const { fill, x, y, width, height, direction, speed } = props;
+    const scaleNum = speed / 12;
 
-    return <path fill="white"  d={`M${x},${y},50.37l44.1-16.83V19.92l52.73,30.44L45.78,80.81z`} />;
+    // set max and min scale ratio
+
+    return <image style={{
+        transform: `rotate(${direction - 90}deg) scale(${scaleNum})`,
+        transformOrigin: `${x + 10}px ${y}px`}} href={'/windBarb.svg'} x={x} y={y} width="12" height="12" />
 };
 
 const renderDateTick = (tickProps) => {
@@ -197,7 +201,7 @@ export default class WindBarChart extends PureComponent {
 
                         {/* Use shape props in bar chart por line chart to create custom sized and direction based wind barbs for forecast */}
 
-                    <Bar dataKey="speed" shape={<TriangleBar />} fill="#7ecaed">
+                    <Bar dataKey="speed" shape={<WindBarb />} fill="#7ecaed">
                         {this
                             .props
                             .forecast
