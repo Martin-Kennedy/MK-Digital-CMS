@@ -108,7 +108,7 @@ const renderDateTick = (tickProps) => {
             ? x + offset
             : x - offset) + 0.5;
 
-        return <path d={`M${pathX},${y - 4}v${ - 35}`} stroke="#666"/>;
+        return <path d={`M${pathX},${y - 40}v${y - 35}`} />;
     }
 
     return null;
@@ -213,7 +213,7 @@ export default class SwellBarChart extends PureComponent {
                             .props
                             .forecast
                             .map((entry, index) => {
-                                return <Cell
+                                return <Cell key={`cell-${index}`}
                                     fill={this.state.focusBar === index
                                     ? "#40bcf0"
                                     : this.state.mouseLeave

@@ -10,6 +10,7 @@ import {
     Legend,
     ResponsiveContainer
 } from 'recharts';
+import {WindBarb} from '../designElementComponents/windBarb';
 import styled from 'styled-components'
 
 const MonthText = styled.text`
@@ -89,6 +90,13 @@ const WindChartSecondary = styled(WindChartPrimary)`
 
 `;
 
+
+const TriangleBar = (props) => {
+    const { fill, x, y, width, height } = props;
+
+    return <path fill="white"  d={`M${x},${y},50.37l44.1-16.83V19.92l52.73,30.44L45.78,80.81z`} />;
+};
+
 const renderDateTick = (tickProps) => {
     const { x, y, payload } = tickProps;
     const { value, offset } = payload;
@@ -108,7 +116,7 @@ const renderDateTick = (tickProps) => {
             ? x + offset
             : x - offset) + 0.5;
 
-        return <path d={`M${pathX},${y - 4}v${- 35}`} stroke="#666" />;
+        return <path d={`M${pathX},${y - 4}v${- 35}`} />;
     }
 
     return null;
@@ -188,13 +196,13 @@ export default class WindBarChart extends PureComponent {
                         cursor={false} />
 
                         {/* Use shape props in bar chart por line chart to create custom sized and direction based wind barbs for forecast */}
-                        
-                    <Bar dataKey="speed" fill="#7ecaed">
+
+                    <Bar dataKey="speed" shape={<TriangleBar />} fill="#7ecaed">
                         {this
                             .props
                             .forecast
                             .map((entry, index) => {
-                                return <Cell
+                                return <Cell key={`cell-${index}`}
                                     fill={this.state.focusBar === index
                                         ? "#40bcf0"
                                         : this.state.mouseLeave

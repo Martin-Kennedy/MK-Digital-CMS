@@ -402,21 +402,26 @@ animation: 450ms linear bounceIn forwards;
 // Recharts style overwrite
 
 .recharts-cartesian-axis-ticks {    
-    font-size: .75vw;
+    font-size: .65vw;
     stroke: var(--white);
     opacity: .5;
     letter-spacing: .8vw;
     line {
-      font-size: .75vw;
+      font-size: .65vw;
     stroke: var(--white);
     opacity: .5;
     }
     text {
-      font-size: .75vw;
+      font-size: .65vw;
     stroke: var(--white);
     opacity: .5;
     letter-spacing: .1vw;
-    transform: translateX(-0.3vw);
+    }
+    path {
+      height: .4vh;
+      transform: translateY(2.5vh);
+      stroke: 1px solid #fff;
+      opacity: .4;
     }
 }
 
