@@ -90,25 +90,26 @@ const SwellChartSecondary = styled(SwellChartPrimary)`
 `;
 
 const renderDateTick = (tickProps) => {
-    const {x, y, payload} = tickProps;
-    const {value, offset} = payload;
+    const { x, y, payload } = tickProps;
+    const { value, offset } = payload;
 
     const localTimeHours = new Date(value).getHours();
 
     let dateObj = new Date(value);
     let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
-
-    if (localTimeHours === 13) {
+    console.log(localTimeHours)
+    console.log(fullDate)
+    if (localTimeHours >= 10 || localTimeHours <= 13) {
         return <MonthText x={x} y={y - 4} textAnchor="middle">{`${fullDate}`}</MonthText>;
     }
-    const isLast = localTimeHours === 22;
+    const isLast = localTimeHours === 24;
 
-    if (localTimeHours === 22 || isLast) {
+    if (localTimeHours >= 22 || isLast) {
         const pathX = Math.floor(isLast
             ? x + offset
             : x - offset) + 0.5;
 
-        return <path d={`M${pathX},${y - 40}v${y - 35}`} />;
+        return <path d={`M${pathX},${y - 4}v${- 35}`} />;
     }
 
     return null;

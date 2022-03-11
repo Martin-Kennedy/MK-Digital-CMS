@@ -85,20 +85,27 @@ margin: .2vh 0 1.25vh 0;
     }
 `;
 
-const WindChartSecondary = styled(WindChartPrimary)`
-
-`;
-
 
 const WindBarb = (props) => {
-    const { fill, x, y, width, height, direction, speed } = props;
-    const scaleNum = speed / 12;
+    const { x, y, width, height, direction, speed, data } = props;
+    const scaleNum = () => {
+        const size = speed / 12;
+        if (size < .9){
+            return .9
+        } else if (size > 2.25){
+            return 2.25
+        }else {
+            return size;
+        }
+    } 
 
     // set max and min scale ratio
 
     return <image style={{
-        transform: `rotate(${direction - 90}deg) scale(${scaleNum})`,
-        transformOrigin: `${x + 10}px ${y}px`}} href={'/windBarb.svg'} x={x} y={y} width="12" height="12" />
+        transform: `rotate(${direction - 90}deg) scale(${scaleNum()})`,
+        transformOrigin: `${x + 10}px ${y}px`,
+        opacity: props.index === props.data.focusBar ? '1' : props.data.mouseLeave ? '0.7' : '0.4',
+        }} href={'/windBarb.svg'} x={x} y={y} width="12" height="12" />
 };
 
 const renderDateTick = (tickProps) => {
@@ -109,13 +116,14 @@ const renderDateTick = (tickProps) => {
 
     let dateObj = new Date(value);
     let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
-
-    if (localTimeHours === 13) {
+    console.log(localTimeHours)
+    console.log(fullDate)
+    if (localTimeHours >= 10 && localTimeHours < 13) {
         return <MonthText x={x} y={y - 4} textAnchor="middle">{`${fullDate}`}</MonthText>;
     }
-    const isLast = localTimeHours === 22;
+    const isLast = localTimeHours === 24;
 
-    if (localTimeHours === 22 || isLast) {
+    if (localTimeHours >= 22 || isLast) {
         const pathX = Math.floor(isLast
             ? x + offset
             : x - offset) + 0.5;
@@ -126,9 +134,8 @@ const renderDateTick = (tickProps) => {
     return null;
 };
 
-const WindInfoTooltip = ({ active, payload, data }) => {
+const WindInfoTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
-        console.log(payload[0])
         return (
             <WindChartToolTip>
                 <WindChartDateTime>{payload[0].payload.date} - {payload[0].payload.time}</WindChartDateTime>
@@ -199,20 +206,8 @@ export default class WindBarChart extends PureComponent {
                         content={< WindInfoTooltip />}
                         cursor={false} />
 
-                        {/* Use shape props in bar chart por line chart to create custom sized and direction based wind barbs for forecast */}
-
-                    <Bar dataKey="speed" shape={<WindBarb />} fill="#7ecaed">
-                        {this
-                            .props
-                            .forecast
-                            .map((entry, index) => {
-                                return <Cell key={`cell-${index}`}
-                                    fill={this.state.focusBar === index
-                                        ? "#40bcf0"
-                                        : this.state.mouseLeave
-                                            ? "rgba(64, 188, 240, 0.8)"
-                                            : "rgba(64, 188, 240, 0.35)"} />
-                            })}
+                    <Bar dataKey="speed" shape={<WindBarb data={this.state} />} >
+                        
                     </Bar>
                 </BarChart>
             </ResponsiveContainer>
