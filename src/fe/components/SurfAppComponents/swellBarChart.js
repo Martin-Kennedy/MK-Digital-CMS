@@ -97,9 +97,7 @@ const renderDateTick = (tickProps) => {
 
     let dateObj = new Date(value);
     let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
-    console.log(localTimeHours)
-    console.log(fullDate)
-    if (localTimeHours >= 10 || localTimeHours <= 13) {
+    if (localTimeHours >= 10 && localTimeHours < 13) {
         return <MonthText x={x} y={y - 4} textAnchor="middle">{`${fullDate}`}</MonthText>;
     }
     const isLast = localTimeHours === 24;
@@ -117,7 +115,6 @@ const renderDateTick = (tickProps) => {
 
 const SwellInfoTooltip = ({active, payload, data}) => {
     if (active && payload && payload.length) {
-        console.log(payload[0])
         return (
             <SwellChartToolTip>
                 <SwellChartDateTime>{payload[0].payload.date} - {payload[0].payload.time}</SwellChartDateTime>
@@ -199,6 +196,7 @@ export default class SwellBarChart extends PureComponent {
                         xAxisId="Date"/>
                     <YAxis
                         type="number"
+                        domain={[0, this.props.maxWaveHeight]}
                         margin={{
                         top: 5,
                         right: 10,

@@ -1,4 +1,4 @@
-import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_SWELL_FORECAST, GET_WIND_FORECAST  } from '../helpers/types';
+import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST  } from '../helpers/types';
 
 const INITIAL_STATE = {
     surf: {
@@ -35,6 +35,8 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             let currentConditions = getCurrentConditions()[getCurrentConditions().length - 1];
             let forecast = getFutureConditions();
             
+
+            
             
             
             return {
@@ -42,6 +44,15 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 hourlyForecast: forecast,
                 currentConditions: currentConditions
                 
+            }
+        case GET_MAX_WAVE_HEIGHT:
+            let maxWaveHeight = action.payload;
+            if (maxWaveHeight < 8){
+                maxWaveHeight = 8;
+            }
+            return{
+                ...state,
+                maxWaveHeight: maxWaveHeight
             }
         case GET_SWELL_FORECAST:
            

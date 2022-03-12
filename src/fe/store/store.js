@@ -44,6 +44,7 @@ const initalState = {
         swellForecast: [],
         windForecast: [],
         currentConditions: [],
+        maxWaveHeight: [],
     },
 
     pages: {

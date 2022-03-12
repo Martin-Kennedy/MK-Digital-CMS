@@ -1,4 +1,4 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_SWELL_FORECAST, GET_WIND_FORECAST } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import {getDistanceFromLatLonInKm} from '../helpers/utilities'
 import axios from 'axios'
@@ -152,6 +152,36 @@ export const getCloseSurfSpots = () => {
 
          request.then(data => {
              onSuccess(data)
+         }).catch((error) => {
+             console.log(error);
+         })
+     };
+ }
+
+ export const getMaxWaveHeight = (data) => {
+     let maxWaveHeightArr = [];
+     const request = new Promise((resolve) => {
+         data.map((item) => {
+             maxWaveHeightArr.push(item.swell.maxBreakingHeight);
+         })
+         resolve(maxWaveHeightArr)
+     })
+     return (dispatch) => {
+         function onSuccess(data) {
+             dispatch({ type: GET_MAX_WAVE_HEIGHT, payload: data });
+             return data;
+         }
+
+         request.then(data => {
+             const sortedArr = data.sort((a, b) => {
+                 if (a > b)
+                     return 1;
+                 if (a < b)
+                     return -1;
+                 return 0;
+             });
+             onSuccess(sortedArr[sortedArr.length - 1])
+         
          }).catch((error) => {
              console.log(error);
          })

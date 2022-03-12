@@ -116,8 +116,6 @@ const renderDateTick = (tickProps) => {
 
     let dateObj = new Date(value);
     let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
-    console.log(localTimeHours)
-    console.log(fullDate)
     if (localTimeHours >= 10 && localTimeHours < 13) {
         return <MonthText x={x} y={y - 4} textAnchor="middle">{`${fullDate}`}</MonthText>;
     }

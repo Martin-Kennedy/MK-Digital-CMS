@@ -6,7 +6,7 @@ import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellBarChart';
 import WindBarChart from '../components/SurfAppComponents/windBarChart';
-import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast} from '../actions/surfApp.actions';
+import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight} from '../actions/surfApp.actions';
 
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
@@ -183,6 +183,7 @@ const mapStateToProps = state => {
             closeSurfSpots: state.surf.closeSurfSpots,
             closestSurfSpot: state.surf.closestSurfSpot,
             hourlyForecast: state.surf.hourlyForecast,
+            maxWaveHeight: state.surf.maxWaveHeight,
             currentConditions: state.surf.currentConditions,
             swellForecast: state.surf.swellForecast,
             windForecast: state.surf.windForecast
@@ -195,7 +196,8 @@ const mapDispatchToProps = dispatch => ({
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
     getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast)),
     getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast)),
-    getWindForecast: windForecast => dispatch(getWindForecast(windForecast))
+    getWindForecast: windForecast => dispatch(getWindForecast(windForecast)),
+    getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight))
 });
 
 class SurfGUILanding extends Component {
@@ -218,10 +220,12 @@ class SurfGUILanding extends Component {
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
+            const { getMaxWaveHeight } = this.props;
             const { getSwellForecast } = this.props;
             const {getWindForecast} = this.props;
+            getMaxWaveHeight(this.props.surf.hourlyForecast);
             getSwellForecast(this.props.surf.hourlyForecast);
-            getWindForecast(this.props.surf.hourlyForecast)
+            getWindForecast(this.props.surf.hourlyForecast);
         }
         
 
@@ -263,7 +267,7 @@ class SurfGUILanding extends Component {
 
         return (
             <SurfGUILandingContainer>
-                {console.log(this.props.surf.windForecast)}
+                {console.log(this.props.surf)}
                 <Row>
                     <Col sm={1}></Col>
                     <Col sm={10}>
@@ -296,7 +300,7 @@ class SurfGUILanding extends Component {
                                         <BackDrop>
                                             <SwellChartLabel>SURF HEIGHT (ft)</SwellChartLabel>
                                             <SwellBarChart
-                                                maxWaveHeightInForecast={this.props.surf.maxWaveHeightInForecast + 2}
+                                                maxWaveHeight={this.props.surf.maxWaveHeight}
                                                 forecast={this.props.surf.swellForecast}/>
                                         </BackDrop>
                                     </SwellChartContainer>
