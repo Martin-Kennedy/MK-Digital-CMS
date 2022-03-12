@@ -4,9 +4,10 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
-import SwellBarChart from '../components/SurfAppComponents/swellBarChart';
-import WindBarChart from '../components/SurfAppComponents/windBarChart';
+import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
+import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
 import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight} from '../actions/surfApp.actions';
+import { WaveHeightComponent } from '../components/SurfAppComponents/currentWaveHeight'
 
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
@@ -17,7 +18,7 @@ overflow: hide;
 `
 
 const DataDashBoardRow = styled(Row)`
-height: 20vh;
+min-height: 22vh;
 margin: 5vh 0;
 `
 
@@ -33,9 +34,15 @@ border-right-color: rgba(255, 255, 255, 0.07);
 border-bottom-color: rgba(255, 255, 255, 0.07);
 box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
 position: relative;
-height: 22vh;
+height:  ${props => props.dynamicHeight > 8 ? props.dynamicHeight / 6 + 22 : 22}vh;
 width: calc(100% - 5vh);
 padding-top: 5vh;
+z-index: 2;
+`
+
+const CurrentConditionBackdrop = styled(BackDrop)`
+width: calc(23% - 1.25vh);
+margin:0 1%;
 `
 
 const SwellChartLabel = styled.p `
@@ -133,6 +140,7 @@ const WaveFormBottom = styled.div `
 position: absolute;
 bottom: 40vh;
 height: 0;
+z-index: 0;
 `
 
 const WaveWrapper = styled(motion.div)`
@@ -267,7 +275,7 @@ class SurfGUILanding extends Component {
 
         return (
             <SurfGUILandingContainer>
-                {console.log(this.props.surf)}
+                {console.log(this.props.surf.currentConditions)}
                 <Row>
                     <Col sm={1}></Col>
                     <Col sm={10}>
@@ -296,8 +304,20 @@ class SurfGUILanding extends Component {
                             </Col>
                             <Col sm={10}>
                                 <DataDashBoardRow>
-                                    <SwellChartContainer>
-                                        <BackDrop>
+                                    {!Array.isArray(this.props.surf.currentConditions) ? <WaveHeightComponent waveData={this.props.surf.currentConditions}/> : null}
+                                    <CurrentConditionBackdrop>
+
+                                    </CurrentConditionBackdrop>
+                                    <CurrentConditionBackdrop>
+
+                                    </CurrentConditionBackdrop>
+                                    <CurrentConditionBackdrop>
+
+                                    </CurrentConditionBackdrop>
+                                </DataDashBoardRow>
+                                <DataDashBoardRow>
+                                    <SwellChartContainer >
+                                        <BackDrop dynamicHeight={this.props.surf.maxWaveHeight}>
                                             <SwellChartLabel>SURF HEIGHT (ft)</SwellChartLabel>
                                             <SwellBarChart
                                                 maxWaveHeight={this.props.surf.maxWaveHeight}
