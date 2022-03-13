@@ -3,19 +3,19 @@ import styled from 'styled-components'
 import {Row} from 'react-bootstrap'
 
 const WaveConditionBackdrop = styled.div`
-border-radius: 5px;
-background: rgba(255, 255, 255, 0.04);
-border: 1px solid rgba(255, 255, 255, 0.15);
-border-right-color: rgba(255, 255, 255, 0.07);
-border-bottom-color: rgba(255, 255, 255, 0.07);
-box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
-position: relative;
-height:  22vh;
-padding-top: 5vh;
-z-index: 2;
-width: calc(23% - 1.25vh);
-margin:0 1%;
-z-index: 2;
+// border-radius: 5px;
+// background: rgba(255, 255, 255, 0.04);
+// border: 1px solid rgba(255, 255, 255, 0.15);
+// border-right-color: rgba(255, 255, 255, 0.07);
+// border-bottom-color: rgba(255, 255, 255, 0.07);
+// box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
+// position: relative;
+// height:  22vh;
+// padding-top: 5vh;
+// z-index: 2;
+// width: calc(23% - 1.25vh);
+// margin:0 1%;
+// z-index: 2;
 `
 
 
@@ -24,7 +24,7 @@ const Title = styled(Row)`
 p {
     color: var(--white);
 opacity: .7;
-font-size: 1vw;
+    font-size: 1.5vh;
 margin-left: 15px;
 font-weight: 200;
 position: relative;
@@ -81,24 +81,24 @@ const PeriodAndDirection = styled(WaveHeight)`
     margin-left: 5px;
     font-size: .7vw;
     }
-    &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    right: -2px;
-    border-radius: 5px;
-    background-image: linear-gradient(to bottom right,rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(131,252,229,0.1),rgba(131,252,229, 0.3));
-    box-shadow: 0 20px 30px rgb(0 0 0 / 7%);
-    height: 22vh;
-    padding-top: 5vh;
-    z-index: 2;
-    width: 100%;
-    margin: 0 1%;
-    z-index: 0;
-    }
+    // &::after {
+    // content: "";
+    // position: absolute;
+    // bottom: 0;
+    // right: -2px;
+    // border-radius: 5px;
+    // background-image: linear-gradient(to bottom right,rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(131,252,229,0.1),rgba(131,252,229, 0.3));
+    // box-shadow: 0 20px 30px rgb(0 0 0 / 7%);
+    // height: 22vh;
+    // padding-top: 5vh;
+    // z-index: 2;
+    // width: 100%;
+    // margin: 0 1%;
+    // z-index: 0;
+    // }
 `
 
-export const WaveHeightComponent = (props) => {
+export const CurrWaveDataComponent = (props) => {
     let degree = String.fromCodePoint(176)
    return <WaveConditionBackdrop>
 

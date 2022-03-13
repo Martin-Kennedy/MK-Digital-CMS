@@ -7,7 +7,14 @@ import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
 import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight} from '../actions/surfApp.actions';
-import { WaveHeightComponent } from '../components/SurfAppComponents/currentWaveHeight'
+import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
+import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind'
+import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell'
+import { CurrWeatherDataComponent } from '../components/SurfAppComponents/currentWeather'
+
+
+
+
 
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
@@ -18,8 +25,18 @@ overflow: hide;
 `
 
 const DataDashBoardRow = styled(Row)`
-min-height: 22vh;
-margin: 5vh 0;
+margin: 2vh 0;
+&:first-child{
+    margin-top: 5vh;
+}
+`
+
+const CurrentConditionRow = styled(Row)`
+margin: 0 0 2vh 0;
+padding-left: 0;
+&:last-child {
+    margin-bottom: 0;
+}
 `
 
 const SwellChartContainer = styled.div `
@@ -36,12 +53,13 @@ box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
 position: relative;
 height:  ${props => props.dynamicHeight > 8 ? props.dynamicHeight / 6 + 22 : 22}vh;
 width: calc(100% - 5vh);
-padding-top: 5vh;
+padding: 4vh 0 0 0;
 z-index: 2;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
-width: calc(23% - 1.25vh);
+width: 18vh;
+height: 18vh;
 margin:0 1%;
 `
 
@@ -304,16 +322,28 @@ class SurfGUILanding extends Component {
                             </Col>
                             <Col sm={10}>
                                 <DataDashBoardRow>
-                                    {!Array.isArray(this.props.surf.currentConditions) ? <WaveHeightComponent waveData={this.props.surf.currentConditions}/> : null}
+                                    <CurrentConditionRow>
                                     <CurrentConditionBackdrop>
-
+                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent waveData={this.props.surf.currentConditions} /> : null}
                                     </CurrentConditionBackdrop>
                                     <CurrentConditionBackdrop>
-
+                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent waveData={this.props.surf.currentConditions} /> : null}
                                     </CurrentConditionBackdrop>
                                     <CurrentConditionBackdrop>
-
+                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions} /> : null}
                                     </CurrentConditionBackdrop>
+                                    </CurrentConditionRow>
+                                    <CurrentConditionRow>
+                                        <CurrentConditionBackdrop>
+                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrWeatherDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                        </CurrentConditionBackdrop>
+                                        <CurrentConditionBackdrop>
+                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                        </CurrentConditionBackdrop>
+                                        <CurrentConditionBackdrop>
+                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                        </CurrentConditionBackdrop>
+                                    </CurrentConditionRow>
                                 </DataDashBoardRow>
                                 <DataDashBoardRow>
                                     <SwellChartContainer >
