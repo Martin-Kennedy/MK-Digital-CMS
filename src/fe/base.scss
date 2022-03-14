@@ -226,6 +226,10 @@ animation: 450ms linear bounceOut forwards;
 animation: 450ms linear bounceIn forwards;
 }
 
+.compassAnimation {
+animation: 2s linear rotateBackAndForth forwards !important;
+}
+
 @keyframes slideIn {
   0% {
     transform: translateX(0);
@@ -341,6 +345,40 @@ animation: 450ms linear bounceIn forwards;
   }
   100% {
     transform: scale(1.2); 
+  }
+}
+
+@keyframes rotateBackAndForth {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    transform: rotate(-40deg);
+    opacity: .5;
+  }
+
+  45% {
+    transform: rotate(-90deg);
+    opacity: .75;
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(-40deg);
+  }
+ 
+  60% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform:  rotate(40deg);
+  }
+  90% {
+    transform:  rotate(90deg);
+  }
+
+  100% {
+   transform: rotate(120deg);
   }
 }
 

@@ -58,8 +58,8 @@ z-index: 2;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
-width: 18vh;
-height: 18vh;
+width: 20vh;
+height: 20vh;
 margin:0 1%;
 `
 
@@ -96,7 +96,7 @@ const GlassContainerBkg = styled(Row)`
 
 const LeftNavBkg = styled.div `
   margin: 5vh 0;
-  height: 86vh;
+  height: 90vh;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -324,24 +324,24 @@ class SurfGUILanding extends Component {
                                 <DataDashBoardRow>
                                     <CurrentConditionRow>
                                     <CurrentConditionBackdrop>
-                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                     </CurrentConditionBackdrop>
                                     <CurrentConditionBackdrop>
-                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent windData={this.props.surf.currentConditions.wind} /> : null}
                                     </CurrentConditionBackdrop>
                                     <CurrentConditionBackdrop>
-                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                     </CurrentConditionBackdrop>
                                     </CurrentConditionRow>
                                     <CurrentConditionRow>
                                         <CurrentConditionBackdrop>
-                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrWeatherDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrWeatherDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                         </CurrentConditionBackdrop>
                                         <CurrentConditionBackdrop>
-                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent windData={this.props.surf.currentConditions.wind} /> : null}
                                         </CurrentConditionBackdrop>
                                         <CurrentConditionBackdrop>
-                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions} /> : null}
+                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                         </CurrentConditionBackdrop>
                                     </CurrentConditionRow>
                                 </DataDashBoardRow>

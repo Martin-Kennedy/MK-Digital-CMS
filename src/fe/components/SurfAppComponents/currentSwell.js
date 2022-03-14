@@ -34,17 +34,15 @@ margin-bottom: .5vh;
 text-transform: uppercase;
 }
 `
-const WaveHeight = styled.div`
+const Primary = styled.div`
 
 p {
 color: var(--white);
 opacity: .5;
-font-size: 2.5vw;
 margin-left: 15px;
-font-weight: 600;
+
 display: inline-block;
 margin-bottom: 0;
-text-transform: uppercase;
 line-height: normal;
 }
 span {
@@ -61,50 +59,52 @@ span {
 }
 `;
 
-const PeriodAndDirection = styled(WaveHeight)`
 
-    p {
-        margin-left: 5px;
-        font-size: 1.2vw;
-        font-weight: 400;
-    }
-    span {
-        font-size: 1.2vw;
-    }
-    
 
-    span:first-child {
-    margin-left: 15px;
-    }
+const SwellTrain = styled(Row)`
+font-size: 1.5vh;
+font-weight: 200;
+opacity: 7;
+margin-bottom: 4px;
+margin-top: 1.5vh;
+`
 
-    span:last-child {
-    margin-left: 5px;
-    font-size: .7vw;
-    }
-    // &::after {
-    // content: "";
-    // position: absolute;
-    // bottom: 0;
-    // right: -2px;
-    // border-radius: 5px;
-    // background-image: linear-gradient(to bottom right,rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(131,252,229,0.1),rgba(131,252,229, 0.3));
-    // box-shadow: 0 20px 30px rgb(0 0 0 / 7%);
-    // height: 22vh;
-    // padding-top: 5vh;
-    // z-index: 2;
-    // width: 100%;
-    // margin: 0 1%;
-    // z-index: 0;
-    // }
+const SwellTrainPrimary = styled(SwellTrain)`
+font-size: 1.5vh;
+font-weight: 200;
+opacity: 7;
+margin-bottom: 4px;margin-top: 0;
+`
+const SwellData = styled(Row)`
+font-size: 1.7vh;
+font-weight: 300;
 `
 
 export const CurrSwellDataComponent = (props) => {
     let degree = String.fromCodePoint(176)
     return <WaveConditionBackdrop>
 
-        <Title><p>Surf Height</p></Title>
-        <WaveHeight><p>{`${props.waveData.swell.minBreakingHeight} - ${props.waveData.swell.maxBreakingHeight}`}</p><span>ft</span></WaveHeight>
-        <PeriodAndDirection><span>at</span><p>{props.waveData.swell.components.primary.period}</p><span>s</span><p> {props.waveData.swell.components.primary.compassDirection}</p><span>({parseInt(props.waveData.swell.components.primary.direction)}{degree})</span></PeriodAndDirection>
+        <Title><p>Swells</p></Title>
+        <Primary>
+            <SwellTrain>
+                <p>Primary</p>
+            </SwellTrain> 
+            {/* primary swell train */}
+            <SwellData>
+                <p>{`${props.waveData.components.primary.height}ft at ${props.waveData.components.primary.period}s from ${props.waveData.components.primary.compassDirection} ${parseInt(props.waveData.components.primary.direction)}${degree}`}</p>
+            </SwellData>
+            {/* secondary swell train */}
+            {props.waveData.components.secondary ? 
+                <React.Fragment>
+            <SwellTrain>
+                <p>Secondary</p>
+            </SwellTrain>
+             <SwellData>
+                <p>{`${props.waveData.components.secondary.height}ft at ${props.waveData.components.secondary.period}s from ${props.waveData.components.secondary.compassDirection} ${parseInt(props.waveData.components.secondary.direction)}${degree}`}</p>
+                    </SwellData>
+                    </React.Fragment> : null }
+        </Primary>
+        
 
     </WaveConditionBackdrop>
 

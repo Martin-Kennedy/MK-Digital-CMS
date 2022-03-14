@@ -103,8 +103,8 @@ export const CurrWeatherDataComponent = (props) => {
     return <WaveConditionBackdrop>
 
         <Title><p>Surf Height</p></Title>
-        <WaveHeight><p>{`${props.waveData.swell.minBreakingHeight} - ${props.waveData.swell.maxBreakingHeight}`}</p><span>ft</span></WaveHeight>
-        <PeriodAndDirection><span>at</span><p>{props.waveData.swell.components.primary.period}</p><span>s</span><p> {props.waveData.swell.components.primary.compassDirection}</p><span>({parseInt(props.waveData.swell.components.primary.direction)}{degree})</span></PeriodAndDirection>
+        <WaveHeight><p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p><span>ft</span></WaveHeight>
+        <PeriodAndDirection><span>at</span><p>{props.waveData.components.primary.period}</p><span>s</span><p> {props.waveData.components.primary.compassDirection}</p><span>({parseInt(props.waveData.components.primary.direction)}{degree})</span></PeriodAndDirection>
 
     </WaveConditionBackdrop>
 
