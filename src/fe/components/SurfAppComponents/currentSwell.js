@@ -59,6 +59,14 @@ span {
 }
 `;
 
+const Secondary = styled(Primary)`
+
+`
+
+const Tertiary = styled(Primary)`
+
+`
+
 
 
 const SwellTrain = styled(Row)`
@@ -73,7 +81,8 @@ const SwellTrainPrimary = styled(SwellTrain)`
 font-size: 1.5vh;
 font-weight: 200;
 opacity: 7;
-margin-bottom: 4px;margin-top: 0;
+margin-bottom: 0;
+margin-top: 0;
 `
 const SwellData = styled(Row)`
 font-size: 1.7vh;
@@ -86,24 +95,37 @@ export const CurrSwellDataComponent = (props) => {
 
         <Title><p>Swells</p></Title>
         <Primary>
-            <SwellTrain>
+            <SwellTrainPrimary>
                 <p>Primary</p>
-            </SwellTrain> 
+            </SwellTrainPrimary> 
             {/* primary swell train */}
             <SwellData>
                 <p>{`${props.waveData.components.primary.height}ft at ${props.waveData.components.primary.period}s from ${props.waveData.components.primary.compassDirection} ${parseInt(props.waveData.components.primary.direction)}${degree}`}</p>
             </SwellData>
-            {/* secondary swell train */}
-            {props.waveData.components.secondary ? 
-                <React.Fragment>
-            <SwellTrain>
-                <p>Secondary</p>
-            </SwellTrain>
-             <SwellData>
-                <p>{`${props.waveData.components.secondary.height}ft at ${props.waveData.components.secondary.period}s from ${props.waveData.components.secondary.compassDirection} ${parseInt(props.waveData.components.secondary.direction)}${degree}`}</p>
-                    </SwellData>
-                    </React.Fragment> : null }
+           
         </Primary>
+        
+        {/* secondary swell train */}
+        {props.waveData.components.secondary ?
+            <Secondary>
+                <SwellTrain>
+                    <p>Secondary</p>
+                </SwellTrain>
+                <SwellData>
+                    <p>{`${props.waveData.components.secondary.height}ft at ${props.waveData.components.secondary.period}s from ${props.waveData.components.secondary.compassDirection} ${parseInt(props.waveData.components.secondary.direction)}${degree}`}</p>
+                </SwellData>
+            </Secondary> : null}
+
+        {props.waveData.components.tertiary ?
+            <Tertiary>
+                <SwellTrain>
+                    <p>Tertiary</p>
+                </SwellTrain>
+                <SwellData>
+                    <p>{`${props.waveData.components.tertiary.height}ft at ${props.waveData.components.tertiary.period}s from ${props.waveData.components.tertiary.compassDirection} ${parseInt(props.waveData.components.tertiary.direction)}${degree}`}</p>
+                </SwellData>
+            </Tertiary> : null}
+        
         
 
     </WaveConditionBackdrop>

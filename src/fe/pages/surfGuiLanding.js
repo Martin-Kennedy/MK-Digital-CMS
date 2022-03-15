@@ -6,7 +6,7 @@ import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
-import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight} from '../actions/surfApp.actions';
+import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast} from '../actions/surfApp.actions';
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind'
 import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell'
@@ -58,7 +58,7 @@ z-index: 2;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
-width: 20vh;
+width: 25vh;
 height: 20vh;
 margin:0 1%;
 `
@@ -223,7 +223,8 @@ const mapDispatchToProps = dispatch => ({
     getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast)),
     getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast)),
     getWindForecast: windForecast => dispatch(getWindForecast(windForecast)),
-    getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight))
+    getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight)),
+    getTideForecast: tideForecast => dispatch(getTideForecast(tideForecast))
 });
 
 class SurfGUILanding extends Component {
@@ -244,6 +245,7 @@ class SurfGUILanding extends Component {
             const {getSurfForecast} = this.props;
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId})
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
+            getTideForecast(this.props.surf.closeSurfSpots[0]);
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
             const { getMaxWaveHeight } = this.props;
@@ -293,7 +295,7 @@ class SurfGUILanding extends Component {
 
         return (
             <SurfGUILandingContainer>
-                {console.log(this.props.surf.currentConditions)}
+                {console.log(this.props.surf)}
                 <Row>
                     <Col sm={1}></Col>
                     <Col sm={10}>
@@ -329,19 +331,14 @@ class SurfGUILanding extends Component {
                                     <CurrentConditionBackdrop>
                                         {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent windData={this.props.surf.currentConditions.wind} /> : null}
                                     </CurrentConditionBackdrop>
-                                    <CurrentConditionBackdrop>
-                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
-                                    </CurrentConditionBackdrop>
+                                    
                                     </CurrentConditionRow>
                                     <CurrentConditionRow>
                                         <CurrentConditionBackdrop>
-                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrWeatherDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
+                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                         </CurrentConditionBackdrop>
                                         <CurrentConditionBackdrop>
                                             {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent windData={this.props.surf.currentConditions.wind} /> : null}
-                                        </CurrentConditionBackdrop>
-                                        <CurrentConditionBackdrop>
-                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                         </CurrentConditionBackdrop>
                                     </CurrentConditionRow>
                                 </DataDashBoardRow>

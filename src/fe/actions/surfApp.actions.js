@@ -1,10 +1,18 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import {getDistanceFromLatLonInKm} from '../helpers/utilities'
 import axios from 'axios'
 
-const apiUrl = 'http://localhost:9000/Locations';
+const surfSpotsApiUrl = 'http://localhost:9000/Locations';
+const tideStationApiUrl = 'http://localhost:8888/tideStations';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
+
+// NOAA web services api token
+
+const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'; 
+
+const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=';
+// "20130808%2001:00&end_date=20130808%2023:06&station=8454000&product=water_level&datum=mllw&units=english&time_zone=gmt&application=Martin_Kennedy&format=json'
 
 const latLng = () => new Promise((res, rej) => {
     navigator
@@ -20,7 +28,7 @@ const latLng = () => new Promise((res, rej) => {
         })
 })
 const getLocations = (coords) => axios
-    .get(apiUrl)
+    .get(surfSpotsApiUrl)
     .then(response => {
         return {locations: response.data, coords: coords}
     })
@@ -117,6 +125,54 @@ export const getCloseSurfSpots = () => {
             console.log(error);
         })
     };
+}
+
+export const getTideForecast = (latLon) => {
+    let request = new Promise((resolve) => { axios.get(tideStationApiUrl)
+        .then(response => {
+            return response.data
+        }).then(data => {
+            let stationsArr = [];
+            data.stations.map((station) => {
+            const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, station.lat, station.lng);
+                stationsArr.push({
+                    distanceFromLocation: distanceFromLocation,
+                    lat: station.lat,
+                    lng: station.lng,
+                    id: station.id,
+                    state: station.state
+                })
+                
+                resolve(stationsArr);
+            
+        })
+       
+        }).catch(error => {
+            throw (error);
+        });
+})
+request.then((data) => {
+    const sortedArr = data.sort((a, b) => {
+        if (a.distanceFromLocation > b.distanceFromLocation)
+            return 1;
+        if (a.distanceFromLocation < b.distanceFromLocation)
+            return -1;
+        return 0;
+    })
+    return sortedArr[0];
+}).then((data) => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2)
+    const day = date.getDate();
+    axios.get(`${tidesAndCurrentsUrl}${year}${month}${day}%2000:00&end_date=${year}${month}${day}%2023:00&station=${data.id}&product=water_level&datum=mllw&units=english&time_zone=gmt&application=Martin_Kennedy&format=json`)
+        .then(response => {
+            return response.data
+        }).then((data) => {
+            console.log(data)
+        })
+
+})
 }
 
  export const getSwellForecast = (data) => {
