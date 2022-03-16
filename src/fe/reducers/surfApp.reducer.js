@@ -1,4 +1,4 @@
-import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST  } from '../helpers/types';
+import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_TIDE_STATIONS, GET_WEATHER_STATIONS  } from '../helpers/types';
 
 const INITIAL_STATE = {
     surf: {
@@ -66,6 +66,22 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 windForecast: action.payload,
+            }
+        case GET_TIDE_STATIONS:
+            return {
+                ...state,
+                tideStations: action.payload,
+            }
+        case GET_TIDE_FORECAST:
+            return {
+                ...state,
+                tideForecast: action.payload,
+            }
+        case GET_WEATHER_STATIONS:
+            console.log(action)
+            return {
+                ...state,
+                weatherStations: action.payload,
             }
         
         default:

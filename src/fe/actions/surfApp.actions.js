@@ -1,6 +1,6 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_TIDE_STATIONS, GET_WEATHER_STATIONS } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
-import {getDistanceFromLatLonInKm} from '../helpers/utilities'
+import { getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
 import axios from 'axios'
 
 const surfSpotsApiUrl = 'http://localhost:9000/Locations';
@@ -11,7 +11,7 @@ const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/for
 
 const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'; 
 
-const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=';
+const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
 // "20130808%2001:00&end_date=20130808%2023:06&station=8454000&product=water_level&datum=mllw&units=english&time_zone=gmt&application=Martin_Kennedy&format=json'
 
 const latLng = () => new Promise((res, rej) => {
@@ -127,7 +127,7 @@ export const getCloseSurfSpots = () => {
     };
 }
 
-export const getTideForecast = (latLon) => {
+export const getTideStations = (latLon) => {
     let request = new Promise((resolve) => { axios.get(tideStationApiUrl)
         .then(response => {
             return response.data
@@ -151,28 +151,45 @@ export const getTideForecast = (latLon) => {
             throw (error);
         });
 })
-request.then((data) => {
-    const sortedArr = data.sort((a, b) => {
-        if (a.distanceFromLocation > b.distanceFromLocation)
-            return 1;
-        if (a.distanceFromLocation < b.distanceFromLocation)
-            return -1;
-        return 0;
-    })
-    return sortedArr[0];
-}).then((data) => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2)
-    const day = date.getDate();
-    axios.get(`${tidesAndCurrentsUrl}${year}${month}${day}%2000:00&end_date=${year}${month}${day}%2023:00&station=${data.id}&product=water_level&datum=mllw&units=english&time_zone=gmt&application=Martin_Kennedy&format=json`)
-        .then(response => {
-            return response.data
-        }).then((data) => {
-            console.log(data)
-        })
+   
 
-})
+        return (dispatch) => {
+            function onSuccess(data) {
+                dispatch({ type: GET_TIDE_STATIONS, payload: data });
+                return data;
+            }
+
+            request.then((data) => {
+                const sortedArr = data.sort((a, b) => {
+                    if (a.distanceFromLocation > b.distanceFromLocation)
+                        return 1;
+                    if (a.distanceFromLocation < b.distanceFromLocation)
+                        return -1;
+                    return 0;
+                })
+                 onSuccess(sortedArr.slice(0,20));
+            })
+        };
+
+}
+
+export const getTideForecast = (data) => {
+    console.log(data)
+    const tideApiUrl = `${tidesAndCurrentsUrl}date=today&station=${data.id}&product=predictions&datum=STND&time_zone=gmt&interval=hilo&units=english&format=json`
+    return (dispatch) => {
+        return axios.get(tideApiUrl)
+            .then(response => {
+                return response.data
+            }).then(data => {
+                dispatch({
+                    type: GET_TIDE_FORECAST,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    }
 }
 
  export const getSwellForecast = (data) => {
@@ -281,5 +298,59 @@ export const getWindForecast = (data) => {
         })
     };
 }
+
+export const getWeatherStations = (data) => {
+    const boundingBox = getBoundingBox([data.lat, data.lng], 10);
+    let config = {
+        headers: {
+            token: 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'
+        }
+    }
+    const closeWeatherStationsUrl = `https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?extent=${boundingBox.minLat},${boundingBox.minLng},${boundingBox.maxLat},${boundingBox.maxLng}`
+    return (dispatch) => {
+        return axios.get(closeWeatherStationsUrl, config)
+            .then(response => {
+                return response.data
+            }).then(data => {
+                dispatch({
+                    type: GET_WEATHER_STATIONS,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    }
+
+}
+
+export const getWeather = (data) => {
+    let config = {
+        headers: {
+            token: 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'
+        }
+    }
+    const closeWeatherStationsUrl = `https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datatypeid=TOBS&stationid=${data.id}`
+    return (dispatch) => {
+        return axios.get(closeWeatherStationsUrl, config)
+            .then(response => {
+                return response.data
+            }).then(data => {
+                dispatch({
+                    type: GET_WEATHER_STATIONS,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    }
+}
+
+
+
+
+// https://www.ncdc.noaa.gov/cdo-web/api/v2/data?stationid=
+
 
 

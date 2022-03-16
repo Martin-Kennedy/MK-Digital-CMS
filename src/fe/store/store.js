@@ -45,6 +45,9 @@ const initalState = {
         windForecast: [],
         currentConditions: [],
         maxWaveHeight: [],
+        tideStations: [],
+        tideForecast: [],
+        closeWeatherStations: []
     },
 
     pages: {

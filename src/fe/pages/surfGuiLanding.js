@@ -6,11 +6,11 @@ import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
-import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast} from '../actions/surfApp.actions';
+import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getWeatherStations, getWeather} from '../actions/surfApp.actions';
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
-import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind'
-import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell'
-import { CurrWeatherDataComponent } from '../components/SurfAppComponents/currentWeather'
+import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
+import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
+import { CurrWeatherDataComponent } from '../components/SurfAppComponents/currentWeather';
 
 
 
@@ -212,7 +212,10 @@ const mapStateToProps = state => {
             maxWaveHeight: state.surf.maxWaveHeight,
             currentConditions: state.surf.currentConditions,
             swellForecast: state.surf.swellForecast,
-            windForecast: state.surf.windForecast
+            windForecast: state.surf.windForecast,
+            tideStations: state.surf.tideStations,
+            tideForecast: state.surf.tideForecast,
+            weatherStations: state.surf.weatherStations
             
         }
     }
@@ -224,7 +227,10 @@ const mapDispatchToProps = dispatch => ({
     getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast)),
     getWindForecast: windForecast => dispatch(getWindForecast(windForecast)),
     getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight)),
-    getTideForecast: tideForecast => dispatch(getTideForecast(tideForecast))
+    getTideStations: tideStations => dispatch(getTideStations(tideStations)),
+    getTideForecast: tideForecast => dispatch(getTideForecast(tideForecast)),
+    getWeatherStations: weatherStations => dispatch(getWeatherStations(weatherStations)),
+    getWeather: weather => dispatch(getWeather(weather))
 });
 
 class SurfGUILanding extends Component {
@@ -243,9 +249,12 @@ class SurfGUILanding extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots) {
             const {getSurfForecast} = this.props;
+            const { getTideStations } = this.props;
+            const { getWeatherStations } = this.props;
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId})
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
-            getTideForecast(this.props.surf.closeSurfSpots[0]);
+            getTideStations(this.props.surf.closeSurfSpots[0]);
+            getWeatherStations(this.props.surf.closeSurfSpots[0]);
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
             const { getMaxWaveHeight } = this.props;
@@ -254,6 +263,15 @@ class SurfGUILanding extends Component {
             getMaxWaveHeight(this.props.surf.hourlyForecast);
             getSwellForecast(this.props.surf.hourlyForecast);
             getWindForecast(this.props.surf.hourlyForecast);
+        }
+        if (prevProps.surf.tideStations != this.props.surf.tideStations) {
+            const { getTideForecast } = this.props;
+            getTideForecast(this.props.surf.tideStations[0]);
+        }
+
+        if (prevProps.surf.weatherStations != this.props.surf.weatherStations) {
+            const { getWeather } = this.props;
+            getWeather(this.props.surf.weatherStations.results[0]);
         }
         
 
