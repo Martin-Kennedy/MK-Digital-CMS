@@ -1,4 +1,4 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_TIDE_STATIONS, GET_WEATHER_STATIONS } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_TIDE_STATIONS, GET_WEATHER } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
 import axios from 'axios'
@@ -299,45 +299,42 @@ export const getWindForecast = (data) => {
     };
 }
 
-export const getWeatherStations = (data) => {
-    const boundingBox = getBoundingBox([data.lat, data.lng], 10);
-    let config = {
-        headers: {
-            token: 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'
-        }
-    }
-    const closeWeatherStationsUrl = `https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?extent=${boundingBox.minLat},${boundingBox.minLng},${boundingBox.maxLat},${boundingBox.maxLng}`
-    return (dispatch) => {
-        return axios.get(closeWeatherStationsUrl, config)
-            .then(response => {
-                return response.data
-            }).then(data => {
-                dispatch({
-                    type: GET_WEATHER_STATIONS,
-                    payload: data
-                })
-            })
-            .catch(error => {
-                throw (error);
-            });
-    }
+// export const getWeatherStations = (data) => {
+//     const boundingBox = getBoundingBox([data.lat, data.lng], 10);
+//     let config = {
+//         headers: {
+//             token: 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'
+//         }
+//     }
+//     const closeWeatherStationsUrl = `https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?extent=${boundingBox.minLat},${boundingBox.minLng},${boundingBox.maxLat},${boundingBox.maxLng}`
+//     return (dispatch) => {
+//         return axios.get(closeWeatherStationsUrl, config)
+//             .then(response => {
+//                 return response.data
+//             }).then(data => {
+//                 dispatch({
+//                     type: GET_WEATHER_STATIONS,
+//                     payload: data
+//                 })
+//             })
+//             .catch(error => {
+//                 throw (error);
+//             });
+//     }
 
-}
+// }
 
 export const getWeather = (data) => {
-    let config = {
-        headers: {
-            token: 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'
-        }
-    }
-    const closeWeatherStationsUrl = `https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datatypeid=TOBS&stationid=${data.id}`
+    let apiKey = '5de113a38fff4837919307fd505473e1';
+    const weatherUrl = `https://api.weatherbit.io/v2.0/current?lat=${data.lat}6&lon=${data.lng}&key=${apiKey}&units=I`
+    console.log(weatherUrl)
     return (dispatch) => {
-        return axios.get(closeWeatherStationsUrl, config)
+        return axios.get(weatherUrl)
             .then(response => {
                 return response.data
             }).then(data => {
                 dispatch({
-                    type: GET_WEATHER_STATIONS,
+                    type: GET_WEATHER,
                     payload: data
                 })
             })

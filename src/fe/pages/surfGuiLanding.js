@@ -10,6 +10,7 @@ import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, 
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
 import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
+import  CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
 import { CurrWeatherDataComponent } from '../components/SurfAppComponents/currentWeather';
 
 
@@ -215,7 +216,7 @@ const mapStateToProps = state => {
             windForecast: state.surf.windForecast,
             tideStations: state.surf.tideStations,
             tideForecast: state.surf.tideForecast,
-            weatherStations: state.surf.weatherStations
+            weather: state.surf.weather
             
         }
     }
@@ -229,7 +230,6 @@ const mapDispatchToProps = dispatch => ({
     getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight)),
     getTideStations: tideStations => dispatch(getTideStations(tideStations)),
     getTideForecast: tideForecast => dispatch(getTideForecast(tideForecast)),
-    getWeatherStations: weatherStations => dispatch(getWeatherStations(weatherStations)),
     getWeather: weather => dispatch(getWeather(weather))
 });
 
@@ -250,11 +250,11 @@ class SurfGUILanding extends Component {
         if (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots) {
             const {getSurfForecast} = this.props;
             const { getTideStations } = this.props;
-            const { getWeatherStations } = this.props;
+            const { getWeather } = this.props;
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId})
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
             getTideStations(this.props.surf.closeSurfSpots[0]);
-            getWeatherStations(this.props.surf.closeSurfSpots[0]);
+            getWeather(this.props.surf.closeSurfSpots[0]);
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
             const { getMaxWaveHeight } = this.props;
@@ -269,10 +269,7 @@ class SurfGUILanding extends Component {
             getTideForecast(this.props.surf.tideStations[0]);
         }
 
-        if (prevProps.surf.weatherStations != this.props.surf.weatherStations) {
-            const { getWeather } = this.props;
-            getWeather(this.props.surf.weatherStations.results[0]);
-        }
+        
         
 
     }
@@ -334,6 +331,7 @@ class SurfGUILanding extends Component {
                                                     return <SurfSpot key={index} active={() => this.state.activeSurfSpot === surfSpot.spotId ? '.8' : '.3'} onClick={() => {
                                                         this.setState({ activeSurfSpot: surfSpot.spotId})
                                                         this.props.getSurfForecast(surfSpot.spotId)
+                                                        this.props.getWeather(surfSpot);
                                                     }} key={index}>{surfSpot.town}</SurfSpot>
                                                 })}
                                         </ul>
@@ -347,7 +345,7 @@ class SurfGUILanding extends Component {
                                         {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                     </CurrentConditionBackdrop>
                                     <CurrentConditionBackdrop>
-                                        {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent windData={this.props.surf.currentConditions.wind} /> : null}
+                                            {!Array.isArray(this.props.surf.weather) ? <CurrWindDataComponent weather={this.props.surf.weather.data[0]} /> : null}
                                     </CurrentConditionBackdrop>
                                     
                                     </CurrentConditionRow>
@@ -356,7 +354,7 @@ class SurfGUILanding extends Component {
                                             {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                         </CurrentConditionBackdrop>
                                         <CurrentConditionBackdrop>
-                                            {!Array.isArray(this.props.surf.currentConditions) ? <CurrWindDataComponent windData={this.props.surf.currentConditions.wind} /> : null}
+                                            {!Array.isArray(this.props.surf.tideForecast) ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} /> : null}
                                         </CurrentConditionBackdrop>
                                     </CurrentConditionRow>
                                 </DataDashBoardRow>

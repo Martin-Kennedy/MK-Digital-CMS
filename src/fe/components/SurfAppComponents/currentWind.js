@@ -159,7 +159,7 @@ span {
 `
 
 export const CurrWindDataComponent = (props) => {
-    const finalDeg = props.windData.direction;
+    const finalDeg = props.weather.wind_dir + 180;
     const rotationArr = [
         -40,
         -90,
@@ -261,8 +261,8 @@ export const CurrWindDataComponent = (props) => {
             </g>
         </StyledCompassArrow>
         <WindSpeed>
-            <p>{props.windData.speed}</p>
-            <span>{props.windData.unit}</span>
+            <p>{parseInt(props.weather.wind_spd)}</p>
+            <span>MPH</span>
         </WindSpeed>
 
     </WaveConditionBackdrop>
