@@ -332,6 +332,7 @@ class SurfGUILanding extends Component {
                                                         this.setState({ activeSurfSpot: surfSpot.spotId})
                                                         this.props.getSurfForecast(surfSpot.spotId)
                                                         this.props.getWeather(surfSpot);
+                                                        this.props.getTideStations(surfSpot);
                                                     }} key={index}>{surfSpot.town}</SurfSpot>
                                                 })}
                                         </ul>

@@ -77,6 +77,16 @@ export const formatAMPM = (date) => {
     return strTime;
 }
 
+export const formatAMPMwMins = (date) => {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    var strTime = `${hours}:${minutes}${ampm}`;
+    return strTime;
+}
+
 // /**
 //  * @param {number} distance - distance (km) from the point represented by centerPoint
 //  * @param {array} centerPoint - two-dimensional array containing center coords [latitude, longitude]

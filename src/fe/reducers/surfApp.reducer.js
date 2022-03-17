@@ -1,4 +1,5 @@
 import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_TIDE_STATIONS, GET_WEATHER  } from '../helpers/types';
+import { formatAMPMwMins } from '../helpers/utilities';
 
 const INITIAL_STATE = {
     surf: {
@@ -73,12 +74,24 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 tideStations: action.payload,
             }
         case GET_TIDE_FORECAST:
+            // time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+           
+            action.payload.predictions.map((item, index) => {
+                const toTimestamp = (strDate) => {
+                    const dt = new Date(strDate).getTime();
+                    return dt / 1000;
+                }
+                const formatedTime = formatAMPMwMins(new Date(item.t));
+                item.time = formatedTime;
+            })
+
+
             return {
                 ...state,
-                tideForecast: action.payload,
+                tideForecast: action.payload
             }
         case GET_WEATHER:
-            console.log(action)
+            
             return {
                 ...state,
                 weather: action.payload,

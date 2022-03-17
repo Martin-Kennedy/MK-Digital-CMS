@@ -6,13 +6,15 @@ import axios from 'axios'
 const surfSpotsApiUrl = 'http://localhost:9000/Locations';
 const tideStationApiUrl = 'http://localhost:8888/tideStations';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
+const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 
 // NOAA web services api token
-
 const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'; 
 
 const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
-// "20130808%2001:00&end_date=20130808%2023:06&station=8454000&product=water_level&datum=mllw&units=english&time_zone=gmt&application=Martin_Kennedy&format=json'
+
+
+
 
 const latLng = () => new Promise((res, rej) => {
     navigator
@@ -175,20 +177,23 @@ export const getTideStations = (latLon) => {
 
 export const getTideForecast = (data) => {
     console.log(data)
-    const tideApiUrl = `${tidesAndCurrentsUrl}date=today&station=${data.id}&product=predictions&datum=STND&time_zone=gmt&interval=hilo&units=english&format=json`
+    const tideApiUrlMlw = `${tidesAndCurrentsUrl}date=today&station=${data.id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
+    
+
     return (dispatch) => {
-        return axios.get(tideApiUrl)
+        axios.get(tideApiUrlMlw)
             .then(response => {
                 return response.data
             }).then(data => {
                 dispatch({
                     type: GET_TIDE_FORECAST,
-                    payload: data
-                })
+                    payload: data,
+                });
             })
             .catch(error => {
                 throw (error);
             });
+        
     }
 }
 
@@ -327,7 +332,6 @@ export const getWindForecast = (data) => {
 export const getWeather = (data) => {
     let apiKey = '5de113a38fff4837919307fd505473e1';
     const weatherUrl = `https://api.weatherbit.io/v2.0/current?lat=${data.lat}6&lon=${data.lng}&key=${apiKey}&units=I`
-    console.log(weatherUrl)
     return (dispatch) => {
         return axios.get(weatherUrl)
             .then(response => {
