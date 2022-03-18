@@ -22,8 +22,8 @@ const SwellChartToolTip = styled.div `
 `
 
 const toolTipGlassMorphism = {
-    width: '12vw',
-    height: '12.5vw',
+    width: '28vh',
+    height: '20.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
     backdropFilter: 'blur(1px)',
@@ -33,16 +33,16 @@ const toolTipGlassMorphism = {
     boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
     padding: '15px',
     position: 'relative',
-    top: '-60px',
+    top: '-22.5vh',
     color: 'white',
-    zIndex: '999'
+    zIndex: '4'
 }
 
 const SwellChartDateTime = styled.p `
 width: 100%;
 display: block;
 margin: .2vh 0 1.75vh 0;
-    font-size: .8vw;
+    font-size: 1.7vh;
     font-weight: 300;
     letter-spacing: .1vw;
     color: rgba(255,255,255, 0.8);
@@ -53,8 +53,8 @@ margin: .2vh 0 1.75vh 0;
 const SwellChartWaveHeight = styled.p `
    width: 100%;
 display: block;
-margin: .2vh 0 1.25vh 0;
-    font-size: .85vw;
+margin: .2vh 0 1vh 0;
+    font-size: 1.7vh;
     font-weight: 200;
     letter-spacing: .1vw;
     color: rgba(255,255,255, 0.7);
@@ -69,8 +69,8 @@ margin: .2vh 0 1.25vh 0;
 const SwellChartPrimary = styled.p `
 width: 100%;
 display: block;
-margin: .2vh 0 1.25vh 0;
-     font-size: .85vw;
+margin: .2vh 0 1vh 0;
+     font-size: 1.7vh;
     font-weight: 200;
     letter-spacing: .1vw;
     color: rgba(255,255,255, 0.7);
@@ -127,9 +127,7 @@ const SwellInfoTooltip = ({active, payload, data}) => {
                         <span> {payload[0].payload.primaryHeight}ft </span>
                         at 
                         <span> {payload[0].payload.primaryPeriod}s </span>
-                    </div>
-                    <div>Direction: 
-                        <span> {payload[0].payload.primarySwellDirection}</span>
+                        <span> {payload[0].payload.primarySwellDirection} </span>
                     </div>
                 </SwellChartPrimary>
 
@@ -138,10 +136,9 @@ const SwellInfoTooltip = ({active, payload, data}) => {
                         <span> {payload[0].payload.secondaryHeight}ft </span>
                         at
                         <span> {payload[0].payload.secondaryPeriod}s </span>
-                    </div>
-                    <div>Direction:
                         <span> {payload[0].payload.secondarySwellDirection} </span>
                     </div>
+                    
                 </SwellChartSecondary> : null}
             </SwellChartToolTip>
         );
@@ -158,7 +155,6 @@ export default class SwellBarChart extends PureComponent {
             mouseLeave: true
 
         };
-        console.log(this.state)
     }
 
     render() {

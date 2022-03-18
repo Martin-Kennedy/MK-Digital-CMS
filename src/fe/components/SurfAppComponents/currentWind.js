@@ -34,69 +34,7 @@ margin-bottom: .5vh;
 text-transform: uppercase;
 }
 `
-const WaveHeight = styled.div `
 
-p {
-color: var(--white);
-opacity: .5;
-font-size: 2.5vw;
-margin-left: 15px;
-font-weight: 600;
-display: inline-block;
-margin-bottom: 0;
-text-transform: uppercase;
-line-height: normal;
-}
-span {
-    width: 100%;
-    text-align: center;
-    font-size: 1vw;
-    font-weight: 200;
-    color: var(--white);
-    margin: 3px 0 10px 0;
-    padding: 0;
-    opacity: .5;
-    letter-spacing: 1.25px;
-    margin-left: 3px;
-}
-`;
-
-const PeriodAndDirection = styled(WaveHeight)`
-
-    p {
-        margin-left: 5px;
-        font-size: 1.2vw;
-        font-weight: 400;
-    }
-    span {
-        font-size: 1.2vw;
-    }
-    
-
-    span:first-child {
-    margin-left: 15px;
-    }
-
-    span:last-child {
-    margin-left: 5px;
-    font-size: .7vw;
-    }
-    // &::after {
-    // content: "";
-    // position: absolute;
-    // bottom: 0;
-    // right: -2px;
-    // border-radius: 5px;
-    // background-image: linear-gradient(to bottom right,rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0), rgba(131,252,229,0.1),rgba(131,252,229, 0.3));
-    // box-shadow: 0 20px 30px rgb(0 0 0 / 7%);
-    // height: 22vh;
-    // padding-top: 5vh;
-    // z-index: 2;
-    // width: 100%;
-    // margin: 0 1%;
-    // z-index: 0;
-    // }
-`
 
 const StyledCompassBase = styled.svg `
 width: 15vh;

@@ -22,8 +22,8 @@ const WindChartToolTip = styled.div`
 `
 
 const toolTipGlassMorphism = {
-    width: '12vw',
-    height: '12.5vw',
+    width: '28vh',
+    height: '20.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
     backdropFilter: 'blur(1px)',
@@ -33,9 +33,9 @@ const toolTipGlassMorphism = {
     boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
     padding: '15px',
     position: 'relative',
-    top: '-60px',
+    top: '-22.5vh',
     color: 'white',
-    zIndex: '999'
+    zIndex: '4'
 }
 
 const WindChartDateTime = styled.p`
@@ -105,6 +105,8 @@ const WindBarb = (props) => {
         transform: `rotate(${direction - 90}deg) scale(${scaleNum()})`,
         transformOrigin: `${x + 10}px ${y}px`,
         opacity: props.index === props.data.focusBar ? '1' : props.data.mouseLeave ? '0.7' : '0.4',
+        position: 'relative',
+        zIndex: '2'
         }} href={'/windBarb.svg'} x={x} y={y} width="12" height="12" />
 };
 

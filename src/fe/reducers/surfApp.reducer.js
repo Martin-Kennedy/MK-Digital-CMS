@@ -1,5 +1,5 @@
 import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_TIDE_STATIONS, GET_WEATHER  } from '../helpers/types';
-import { formatAMPMwMins } from '../helpers/utilities';
+import { formatAMPM } from '../helpers/utilities';
 
 const INITIAL_STATE = {
     surf: {
@@ -81,7 +81,7 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                     const dt = new Date(strDate).getTime();
                     return dt / 1000;
                 }
-                const formatedTime = formatAMPMwMins(new Date(item.t));
+                const formatedTime = formatAMPM(new Date(item.t));
                 item.time = formatedTime;
             })
 

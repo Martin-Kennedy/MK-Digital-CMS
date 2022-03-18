@@ -10,8 +10,8 @@ import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, 
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
 import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
-import  CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
-import { CurrWeatherDataComponent } from '../components/SurfAppComponents/currentWeather';
+import  CurrentTideDataComponent  from '../components/SurfAppComponents/currentTide';
+import { SurfMapAndConditions }  from '../components/SurfAppComponents/surfMapAndConditions';
 
 
 
@@ -33,11 +33,28 @@ margin: 2vh 0;
 `
 
 const CurrentConditionRow = styled(Row)`
-margin: 0 0 2vh 0;
 padding-left: 0;
 &:last-child {
     margin-bottom: 0;
 }
+`
+
+const CurrentConditionRowBottom = styled(CurrentConditionRow)`
+    div {
+        margin-bottom: 0;
+    }
+`
+
+const StyledCol40 =styled.div`
+width: calc(40% - 2vh);
+margin: 0 0 0 2vh;
+padding:0;
+display: block;
+`
+
+const StyledCol60 = styled(StyledCol40)`
+width: calc(60% - 2vh);
+margin: 0 2vh 0 0;
 `
 
 const SwellChartContainer = styled.div `
@@ -55,13 +72,17 @@ position: relative;
 height:  ${props => props.dynamicHeight > 8 ? props.dynamicHeight / 6 + 22 : 22}vh;
 width: calc(100% - 5vh);
 padding: 4vh 0 0 0;
-z-index: 2;
+z-index: 3;
+`
+
+const SurfMapBackDrop = styled(BackDrop)`
+height: 42vh;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
-width: 25vh;
+width: calc(50% - 4vh);
 height: 20vh;
-margin:0 1%;
+margin:0 0 2vh 2vh;
 `
 
 const SwellChartLabel = styled.p `
@@ -79,6 +100,20 @@ margin-bottom: 0;
 const WindChartContainer = styled(SwellChartContainer)`
 `
 const WindChartLabel = styled(SwellChartLabel)`
+
+`
+
+const TideChartLabel = styled(SwellChartLabel)`
+color: var(--white);
+opacity: .7;
+font-size: 1.5vh;
+margin-left: 15px;
+font-weight: 200;
+position: relative;
+top: -3vh;
+height: 0;
+margin-bottom: .5vh;
+text-transform: uppercase;
 `
 
 const GlassContainerBkg = styled(Row)`
@@ -159,7 +194,7 @@ const WaveFormBottom = styled.div `
 position: absolute;
 bottom: 40vh;
 height: 0;
-z-index: 0;
+z-index: 1;
 `
 
 const WaveWrapper = styled(motion.div)`
@@ -237,7 +272,11 @@ class SurfGUILanding extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { activeSurfSpot: null };
+        this.state = { 
+            activeSurfSpot: null,
+            lat: null,
+            lng: null
+         };
     }
 
     componentDidMount() {
@@ -252,6 +291,8 @@ class SurfGUILanding extends Component {
             const { getTideStations } = this.props;
             const { getWeather } = this.props;
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId})
+            this.setState({ lat: this.props.surf.closeSurfSpots[0].lat })
+            this.setState({ lng: this.props.surf.closeSurfSpots[0].lng })
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
             getTideStations(this.props.surf.closeSurfSpots[0]);
             getWeather(this.props.surf.closeSurfSpots[0]);
@@ -341,6 +382,7 @@ class SurfGUILanding extends Component {
                             </Col>
                             <Col sm={10}>
                                 <DataDashBoardRow>
+                                    <StyledCol40 >
                                     <CurrentConditionRow>
                                     <CurrentConditionBackdrop>
                                         {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
@@ -350,14 +392,22 @@ class SurfGUILanding extends Component {
                                     </CurrentConditionBackdrop>
                                     
                                     </CurrentConditionRow>
-                                    <CurrentConditionRow>
+                                        <CurrentConditionRowBottom>
                                         <CurrentConditionBackdrop>
                                             {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
                                         </CurrentConditionBackdrop>
                                         <CurrentConditionBackdrop>
+                                            <TideChartLabel>Tide</TideChartLabel>
                                             {!Array.isArray(this.props.surf.tideForecast) ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} /> : null}
                                         </CurrentConditionBackdrop>
-                                    </CurrentConditionRow>
+                                        </CurrentConditionRowBottom>
+                                    </StyledCol40>
+                                    <StyledCol60>
+                                    <SurfMapBackDrop>
+                                            {this.state.lng ? <SurfMapAndConditions lat={this.state.lat} lng={this.state.lng} /> : null}
+                                                {console.log(this.state)}
+                                    </SurfMapBackDrop>
+                                    </StyledCol60>
                                 </DataDashBoardRow>
                                 <DataDashBoardRow>
                                     <SwellChartContainer >
