@@ -46,7 +46,9 @@ const initalState = {
         currentConditions: [],
         maxWaveHeight: [],
         tideStations: [],
+        weatherStations: [],
         tideForecast: [],
+        waterTemp: [],
         weather: []
     },
 

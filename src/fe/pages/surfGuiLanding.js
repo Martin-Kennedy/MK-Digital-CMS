@@ -6,7 +6,7 @@ import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
-import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getWeatherStations, getWeather} from '../actions/surfApp.actions';
+import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getWeatherStations, getWaterTemp, getWeather} from '../actions/surfApp.actions';
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
 import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
@@ -50,6 +50,11 @@ width: calc(40% - 2vh);
 margin: 0 0 0 2vh;
 padding:0;
 display: block;
+${CurrentConditionRow} {
+    >div:first-child {
+        margin-left: .5vh;
+    }
+}
 `
 
 const StyledCol60 = styled(StyledCol40)`
@@ -77,6 +82,7 @@ z-index: 3;
 
 const SurfMapBackDrop = styled(BackDrop)`
 height: 42vh;
+padding: 0;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
@@ -250,7 +256,9 @@ const mapStateToProps = state => {
             swellForecast: state.surf.swellForecast,
             windForecast: state.surf.windForecast,
             tideStations: state.surf.tideStations,
+            weatherStations: state.surf.weatherStations,
             tideForecast: state.surf.tideForecast,
+            waterTemp: state.surf.waterTemp,
             weather: state.surf.weather
             
         }
@@ -265,6 +273,8 @@ const mapDispatchToProps = dispatch => ({
     getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight)),
     getTideStations: tideStations => dispatch(getTideStations(tideStations)),
     getTideForecast: tideForecast => dispatch(getTideForecast(tideForecast)),
+    getWaterTemp: waterTemp => dispatch(getWaterTemp(waterTemp)),
+    getWeatherStations: weatherStations => dispatch(getWeatherStations(weatherStations)),
     getWeather: weather => dispatch(getWeather(weather))
 });
 
@@ -289,12 +299,14 @@ class SurfGUILanding extends Component {
         if (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots) {
             const {getSurfForecast} = this.props;
             const { getTideStations } = this.props;
+            const { getWeatherStations } = this.props;
             const { getWeather } = this.props;
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId})
             this.setState({ lat: this.props.surf.closeSurfSpots[0].lat })
             this.setState({ lng: this.props.surf.closeSurfSpots[0].lng })
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
             getTideStations(this.props.surf.closeSurfSpots[0]);
+            getWeatherStations(this.props.surf.closeSurfSpots[0]);
             getWeather(this.props.surf.closeSurfSpots[0]);
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
@@ -307,7 +319,9 @@ class SurfGUILanding extends Component {
         }
         if (prevProps.surf.tideStations != this.props.surf.tideStations) {
             const { getTideForecast } = this.props;
+            const { getWaterTemp } = this.props;
             getTideForecast(this.props.surf.tideStations[0]);
+            getWaterTemp(this.props.surf.tideStations[0]);
         }
 
         
@@ -405,7 +419,6 @@ class SurfGUILanding extends Component {
                                     <StyledCol60>
                                     <SurfMapBackDrop>
                                             {this.state.lng ? <SurfMapAndConditions lat={this.state.lat} lng={this.state.lng} /> : null}
-                                                {console.log(this.state)}
                                     </SurfMapBackDrop>
                                     </StyledCol60>
                                 </DataDashBoardRow>

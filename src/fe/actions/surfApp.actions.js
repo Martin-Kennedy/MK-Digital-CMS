@@ -1,4 +1,4 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_TIDE_STATIONS, GET_WEATHER } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
 import axios from 'axios'
@@ -176,7 +176,6 @@ export const getTideStations = (latLon) => {
 }
 
 export const getTideForecast = (data) => {
-    console.log(data)
     const tideApiUrlMlw = `${tidesAndCurrentsUrl}date=today&station=${data.id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
     
 
@@ -194,6 +193,27 @@ export const getTideForecast = (data) => {
                 throw (error);
             });
         
+    }
+}
+
+export const getWaterTemp = (data) => {
+    const tideApiUrlWaterTemp = `${tidesAndCurrentsUrl}date=today&station=${data.id}&product=water_temperature&time_zone=lst_ldt&interval=h&datum=STND&units=english&format=json`;
+
+
+    return (dispatch) => {
+        axios.get(tideApiUrlWaterTemp)
+            .then(response => {
+                return response.data
+            }).then(data => {
+                dispatch({
+                    type: GET_WATER_TEMP,
+                    payload: data,
+                });
+            })
+            .catch(error => {
+                throw (error);
+            });
+
     }
 }
 
@@ -304,30 +324,34 @@ export const getWindForecast = (data) => {
     };
 }
 
-// export const getWeatherStations = (data) => {
-//     const boundingBox = getBoundingBox([data.lat, data.lng], 10);
-//     let config = {
-//         headers: {
-//             token: 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'
-//         }
-//     }
-//     const closeWeatherStationsUrl = `https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?extent=${boundingBox.minLat},${boundingBox.minLng},${boundingBox.maxLat},${boundingBox.maxLng}`
-//     return (dispatch) => {
-//         return axios.get(closeWeatherStationsUrl, config)
-//             .then(response => {
-//                 return response.data
-//             }).then(data => {
-//                 dispatch({
-//                     type: GET_WEATHER_STATIONS,
-//                     payload: data
-//                 })
-//             })
-//             .catch(error => {
-//                 throw (error);
-//             });
-//     }
+// ndbc station list and api call
+// https://sdf.ndbc.noaa.gov/sos/server.php?request=GetObservation&service=SOS&version=1.0.0&offering=urn:ioos:station:wmo:41012&observedproperty=sea_water_temperature&responseformat=text/csv&eventtime=latest
+//  ----------- DIRECTIONS FOR NEXT DEV -------------- ****** change function below to call to api list to get buoys with num values then call api endpoint with closest id at the above enpoint
+export const getWeatherStations = (data) => {
+    const boundingBox = getBoundingBox([data.lat, data.lng], 10);
+    let config = {
+        headers: {
+            token: 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'
+        }
+    }
+    const closeWeatherStationsUrl = `https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?extent=${boundingBox.minLat},${boundingBox.minLng},${boundingBox.maxLat},${boundingBox.maxLng}`
+    return (dispatch) => {
+        return axios.get(closeWeatherStationsUrl, config)
+            .then(response => {
+                return response.data
+            }).then(data => {
+                console.log(data);
+                dispatch({
+                    type: GET_WEATHER_STATIONS,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    }
 
-// }
+}
 
 export const getWeather = (data) => {
     let apiKey = '5de113a38fff4837919307fd505473e1';
