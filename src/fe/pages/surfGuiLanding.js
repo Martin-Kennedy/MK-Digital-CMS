@@ -6,7 +6,7 @@ import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
-import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getWeatherStations, getWaterTemp, getWeather} from '../actions/surfApp.actions';
+import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getNdbcStations, getWeatherStations, getWaterTemp, getWeather} from '../actions/surfApp.actions';
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
 import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
@@ -256,6 +256,7 @@ const mapStateToProps = state => {
             swellForecast: state.surf.swellForecast,
             windForecast: state.surf.windForecast,
             tideStations: state.surf.tideStations,
+            ndbcStations: state.surf.ndbcStations,
             weatherStations: state.surf.weatherStations,
             tideForecast: state.surf.tideForecast,
             waterTemp: state.surf.waterTemp,
@@ -273,6 +274,7 @@ const mapDispatchToProps = dispatch => ({
     getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight)),
     getTideStations: tideStations => dispatch(getTideStations(tideStations)),
     getTideForecast: tideForecast => dispatch(getTideForecast(tideForecast)),
+    getNdbcStations: ndbcStations => dispatch(getNdbcStations(ndbcStations)),
     getWaterTemp: waterTemp => dispatch(getWaterTemp(waterTemp)),
     getWeatherStations: weatherStations => dispatch(getWeatherStations(weatherStations)),
     getWeather: weather => dispatch(getWeather(weather))
@@ -292,6 +294,7 @@ class SurfGUILanding extends Component {
     componentDidMount() {
         const {getCloseSurfSpots} = this.props;
         getCloseSurfSpots();
+        
         document.body.style.overflow = "hidden";
     }
 
@@ -301,11 +304,13 @@ class SurfGUILanding extends Component {
             const { getTideStations } = this.props;
             const { getWeatherStations } = this.props;
             const { getWeather } = this.props;
+            const { getNdbcStations } = this.props;
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId})
             this.setState({ lat: this.props.surf.closeSurfSpots[0].lat })
             this.setState({ lng: this.props.surf.closeSurfSpots[0].lng })
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
             getTideStations(this.props.surf.closeSurfSpots[0]);
+            getNdbcStations(this.props.surf.closeSurfSpots[0]);
             getWeatherStations(this.props.surf.closeSurfSpots[0]);
             getWeather(this.props.surf.closeSurfSpots[0]);
         }
@@ -319,9 +324,13 @@ class SurfGUILanding extends Component {
         }
         if (prevProps.surf.tideStations != this.props.surf.tideStations) {
             const { getTideForecast } = this.props;
-            const { getWaterTemp } = this.props;
             getTideForecast(this.props.surf.tideStations[0]);
-            getWaterTemp(this.props.surf.tideStations[0]);
+            
+        }
+
+        if (prevProps.surf.ndbcStations != this.props.surf.ndbcStations) {
+            const { getWaterTemp } = this.props;
+            getWaterTemp(this.props.surf.ndbcStations[0]);
         }
 
         

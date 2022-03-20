@@ -1,10 +1,11 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
 import axios from 'axios'
 
 const surfSpotsApiUrl = 'http://localhost:9000/Locations';
 const tideStationApiUrl = 'http://localhost:8888/tideStations';
+const NDBCStationApiUrl = 'http://localhost:8889/ndbcBouys';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
 const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 
@@ -200,30 +201,39 @@ export const getTideForecast = (data) => {
 export const getWaterTemp = (data) => {
 
     // ----------- function to break down columns of txt in ndbc txt file return ----------
-    
-    // const cells = str.split('\n').map(function (el) { return el.split(/\s+/); });
-    // const headings = cells.shift();
-    // const obj = cells.map(function (el) {
-    //     var obj = {};
-    //     for (var i = 0, l = el.length; i < l; i++) {
-    //         obj[headings[i]] = isNaN(Number(el[i])) ? el[i] : +el[i];
-    //     }
-    //     return obj;
-    // });
-    // const json = JSON.stringify(obj);
-    const tideApiUrlWaterTemp = `${tidesAndCurrentsUrl}date=today&station=${data.id}&product=water_temperature&time_zone=lst_ldt&interval=h&datum=STND&units=english&format=json`;
+
+    const NdbcWaterTemp = `https://www.ndbc.noaa.gov/data/realtime2/${data.buoyId}.txt`;
+
 
 
     return (dispatch) => {
-        axios.get(tideApiUrlWaterTemp)
+        axios.get(NdbcWaterTemp)
             .then(response => {
                 return response.data
             }).then(data => {
-                dispatch({
-                    type: GET_WATER_TEMP,
-                    payload: data,
-                });
-            })
+                const cells = data.split('\n').map(function (el) { return el.split(/\s+/); });
+                const headings = cells.shift();
+                let arr = [];
+                var out = cells.map(function (el) {
+                    var obj = {};
+                    for (var i = 0, l = el.length; i < l; i++) {
+                        obj[headings[i]] = isNaN(Number(el[i])) ? el[i] : + el[i];
+                    }
+                    return obj;
+                })
+
+                var json = JSON.stringify(out, null, 2);
+                return json;
+                
+                
+            }).then((data) => {
+                    const parsedData = JSON.parse(data);
+                    dispatch({
+                        type: GET_WATER_TEMP,
+                        payload: parsedData[1].WTMP,
+                    })
+                })
+                
             .catch(error => {
                 throw (error);
             });
@@ -386,10 +396,53 @@ export const getWeather = (data) => {
     }
 }
 
+export const getNdbcStations = (latLon) => {
+    const request = axios.get(NDBCStationApiUrl)
+        .then(response => {
+            return response.data
+        }).then(data => {
+            return data;
+        }).catch(error => {
+            throw (error);
+        });
+    return (dispatch) => {
+        request.then((data) => {
+            
+            return new Promise((resolve) => {
+                let stationsArr = [];
+                for (const [key, value] of Object.entries(data)) {
+                    const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, value.SpatialExtent.coordinates[1], value.SpatialExtent.coordinates[0]);
+                    Number.isInteger(parseInt(key)) ? stationsArr.push({
+                        buoyId: parseInt(key),
+                        distanceFromLocation: distanceFromLocation
+                    }) : null;
+                }
+                resolve(stationsArr)
+            })
+        }).then((data) => {
+            const sortedArr = data.sort((a, b) => {
+                if (a.distanceFromLocation > b.distanceFromLocation)
+                    return 1;
+                if (a.distanceFromLocation < b.distanceFromLocation)
+                    return -1;
+                return 0;
+            })
+            const finalDataArr = sortedArr.slice(0,20)
+            dispatch({
+                type: GET_NDBC_STATIONS,
+                payload: finalDataArr
+            })
+        })
+    }
+}
 
 
 
-// https://www.ncdc.noaa.gov/cdo-web/api/v2/data?stationid=
-
-
-
+ // const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, station.lat, station.lng);
+                // stationsArr.push({
+                //     distanceFromLocation: distanceFromLocation,
+                //     lat: station.lat,
+                //     lng: station.lng,
+                //     id: station.id,
+                //     state: station.state
+                // })
