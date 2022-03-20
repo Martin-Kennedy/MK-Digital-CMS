@@ -8,6 +8,7 @@ const tideStationApiUrl = 'http://localhost:8888/tideStations';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
 const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 
+
 // NOAA web services api token
 const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'; 
 
@@ -197,6 +198,19 @@ export const getTideForecast = (data) => {
 }
 
 export const getWaterTemp = (data) => {
+
+    // ----------- function to break down columns of txt in ndbc txt file return ----------
+    
+    // const cells = str.split('\n').map(function (el) { return el.split(/\s+/); });
+    // const headings = cells.shift();
+    // const obj = cells.map(function (el) {
+    //     var obj = {};
+    //     for (var i = 0, l = el.length; i < l; i++) {
+    //         obj[headings[i]] = isNaN(Number(el[i])) ? el[i] : +el[i];
+    //     }
+    //     return obj;
+    // });
+    // const json = JSON.stringify(obj);
     const tideApiUrlWaterTemp = `${tidesAndCurrentsUrl}date=today&station=${data.id}&product=water_temperature&time_zone=lst_ldt&interval=h&datum=STND&units=english&format=json`;
 
 
@@ -326,7 +340,7 @@ export const getWindForecast = (data) => {
 
 // ndbc station list and api call
 // https://sdf.ndbc.noaa.gov/sos/server.php?request=GetObservation&service=SOS&version=1.0.0&offering=urn:ioos:station:wmo:41012&observedproperty=sea_water_temperature&responseformat=text/csv&eventtime=latest
-//  ----------- DIRECTIONS FOR NEXT DEV -------------- ****** change function below to call to api list to get buoys with num values then call api endpoint with closest id at the above enpoint
+//  DIRECTIONS FOR NEXT DEV -------------- change function below to call to api list to get buoys with num values then call api endpoint with closest id at the above enpoint
 export const getWeatherStations = (data) => {
     const boundingBox = getBoundingBox([data.lat, data.lng], 10);
     let config = {
