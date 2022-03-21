@@ -77,12 +77,12 @@ position: relative;
 height:  ${props => props.dynamicHeight > 8 ? props.dynamicHeight / 6 + 22 : 22}vh;
 width: calc(100% - 5vh);
 padding: 4vh 0 0 0;
-z-index: 3;
 `
 
 const SurfMapBackDrop = styled(BackDrop)`
 height: 42vh;
 padding: 0;
+z-index: 2;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
@@ -324,7 +324,7 @@ class SurfGUILanding extends Component {
         }
         if (prevProps.surf.tideStations != this.props.surf.tideStations) {
             const { getTideForecast } = this.props;
-            getTideForecast(this.props.surf.tideStations[0]);
+            getTideForecast([this.props.surf.tideStations[0], this.props.surf.tideStations[1]]);
             
         }
 
@@ -397,6 +397,8 @@ class SurfGUILanding extends Component {
                                                         this.props.getSurfForecast(surfSpot.spotId)
                                                         this.props.getWeather(surfSpot);
                                                         this.props.getTideStations(surfSpot);
+                                                        this.setState({ lat: surfSpot.lat })
+                                                        this.setState({ lng: surfSpot.lng })
                                                     }} key={index}>{surfSpot.town}</SurfSpot>
                                                 })}
                                         </ul>
@@ -421,7 +423,7 @@ class SurfGUILanding extends Component {
                                         </CurrentConditionBackdrop>
                                         <CurrentConditionBackdrop>
                                             <TideChartLabel>Tide</TideChartLabel>
-                                            {!Array.isArray(this.props.surf.tideForecast) ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} /> : null}
+                                            {!Array.isArray(this.props.surf.tideForecast) ? <CurrentTideDataComponent  tide={this.props.surf.tideForecast.predictions} /> : null}
                                         </CurrentConditionBackdrop>
                                         </CurrentConditionRowBottom>
                                     </StyledCol40>

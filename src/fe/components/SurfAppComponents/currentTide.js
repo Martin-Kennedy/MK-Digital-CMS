@@ -46,10 +46,10 @@ const toolTipGlassMorphism = {
     boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
     padding: '15px',
     position: 'relative',
-    top: '-22.5vh',
-    left: '20vh',
+    top: '-14.5vh',
+    left: '21vh',
     color: 'white',
-    zIndex: '4'
+    zIndex: '5'
 }
 
 const TideInfoTooltip = ({ active, payload }) => {

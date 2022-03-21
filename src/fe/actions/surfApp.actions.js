@@ -137,15 +137,18 @@ export const getTideStations = (latLon) => {
             return response.data
         }).then(data => {
             let stationsArr = [];
-            data.stations.map((station) => {
+            data.map((station) => {
             const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, station.lat, station.lng);
-                stationsArr.push({
-                    distanceFromLocation: distanceFromLocation,
-                    lat: station.lat,
-                    lng: station.lng,
-                    id: station.id,
-                    state: station.state
-                })
+                    stationsArr.push({
+                        distanceFromLocation: distanceFromLocation,
+                        lat: station.lat,
+                        lng: station.lng,
+                        id: station.id,
+                        name: station.name,
+                        state: station.state
+                    })
+                
+                
                 
                 resolve(stationsArr);
             
@@ -178,7 +181,8 @@ export const getTideStations = (latLon) => {
 }
 
 export const getTideForecast = (data) => {
-    const tideApiUrlMlw = `${tidesAndCurrentsUrl}date=today&station=${data.id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
+    const tideApiUrlMlw = `${tidesAndCurrentsUrl}date=today&station=${data[0].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
+    const tideApiUrlMlw2 = `${tidesAndCurrentsUrl}date=today&station=${data[1].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
     
 
     return (dispatch) => {
@@ -186,12 +190,23 @@ export const getTideForecast = (data) => {
             .then(response => {
                 return response.data
             }).then(data => {
+                console.log(data)
                 dispatch({
                     type: GET_TIDE_FORECAST,
                     payload: data,
                 });
             })
             .catch(error => {
+                axios.get(tideApiUrlMlw2)
+                    .then(response => {
+                        return response.data
+                    }).then(data => {
+                        console.log(data)
+                        dispatch({
+                            type: GET_TIDE_FORECAST,
+                            payload: data,
+                        });
+                    })
                 throw (error);
             });
         

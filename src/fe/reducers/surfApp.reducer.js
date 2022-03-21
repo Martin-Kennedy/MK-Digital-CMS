@@ -86,7 +86,7 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             }
         case GET_TIDE_FORECAST:
             // time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
-           
+            console.log(action.payload)
             action.payload.predictions.map((item, index) => {
                 const toTimestamp = (strDate) => {
                     const dt = new Date(strDate).getTime();
