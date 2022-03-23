@@ -1,6 +1,6 @@
 import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
-import { getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
+import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios'
 
 const surfSpotsApiUrl = 'http://localhost:9000/Locations';
@@ -11,7 +11,7 @@ const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 
 
 // NOAA web services api token
-const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'; 
+const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc';
 
 const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
 
@@ -34,10 +34,10 @@ const latLng = () => new Promise((res, rej) => {
 const getLocations = (coords) => axios
     .get(surfSpotsApiUrl)
     .then(response => {
-        return {locations: response.data, coords: coords}
+        return { locations: response.data, coords: coords }
     })
     .catch(error => {
-        throw(error);
+        throw (error);
     });
 
 const getCloseSurfSpotsArr = (locationsAndCoords) => {
@@ -78,9 +78,9 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
     })).then((data) => {
         const flatArr = data.flat();
         const sortedArr = flatArr.sort((a, b) => {
-            if (a.distanceFromLocation > b.distanceFromLocation) 
+            if (a.distanceFromLocation > b.distanceFromLocation)
                 return 1;
-            if (a.distanceFromLocation < b.distanceFromLocation) 
+            if (a.distanceFromLocation < b.distanceFromLocation)
                 return -1;
             return 0;
         });
@@ -102,7 +102,7 @@ export const getSurfForecast = (spotId) => {
             .catch(error => {
                 throw (error);
             });
-        }
+    }
 };
 
 
@@ -113,7 +113,7 @@ export const getCloseSurfSpots = () => {
     });
     return (dispatch) => {
         function onSuccess(data) {
-            dispatch({ type: GET_CLOSE_SURFSPOTS, payload: data});
+            dispatch({ type: GET_CLOSE_SURFSPOTS, payload: data });
             return data;
         }
 
@@ -132,58 +132,59 @@ export const getCloseSurfSpots = () => {
 }
 
 export const getTideStations = (latLon) => {
-    let request = new Promise((resolve) => { axios.get(tideStationApiUrl)
+    let request = new Promise((resolve) => {
+        axios.get(tideStationApiUrl)
         .then(response => {
             return response.data
         }).then(data => {
             let stationsArr = [];
             data.map((station) => {
-            const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, station.lat, station.lng);
-                    stationsArr.push({
-                        distanceFromLocation: distanceFromLocation,
-                        lat: station.lat,
-                        lng: station.lng,
-                        id: station.id,
-                        name: station.name,
-                        state: station.state
-                    })
-                
-                
-                
+                const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, station.lat, station.lng);
+                stationsArr.push({
+                    distanceFromLocation: distanceFromLocation,
+                    lat: station.lat,
+                    lng: station.lng,
+                    id: station.id,
+                    name: station.name,
+                    state: station.state
+                })
+
+
+
                 resolve(stationsArr);
-            
-        })
-       
+
+            })
+
         }).catch(error => {
             throw (error);
         });
-})
-   
+    })
 
-        return (dispatch) => {
-            function onSuccess(data) {
-                dispatch({ type: GET_TIDE_STATIONS, payload: data });
-                return data;
-            }
 
-            request.then((data) => {
-                const sortedArr = data.sort((a, b) => {
-                    if (a.distanceFromLocation > b.distanceFromLocation)
-                        return 1;
-                    if (a.distanceFromLocation < b.distanceFromLocation)
-                        return -1;
-                    return 0;
-                })
-                 onSuccess(sortedArr.slice(0,20));
+    return (dispatch) => {
+        function onSuccess(data) {
+            dispatch({ type: GET_TIDE_STATIONS, payload: data });
+            return data;
+        }
+
+        request.then((data) => {
+            const sortedArr = data.sort((a, b) => {
+                if (a.distanceFromLocation > b.distanceFromLocation)
+                    return 1;
+                if (a.distanceFromLocation < b.distanceFromLocation)
+                    return -1;
+                return 0;
             })
-        };
+            onSuccess(sortedArr.slice(0, 20));
+        })
+    };
 
 }
 
 export const getTideForecast = (data) => {
     const tideApiUrlMlw = `${tidesAndCurrentsUrl}date=today&station=${data[0].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
     const tideApiUrlMlw2 = `${tidesAndCurrentsUrl}date=today&station=${data[1].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
-    
+
 
     return (dispatch) => {
         axios.get(tideApiUrlMlw)
@@ -209,7 +210,7 @@ export const getTideForecast = (data) => {
                     })
                 throw (error);
             });
-        
+
     }
 }
 
@@ -239,16 +240,16 @@ export const getWaterTemp = (data) => {
 
                 var json = JSON.stringify(out, null, 2);
                 return json;
-                
-                
+
+
             }).then((data) => {
-                    const parsedData = JSON.parse(data);
-                    dispatch({
-                        type: GET_WATER_TEMP,
-                        payload: parsedData[1].WTMP,
-                    })
+                const parsedData = JSON.parse(data);
+                dispatch({
+                    type: GET_WATER_TEMP,
+                    payload: parsedData[1].WTMP,
                 })
-                
+            })
+
             .catch(error => {
                 throw (error);
             });
@@ -256,74 +257,74 @@ export const getWaterTemp = (data) => {
     }
 }
 
- export const getSwellForecast = (data) => {
-     let request = new Promise((resolve) => {
+export const getSwellForecast = (data) => {
+    let request = new Promise((resolve) => {
         let arr = [];
-         data.map((hourlyForecast) => {
-             let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
-             let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
-            
-                 arr.push(
-                     {
-                         date: fullDate,
-                         time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
-                         localTime: hourlyForecast.localTimestamp * 1000,
-                         minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
-                         maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
-                         primarySwellDirection: hourlyForecast.swell.components.primary.compassDirection,
-                         primaryHeight: hourlyForecast.swell.components.primary.height,
-                         primaryPeriod: hourlyForecast.swell.components.primary.period,
-                         secondarySwellDirection: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.compassDirection : '',
-                         secondaryHeight: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.height : '',
-                         secondaryPeriod: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.period : '',
-                     }
-                 )
-             })
-             resolve(arr);
-         })
-     return (dispatch) => {
-         function onSuccess(data) {
-             dispatch({ type: GET_SWELL_FORECAST, payload: data });
-             return data;
-         }
+        data.map((hourlyForecast) => {
+            let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
+            let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
 
-         request.then(data => {
-             onSuccess(data)
-         }).catch((error) => {
-             console.log(error);
-         })
-     };
- }
+            arr.push(
+                {
+                    date: fullDate,
+                    time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+                    localTime: hourlyForecast.localTimestamp * 1000,
+                    minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
+                    maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
+                    primarySwellDirection: hourlyForecast.swell.components.primary.compassDirection,
+                    primaryHeight: hourlyForecast.swell.components.primary.height,
+                    primaryPeriod: hourlyForecast.swell.components.primary.period,
+                    secondarySwellDirection: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.compassDirection : '',
+                    secondaryHeight: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.height : '',
+                    secondaryPeriod: hourlyForecast.swell.components.secondary ? hourlyForecast.swell.components.secondary.period : '',
+                }
+            )
+        })
+        resolve(arr);
+    })
+    return (dispatch) => {
+        function onSuccess(data) {
+            dispatch({ type: GET_SWELL_FORECAST, payload: data });
+            return data;
+        }
 
- export const getMaxWaveHeight = (data) => {
-     let maxWaveHeightArr = [];
-     const request = new Promise((resolve) => {
-         data.map((item) => {
-             maxWaveHeightArr.push(item.swell.maxBreakingHeight);
-         })
-         resolve(maxWaveHeightArr)
-     })
-     return (dispatch) => {
-         function onSuccess(data) {
-             dispatch({ type: GET_MAX_WAVE_HEIGHT, payload: data });
-             return data;
-         }
+        request.then(data => {
+            onSuccess(data)
+        }).catch((error) => {
+            console.log(error);
+        })
+    };
+}
 
-         request.then(data => {
-             const sortedArr = data.sort((a, b) => {
-                 if (a > b)
-                     return 1;
-                 if (a < b)
-                     return -1;
-                 return 0;
-             });
-             onSuccess(sortedArr[sortedArr.length - 1])
-         
-         }).catch((error) => {
-             console.log(error);
-         })
-     };
- }
+export const getMaxWaveHeight = (data) => {
+    let maxWaveHeightArr = [];
+    const request = new Promise((resolve) => {
+        data.map((item) => {
+            maxWaveHeightArr.push(item.swell.maxBreakingHeight);
+        })
+        resolve(maxWaveHeightArr)
+    })
+    return (dispatch) => {
+        function onSuccess(data) {
+            dispatch({ type: GET_MAX_WAVE_HEIGHT, payload: data });
+            return data;
+        }
+
+        request.then(data => {
+            const sortedArr = data.sort((a, b) => {
+                if (a > b)
+                    return 1;
+                if (a < b)
+                    return -1;
+                return 0;
+            });
+            onSuccess(sortedArr[sortedArr.length - 1])
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    };
+}
 
 
 export const getWindForecast = (data) => {
@@ -422,7 +423,7 @@ export const getNdbcStations = (latLon) => {
         });
     return (dispatch) => {
         request.then((data) => {
-            
+
             return new Promise((resolve) => {
                 let stationsArr = [];
                 for (const [key, value] of Object.entries(data)) {
@@ -442,7 +443,7 @@ export const getNdbcStations = (latLon) => {
                     return -1;
                 return 0;
             })
-            const finalDataArr = sortedArr.slice(0,20)
+            const finalDataArr = sortedArr.slice(0, 20)
             dispatch({
                 type: GET_NDBC_STATIONS,
                 payload: finalDataArr

@@ -1,4 +1,4 @@
-import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_WEATHER_STATIONS, GET_TIDE_STATIONS, GET_NDBC_STATIONS, GET_WEATHER  } from '../helpers/types';
+import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_WEATHER_STATIONS, GET_TIDE_STATIONS, GET_NDBC_STATIONS, GET_WEATHER } from '../helpers/types';
 import { formatAMPM } from '../helpers/utilities';
 
 const INITIAL_STATE = {
@@ -12,11 +12,11 @@ const INITIAL_STATE = {
 const surfAppReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_CLOSE_SURFSPOTS:
-                return{
-                    ...state,
-                    closeSurfSpots: action.payload,
-                    closestSurfSpot: action.payload[0]
-                }
+            return {
+                ...state,
+                closeSurfSpots: action.payload,
+                closestSurfSpot: action.payload[0]
+            }
         case GET_SPOT_FORECAST:
             const getCurrentConditions = () => {
                 const now = Date.now() / 1000 | 0;
@@ -32,31 +32,31 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                     return forecastDate >= date;
                 })
             }
-            
+
             let currentConditions = getCurrentConditions()[getCurrentConditions().length - 1];
             let forecast = getFutureConditions();
-            
 
-            
-            
-            
+
+
+
+
             return {
                 ...state,
                 hourlyForecast: forecast,
                 currentConditions: currentConditions
-                
+
             }
         case GET_MAX_WAVE_HEIGHT:
             let maxWaveHeight = action.payload;
-            if (maxWaveHeight < 8){
+            if (maxWaveHeight < 8) {
                 maxWaveHeight = 8;
             }
-            return{
+            return {
                 ...state,
                 maxWaveHeight: maxWaveHeight
             }
         case GET_SWELL_FORECAST:
-           
+
             return {
                 ...state,
                 swellForecast: action.payload,
@@ -103,17 +103,19 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             }
         case GET_WATER_TEMP:
 
+        const waterTempF = (action.payload * 9) / 5 + 32;
+
             return {
                 ...state,
-                waterTemp: action.payload
+                waterTemp: waterTempF
             }
         case GET_WEATHER:
-            
+
             return {
                 ...state,
                 weather: action.payload,
             }
-        
+
         default:
             return state;
     }
