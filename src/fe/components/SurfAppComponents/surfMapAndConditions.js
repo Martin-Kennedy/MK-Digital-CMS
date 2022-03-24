@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {connect} from 'react-redux'
 
 const StyledMapImg = styled.div`
- border-radius: 5px 5px 15px 15px;
+ border-radius: 5px 5px 0px 0px;
 background: rgba(255, 255, 255, 0.04);
 border: 1px solid rgba(255, 255, 255, 0.15);
 border-right-color: rgba(255, 255, 255, 0.07);

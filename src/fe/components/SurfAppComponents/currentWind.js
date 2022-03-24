@@ -42,7 +42,7 @@ height: 15vh;
 z-index: 2; 
 position: absolute; 
 opacity: 0.3;
-left: 5vh;
+left: 3.5vh;
 top: 3vh;
 path {
     fill: var(--white);
@@ -55,7 +55,7 @@ height: 15vh;
 z-index: 3; 
 position: absolute; 
 opacity: 0.8;
-left: 5vh;
+left: 3.5vh;
 top: 3vh;
 transform-origin: center center !important;
 
@@ -69,7 +69,7 @@ position: absolute;
     opacity: 0.8;
     text-align: center;
     padding: 4vh;
-    left: 4.5vh;
+    left: 3vh;
     top: 3.5vh;
     z-index: 4;
     width: 16vh;

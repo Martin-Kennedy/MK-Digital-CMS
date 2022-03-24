@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import {Row} from 'react-bootstrap'
 
-const WaveConditionBackdrop = styled.div`
+const WaveConditionBackdrop = styled.div `
     width: 18vh;
     height: 14vh;
     z-index: 5;
@@ -24,8 +24,8 @@ p {
     text-transform: uppercase;
 }`
 
-const WaveHeight = styled.div`
-    opacity: .5;
+const WaveHeight = styled.div `
+    opacity: .8;
 ${WaveConditionBackdrop}:hover & {
     opacity: 1;
 }
@@ -51,29 +51,49 @@ span {
     margin-left: 3px;
 }`;
 
-
-const RatingText = styled.div`
+const RatingText = styled.div `
     opacity: .85;
-    margin-left: 15px;
-    margin-top: 1.2vh;
-    font-size:1.5vw;
-    font-weight: 400;
+    font-size:2.5vh;
+    font-weight: 600;
     display: inline-block;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
     margin-bottom: 0;
-    line-height: normal;
     color: var(--white);
 `
 
-export const CurrWaveDataComponent = (props) => {
-   return <WaveConditionBackdrop>
-          <Title>
-            <p>Surf Height - Quality</p>
-          </Title>
-          <WaveHeight>
-            <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p><span>ft</span>
-          </WaveHeight>
-          <RatingText>{props.rating > 3 ? 'Good' : props.rating <= 2 ? 'Poor' : 'Fair'}</RatingText>
-          </WaveConditionBackdrop>
-       
-};
+const ConditionContainer = styled.div `
+border-radius: 4px;
+background: ${props => props.rating >= 2
+    ? 'rgba(229, 135,41, 0.8)'
+                    : props.rating < 1
+        ? 'rgba(183, 32,32, 0.8)'
+        : 'rgba(60, 214,82, 0.8)'};
+z-index: 1;
+ box-shadow:
+  0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
+  width: 16vh;
+  height: 4vh;
+  margin: 2vh;
+`
 
+export const CurrWaveDataComponent = (props) => {
+    return <WaveConditionBackdrop>
+        <Title>
+            <p>Surf Height - Quality</p>
+        </Title>
+        <WaveHeight>
+            <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
+            <span>ft</span>
+        </WaveHeight>
+        <ConditionContainer rating={props.rating}>
+            <RatingText>{props.rating >= 2
+                    ? 'Good'
+                    : props.rating < 1
+                        ? 'Poor'
+                        : 'Fair'}</RatingText>
+        </ConditionContainer>
+    </WaveConditionBackdrop>
+
+};
