@@ -2,32 +2,41 @@ import React, {Fragment} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import {connect} from 'react-redux'
+import SunriseSunsetGraph from './sunriseSunsetGraph'
 
 const StyledMapImg = styled.div`
- border-radius: 5px 5px 0px 0px;
+border-radius: 7px;
 background: rgba(255, 255, 255, 0.04);
 border: 1px solid rgba(255, 255, 255, 0.15);
 border-right-color: rgba(255, 255, 255, 0.07);
 border-bottom-color: rgba(255, 255, 255, 0.07);
 z-index: 1;
- box-shadow:
-  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-  0 12.5px 10px rgba(0, 0, 0, 0.06),
-  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-  0 50px 40px rgba(0, 0, 0, 0.062);
- width: 100%;
- height: 25vh;
- background-size: cover;
- background-repeat: no-repeat;
- background-image: ${props => props.coords ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=11&size=800x250&style=feature:water|element:all|color:0x55a8e5&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)` : null};
+box-shadow:
+0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+0 12.5px 10px rgba(0, 0, 0, 0.06),
+0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+0 50px 40px rgba(0, 0, 0, 0.062);
+width: 100%;
+height: 25vh;
+background-size: cover;
+background-repeat: no-repeat;
+background-image: ${props => props.coords ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=11&size=800x250&style=feature:water|element:all|color:0x55a8e5&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)` : null};
 `
 
 
 const WaterTemp = styled(Col)`
-margin-top: 3vh;
-
+border-radius: 5px;
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.15);
+border-right-color: rgba(255,255,255,0.07);
+border-bottom-color: rgba(255,255,255,0.07);
+box-shadow: 0 20px 30px rgb(0 0 0 / 7%);
+width: 25%;
+padding: 1vh;
+height: 14vh;
+margin: 1.5vh 0 1.5vh 1.5vh;
 p {
 color: var(--white);
 opacity: .5;
@@ -92,7 +101,13 @@ span {
 
 
 const ConditionsContainer = styled(Row)`
-
+height: 17vh;
+>div:first-child {
+    margin-left: 2.5vh;
+}
+>div:last-child {
+    margin-right: 2.5vh;
+}
 `;
 
 const WeatherIcon = styled.div`
@@ -140,6 +155,14 @@ let degree = String.fromCodePoint(176)
                         {!Array.isArray(props.surf.weather) ? <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon> : null}
                     </Row>
                 </Weather>
+                <WaterTemp>
+                    <Title>Water Temperature</Title>
+                    {!Array.isArray(props.surf.weather) ?<SunriseSunsetGraph data={props.surf.weather.data[0]} /> : null }
+                </WaterTemp>
+                <WaterTemp>
+                    <Title>Water Temperature</Title>
+                    <p>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <span>f</span></p>
+                </WaterTemp>
                 <WaterTemp>
                     <Title>Water Temperature</Title>
                     <p>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <span>f</span></p>

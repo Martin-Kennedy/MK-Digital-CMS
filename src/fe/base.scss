@@ -438,6 +438,10 @@ animation: 2s linear rotateBackAndForth forwards !important;
 }
 
 // Recharts style overwrite
+.recharts-wrapper {
+  position: absolute;
+  margin-left: 0;
+}
 
 .recharts-cartesian-axis-ticks {    
     font-size: .65vw;

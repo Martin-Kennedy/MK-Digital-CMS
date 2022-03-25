@@ -17,6 +17,7 @@ import  SurfMapAndConditions  from '../components/SurfAppComponents/surfMapAndCo
 
 
 
+
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
 background-image: linear-gradient(0deg, #0f2a46 0%, #022f5c 50%, #061a2e 100%);

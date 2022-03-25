@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import {Row} from 'react-bootstrap'
 
 const WaveConditionBackdrop = styled.div `
-    width: 18vh;
+    width: 22.5vh;
     height: 14vh;
     z-index: 5;
+    text-align: center;
 &:hover {
     cursor: pointer;
 }`
@@ -15,7 +16,6 @@ p {
     color: var(--white);
     opacity: .7;
     font-size: 1.5vh;
-    margin-left: 15px;
     font-weight: 200;
     position: relative;
     top: -3vh;
@@ -31,8 +31,8 @@ ${WaveConditionBackdrop}:hover & {
 }
 p {
     color: var(--white);
-    font-size: 2.5vw;
-    margin-left: 15px;
+    font-size: 2.75vw;
+    margin: 10px 0 0 15px;
     font-weight: 600;
     display: inline-block;
     margin-bottom: 0;
@@ -64,18 +64,18 @@ const RatingText = styled.div `
 `
 
 const ConditionContainer = styled.div `
-border-radius: 4px;
-background: ${props => props.rating >= 2
+    border-radius: 4px;
+    background: ${props => props.rating >= 2
     ? 'rgba(229, 135,41, 0.8)'
                     : props.rating < 1
         ? 'rgba(183, 32,32, 0.8)'
         : 'rgba(60, 214,82, 0.8)'};
-z-index: 1;
- box-shadow:
-  0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
-  width: 16vh;
-  height: 4vh;
-  margin: 2vh;
+
+    z-index: 1;
+    box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
+    width: 18.25vh;
+    height: 4vh;
+    margin: 2vh 0 0 2.25vh;
 `
 
 export const CurrWaveDataComponent = (props) => {
