@@ -2,7 +2,8 @@ import React, {Fragment} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import {connect} from 'react-redux'
-import SunriseSunsetGraph from './sunriseSunsetGraph'
+import SunriseSunsetGraph from './sunriseSunsetGraph';
+var SunCalc = require('suncalc');
 
 const StyledMapImg = styled.div`
 border-radius: 7px;
@@ -143,6 +144,83 @@ const mapStateToProps = state => {
 let degree = String.fromCodePoint(176)
 
  const SurfMapAndConditions = (props) => {
+     
+
+     const getSolarDatums = (sunset, sunrise) => {
+         let today = new Date();
+         let dd = String(today.getDate()).padStart(2, '0');
+         let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+         let yyyy = today.getFullYear();
+         today = `${mm}/${dd}/${yyyy}`;
+         const d1 = `${today} ${sunset}:00 GMT`;
+         const d2 = `${today} ${sunrise}:00 GMT`;
+         const dateAndSunset = new Date(d1);
+         const dateAndSunrise = new Date(d2);
+         const convertedSunset = dateAndSunset.toLocaleTimeString('en-GB');
+         const convertedSunrise = dateAndSunrise.toLocaleTimeString('en-GB');
+         function strToMins(t) {
+             let s = t.split(":");
+             return Number(s[0]) * 60 + Number(s[1]);
+         }
+
+         function minsToStr(t) {
+             return Math.trunc(t / 60) + ':' + ('00' + t % 60).slice(-2);
+         }
+
+         function strToMinsDiv2(t) {
+             let s = t.split(":");
+             return (Number(s[0]) / 2) * 60 + (Number(s[1]) / 2);
+         }
+
+         const totalDaylight = minsToStr(strToMins(convertedSunset) - strToMins(convertedSunrise));
+         const morningMins = strToMins(convertedSunrise);
+         const midDayMins = strToMinsDiv2(convertedSunset) - strToMinsDiv2(convertedSunrise);
+         const midDay = minsToStr(Math.round(morningMins) + Math.round(midDayMins));
+         const sunriseHrs = Number(convertedSunrise.split(':')[0]);
+         const sunsetHrs = Number(convertedSunset.split(':')[0]);
+         const midDayHrs = Number(midDay.split(':')[0]);
+         let data = [];
+         for (let i = 0; i < 24; i++) {
+             const j = i * .7;
+             const position = i <= sunriseHrs ? -sunriseHrs + j : i > sunriseHrs && i <= midDayHrs ? -sunriseHrs + j : i > midDayHrs ? ((sunsetHrs - 11) - (j - 12)) : null;
+             if (position < -3) {
+                 let position = -3;
+                 data.push({
+                     solarPosition: position,
+                     time: i
+                 })
+             } else if (position > 10) {
+                 let position = 10.5;
+                 data.push({
+                     solarPosition: position,
+                     time: i
+                 })
+             } else {
+                 data.push({
+                     solarPosition: position,
+                     time: i
+                 })
+             }
+             var times = SunCalc.getTimes(new Date(), props.coords.lat, props.coords.lng);
+
+             // format sunrise time from the Date object
+             var sunriseStr = times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
+
+             // get position of the sun (azimuth and altitude) at today's sunrise
+             var sunrisePos = SunCalc.getPosition(times.sunrise, props.coords.lat, props.coords.lng);
+             var sunriseEndPos = SunCalc.getPosition(times.sunriseEnd, props.coords.lat, props.coords.lng);
+             var goldenHourEndPos = SunCalc.getPosition(times.goldenHourEnd, props.coords.lat, props.coords.lng);
+             var solarNoonPos = SunCalc.getPosition(times.solarNoon, props.coords.lat, props.coords.lng);
+             var goldenHourPos = SunCalc.getPosition(times.goldenHour, props.coords.lat, props.coords.lng);
+             var sunsetStartPos = SunCalc.getPosition(times.sunsetStart, props.coords.lat, props.coords.lng);
+
+
+             
+             console.log(sunrisePos, sunriseEndPos, goldenHourEndPos, solarNoonPos, goldenHourPos, sunsetStartPos);
+
+         }
+         return data;
+     }
     return (
         <Fragment>
             <StyledMapImg coords={props.coords}  ></StyledMapImg>
@@ -157,7 +235,7 @@ let degree = String.fromCodePoint(176)
                 </Weather>
                 <WaterTemp>
                     <Title>Water Temperature</Title>
-                    {!Array.isArray(props.surf.weather) ?<SunriseSunsetGraph data={props.surf.weather.data[0]} /> : null }
+                    {!Array.isArray(props.surf.weather) ? <SunriseSunsetGraph data={getSolarDatums(props.surf.weather.data[0].sunset, props.surf.weather.data[0].sunrise)} /> : null }
                 </WaterTemp>
                 <WaterTemp>
                     <Title>Water Temperature</Title>
