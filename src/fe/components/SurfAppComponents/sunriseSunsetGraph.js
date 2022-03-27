@@ -21,26 +21,29 @@ export default class SunriseSunsetGraph extends PureComponent {
                     width={500}
                     height={300}
                     data={this.props.data}
-                    baseMin={'dataMin'}
+                    className='sunGraph'
+                    base={'dataMin'}
                     margin={{
                     top: 4,
-                    right: 10,
-                    bottom: 15,
-                    left: -40
+                    right: 5,
+                    bottom: 7,
+                    left: -60
                 }}>
                     <defs>
                         <linearGradient id="gradient" x1="0" y1="0" x2="100%" y2="0">
-                            <stop offset="0%" stopColor="red"/>
-                            <stop offset="20%" stopColor="red"/>
-                            <stop offset="80%" stopColor="blue"/>
-                            <stop offset="100%" stopColor="blue"/>
+                            <stop offset="0%" stopColor="#023059"/>
+                            <stop offset="45%" stopColor="rgba(255,255,255,0.15)"/>
+                            <stop offset="50%" stopColor="rgba(255,255,255,0.5)" />
+                            <stop offset="55%" stopColor="rgba(255,255,255,0.15)"/>
+                            <stop offset="100%" stopColor="#023059"/>
                         </linearGradient>
                     </defs>
 
-                    <Line type={type} dataKey="solarPosition" stroke="url(#gradient)" dot={false}/>
-                    <XAxis dataKey="time"/>
+                    <Line type={type} dataKey="position" stroke="url(#gradient)" dot={false}/>
+                    <XAxis interval='preserveStartEnd' dataKey="time"/>
                     <Tooltip />
-                    <YAxis type="number" domain={['dataMin - 3', 'dataMax + 2']} />
+                    <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)"  alwaysShow={true} />
+                    <YAxis tick={false} domain={['dataMin - .5', 'dataMax']} />
                 </LineChart>
             </ResponsiveContainer>
         );

@@ -436,7 +436,7 @@ class SurfGUILanding extends Component {
                                     </StyledCol40>
                                     <StyledCol60>
                                         <SurfMapBackDrop>
-                                            {this.state.lng ? <SurfMapAndConditions coords={{lat: this.state.lat, lng: this.state.lng}} /> : null}
+                                            {this.state.lng && this.state.lat ? <SurfMapAndConditions coords={{lat: this.state.lat, lng: this.state.lng}} /> : null}
                                         </SurfMapBackDrop>
                                     </StyledCol60>
                                 </DataDashBoardRow>

@@ -467,6 +467,30 @@ animation: 2s linear rotateBackAndForth forwards !important;
     }
 }
 
+.sunGraph .recharts-cartesian-axis-ticks {    
+    font-size: .45vw;
+    stroke: var(--white);
+    opacity: .5;
+    letter-spacing: .8vw;
+    line {
+      font-size: .65vw;
+    stroke: var(--white);
+    opacity: .5;
+    }
+    text {
+      font-size: 8px;
+    stroke: var(--white);
+    opacity: .5;
+    letter-spacing: .1vw;
+    }
+    path {
+      height: .4vh;
+      transform: translateY(2.5vh);
+      stroke: 1px solid #fff;
+      opacity: .4;
+    }
+}
+
 
 
 
