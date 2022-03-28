@@ -3,6 +3,7 @@ import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import {connect} from 'react-redux'
 import SunriseSunsetGraph from './sunriseSunsetGraph';
+import { formatAMPMwMins } from '../../helpers/utilities';
 var SunCalc = require('suncalc');
 
 const StyledMapImg = styled.div`
@@ -38,42 +39,33 @@ width: 25%;
 padding: 1vh;
 height: 14vh;
 margin: 1.5vh 0 1.5vh 1.5vh;
-p {
-color: var(--white);
-opacity: .5;
-margin-left: 15px;
-display: inline-block;
-margin-bottom: 0;
-line-height: normal;
-}
-span {
-    width: 100%;
-    text-align: center;
-    font-size: 1vw;
-    font-weight: 200;
-    color: var(--white);
-    margin: 3px 0 10px 0;
-    padding: 0;
-    opacity: .5;
-    letter-spacing: 1.25px;
-    margin-left: 3px;
-}
 `;
 
 const Title = styled.p`
 text-transform: uppercase;
-opacity: .8;
 color: var(--white);
+opacity: .6;
+margin-left: 0;
+margin-top: 0;
+display: block;
 margin-bottom: 1vh;
-text-align: left;
-font-size: .8vw;
+line-height: normal;
+font-size: 1.5vh;
+`
 
+const Data = styled.p`
+color: var(--white);
+opacity: .75;
+margin-left: 0;
+margin-top: 0;
+display: block;
+margin-bottom: 1vh;
+line-height: normal;
+font-size: 1.75vh;
 `
 
 const Weather = styled(WaterTemp)`
-${Title} {
-    padding-left: 0;
-}
+
 `
 
 const Conditions = styled(WaterTemp)`
@@ -85,18 +77,7 @@ display: inline-block;
 margin-bottom: 0;
 line-height: normal;
 }
-span {
-    width: 100%;
-    text-align: center;
-    font-size: 1vw;
-    font-weight: 200;
-    color: var(--white);
-    margin: 3px 0 10px 0;
-    padding: 0;
-    opacity: .5;
-    letter-spacing: 1.25px;
-    margin-left: 3px;
-}
+
 `
 
 
@@ -112,12 +93,25 @@ height: 17vh;
 `;
 
 const WeatherIcon = styled.div`
- width: 7vh;
- height: 7vh;
- background-size: cover;
- background-repeat: no-repeat;
+width: 7vh;
+height: 7vh;
+background-size: cover;
+background-repeat: no-repeat;
 background-image: ${props => props.icon ? `url(https://www.weatherbit.io/static/img/icons/${props.icon}.png)` : null };
 `
+
+const UnitType = styled.span`
+width: 100%;
+text-align: center;
+font-size: 1vw;
+font-weight: 200;
+color: var(--white);
+margin: 3px 0 10px 0;
+padding: 0;
+opacity: .5;
+letter-spacing: 1.25px;
+margin-left: 3px;
+` 
 
 const mapStateToProps = state => {
     return {
@@ -144,64 +138,92 @@ const mapStateToProps = state => {
 let degree = String.fromCodePoint(176)
 
  const SurfMapAndConditions = (props) => {
-     
-
      const getSolarDatums = (sunset, sunrise) => {
+
+         const formatTime = (time) => {
+             const date = new Date();
+             date.setHours(time.split(':')[0]);
+             date.setMinutes(time.split(':')[1])
+             const dateStr = date.toString();
+             console.log(dateStr)
+             const timeStamp = new Date(dateStr).getTime();
+             const formatted = formatAMPMwMins(new Date(timeStamp));
+             console.log(formatted)
+             return formatted;
+         }
          
-         
-             var times = SunCalc.getTimes(new Date(), props.coords.lat, props.coords.lng);
+        const times = SunCalc.getTimes(new Date(), props.coords.lat, props.coords.lng);
 
-             // format sunrise time from the Date object
-             const nightEndTime = times.nightEnd.getHours() + ':' + times.nightEnd.getMinutes();
-            const sunriseTime = times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
-            const goldenHourEndTime = times.goldenHourEnd.getHours() + ':' + times.goldenHourEnd.getMinutes();
-            const solarNoonTime = times.solarNoon.getHours() + ':' + times.solarNoon.getMinutes();
-            const goldenHourTime = times.goldenHour.getHours() + ':' + times.goldenHour.getMinutes();
-         const sunsetTime = times.sunset.getHours() + ':' + times.sunset.getMinutes();
-         const nightTime = times.night.getHours() + ':' + times.night.getMinutes();
-            
+        // format sunrise time from the Date object
 
-             // get position of the sun (azimuth and altitude) at today's sunrise
-            const nightEndPos = SunCalc.getPosition(times.nightEnd, props.coords.lat, props.coords.lng);
-             const sunrisePos = SunCalc.getPosition(times.sunrise, props.coords.lat, props.coords.lng);
-             const goldenHourEndPos = SunCalc.getPosition(times.goldenHourEnd, props.coords.lat, props.coords.lng);
-             const solarNoonPos = SunCalc.getPosition(times.solarNoon, props.coords.lat, props.coords.lng);
-             const goldenHourPos = SunCalc.getPosition(times.goldenHour, props.coords.lat, props.coords.lng);
-         const sunsetPos = SunCalc.getPosition(times.sunset, props.coords.lat, props.coords.lng);
-         const nightPos = SunCalc.getPosition(times.night, props.coords.lat, props.coords.lng);
+         const nightEndTime = formatTime(times.nightEnd.getHours() + ':' + times.nightEnd.getMinutes());
+         const sunriseTime = formatTime(times.sunrise.getHours() + ':' + times.sunrise.getMinutes());
+         const goldenHourEndTime = formatTime(times.goldenHourEnd.getHours() + ':' + times.goldenHourEnd.getMinutes());
+         const solarNoonTime = formatTime(times.solarNoon.getHours() + ':' + times.solarNoon.getMinutes());
+         const goldenHourTime = formatTime(times.goldenHour.getHours() + ':' + times.goldenHour.getMinutes());
+         const sunsetTime = formatTime(times.sunset.getHours() + ':' + times.sunset.getMinutes());
+         const duskTime = formatTime(times.dusk.getHours() + ':' + times.dusk.getMinutes());
+         const nightTime = formatTime(times.night.getHours() + ':' + times.night.getMinutes());
 
+        // get position of the sun (azimuth and altitude) at today's sunrise
 
-             
+        const nightEndPos = SunCalc.getPosition(times.nightEnd, props.coords.lat, props.coords.lng);
+        const sunrisePos = SunCalc.getPosition(times.sunrise, props.coords.lat, props.coords.lng);
+        const goldenHourEndPos = SunCalc.getPosition(times.goldenHourEnd, props.coords.lat, props.coords.lng);
+        const solarNoonPos = SunCalc.getPosition(times.solarNoon, props.coords.lat, props.coords.lng);
+        const goldenHourPos = SunCalc.getPosition(times.goldenHour, props.coords.lat, props.coords.lng);
+        const sunsetPos = SunCalc.getPosition(times.sunset, props.coords.lat, props.coords.lng);
+         const duskPos = SunCalc.getPosition(times.dusk, props.coords.lat, props.coords.lng);
+        const nightPos = SunCalc.getPosition(times.night, props.coords.lat, props.coords.lng);
 
              return [
                  {
+                     event: 'Night End',
                      time: nightEndTime,
-                     position: nightEndPos.altitude *  1.5
+                     timeTick: times.nightEnd.getHours(),
+                     position: nightEndPos.altitude
                  },
                  {
+                     event: 'Sunrise',
                      time: sunriseTime,
-                     position: sunrisePos.altitude *  1.5
+                     timeTick: times.sunrise.getHours(),
+                     position: sunrisePos.altitude
                  },
                  {
+                     event: 'Golden Hour End',
                      time: goldenHourEndTime,
-                     position: goldenHourEndPos.altitude *  1.5
+                     timeTick: times.goldenHourEnd.getHours(),
+                     position: goldenHourEndPos.altitude
                  },
                  {
+                     event: 'Solar Noon',
                      time: solarNoonTime,
-                     position: solarNoonPos.altitude *  1.5
+                     timeTick: times.solarNoon.getHours(),
+                     position: solarNoonPos.altitude
                  },
                  {
+                     event: 'Golden Hour',
                      time: goldenHourTime,
-                     position: goldenHourPos.altitude *  1.5
+                     timeTick: times.goldenHour.getHours(),
+                     position: goldenHourPos.altitude
                  },
                  {
+                     event: 'Sunset',
                      time: sunsetTime,
-                     position: sunsetPos.altitude *  1.5
-                 }
-                 ,
+                     timeTick: times.sunset.getHours(),
+                     position: sunsetPos.altitude
+                 },
                  {
+                     event: 'Dusk',
+                     time: duskTime,
+                     timeTick: times.dusk.getHours(),
+                     position: duskPos.altitude
+                 },
+                 {
+                     event: 'Night',
                      time: nightTime,
-                     position: nightPos.altitude *  1.5
+                     timeTick: times.night.getHours(),
+                     position: nightPos.altitude
                  }
                  
              ]
@@ -226,11 +248,11 @@ let degree = String.fromCodePoint(176)
                 </WaterTemp>
                 <WaterTemp>
                     <Title>Water Temperature</Title>
-                    <p>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <span>f</span></p>
+                    <Data>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <UnitType>f</UnitType></Data>
                 </WaterTemp>
                 <WaterTemp>
                     <Title>Water Temperature</Title>
-                    <p>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <span>f</span></p>
+                    <Data>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <UnitType>f</UnitType></Data>
                 </WaterTemp>
         </ConditionsContainer>
         </Fragment>

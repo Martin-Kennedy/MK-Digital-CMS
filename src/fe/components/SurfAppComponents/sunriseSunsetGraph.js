@@ -8,12 +8,84 @@ import {
     ReferenceLine,
     ResponsiveContainer
 } from "recharts";
+import { formatAMPMwMins } from '../../helpers/utilities';
+import styled from 'styled-components';
+
+const SunGraphToolTip = styled.div`
+padding: 0;
+`
+
+const SunGraphDateTime = styled.p`
+width: 100%;
+display: block;
+margin: 5px 0 0 0;
+font-size: 1.25vh;
+font-weight: 200;
+letter-spacing: .1vw;
+color: rgba(255,255,255, 0.7);
+`
+
+const SunGraphData = styled.span`
+color: rgba(255,255,255, 0.9);
+font-weight: 500;
+font-size: 1.25vh !important;
+`
+
+const SunGraphHeight = styled.p`
+width: 100%;
+display: block;
+margin: 5px 0 0 0;
+font-size: 1.25vh;
+font-weight: 200;
+letter-spacing: .1vw;
+color: rgba(255,255,255, 0.7);
+    
+`
+
+const toolTipGlassMorphism = {
+    width: '20vh',
+    height: '12.5vh',
+    borderRadius: '5px',
+    background: 'rgba(255, 255, 255, 0.05)',
+    backdropFilter: 'blur(1px)',
+    border: '1px solid rgba(255, 255, 255, 0.15)',
+    borderRightColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
+    padding: '5px',
+    position: 'relative',
+    top: '-14.5vh',
+    left: '21vh',
+    color: 'white',
+    zIndex: '5'
+}
+
+const SunGraphTooltip = ({ active, payload }) => {
+    
+    if (active && payload && payload.length) {
+        
+        return (
+            <SunGraphToolTip>
+                <SunGraphDateTime>Time: <SunGraphData>{payload[0].payload.time}</SunGraphData></SunGraphDateTime>
+                <SunGraphDateTime>Event: <SunGraphData>{payload[0].payload.event}</SunGraphData></SunGraphDateTime>
+            </SunGraphToolTip>
+        );
+    }
+
+    return null;
+};
 
 const type = "monotone";
 
 export default class SunriseSunsetGraph extends PureComponent {
     
     render() {
+        const currDate = new Date();
+        const hours = currDate.getHours();
+        var closest = this.props.data.reduce(function (a, b) {
+            return (Math.abs(a.timeTick - hours) < Math.abs(b.timeTick - hours) ? a : b);
+        });
+     
         return (
             <ResponsiveContainer width="100%" height="100%">
 
@@ -26,7 +98,7 @@ export default class SunriseSunsetGraph extends PureComponent {
                     margin={{
                     top: 4,
                     right: 5,
-                    bottom: 7,
+                    bottom: -5,
                     left: -60
                 }}>
                     <defs>
@@ -40,10 +112,18 @@ export default class SunriseSunsetGraph extends PureComponent {
                     </defs>
 
                     <Line type={type} dataKey="position" stroke="url(#gradient)" dot={false}/>
-                    <XAxis interval='preserveStartEnd' dataKey="time"/>
-                    <Tooltip />
+                    <XAxis 
+                    dataKey='time'
+                    domain={['dataMin - 1', 'dataMax + 1']} 
+                    tick={false}
+                    />
+                    <Tooltip
+                        wrapperStyle={toolTipGlassMorphism}
+                        content={<SunGraphTooltip />}
+                    />
+                    <ReferenceLine x={closest.time} stroke="rgba(255,255,255,0.45)"   />
                     <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)"  alwaysShow={true} />
-                    <YAxis tick={false} domain={['dataMin - .5', 'dataMax']} />
+                    <YAxis  dataKey="position" domain={['dataMin - .5', '2']} />
                 </LineChart>
             </ResponsiveContainer>
         );

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
+import { formatAMPM } from '../../helpers/utilities';
 import styled from 'styled-components';
 
 const TideChartToolTip = styled.div`
@@ -54,6 +55,7 @@ const toolTipGlassMorphism = {
 
 const TideInfoTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
+        
         return (
             <TideChartToolTip>
                 <TideChartDateTime>Time: {payload[0].payload.time}</TideChartDateTime>
@@ -71,6 +73,11 @@ const TideInfoTooltip = ({ active, payload }) => {
 export default class CurrentTideDataComponent extends PureComponent {
 
     render() {
+        
+        
+        var closest = this.props.tide.reduce(function (a, b) {
+            return (Math.abs(a.time - formatAMPM(new Date())) < Math.abs(b.time - formatAMPM(new Date())) ? a : b);
+        });
         return (
             <ResponsiveContainer width="100%" height="100%">
                 
@@ -99,6 +106,7 @@ export default class CurrentTideDataComponent extends PureComponent {
                             <stop offset="100%" stopColor="rgb(64, 188, 240)" stopOpacity={0} />
                         </linearGradient>
                         </defs>
+                    <ReferenceLine x={closest.time} stroke="rgba(255,255,255,0.45)" />
                     <Area type="monotone" dataKey="v" stroke="transparent"  fill="url(#colorUv)" />
                 </AreaChart>
             </ResponsiveContainer>

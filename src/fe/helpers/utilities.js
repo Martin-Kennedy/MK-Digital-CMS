@@ -77,6 +77,15 @@ export const formatAMPM = (date) => {
     return strTime;
 }
 
+export const formatHour = (date) => {
+    var hours = date.getHours();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    var strTime = hours;
+    return strTime;
+}
+
 export const formatAMPMwMins = (date) => {
     var hours = date.getHours();
     var minutes = date.getMinutes();
