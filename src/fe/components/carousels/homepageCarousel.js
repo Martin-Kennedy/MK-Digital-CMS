@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore ,{ Autoplay } from 'swiper'; 
 
 const StyledCarouselProvider = styled(Swiper)`
-    margin: 30px auto 50px;
+    margin: 30px auto 60px;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -20,8 +20,11 @@ const StyledCarouselProvider = styled(Swiper)`
 const SlideImage = styled.img`
     display: block;
     width: 100%;
-    height: 460px;
-    object-fit: cover;
+    height: 620px;
+    object-fit: contain;
+    position: relative;
+    top: -65px;
+    left: -35px;
 `;
 
 const mapStateToProps = state => {

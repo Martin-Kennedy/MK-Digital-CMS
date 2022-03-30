@@ -24,10 +24,10 @@ const CarouselContainer = styled.div `
 
 const TopLine = styled.div `
     
-    position: relative;
+    position: absolute;
     padding: 0 40px;
-    width: 100%;
-    top: 260px;
+    width: 83.33333%;
+    top: 29vh;
     
     svg {
     position: relative; 
@@ -40,11 +40,11 @@ const TopLine = styled.div `
     `;
 
 const BottomLine = styled.div `
-    position: relative;
+    position: absolute;
     z-index: 0;
     padding: 0 40px;
-    width: 100%;
-    top: 410px;
+    width: 83.33333%;
+    top: 58vh;
 
     svg  {
     position: relative; 
@@ -58,8 +58,9 @@ const BottomLine = styled.div `
 
 const AnimatedTextContainer = styled.div`
         position: absolute;
-        top: 44%;
+        top: 44vh;
         right: 0;
+        height: 100px;
 `
 
 const mapStateToProps = state => {
@@ -74,7 +75,6 @@ const mapStateToProps = state => {
 
 const getCarouselText = (text, currentSlide) => {
     const currentText = text[currentSlide];
-    console.log(currentText)
     return currentText;
 }
 
@@ -98,7 +98,7 @@ class HomepageHero extends Component {
                         <LineAnimationL2R/>
                     </TopLine>
                     <AnimatedTextContainer>
-                        <TextTranslation text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
+                        <TextTranslation duration={20} text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
                     </AnimatedTextContainer>
                     <BottomLine>
                         <LineAnimationR2L/>

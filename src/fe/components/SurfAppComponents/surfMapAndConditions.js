@@ -145,10 +145,8 @@ let degree = String.fromCodePoint(176)
              date.setHours(time.split(':')[0]);
              date.setMinutes(time.split(':')[1])
              const dateStr = date.toString();
-             console.log(dateStr)
              const timeStamp = new Date(dateStr).getTime();
              const formatted = formatAMPMwMins(new Date(timeStamp));
-             console.log(formatted)
              return formatted;
          }
          
@@ -166,6 +164,9 @@ let degree = String.fromCodePoint(176)
          const nightTime = formatTime(times.night.getHours() + ':' + times.night.getMinutes());
 
         // get position of the sun (azimuth and altitude) at today's sunrise
+        const convertToSec = (time) => {
+            return time * 60 * 60;
+        }
 
         const nightEndPos = SunCalc.getPosition(times.nightEnd, props.coords.lat, props.coords.lng);
         const sunrisePos = SunCalc.getPosition(times.sunrise, props.coords.lat, props.coords.lng);
@@ -180,49 +181,49 @@ let degree = String.fromCodePoint(176)
                  {
                      event: 'Night End',
                      time: nightEndTime,
-                     timeTick: times.nightEnd.getHours(),
+                     timeTick: convertToSec(times.nightEnd.getHours()),
                      position: nightEndPos.altitude
                  },
                  {
                      event: 'Sunrise',
                      time: sunriseTime,
-                     timeTick: times.sunrise.getHours(),
+                     timeTick: convertToSec(times.sunrise.getHours()),
                      position: sunrisePos.altitude
                  },
                  {
                      event: 'Golden Hour End',
                      time: goldenHourEndTime,
-                     timeTick: times.goldenHourEnd.getHours(),
+                     timeTick: convertToSec(times.goldenHourEnd.getHours()),
                      position: goldenHourEndPos.altitude
                  },
                  {
                      event: 'Solar Noon',
                      time: solarNoonTime,
-                     timeTick: times.solarNoon.getHours(),
+                     timeTick: convertToSec(times.solarNoon.getHours()),
                      position: solarNoonPos.altitude
                  },
                  {
                      event: 'Golden Hour',
                      time: goldenHourTime,
-                     timeTick: times.goldenHour.getHours(),
+                     timeTick: convertToSec(times.goldenHour.getHours()),
                      position: goldenHourPos.altitude
                  },
                  {
                      event: 'Sunset',
                      time: sunsetTime,
-                     timeTick: times.sunset.getHours(),
+                     timeTick: convertToSec(times.sunset.getHours()),
                      position: sunsetPos.altitude
                  },
                  {
                      event: 'Dusk',
                      time: duskTime,
-                     timeTick: times.dusk.getHours(),
+                     timeTick: convertToSec(times.dusk.getHours()),
                      position: duskPos.altitude
                  },
                  {
                      event: 'Night',
                      time: nightTime,
-                     timeTick: times.night.getHours(),
+                     timeTick: convertToSec(times.night.getHours()),
                      position: nightPos.altitude
                  }
                  

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ReferenceDot, ResponsiveContainer } from 'recharts';
 import { formatAMPM } from '../../helpers/utilities';
 import styled from 'styled-components';
 
@@ -106,7 +106,7 @@ export default class CurrentTideDataComponent extends PureComponent {
                             <stop offset="100%" stopColor="rgb(64, 188, 240)" stopOpacity={0} />
                         </linearGradient>
                         </defs>
-                    <ReferenceLine x={closest.time} stroke="rgba(255,255,255,0.45)" />
+                    <ReferenceDot x={closest.time} y={closest.v}  r={5} fill="rgba(255,255,255,0.75)" />
                     <Area type="monotone" dataKey="v" stroke="transparent"  fill="url(#colorUv)" />
                 </AreaChart>
             </ResponsiveContainer>

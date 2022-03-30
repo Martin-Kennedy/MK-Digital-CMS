@@ -94,6 +94,7 @@ export const getSurfForecast = (spotId) => {
             .then(response => {
                 return response.data
             }).then(data => {
+                console.log(data);
                 dispatch({
                     type: GET_SPOT_FORECAST,
                     payload: data

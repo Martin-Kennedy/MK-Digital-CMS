@@ -25,27 +25,22 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 })
             }
             const getFutureConditions = () => {
-                const now = Date.now();
-                const date = new Date(now).getDate();
+                
                 return action.payload.filter((d) => {
-                    const forecastDate = new Date(d.localTimestamp * 1000).getDate()
-                    return forecastDate >= date;
+                    const forecastDateObj = new Date(d.localTimestamp * 1000).getTime();
+                    const fullDateToday = Math.floor(Date.now() / 1000) * 1000;
+                    return forecastDateObj >= fullDateToday;
                 })
             }
 
             let currentConditions = getCurrentConditions()[getCurrentConditions().length - 1];
             let forecast = getFutureConditions();
 
-
-
-
-
             return {
                 ...state,
                 hourlyForecast: forecast,
                 currentConditions: currentConditions
-
-            }
+                }
         case GET_MAX_WAVE_HEIGHT:
             let maxWaveHeight = action.payload;
             if (maxWaveHeight < 8) {
@@ -86,7 +81,6 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             }
         case GET_TIDE_FORECAST:
             // time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
-            console.log(action.payload)
             action.payload.predictions.map((item, index) => {
                 const toTimestamp = (strDate) => {
                     const dt = new Date(strDate).getTime();

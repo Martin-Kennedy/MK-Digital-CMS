@@ -42,13 +42,13 @@ export const TextTranslation = (props) => {
 
         switch (props.reverse) {
             case(props.reverse === true):
-                setX1(-1000);
-                setX2(1000);
+                setX1(-2000);
+                setX2(2000);
                 break;
 
             default:
-                setX1(1000);
-                setX2(-1000);
+                setX1(2000);
+                setX2(-2000);
         }
         switch (props.start) {
             case(props.start != 'undefined'):
