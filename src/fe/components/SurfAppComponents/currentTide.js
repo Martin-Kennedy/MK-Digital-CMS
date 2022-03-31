@@ -73,10 +73,15 @@ const TideInfoTooltip = ({ active, payload }) => {
 export default class CurrentTideDataComponent extends PureComponent {
 
     render() {
-        
-        
-        var closest = this.props.tide.reduce(function (a, b) {
-            return (Math.abs(a.time - formatAMPM(new Date())) < Math.abs(b.time - formatAMPM(new Date())) ? a : b);
+        const hours = new Date().getHours();
+        const minutes = new Date().getMinutes();
+        const conHrsToSec = Math.floor(hours * 60 * 60);
+        const conMinsToSec = Math.floor(minutes * 60);
+        const timeToSec = conHrsToSec + conMinsToSec;
+        const closest = this.props.tide.reduce(function (a, b) {
+            const aTime = new Date(a.t).getHours() * 60 * 60;
+            const bTime = new Date(b.t).getHours() * 60 * 60;
+            return (Math.abs(aTime - timeToSec) < Math.abs(bTime - timeToSec) ? a : b);
         });
         return (
             <ResponsiveContainer width="100%" height="100%">
@@ -106,7 +111,7 @@ export default class CurrentTideDataComponent extends PureComponent {
                             <stop offset="100%" stopColor="rgb(64, 188, 240)" stopOpacity={0} />
                         </linearGradient>
                         </defs>
-                    <ReferenceDot x={closest.time} y={closest.v}  r={5} fill="rgba(255,255,255,0.75)" />
+                    <ReferenceDot x={closest.time} y={closest.v} r={3} stroke="rgba(255,255,255,0.75)" fill="none" ifOverflow="extendDomain" />
                     <Area type="monotone" dataKey="v" stroke="transparent"  fill="url(#colorUv)" />
                 </AreaChart>
             </ResponsiveContainer>

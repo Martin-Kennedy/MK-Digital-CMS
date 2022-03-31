@@ -49,6 +49,7 @@ margin-left: 0;
 margin-top: 0;
 display: block;
 margin-bottom: 1vh;
+width: auto;
 line-height: normal;
 font-size: 1.5vh;
 `
@@ -64,6 +65,16 @@ line-height: normal;
 font-size: 1.75vh;
 `
 
+const Temp = styled(Data)`
+font-size: 1.2vw;
+font-weight: 500;
+letter-spacing: .5px;
+color: rgba(255,255,255, 0.8);
+`
+
+const Description = styled(Data)`
+
+`
 const Weather = styled(WaterTemp)`
 
 `
@@ -93,8 +104,11 @@ height: 17vh;
 `;
 
 const WeatherIcon = styled.div`
-width: 7vh;
-height: 7vh;
+width: 5vh;
+height: 5vh;
+position: relative;
+top: -5px;
+right: -5px;
 background-size: cover;
 background-repeat: no-repeat;
 background-image: ${props => props.icon ? `url(https://www.weatherbit.io/static/img/icons/${props.icon}.png)` : null };
@@ -236,16 +250,26 @@ let degree = String.fromCodePoint(176)
             <StyledMapImg coords={props.coords}  ></StyledMapImg>
         <ConditionsContainer>
                 <Weather>
-                    <Row>
+                    {!Array.isArray(props.surf.weather) ? 
+                    <Fragment>
+                        <Row>
                         <Title>Weather</Title>
+                        <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon>
                     </Row>
                     <Row>
-                        {!Array.isArray(props.surf.weather) ? <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon> : null}
+                       
+                            <Temp>{parseInt(props.surf.weather.data[0].app_temp)}{degree} <UnitType>f</UnitType></Temp>
+                        
                     </Row>
+                            <Row>
+                                <Description>{props.surf.weather.data[0].weather.description}</Description>
+                            </Row>
+                    </Fragment>
+                        : null}
                 </Weather>
                 <WaterTemp>
                     <Title>Sun Position</Title>
-                    {!Array.isArray(props.surf.weather) ? <SunriseSunsetGraph data={getSolarDatums(props.surf.weather.data[0].sunset, props.surf.weather.data[0].sunrise)} /> : null }
+                    {!Array.isArray(props.surf.weather) ? <SunriseSunsetGraph data={getSolarDatums()}  /> : null }
                 </WaterTemp>
                 <WaterTemp>
                     <Title>Water Temperature</Title>

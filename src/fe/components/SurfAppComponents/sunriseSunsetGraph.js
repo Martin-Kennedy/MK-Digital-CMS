@@ -81,15 +81,12 @@ const type = "monotone";
 export default class SunriseSunsetGraph extends PureComponent {
     
     render() {
-        const time = Math.floor(Date.now() / 1000)
         const hours = new Date().getHours();
         const minutes = new Date().getMinutes();
-
         const conHrsToSec = Math.floor(hours * 60 * 60);
         const conMinsToSec = Math.floor(minutes * 60);
         const timeToSec = conHrsToSec + conMinsToSec;
         var closest = this.props.data.reduce(function (a, b) {
-            console.log(timeToSec, a.timeTick, b.timeTick)
             return (Math.abs(a.timeTick - timeToSec) < Math.abs(b.timeTick - timeToSec) ? a : b);
         });
      
@@ -116,12 +113,6 @@ export default class SunriseSunsetGraph extends PureComponent {
                             <stop offset="55%" stopColor="rgba(255,255,255,0.15)"/>
                             <stop offset="100%" stopColor="#023059"/>
                         </linearGradient>
-                        <linearGradient id="gradient2" x1="0" y1="0" x2="0" y2="100%">
-                            <stop offset="5%" stopColor="rgba(237,28,36,1)" />
-                            <stop offset="50%" stopColor="rgba(241,90,36,1)" />
-                            <stop offset="75%" stopColor="rgba(241,90,36,1)" />
-                            <stop offset="100%" stopColor="rgba(251,176,59,1)" />
-                        </linearGradient>
                     </defs>
 
                     <Line type={type} dataKey="position" stroke="url(#gradient)" dot={false}/>
@@ -134,9 +125,9 @@ export default class SunriseSunsetGraph extends PureComponent {
                         wrapperStyle={toolTipGlassMorphism}
                         content={<SunGraphTooltip />}
                     />
-                    <ReferenceDot x={closest.time} y={closest.position} r={5} stroke="none" fill="rgba(251,176,59,1)" alwaysShow={true} />
-                    <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)"  alwaysShow={true} />
-                    <YAxis  dataKey="position" domain={['dataMin - .5', '2']} />
+                    <ReferenceDot x={closest.time} y={closest.position} r={5} stroke="none" fill="rgba(251,176,59,1)" ifOverflow="extendDomain" />
+                    <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)"  ifOverflow="extendDomain" />
+                    <YAxis  dataKey="position" domain={['dataMin - 0.25', 'dataMax + 0.25']} />
                 </LineChart>
             </ResponsiveContainer>
         );

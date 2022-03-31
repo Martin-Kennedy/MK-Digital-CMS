@@ -65,9 +65,8 @@ const RatingText = styled.div `
 
 const ConditionContainer = styled.div `
     border-radius: 4px;
-    background: ${props => props.rating >= 2
-    ? 'rgba(229, 135,41, 0.8)'
-                    : props.rating < 1
+    background: ${props => props.rating[0] >= 2 || props.maxBreakingHeight > 4 && props.rating[1] < 1
+    ? 'rgba(229, 135,41, 0.8)' : props.rating[0] < 1 || props.rating[1] >= 2
         ? 'rgba(183, 32,32, 0.8)'
         : 'rgba(60, 214,82, 0.8)'};
 
@@ -87,10 +86,10 @@ export const CurrWaveDataComponent = (props) => {
             <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
             <span>ft</span>
         </WaveHeight>
-        <ConditionContainer rating={props.rating}>
-            <RatingText>{props.rating >= 2
+        <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
+            <RatingText>{props.rating[0] >= 2 || props.waveData.maxBreakingHeight > 4 && props.rating[1] < 1
                     ? 'Good'
-                    : props.rating < 1
+                    : props.rating[0] < 1 || props.rating[1] >= 2
                         ? 'Poor'
                         : 'Fair'}</RatingText>
         </ConditionContainer>

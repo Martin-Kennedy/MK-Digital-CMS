@@ -10,6 +10,7 @@ const SlideCounterRow = styled(Row)`
     bottom: 100px;
     width: 100%;
     left: 0;
+    top: 90vh
     
 `
 

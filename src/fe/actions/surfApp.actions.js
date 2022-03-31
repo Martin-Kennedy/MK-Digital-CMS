@@ -94,7 +94,6 @@ export const getSurfForecast = (spotId) => {
             .then(response => {
                 return response.data
             }).then(data => {
-                console.log(data);
                 dispatch({
                     type: GET_SPOT_FORECAST,
                     payload: data
@@ -192,7 +191,6 @@ export const getTideForecast = (data) => {
             .then(response => {
                 return response.data
             }).then(data => {
-                console.log(data)
                 dispatch({
                     type: GET_TIDE_FORECAST,
                     payload: data,
@@ -203,7 +201,6 @@ export const getTideForecast = (data) => {
                     .then(response => {
                         return response.data
                     }).then(data => {
-                        console.log(data)
                         dispatch({
                             type: GET_TIDE_FORECAST,
                             payload: data,
@@ -228,6 +225,7 @@ export const getWaterTemp = (data) => {
             .then(response => {
                 return response.data
             }).then(data => {
+                
                 const cells = data.split('\n').map(function (el) { return el.split(/\s+/); });
                 const headings = cells.shift();
                 let arr = [];
@@ -245,10 +243,14 @@ export const getWaterTemp = (data) => {
 
             }).then((data) => {
                 const parsedData = JSON.parse(data);
+                parsedData[1].WTMP != "MM" ?
                 dispatch({
                     type: GET_WATER_TEMP,
                     payload: parsedData[1].WTMP,
-                })
+                }) : dispatch({
+                            type: GET_WATER_TEMP,
+                            payload: parsedData[2].WTMP,
+                        })
             })
 
             .catch(error => {
@@ -381,7 +383,6 @@ export const getWeatherStations = (data) => {
             .then(response => {
                 return response.data
             }).then(data => {
-                console.log(data);
                 dispatch({
                     type: GET_WEATHER_STATIONS,
                     payload: data

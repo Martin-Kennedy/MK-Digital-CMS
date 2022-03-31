@@ -345,7 +345,7 @@ class SurfGUILanding extends Component {
     }
 
     render() {
-        const rating = this.props.surf.currentConditions.solidRating - this.props.surf.currentConditions.fadedRating;
+        const rating = [this.props.surf.currentConditions.solidRating,this.props.surf.currentConditions.fadedRating];
         const d = [
             "m-17.8273,111.16671c20.66565,-0.55532 37.66464,-38.11063 62.99696,-38.66596c28.3" +
             "335,0.22223 43.33368,37.77777 67.00051,37.66666c25.77793,-0.33334 39.22252,-15.9" +
