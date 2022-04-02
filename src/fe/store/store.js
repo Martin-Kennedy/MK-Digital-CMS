@@ -50,7 +50,9 @@ const initalState = {
         weatherStations: [],
         tideForecast: [],
         waterTemp: [],
-        weather: []
+        weather: [],
+        weatherForecast: [],
+        uvForecast: []
     },
 
     pages: {

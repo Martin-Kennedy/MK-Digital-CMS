@@ -1,4 +1,4 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_UV_FORECAST } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios'
@@ -8,6 +8,7 @@ const tideStationApiUrl = 'http://localhost:8888/tideStations';
 const NDBCStationApiUrl = 'http://localhost:8889/ndbcBouys';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
 const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
+
 
 
 // NOAA web services api token
@@ -413,6 +414,50 @@ export const getWeather = (data) => {
             });
     }
 }
+
+export const getWeatherForecast = (data) => {
+    let apiKey = '5de113a38fff4837919307fd505473e1';
+    const weatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${data.lat}6&lon=${data.lng}&key=${apiKey}&units=I`
+    return (dispatch) => {
+        return axios.get(weatherUrl)
+            .then(response => {
+                return response.data
+            }).then(data => {
+                console.log(data)
+                dispatch({
+                    type: GET_WEATHER_FORECAST,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    }
+}
+
+export const getUvForecast = (data) => {
+    const town = data.town.toLowerCase()
+    const state = data.countryOrState.toLowerCase();
+    const openWeatherApiKey = 'bc487a6d87516d1d2546ceb1c78a6fa4';
+    const uvForecastApiUrl = `https://data.epa.gov/efservice/getEnvirofactsUVHOURLY/CITY/${town}/STATE/${state}/JSON`
+    return (dispatch) => {
+        return axios.get(uvForecastApiUrl)
+            .then(response => {
+                return response.data
+            }).then(data => {
+                console.log(data)
+                dispatch({
+                    type: GET_UV_FORECAST,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    }
+}
+
+
 
 export const getNdbcStations = (latLon) => {
     const request = axios.get(NDBCStationApiUrl)

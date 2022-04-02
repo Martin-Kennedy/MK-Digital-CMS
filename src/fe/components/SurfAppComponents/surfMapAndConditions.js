@@ -1,9 +1,10 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import {connect} from 'react-redux'
 import SunriseSunsetGraph from './sunriseSunsetGraph';
 import { formatAMPMwMins } from '../../helpers/utilities';
+import { useDispatch } from 'react-redux';
 var SunCalc = require('suncalc');
 
 const StyledMapImg = styled.div`
@@ -143,7 +144,9 @@ const mapStateToProps = state => {
             weatherStations: state.surf.weatherStations,
             tideForecast: state.surf.tideForecast,
             waterTemp: state.surf.waterTemp,
-            weather: state.surf.weather
+            weather: state.surf.weather,
+            weatherForecast: state.surf.weatherForecast,
+            uvForecast: state.surf.uvForecast
 
         }
     }
@@ -152,6 +155,7 @@ const mapStateToProps = state => {
 let degree = String.fromCodePoint(176)
 
  const SurfMapAndConditions = (props) => {
+    
      const getSolarDatums = (sunset, sunrise) => {
 
          const formatTime = (time) => {
@@ -275,10 +279,12 @@ let degree = String.fromCodePoint(176)
                     <Title>Water Temperature</Title>
                     <Data>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <UnitType>f</UnitType></Data>
                 </WaterTemp>
+                {!Array.isArray(props.surf.uvForecast) ?  
                 <WaterTemp>
-                    <Title>Water Temperature</Title>
-                    <Data>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <UnitType>f</UnitType></Data>
+                    <Title>UV Index</Title>
+                        <Data>{console.log(props.surf.uvForecast)}</Data>
                 </WaterTemp>
+                    : null}
         </ConditionsContainer>
         </Fragment>
         
