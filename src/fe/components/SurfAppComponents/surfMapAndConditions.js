@@ -3,6 +3,7 @@ import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import {connect} from 'react-redux'
 import SunriseSunsetGraph from './sunriseSunsetGraph';
+import UvIndexGraph from './uvIndexGraph';
 import { formatAMPMwMins } from '../../helpers/utilities';
 import { useDispatch } from 'react-redux';
 var SunCalc = require('suncalc');
@@ -261,13 +262,11 @@ let degree = String.fromCodePoint(176)
                         <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon>
                     </Row>
                     <Row>
-                       
-                            <Temp>{parseInt(props.surf.weather.data[0].app_temp)}{degree} <UnitType>f</UnitType></Temp>
-                        
+                        <Temp>{parseInt(props.surf.weather.data[0].app_temp)}{degree} <UnitType>f</UnitType></Temp>
                     </Row>
-                            <Row>
-                                <Description>{props.surf.weather.data[0].weather.description}</Description>
-                            </Row>
+                        <Row>
+                            <Description>{props.surf.weather.data[0].weather.description}</Description>
+                        </Row>
                     </Fragment>
                         : null}
                 </Weather>
@@ -279,10 +278,10 @@ let degree = String.fromCodePoint(176)
                     <Title>Water Temperature</Title>
                     <Data>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree} <UnitType>f</UnitType></Data>
                 </WaterTemp>
-                {!Array.isArray(props.surf.uvForecast) ?  
+                {!Array.isArray(props.surf.weatherForecast) ?  
                 <WaterTemp>
                     <Title>UV Index</Title>
-                        <Data>{console.log(props.surf.uvForecast)}</Data>
+                        <UvIndexGraph data={props.surf.weatherForecast.current.uvi} />
                 </WaterTemp>
                     : null}
         </ConditionsContainer>

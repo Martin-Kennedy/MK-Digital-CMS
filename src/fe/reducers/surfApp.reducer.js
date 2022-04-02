@@ -115,12 +115,6 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 weatherForecast: action.payload,
             }
-        case GET_UV_FORECAST:
-
-            return {
-                ...state,
-                uvForecast: action.payload,
-            }
 
         default:
             return state;

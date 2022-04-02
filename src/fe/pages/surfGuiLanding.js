@@ -266,8 +266,7 @@ const mapStateToProps = state => {
             tideForecast: state.surf.tideForecast,
             waterTemp: state.surf.waterTemp,
             weather: state.surf.weather,
-            weatherForecast: state.surf.weatherForecast,
-            uvForecast: state.surf.uvForecast
+            weatherForecast: state.surf.weatherForecast
 
         }
     }
@@ -285,8 +284,7 @@ const mapDispatchToProps = dispatch => ({
     getWaterTemp: waterTemp => dispatch(getWaterTemp(waterTemp)),
     getWeatherStations: weatherStations => dispatch(getWeatherStations(weatherStations)),
     getWeather: weather => dispatch(getWeather(weather)),
-    getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast)),
-    getUvForecast: uvForecast => dispatch(getUvForecast(uvForecast))
+    getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast))
 });
 
 class SurfGUILanding extends Component {
@@ -315,7 +313,6 @@ class SurfGUILanding extends Component {
             const { getWeather } = this.props;
             const { getWeatherForecast } = this.props;
             const { getNdbcStations } = this.props;
-            const { getUvForecast } = this.props;
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId })
             this.setState({ lat: this.props.surf.closeSurfSpots[0].lat })
             this.setState({ lng: this.props.surf.closeSurfSpots[0].lng })
@@ -325,7 +322,6 @@ class SurfGUILanding extends Component {
             getWeatherStations(this.props.surf.closeSurfSpots[0]);
             getWeather(this.props.surf.closeSurfSpots[0]);
             getWeatherForecast(this.props.surf.closeSurfSpots[0]);
-            getUvForecast(this.props.surf.closeSurfSpots[0]);
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
             const { getMaxWaveHeight } = this.props;

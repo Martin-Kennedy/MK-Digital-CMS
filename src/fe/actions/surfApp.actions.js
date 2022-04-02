@@ -415,39 +415,19 @@ export const getWeather = (data) => {
     }
 }
 
+
+
 export const getWeatherForecast = (data) => {
-    let apiKey = '5de113a38fff4837919307fd505473e1';
-    const weatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${data.lat}6&lon=${data.lng}&key=${apiKey}&units=I`
+    const openWeatherApiKey = 'bc487a6d87516d1d2546ceb1c78a6fa4';
+    const weatherForecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.lat}&lon=${data.lng}&exclude=minutely,alerts&units=imperial&appid=${openWeatherApiKey}`
     return (dispatch) => {
-        return axios.get(weatherUrl)
+        return axios.get(weatherForecastApiUrl)
             .then(response => {
                 return response.data
             }).then(data => {
                 console.log(data)
                 dispatch({
                     type: GET_WEATHER_FORECAST,
-                    payload: data
-                })
-            })
-            .catch(error => {
-                throw (error);
-            });
-    }
-}
-
-export const getUvForecast = (data) => {
-    const town = data.town.toLowerCase()
-    const state = data.countryOrState.toLowerCase();
-    const openWeatherApiKey = 'bc487a6d87516d1d2546ceb1c78a6fa4';
-    const uvForecastApiUrl = `https://data.epa.gov/efservice/getEnvirofactsUVHOURLY/CITY/${town}/STATE/${state}/JSON`
-    return (dispatch) => {
-        return axios.get(uvForecastApiUrl)
-            .then(response => {
-                return response.data
-            }).then(data => {
-                console.log(data)
-                dispatch({
-                    type: GET_UV_FORECAST,
                     payload: data
                 })
             })
