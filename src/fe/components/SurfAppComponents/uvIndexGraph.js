@@ -92,56 +92,54 @@ const ActiveShape = (props) => {
     const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
-    const mx = cx + (outerRadius - 10) * cos;
-    const my = cy + (outerRadius - 10) * sin;
+    const mx = cx + (outerRadius - 5) * cos;
+    const my = cy + (outerRadius - 5) * sin;
     const ex = mx + (cos >= 0 ? 1 : -1) * 22;
     const ey = my;
     return <g>
         <Sector
             cx={cx}
             cy={cy}
-            innerRadius={innerRadius }
-            outerRadius={outerRadius }
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
             startAngle={startAngle}
             endAngle={endAngle}
             fill={fill}
+            stroke={fill}
         />
         
-        <circle cx={ex} cy={ey} r={8} fill="#0f2a46" stroke="#fff" />
+        <circle cx={mx} cy={my} r={5} fill="#0f2a46" stroke="#fff" />
             </g>;
 }
 export default class UvIndexGraph extends PureComponent {
 
     render() {
-      
+        const uvi = parseInt(this.props.data.uvi) -1;
 
         return (
-            <div className="uvIndex" style={{ width: "200px", height: "110px", transform: "scale(.8)" }}>
+            <div style={{ width: '100%', height: '14vh', marginTop: '1vh',  }}>
             <ResponsiveContainer>
 
                 <PieChart >
                     
                     <Pie
                         data={data}
-                        activeIndex={6}
+                        activeIndex={uvi}
                         activeShape={ActiveShape}
-                        cx={100}
-                        cy={100}
                         startAngle={180}
                         endAngle={0}
-                        innerRadius={70}
-                        outerRadius={80}
+                        innerRadius={42}
+                        outerRadius={45}
                         fill="#8884d8"
                         dataKey="value"
-                        className='uvIndex'
                         isAnimationActive={false}
-                        
-                    >
+                        >
+                            {data.map((entry, index) => (
+                                <Cell stroke={COLORS[index % COLORS.length]} key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
                         {/* <ReferenceDot x={closest.time} y={closest.position} r={5} stroke="none" fill="rgba(251,176,59,1)" ifOverflow="extendDomain" /> */}
-                        {data.map((entry, index) => (
-                            <Cell stroke={COLORS[index % COLORS.length]} key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                    </Pie>
+                      
                 </PieChart>
                 </ResponsiveContainer>
             </div>
