@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {connect} from 'react-redux'
 import SunriseSunsetGraph from './sunriseSunsetGraph';
 import UvIndexGraph from './uvIndexGraph';
+import { WaterTempSVGPath  } from '../designElementComponents/waterTempSVGPath';
 import {formatAMPMwMins} from '../../helpers/utilities';
 import {useDispatch} from 'react-redux';
 var SunCalc = require('suncalc');
@@ -44,17 +45,34 @@ height: 14vh;
 margin: 1.5vh 0 1.5vh 1.5vh;
 `;
 
+const TitleIconRow = styled(Row)`
+width: 100%;
+display: flex;
+justify-content: space-between;
+margin: 0;
+padding: 0;
+p {
+    padding: 0;
+    margin: 0;
+}
+svg {
+    padding: 0;
+    margin: 0;
+}
+`
+
 const Title = styled.p `
 text-transform: uppercase;
-color: var(--white);
+color: rgba(255, 255, 255, 0.8);
 opacity: .6;
 margin-left: 0;
 margin-top: 0;
 display: block;
 margin-bottom: 1vh;
- width: auto;
-line-height: normal;
-font-size: 1.5vh;
+width: auto;
+font-size: .65vw;
+height: fit-content;
+line-height: .65vw;
 `
 
 const Data = styled.p `
@@ -65,56 +83,102 @@ margin-top: 0;
 display: block;
 margin-bottom: 1vh;
 line-height: normal;
-font-size: 1.75vh;
+font-size: 1.2vw;
 `
 
 const Temp = styled(Data)`
-font-size: 1.2vw;
-font-weight: 500;
+font-size: 2vw;
+line-height: 2vw;
+font-weight: 600;
 letter-spacing: .5px;
-color: rgba(255,255,255, 0.8);
+text-align: center;
+color: rgba(255,255,255, 0.9);
+margin-bottom: 0.5vh;
+width: 50%;
+height: 2vw;
+padding: 0;
 `
 
-const Description = styled(Data)`
+const WaterTempData = styled(Temp)`
+font-size: 1.75vw;
+`
+const HiLoTemp = styled.div`
+width: 50%;
+text-align: center;
+margin: .2vh 0 .2vh 1vh;
+display: block;
+line-height: .6vw;
+height: auto;
+padding: 0;
+p {
+display: block;
+padding: .15vw;
+margin: 0;
+font-size: .5vw;
+width: auto;
+font-size: .8vw;
+font-weight: 500;
+letter-spacing: .5px;
+color: rgba(255,255,255, 0.5);
+}
+`
 
+const TempWeatherIconContainer = styled.div`
+width: 70%;
+text-align: center;
+margin: .2vh auto;
+display: flex;
+line-height: .6vw;
+height: auto;
+padding: 0;
+`
+
+const WaterTempContainer = styled.div`
+width: 90%;
+text-align: center;
+margin: .2vh auto;
+display: flex;
+line-height: .6vw;
+height: auto;
+padding: 0;
+p {
+    line-height: 8vh;
+    width: 100%;
+    height: 8vh;
+}
+`
+const Description = styled(Data)`
+font-size: 0.6vw;
+letter-spacing: 0.1vw;
+font-weight: 500;
+text-align: center;
+color: rgba(255,255,255, 0.8);
+margin: 0.5vh 0;
+text-transform: capitalize;
 `
 const Weather = styled(WaterTemp)`
 
 `
 
-const Conditions = styled(WaterTemp)`
-p {
-color: var(--white);
-opacity: .5;
-margin-left: 15px;
-display: inline-block;
-margin-bottom: 0;
-line-height: normal;
-}
-
-`
-
 const ConditionsContainer = styled(Row)`
-height: 17vh;
->div:first-child {
-    margin-left: 2.5vh;
-}
->div:last-child {
-    margin-right: 2.5vh;
-}
+    height: 17vh;
+    >div:first-child {
+        margin-left: 2.5vh;
+    }
+    >div:last-child {
+        margin-right: 2.5vh;
+    }
 `;
 
 const WeatherIcon = styled.div `
-width: 5vh;
-height: 5vh;
+width: 1.75vw;
+height: 1.75vw;
 position: relative;
 top: -5px;
 right: -5px;
 background-size: cover;
 background-repeat: no-repeat;
-background-image: ${props => props.icon
-    ? `url(https://www.weatherbit.io/static/img/icons/${props.icon}.png)`
-    : null};
+background-image: ${props => props.icon ? `url(https://www.weatherbit.io/static/img/icons/${props.icon}.png)` : null};
 `
 
 const WaterTempIcon = styled.svg `
@@ -122,11 +186,11 @@ const WaterTempIcon = styled.svg `
     height: 3vh;
     position: relative;
     top: -2px;
-    right: -10px;
+    right: 0;
     padding: 0;
-path {
-    fill: rgba(255,255,255, 0.5);
-}
+    path {
+        fill: rgba(255,255,255, 0.5);
+    }
 `
 
 
@@ -139,9 +203,9 @@ font-weight: 200;
 color: var(--white);
 margin: 3px 0 10px 0;
 padding: 0;
-opacity: .5;
+opacity: .6;
 letter-spacing: 1.25px;
-margin-left: 3px;
+position: relative;
 `
 
 const UvValue = styled(Data)`
@@ -275,18 +339,32 @@ const SurfMapAndConditions = (props) => {
                 <Weather>
                     {!Array.isArray(props.surf.weather)
                         ? <Fragment>
-                                <Row>
+                            <TitleIconRow>
                                     <Title>Weather</Title>
-                                    <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon>
-                                </Row>
-                                <Row>
+                                <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon>
+                                    
+                            </TitleIconRow>
+                            <Row>
+                                <TempWeatherIconContainer>
                                     <Temp>{parseInt(props.surf.weather.data[0].app_temp)}{degree}
                                         <UnitType>f</UnitType>
                                     </Temp>
-                                </Row>
-                                <Row>
-                                    <Description>{props.surf.weather.data[0].weather.description}</Description>
-                                </Row>
+                                    {!Array.isArray(props.surf.weatherForecast) ?
+                                        <Fragment>
+                                            <HiLoTemp>
+                                                <p>H: {parseInt(props.surf.weatherForecast.daily[0].temp.max)}{degree}</p>
+                                                <p>L: {parseInt(props.surf.weatherForecast.daily[0].temp.min)}{degree}</p>
+                                            </HiLoTemp>
+                                        </Fragment>
+                                        : null}
+                                    
+                                </TempWeatherIconContainer>
+                            </Row>
+                            <Row>
+                                <Description>{props.surf.weather.data[0].weather.description}</Description>
+                            </Row>
+                           
+                                
                             </Fragment>
                         : null}
                 </Weather>
@@ -297,36 +375,20 @@ const SurfMapAndConditions = (props) => {
                         : null}
                 </WaterTemp>
                 <WaterTemp>
-                    <Row>
+                    <TitleIconRow>
                         <Title>Water Temp</Title>
                         <WaterTempIcon x="0px" y="0px" viewBox="0 0 100 100">
-                            <path
-                                d="M49.51,84.69c3.46,0.01,6.79-1.35,9.26-3.78c2.47-2.43,3.88-5.73,3.93-9.2c0.05-3.46-1.27-6.81-3.67-9.31V12.57
-	c0-3.4-1.82-6.55-4.76-8.25c-2.95-1.7-6.58-1.7-9.53,0c-2.95,1.7-4.76,4.85-4.76,8.25V62.4c-2.4,2.5-3.72,5.84-3.67,9.31
-	c0.05,3.46,1.46,6.77,3.93,9.2C42.72,83.34,46.05,84.69,49.51,84.69L49.51,84.69z M49.51,8.21c2.41,0,4.36,1.95,4.36,4.37v52.71
-	h1.02l-0.12,0.15h0c1.66,1.44,2.66,3.5,2.77,5.7c0.1,2.2-0.7,4.34-2.22,5.94c-1.52,1.59-3.62,2.49-5.83,2.49
-	c-2.2,0-4.31-0.9-5.83-2.49c-1.52-1.59-2.32-3.74-2.22-5.94c0.1-2.2,1.1-4.26,2.77-5.7h0.9V12.57c-0.01-1.17,0.45-2.29,1.28-3.11
-	c0.82-0.83,1.95-1.29,3.11-1.28L49.51,8.21z"/>
-                            <path
-                                d="M78.63,88.9c-2.02,0.06-4.01-0.43-5.77-1.41c-5.49-2.77-11.97-2.77-17.46,0c-3.61,1.87-7.91,1.87-11.52,0
-	c-5.49-2.77-11.97-2.77-17.46,0c-3.61,1.87-7.91,1.87-11.52,0c-2.69-1.43-5.69-2.14-8.73-2.09v6.86c2.01-0.05,3.99,0.43,5.75,1.41
-	c5.49,2.77,11.97,2.77,17.46,0c3.61-1.87,7.91-1.87,11.52,0c5.49,2.77,11.97,2.77,17.46,0c3.61-1.87,7.91-1.87,11.52,0
-	c5.5,2.77,11.99,2.77,17.48,0c1.76-0.98,3.76-1.46,5.77-1.41v-6.86c-3.04-0.06-6.04,0.66-8.73,2.09
-	C82.64,88.48,80.65,88.96,78.63,88.9L78.63,88.9z"/>
-                            <path
-                                d="M85.11,68.03c-3.84,1.27-7.99,1.27-11.83,0c-2.57-0.9-5.28-1.33-8-1.29v6.91c2.01-0.05,4.02,0.27,5.92,0.95
-	c5.2,1.7,10.8,1.7,16,0c1.9-0.68,3.92-1,5.94-0.95v-6.91C90.4,66.69,87.68,67.13,85.11,68.03L85.11,68.03z"/>
-                            <path
-                                d="M19.66,75.81c2.65,0.05,5.28-0.37,7.78-1.24c1.83-0.66,3.76-0.97,5.7-0.92v-6.86
-	c-2.65-0.05-5.28,0.37-7.78,1.24c-3.7,1.22-7.7,1.22-11.4,0c-2.5-0.87-5.13-1.29-7.78-1.24v6.86c1.94-0.05,3.87,0.27,5.7,0.92
-	C14.38,75.44,17.02,75.86,19.66,75.81z"/>
+                            <WaterTempSVGPath />
                         </WaterTempIcon>
-                    </Row>
+                        </TitleIconRow>
                     <Row>
-                        <Data>{parseInt(props.surf.waterTemp) - 2}{degree}
+                        <WaterTempContainer>
+                            <WaterTempData>
+                                {parseInt(props.surf.waterTemp) - 2}{degree}
                             - {parseInt(props.surf.waterTemp) + 1}{degree}
                             <UnitType>f</UnitType>
-                        </Data>
+                            </WaterTempData>
+                        </WaterTempContainer>
                     </Row>
                 </WaterTemp>
                 {!Array.isArray(props.surf.weatherForecast) && props.surf.weatherForecast.current.uvi != 0

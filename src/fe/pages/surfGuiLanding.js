@@ -406,10 +406,11 @@ class SurfGUILanding extends Component {
                                                         this.setState({ activeSurfSpot: surfSpot.spotId })
                                                         this.props.getSurfForecast(surfSpot.spotId)
                                                         this.props.getWeather(surfSpot);
+                                                        this.props.getWeatherForecast(surfSpot);
                                                         this.props.getTideStations(surfSpot);
                                                         this.setState({ lat: surfSpot.lat })
                                                         this.setState({ lng: surfSpot.lng })
-                                                    }} key={index}>{surfSpot.town}</SurfSpot>
+                                                    }} >{surfSpot.town}</SurfSpot>
                                                 })}
                                         </ul>
                                     </Row>
@@ -423,7 +424,7 @@ class SurfGUILanding extends Component {
                                                 {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent rating={rating} waveData={this.props.surf.currentConditions.swell} /> : null}
                                             </CurrentConditionBackdrop>
                                             <CurrentConditionBackdrop>
-                                                {!Array.isArray(this.props.surf.weather) ? <CurrWindDataComponent weather={this.props.surf.weather.data[0]} /> : null}
+                                                {!Array.isArray(this.props.surf.weatherForecast) ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} /> : null}
                                             </CurrentConditionBackdrop>
 
                                         </CurrentConditionRow>

@@ -2,10 +2,12 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
 import {Row} from 'react-bootstrap'
 import {motion} from "framer-motion"
+import { WindIconSVGPath } from '../designElementComponents/windIconSVGPath'
 
 const WaveConditionBackdrop = styled.div `
-width: 14vh;
-height: 18vh;
+width: 100%;
+height: 100%;
+padding: 0;
 z-index: 5;
 &:hover {
     cursor: pointer;
@@ -20,19 +22,31 @@ svg:nth-child(3){
 
 `
 
-const Title = styled(Row)`
-p {
-color: var(--white);
-opacity: .7;
-font-size: 1.5vh;
-margin-left: 15px;
-font-weight: 200;
-position: relative;
-top: -3vh;
-height: 0;
-margin-bottom: .5vh;
+
+
+const WindIcon = styled.svg`
+    width: 3vh;
+    height: 3vh;
+    position: relative;
+    top: -2px;
+    right: 0;
+    padding: 0;
+    path {
+        fill: rgba(255,255,255, 0.5);
+    }
+`
+
+const Title = styled.p`
 text-transform: uppercase;
-}
+color: rgba(255, 255, 255, 0.8);
+margin-left: 0;
+margin-top: 0;
+display: block;
+margin-bottom: 1vh;
+width: auto;
+font-size: .75vw;
+height: fit-content;
+line-height: .65vw;
 `
 
 
@@ -42,8 +56,8 @@ height: 15vh;
 z-index: 2; 
 position: absolute; 
 opacity: 0.3;
-left: 3.5vh;
-top: 3vh;
+left: 4vh;
+top: 2vh;
 path {
     fill: var(--white);
 }
@@ -55,8 +69,8 @@ height: 15vh;
 z-index: 3; 
 position: absolute; 
 opacity: 0.8;
-left: 3.5vh;
-top: 3vh;
+left: 4vh;
+top: 2vh;
 transform-origin: center center !important;
 
 path {
@@ -69,8 +83,8 @@ position: absolute;
     opacity: 0.8;
     text-align: center;
     padding: 4vh;
-    left: 3vh;
-    top: 3.5vh;
+    left: 3.5vh;
+    top: 2.5vh;
     z-index: 4;
     width: 16vh;
     height: 16vh;
@@ -96,8 +110,68 @@ span {
 }
 `
 
+const TitleIconRow = styled(Row)`
+width: 100%;
+display: flex;
+justify-content: space-between;
+margin: 0;
+padding: 0;
+position: relative;
+top: -3vh;
+p {
+    padding: 0 0 0 0.8vw;
+    margin: 0;
+}
+svg {
+    padding: 0;
+    margin: 0 0.8vw 0 0;
+}
+`
+
+const BottomRow = styled(Row)`
+width: 100%;
+position: absolute;
+bottom: 0;
+display: flex;
+justify-content: space-between;
+margin: 0;
+padding: 0;
+text-transform: uppercase;
+color: rgba(255, 255, 255, 0.8);
+margin-bottom: 1vh;
+font-size: .75vw;
+height: fit-content;
+line-height: .65vw;
+p:first-child {
+    padding: 0 0 0 0.8vw;
+    margin: 0;
+    width: 50%;
+    text-align: left;
+}
+p:last-child {
+    padding: 0 0.8vw 0 0;
+    margin: 0;
+    width: 50%;
+    text-align: right;
+    font-size: .5vw;
+   
+}
+span {
+    padding: 0 0 0 0.4vw;
+    font-weight: 600;
+    opacity: 0.6;
+    font-size: .75vw;
+}
+`
+
+function degToCompass(num) {
+    const val = Math.floor((num / 22.5) + 0.5);
+    const arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return arr[(val % 16)];
+}
+
 export const CurrWindDataComponent = (props) => {
-    const finalDeg = props.weather.wind_dir + 180;
+    const finalDeg = props.weatherForecast.current.wind_deg + 180;
     const rotationArr = [
         -40,
         -90,
@@ -109,9 +183,13 @@ export const CurrWindDataComponent = (props) => {
 
     return <WaveConditionBackdrop>
 
-        <Title>
-            <p>Wind</p>
-        </Title>
+        <TitleIconRow>
+            <Title>Wind</Title>
+            <WindIcon x="0px" y="0px" viewBox="0 0 100 100">
+                <WindIconSVGPath />
+            </WindIcon>
+        </TitleIconRow>
+        
         <StyledCompassBase
             version="1.1"
             id="Layer_1"
@@ -199,10 +277,13 @@ export const CurrWindDataComponent = (props) => {
             </g>
         </StyledCompassArrow>
         <WindSpeed>
-            <p>{parseInt(props.weather.wind_spd)}</p>
+            <p>{parseInt(props.weatherForecast.current.wind_speed)}</p>
             <span>MPH</span>
         </WindSpeed>
-
+        <BottomRow>
+            <p><span>{degToCompass(props.weatherForecast.current.wind_deg)}</span></p>
+            <p>Gusts: <span>{parseInt(props.weatherForecast.current.wind_gust)}</span></p>
+        </BottomRow>
     </WaveConditionBackdrop>
 
 };
