@@ -52,7 +52,8 @@ const initalState = {
         waterTemp: [],
         weather: [],
         weatherForecast: [],
-        uvForecast: []
+        uvForecast: [],
+        currentSwell: []
     },
 
     pages: {

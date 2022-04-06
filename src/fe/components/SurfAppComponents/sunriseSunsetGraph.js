@@ -102,7 +102,7 @@ export default class SunriseSunsetGraph extends PureComponent {
                     margin={{
                     top: 4,
                     right: 5,
-                    bottom: -5,
+                    bottom: -25,
                     left: -60
                 }}>
                     <defs>

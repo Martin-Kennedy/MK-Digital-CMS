@@ -25,14 +25,14 @@ svg:nth-child(3){
 
 
 const WindIcon = styled.svg`
-    width: 3vh;
-    height: 3vh;
+    width: 2.25vh;
+    height: 2.25vh;
     position: relative;
     top: -2px;
     right: 0;
     padding: 0;
     path {
-        fill: rgba(255,255,255, 0.5);
+        fill: rgba(255,255,255, 0.25);
     }
 `
 
@@ -148,7 +148,7 @@ p:first-child {
     width: 50%;
     text-align: left;
 }
-p:last-child {
+p:nth-child(2) {
     padding: 0 0.8vw 0 0;
     margin: 0;
     width: 50%;
@@ -282,7 +282,7 @@ export const CurrWindDataComponent = (props) => {
         </WindSpeed>
         <BottomRow>
             <p><span>{degToCompass(props.weatherForecast.current.wind_deg)}</span></p>
-            <p>Gusts: <span>{parseInt(props.weatherForecast.current.wind_gust)}</span></p>
+            {!isNaN(props.weatherForecast.current.wind_gust) ? <p>Gusts: <span>{parseInt(props.weatherForecast.current.wind_gust)}</span></p> : null}
         </BottomRow>
     </WaveConditionBackdrop>
 

@@ -27,17 +27,6 @@ font-weight: 500;
 font-size: 1.25vh !important;
 `
 
-const SunGraphHeight = styled.p`
-width: 100%;
-display: block;
-margin: 5px 0 0 0;
-font-size: 1.25vh;
-font-weight: 200;
-letter-spacing: .1vw;
-color: rgba(255,255,255, 0.7);
-    
-`
-
 const toolTipGlassMorphism = {
     width: '20vh',
     height: '12.5vh',
@@ -117,7 +106,7 @@ export default class UvIndexGraph extends PureComponent {
         const uvi = parseInt(this.props.data.uvi) -1;
 
         return (
-            <div style={{ width: '100%', height: '14vh', marginTop: '1vh',  }}>
+            <div style={{ width: '100%', height: '6.6vw', marginTop: '.5vw',  }}>
             <ResponsiveContainer>
 
                 <PieChart >

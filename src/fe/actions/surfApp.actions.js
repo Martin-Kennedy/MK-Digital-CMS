@@ -1,4 +1,4 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_UV_FORECAST } from '../helpers/types'
+import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios'
@@ -9,12 +9,10 @@ const NDBCStationApiUrl = 'http://localhost:8889/ndbcBouys';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
 const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 
-
-
 // NOAA web services api token
 const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc';
-
 const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
+
 
 
 
@@ -248,12 +246,108 @@ export const getWaterTemp = (data) => {
                 dispatch({
                     type: GET_WATER_TEMP,
                     payload: parsedData[1].WTMP,
-                }) : dispatch({
+                }) : parsedData[2].WTMP != "MM" ? dispatch({
                             type: GET_WATER_TEMP,
                             payload: parsedData[2].WTMP,
-                        })
+                }) : dispatch({
+                    type: GET_WATER_TEMP,
+                    payload: parsedData[3].WTMP,
+                }) 
             })
 
+            .catch(error => {
+                throw (error);
+            });
+
+    }
+}
+
+export const getCurrentSwell = (data) => {
+
+    console.log(data)
+
+    // ----------- function to break down columns of txt in ndbc txt file return ----------
+
+    const NdbcSwell = `https://www.ndbc.noaa.gov/data/realtime2/${data.buoyId}.txt`;
+
+
+
+    return (dispatch) => {
+        axios.get(NdbcSwell)
+            .then(response => {
+                return response.data
+            }).then(data => {
+
+                const cells = data.split('\n').map(function (el) { return el.split(/\s+/); });
+                const headings = cells.shift();
+                let arr = [];
+                var out = cells.map(function (el) {
+                    var obj = {};
+                    for (var i = 0, l = el.length; i < l; i++) {
+                        obj[headings[i]] = isNaN(Number(el[i])) ? el[i] : + el[i];
+                    }
+                    return obj;
+                })
+
+                var json = JSON.stringify(out, null, 2);
+                return json;
+
+
+            }).then((data) => {
+                const parsedData = JSON.parse(data);
+                parsedData[1].WVHT != "MM" ?
+                    dispatch({
+                        type: GET_CURRENT_SWELL,
+                        payload: {
+                            waveHeight: parsedData[1].WVHT,
+                            dominantPeriod: parsedData[1].DPD,
+                            swellDirection: parsedData[1].MWD,
+                        }
+                    }) : parsedData[2].WVHT != "MM" ? dispatch({
+                        type: GET_CURRENT_SWELL,
+                        payload: {
+                            waveHeight: parsedData[2].WVHT,
+                            dominantPeriod: parsedData[2].DPD,
+                            swellDirection: parsedData[2].MWD,
+                        }
+                    }) : parsedData[3].WVHT != "MM" ? dispatch({
+                        type: GET_CURRENT_SWELL,
+                        payload: {
+                            waveHeight: parsedData[3].WVHT,
+                            dominantPeriod: parsedData[3].DPD,
+                            swellDirection: parsedData[3].MWD,
+                        }
+                    }) : parsedData[4].WVHT != "MM" ? dispatch({
+                        type: GET_CURRENT_SWELL,
+                        payload: {
+                            waveHeight: parsedData[4].WVHT,
+                            dominantPeriod: parsedData[4].DPD,
+                            swellDirection: parsedData[4].MWD,
+                        }
+                    }) : parsedData[5].WVHT != "MM" ? dispatch({
+                        type: GET_CURRENT_SWELL,
+                        payload: {
+                            waveHeight: parsedData[5].WVHT,
+                            dominantPeriod: parsedData[5].DPD,
+                            swellDirection: parsedData[5].MWD,
+                        }
+                    }) : parsedData[6].WVHT != "MM" ? dispatch({
+                        type: GET_CURRENT_SWELL,
+                        payload: {
+                            waveHeight: parsedData[6].WVHT,
+                            dominantPeriod: parsedData[6].DPD,
+                            swellDirection: parsedData[6].MWD,
+                        }
+                    }) : dispatch({
+                        type: GET_CURRENT_SWELL,
+                        payload: {
+                            waveHeight: parsedData[7].WVHT,
+                            dominantPeriod: parsedData[7].DPD,
+                            swellDirection: parsedData[7].MWD,
+                        }
+                    })
+                    
+            })
             .catch(error => {
                 throw (error);
             });
@@ -425,7 +519,6 @@ export const getWeatherForecast = (data) => {
             .then(response => {
                 return response.data
             }).then(data => {
-                console.log(data)
                 dispatch({
                     type: GET_WEATHER_FORECAST,
                     payload: data
@@ -478,6 +571,8 @@ export const getNdbcStations = (latLon) => {
         })
     }
 }
+
+
 
 
 

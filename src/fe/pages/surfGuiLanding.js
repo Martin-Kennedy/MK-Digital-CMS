@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
-import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getNdbcStations, getWeatherStations, getWaterTemp, getWeather, getWeatherForecast, getUvForecast } from '../actions/surfApp.actions';
+import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getNdbcStations, getWeatherStations, getWaterTemp, getWeather, getWeatherForecast, getCurrentSwell } from '../actions/surfApp.actions';
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
 import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
@@ -266,7 +266,8 @@ const mapStateToProps = state => {
             tideForecast: state.surf.tideForecast,
             waterTemp: state.surf.waterTemp,
             weather: state.surf.weather,
-            weatherForecast: state.surf.weatherForecast
+            weatherForecast: state.surf.weatherForecast,
+            currentSwell: state.surf.currentSwell
 
         }
     }
@@ -282,6 +283,7 @@ const mapDispatchToProps = dispatch => ({
     getTideForecast: tideForecast => dispatch(getTideForecast(tideForecast)),
     getNdbcStations: ndbcStations => dispatch(getNdbcStations(ndbcStations)),
     getWaterTemp: waterTemp => dispatch(getWaterTemp(waterTemp)),
+    getCurrentSwell: currentSwell => dispatch(getCurrentSwell(currentSwell)),
     getWeatherStations: weatherStations => dispatch(getWeatherStations(weatherStations)),
     getWeather: weather => dispatch(getWeather(weather)),
     getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast))
@@ -339,7 +341,9 @@ class SurfGUILanding extends Component {
 
         if (prevProps.surf.ndbcStations != this.props.surf.ndbcStations) {
             const { getWaterTemp } = this.props;
+            const { getCurrentSwell } = this.props;
             getWaterTemp(this.props.surf.ndbcStations[0]);
+            getCurrentSwell(this.props.surf.ndbcStations[0]);
         }
 
 
@@ -421,7 +425,7 @@ class SurfGUILanding extends Component {
                                     <StyledCol40 >
                                         <CurrentConditionRow>
                                             <CurrentConditionBackdrop>
-                                                {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent rating={rating} waveData={this.props.surf.currentConditions.swell} /> : null}
+                                                {!Array.isArray(this.props.surf.currentConditions)  ? <CurrWaveDataComponent rating={rating} ndbcData={this.props.surf.currentSwell} waveData={this.props.surf.currentConditions.swell} /> : null}
                                             </CurrentConditionBackdrop>
                                             <CurrentConditionBackdrop>
                                                 {!Array.isArray(this.props.surf.weatherForecast) ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} /> : null}
@@ -430,7 +434,7 @@ class SurfGUILanding extends Component {
                                         </CurrentConditionRow>
                                         <CurrentConditionRowBottom>
                                             <CurrentConditionBackdrop>
-                                                {!Array.isArray(this.props.surf.currentConditions) ? <CurrSwellDataComponent waveData={this.props.surf.currentConditions.swell} /> : null}
+                                                {!Array.isArray(this.props.surf.currentConditions) && !Array.isArray(this.props.surf.currentSwell) ? <CurrSwellDataComponent ndbcData={this.props.surf.currentSwell} waveData={this.props.surf.currentConditions.swell} /> : null}
                                             </CurrentConditionBackdrop>
                                             <CurrentConditionBackdrop>
                                                 <TideChartLabel>Tide</TideChartLabel>

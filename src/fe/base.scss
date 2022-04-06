@@ -442,6 +442,12 @@ animation: 2s linear rotateBackAndForth forwards !important;
   position: absolute;
   margin-left: 0;
 }
+.recharts-cartesian-axis {
+   line {
+    stroke: var(--white);
+    opacity: .25;
+    }
+}
 
 .recharts-cartesian-axis-ticks {    
     font-size: .65vw;
