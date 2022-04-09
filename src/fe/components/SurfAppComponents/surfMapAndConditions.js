@@ -42,6 +42,7 @@ border-right-color: rgba(255,255,255,0.07);
 border-bottom-color: rgba(255,255,255,0.07);
 box-shadow: 0 20px 30px rgb(0 0 0 / 7%);
 width: 25%;
+min-width: 115px;
 padding: 1vh;
 height: 14vh;
 margin: 1.5vh 0 1.5vh 1.5vh;
@@ -159,6 +160,10 @@ margin: 0.5vh 0;
 text-transform: capitalize;
 `
 const Weather = styled(WaterTemp)`
+
+`
+
+const SunPosition = styled(WaterTemp)`
 
 `
 
@@ -417,30 +422,6 @@ const SurfMapAndConditions = (props) => {
                 </Weather>
                 <WaterTemp>
                     <TitleIconRow>
-                            <Title>Sun Position</Title>
-                            <SunIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                <SunPositionSVGPath />
-                            </SunIcon>
-                        </TitleIconRow>
-                    {!Array.isArray(props.surf.weather)
-                        ? <Fragment>
-                            <SunPositionGraphRow>
-                            <SunriseSunsetGraph data={getSolarDatums()}/>
-                            </SunPositionGraphRow>
-                        <SunPositionDataRow>
-                                <div>
-                                    <p>Sunrise:</p> 
-                                    <p>{sunriseTime}</p>
-                                </div>
-                                <div>
-                                    <p>Sunset:</p>  
-                                    <p>{sunsetTime}</p>
-                                </div>
-                            </SunPositionDataRow></Fragment>
-                        : null}
-                </WaterTemp>
-                <WaterTemp>
-                    <TitleIconRow>
                         <Title>Water Temp</Title>
                         <WaterTempIcon x="0px" y="0px" viewBox="0 0 100 100">
                             <WaterTempSVGPath />
@@ -456,6 +437,30 @@ const SurfMapAndConditions = (props) => {
                         </WaterTempContainer>
                     </Row>
                 </WaterTemp>
+                <SunPosition>
+                    <TitleIconRow>
+                        <Title>Sun Position</Title>
+                        <SunIcon x="0px" y="0px" viewBox="0 0 100 100">
+                            <SunPositionSVGPath />
+                        </SunIcon>
+                    </TitleIconRow>
+                    {!Array.isArray(props.surf.weather)
+                        ? <Fragment>
+                            <SunPositionGraphRow>
+                                <SunriseSunsetGraph data={getSolarDatums()} />
+                            </SunPositionGraphRow>
+                            <SunPositionDataRow>
+                                <div>
+                                    <p>Sunrise:</p>
+                                    <p>{sunriseTime}</p>
+                                </div>
+                                <div>
+                                    <p>Sunset:</p>
+                                    <p>{sunsetTime}</p>
+                                </div>
+                            </SunPositionDataRow></Fragment>
+                        : null}
+                </SunPosition>
                 {!Array.isArray(props.surf.weatherForecast) && props.surf.weatherForecast.current.uvi != 0
                     ? <WaterTemp>
                         <TitleIconRow>

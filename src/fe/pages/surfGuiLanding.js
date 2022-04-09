@@ -127,17 +127,6 @@ text-transform: uppercase;
 `
 
 const GlassContainerBkg = styled(Row)`
-//   background:  rgba(255, 255, 255, 0.1);
-//   border: 1px solid rgba(255, 255, 255, 0.15);
-//   border-right-color: rgba(255, 255, 255, 0.07);
-//   border-bottom-color: rgba(255, 255, 255, 0.07);
-//   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
-//   z-index: 2;
-//   position: relative;
-//   height: 90vh;
-//   min-height: 600px;
-//   border-radius: 15px;
-//   margin-top: 5vh;
 `
 
 const LeftNavBkg = styled.div`
@@ -155,7 +144,7 @@ const LeftNavBkg = styled.div`
   z-index: 1;
   ul {
       margin-left: 0;
-      padding-left: 0;
+      padding: 0;
   }
 `
 
@@ -437,7 +426,6 @@ class SurfGUILanding extends Component {
                                                 {!Array.isArray(this.props.surf.currentConditions) && !Array.isArray(this.props.surf.currentSwell) ? <CurrSwellDataComponent ndbcData={this.props.surf.currentSwell} waveData={this.props.surf.currentConditions.swell} /> : null}
                                             </CurrentConditionBackdrop>
                                             <CurrentConditionBackdrop>
-                                                <TideChartLabel>Tide</TideChartLabel>
                                                 {!Array.isArray(this.props.surf.tideForecast) ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} /> : null}
                                             </CurrentConditionBackdrop>
                                         </CurrentConditionRowBottom>

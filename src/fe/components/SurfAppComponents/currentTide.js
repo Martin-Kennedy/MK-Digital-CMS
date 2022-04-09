@@ -1,7 +1,52 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ReferenceDot, ResponsiveContainer } from 'recharts';
-import { formatAMPM } from '../../helpers/utilities';
+import { TideSVGPath } from '../designElementComponents/tideSVGPath'
+import {Row} from 'react-bootstrap';
 import styled from 'styled-components';
+
+
+const TitleIconRow = styled(Row)`
+width: 100%;
+display: flex;
+justify-content: space-between;
+margin: 0;
+padding: 0;
+position: relative;
+top: -3vh;
+p {
+    padding: 0 0 0 0.8vw;
+    margin: 0;
+}
+svg {
+    padding: 0;
+    margin: 0 0.8vw 0 0;
+}
+`
+
+const Title = styled.p`
+text-transform: uppercase;
+color: rgba(255, 255, 255, 0.8);
+margin-left: 0;
+margin-top: 0;
+display: block;
+margin-bottom: 1vh;
+width: auto;
+font-size: .75vw;
+height: fit-content;
+line-height: .65vw;
+`
+
+const TideIcon = styled.svg`
+    width: 2.25vh;
+    height: 2.25vh;
+    position: relative;
+    top: -2px;
+    right: 0;
+    padding: 0;
+    path {
+        fill: rgba(255,255,255, 0.4);
+    }
+`
 
 const TideChartToolTip = styled.div`
 
@@ -20,19 +65,21 @@ margin: .2vh 0 1.75vh 0;
 `
 
 const TideChartHeight = styled.p`
-   width: 100%;
+width: 100%;
 display: block;
 margin: .2vh 0 1.25vh 0;
-    font-size: .85vw;
-    font-weight: 200;
-    letter-spacing: .1vw;
-    color: rgba(255,255,255, 0.7);
-        span {
-        color: rgba(255,255,255, 0.9);
-        font-weight: 400;
+font-size: .85vw;
+font-weight: 200;
+letter-spacing: .1vw;
+color: rgba(255,255,255, 0.7);
+    span {
+    color: rgba(255,255,255, 0.9);
+    font-weight: 400;
 
-    }
-    
+}
+`
+const StyledResponsiveContainer = styled(ResponsiveContainer)`
+margin: -2vh 0 0 -0.4vw;
 `
 
 const toolTipGlassMorphism = {
@@ -84,7 +131,14 @@ export default class CurrentTideDataComponent extends PureComponent {
             return (Math.abs(aTime - timeToSec) < Math.abs(bTime - timeToSec) ? a : b);
         });
         return (
-            <ResponsiveContainer width="100%" height="100%">
+            <Fragment>
+            <TitleIconRow>
+            <Title>Tide</Title>
+            <TideIcon x="0px" y="0px" viewBox="0 0 100 100">
+                <TideSVGPath />
+            </TideIcon>
+        </TitleIconRow>
+                <StyledResponsiveContainer  width="100%" height="100%">
                 
                 <AreaChart
                     width={500}
@@ -114,7 +168,8 @@ export default class CurrentTideDataComponent extends PureComponent {
                     <ReferenceDot x={closest.time} y={closest.v} r={3} stroke="rgba(255,255,255,0.75)" fill="none" ifOverflow="extendDomain" />
                     <Area type="monotone" dataKey="v" stroke="transparent"  fill="url(#colorUv)" />
                 </AreaChart>
-            </ResponsiveContainer>
+                </StyledResponsiveContainer>
+            </Fragment>
         );
     }
 }

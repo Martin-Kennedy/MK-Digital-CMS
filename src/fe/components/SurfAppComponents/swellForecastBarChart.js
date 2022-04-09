@@ -26,7 +26,7 @@ const toolTipGlassMorphism = {
     height: '20.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(1px)',
+    backdropFilter: 'blur(2px)',
     border: '1px solid rgba(255, 255, 255, 0.15)',
     borderRightColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
@@ -117,7 +117,7 @@ const SwellInfoTooltip = ({active, payload, data}) => {
     if (active && payload && payload.length) {
         return (
             <SwellChartToolTip>
-                <SwellChartDateTime>{payload[0].payload.date} - {payload[0].payload.time}</SwellChartDateTime>
+                <SwellChartDateTime>{payload[0].payload.dayOfWeek}, {payload[0].payload.date} - {payload[0].payload.time}</SwellChartDateTime>
                 <SwellChartWaveHeight>Wave Height:
                     <span> {payload[0].payload.minBreakingHeight} - {payload[0].payload.maxBreakingHeight}ft</span>
                 </SwellChartWaveHeight>

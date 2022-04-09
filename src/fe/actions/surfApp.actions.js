@@ -361,10 +361,14 @@ export const getSwellForecast = (data) => {
         data.map((hourlyForecast) => {
             let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
             let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
+            let day = new Date(dateObj).toLocaleString(
+                'default', { weekday: 'long' }
+            );
 
             arr.push(
                 {
                     date: fullDate,
+                    dayOfWeek: day,
                     time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
                     localTime: hourlyForecast.localTimestamp * 1000,
                     minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
@@ -430,11 +434,15 @@ export const getWindForecast = (data) => {
         let arr = [];
         data.map((hourlyForecast) => {
             let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
-            let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`
+            let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
+            let day = new Date(dateObj).toLocaleString(
+                'default', { weekday: 'long' }
+            );
 
             arr.push(
                 {
                     date: fullDate,
+                    dayOfWeek: day,
                     time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
                     localTime: hourlyForecast.localTimestamp * 1000,
                     chill: hourlyForecast.wind.chill,

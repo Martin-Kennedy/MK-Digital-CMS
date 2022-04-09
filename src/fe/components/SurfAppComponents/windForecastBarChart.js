@@ -26,7 +26,7 @@ const toolTipGlassMorphism = {
     height: '20.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(1px)',
+    backdropFilter: 'blur(2px)',
     border: '1px solid rgba(255, 255, 255, 0.15)',
     borderRightColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
@@ -135,12 +135,17 @@ const renderDateTick = (tickProps) => {
 };
 
 const WindInfoTooltip = ({ active, payload }) => {
+
     if (active && payload && payload.length) {
+        let degree = String.fromCodePoint(176)
         return (
             <WindChartToolTip>
-                <WindChartDateTime>{payload[0].payload.date} - {payload[0].payload.time}</WindChartDateTime>
+                <WindChartDateTime>{payload[0].payload.dayOfWeek}, {payload[0].payload.date} - {payload[0].payload.time}</WindChartDateTime>
                 <WindChartWaveHeight>Wind Speed:
                     <span> {payload[0].payload.speed} - {payload[0].payload.gusts}mph</span>
+                </WindChartWaveHeight>
+                <WindChartWaveHeight>Wind Direction:
+                    <span> {payload[0].payload.compassDirection} - {payload[0].payload.direction + 180}{degree}</span>
                 </WindChartWaveHeight>
             </WindChartToolTip>
         );

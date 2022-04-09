@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
 import { Row } from 'react-bootstrap'
+import { SwellSVGPath } from '../designElementComponents/swellSVGPath'
+
 
 const WaveConditionBackdrop = styled.div`
 // border-radius: 5px;
@@ -20,22 +22,50 @@ z-index: 2;
 
 
 
-const Title = styled(Row)`
-p {
-    color: var(--white);
-opacity: .7;
-font-size: 1.5vh;
-margin-left: 15px;
-font-weight: 200;
+const TitleIconRow = styled(Row)`
+width: 100%;
+display: flex;
+justify-content: space-between;
+margin: 0;
+padding: 0;
 position: relative;
 top: -3vh;
-height: 0;
-margin-bottom: .5vh;
-text-transform: uppercase;
+p {
+    padding: 0 0 0 0.8vw;
+    margin: 0;
+}
+svg {
+    padding: 0;
+    margin: 0 0.4vw 0 0;
 }
 `
-const Primary = styled.div`
 
+const Title = styled.p`
+text-transform: uppercase;
+color: rgba(255, 255, 255, 0.8);
+margin-left: 0;
+margin-top: 0;
+display: block;
+margin-bottom: 1vh;
+width: auto;
+font-size: .75vw;
+height: fit-content;
+line-height: .65vw;
+`
+
+const SwellIcon = styled.svg`
+    width: 2.25vh;
+    height: 2.25vh;
+    position: relative;
+    top: -2px;
+    right: 0;
+    padding: 0;
+    path {
+        fill: rgba(255,255,255, 0.4);
+    }
+`
+const Primary = styled.div`
+margin-top: -2vh;
 p {
 color: var(--white);
 opacity: .5;
@@ -60,11 +90,11 @@ span {
 `;
 
 const Secondary = styled(Primary)`
-
+margin-top: 0;
 `
 
 const Tertiary = styled(Primary)`
-
+margin-top: 0;
 `
 
 
@@ -93,7 +123,13 @@ export const CurrSwellDataComponent = (props) => {
     let degree = String.fromCodePoint(176)
     return <WaveConditionBackdrop>
 
-        <Title><p>Swells</p></Title>
+        
+            <TitleIconRow>
+                <Title>Swell</Title>
+            <SwellIcon x="0px" y="0px" viewBox="0 0 100 100">
+                    <SwellSVGPath />
+            </SwellIcon>
+            </TitleIconRow>
         <Primary>
             <SwellTrainPrimary>
                 <p>Primary</p>
@@ -113,7 +149,7 @@ export const CurrSwellDataComponent = (props) => {
                     <p>Secondary</p>
                 </SwellTrain>
                 <SwellData>
-                    <p>{`${props.waveData.components.secondary.height}ft at ${props.waveData.components.secondary.period}s from ${props.waveData.components.secondary.compassDirection} ${parseInt(props.waveData.components.secondary.direction)}${degree}`}</p>
+                    <p>{`${props.waveData.components.secondary.height}ft at ${props.waveData.components.secondary.period}s from ${props.waveData.components.secondary.compassDirection} ${parseInt(props.waveData.components.secondary.direction) - 180}${degree}`}</p>
                 </SwellData>
             </Secondary> : null}
 
@@ -123,7 +159,7 @@ export const CurrSwellDataComponent = (props) => {
                     <p>Tertiary</p>
                 </SwellTrain>
                 <SwellData>
-                    <p>{`${props.waveData.components.tertiary.height}ft at ${props.waveData.components.tertiary.period}s from ${props.waveData.components.tertiary.compassDirection} ${parseInt(props.waveData.components.tertiary.direction)}${degree}`}</p>
+                    <p>{`${props.waveData.components.tertiary.height}ft at ${props.waveData.components.tertiary.period}s from ${props.waveData.components.tertiary.compassDirection} ${parseInt(props.waveData.components.tertiary.direction - 180)}${degree}`}</p>
                 </SwellData>
             </Tertiary> : null}
         
