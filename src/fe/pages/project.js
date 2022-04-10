@@ -53,18 +53,22 @@ const IntroBlurb2 = styled.h2 `
         margin-bottom: 1.5rem;
     }
 `
-
+const ImgContainerTop = styled.div`
+width: 100%;
+height: 80vh;
+`
 const Img = styled.img `
     width: 100%;
     height: 100%;
 margin: 100px 0;
+object-fit: cover;
 `
 
 const ImgSection = styled(Row)`
     width: 100vw;
     background-image: url(${props => props.img});
     background-position: center;
-    background-size: 100vw auto;
+    background-size: cover;
     background-repeat: no-repeat;
     margin: 0;
     z-index: 0;
@@ -346,13 +350,9 @@ class ProjectPage extends Component {
                                         </Row>
                                         <Row>
                                             <FadeInWhenVisibleScale duration={1}>
-                                                <div
-                                                    style={{
-                                                    width: '100%',
-                                                    height: '800px'
-                                                }}>
+                                                <ImgContainerTop>
                                                     <Img src={item.projectImages[0]}></Img>
-                                                </div>
+                                            </ImgContainerTop>
                                             </FadeInWhenVisibleScale>
                                         </Row>
                                     </Col>

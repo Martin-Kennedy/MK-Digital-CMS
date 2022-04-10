@@ -105,7 +105,7 @@ right: 15vw;
 top: 0;
 `
 const HeroImage = styled.div`
-background-image: url(/macbook_transparent.png);
+background-image: ${props => props.heroImg ? `url(${props.heroImg})` : null};
 background-size: cover;
 background-repeat: no-repeat;
     width: 100%;
@@ -177,10 +177,10 @@ const ProjectPageHero = props => {
                         <LineAnimationR2L />
                     </FourthLine>
                     <HeromImageContainer>
-                        <HeroImage>
+                    <HeroImage heroImg={props.item.heroImg}>
                         </HeroImage>
                     </HeromImageContainer>
-                <WebsiteLink href="https://www.shinolahotel.com/" target="_blank" color={props.item.bkgColorArray[0]} className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
+                <WebsiteLink href={props.item.externalLink} target="_blank" color={props.item.bkgColorArray[0]} className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
                 </Col>
                 <Col xs={2}></Col>
             </StyledProjectPageHero>

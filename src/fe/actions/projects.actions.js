@@ -23,7 +23,6 @@ export const getProjects = () => {
 };
 
 export const getNextProjectItem = (NextId) => {
-    console.log('next project is running', NextId);
     return (dispatch) => {
         
         return axios.get(apiUrl + '/' + NextId)
@@ -42,10 +41,10 @@ export const getNextProjectItem = (NextId) => {
     };
 };
 
-export const getProjectItem = (title) => {
+export const getProjectItem = (client) => {
     
     return (dispatch) => {
-        return axios.get(apiUrl + '?title=' + title)
+        return axios.get(apiUrl + '?client=' + client)
             .then(response => {
                 return response.data
             })

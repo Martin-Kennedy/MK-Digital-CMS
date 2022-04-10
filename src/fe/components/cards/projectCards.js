@@ -183,11 +183,11 @@ class UnfilteredCards extends Component {
                                     transform: translateY(-10px);
                                     }
                                 }`;
-                        let titleSlug = projectEntry.title;
-                        titleSlug = titleSlug
+                        let clientSlug = projectEntry.client;
+                        clientSlug = clientSlug
                             .replace(/\s+/g, '-');
                         const card = <MasonryBlogCard key={id} className="grid-item">
-                            <Link to={`project/${titleSlug}`}>
+                            <Link to={`project/${clientSlug}`}>
                                 <FadeInWhenVisibleOpacity>
                                     
                                     <ContainerDiv>
@@ -196,7 +196,7 @@ class UnfilteredCards extends Component {
                                         </Row>
                                     </ContainerDiv>
                                     <CardTextRow>
-                                        <CardTitle className='styledTitle' xs={12}>{projectEntry.title}</CardTitle>
+                                        <CardTitle className='styledTitle' xs={12}>{projectEntry.client}</CardTitle>
                                         <CardBlurb className='styledBlurb' xs={12}>{projectEntry.blurb}</CardBlurb>
                                     </CardTextRow>
                                 </FadeInWhenVisibleOpacity>
