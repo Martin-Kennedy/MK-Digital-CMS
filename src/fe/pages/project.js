@@ -10,7 +10,7 @@ import {FadeInWhenVisibleOpacity, FadeInWhenVisibleScale} from '../helpers/fadeI
 import {LineAnimationL2R, LineAnimationR2L} from '../components/designElementComponents/lineSvg';
 import {TextTranslation} from "../helpers/textTranslation";
 import {connect} from 'react-redux';
-import { getProjectItem, getNextProjectItem} from '../actions/projects.actions';
+import {getProjectItem, getNextProjectItem} from '../actions/projects.actions';
 import Sticky from 'react-stickynode';
 import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
@@ -53,7 +53,7 @@ const IntroBlurb2 = styled.h2 `
         margin-bottom: 1.5rem;
     }
 `
-const ImgContainerTop = styled.div`
+const ImgContainerTop = styled.div `
 width: 100%;
 height: 80vh;
 `
@@ -80,17 +80,6 @@ min-height: 1000px;
 height: 100%;
 background-color: var(--white);
 `
-
-const ServicesSection = styled(Row)`
-    margin-bottom: 9rem;
-    span {
-        top: 0;
-    }
-    p {
-        font-weight: 200;
-    }
-`
-
 const Section100VW = styled(Row)`
 min-height: 1000px;
 height: 100%;
@@ -229,34 +218,64 @@ const SecondLine = styled.div `
     `;
 
 const ThirdLine = styled.div `
-    height: 0;
-    position: relative;
-    z-index: 0;
-    padding: 0 0 calc(33vh - 40px) 0;
-    
-    width: 100%;
-    top: 0%;
+height: 0;
+position: relative;
+z-index: 0;
+padding: 0 0 calc(33vh - 40px) 0;
 
-    svg  {
-    position: relative; 
-    left: 0;
+width: 100%;
+top: 0%;
+
+svg  {
+position: relative; 
+left: 0;
     line {
         stroke: var(--white);
     }
-    }
+}
     `;
 
 const StaticHeroText = styled.div `
-        font-family: mr-eaves-modern, sans-serif;
-        font-weight: 200;
-        font-size: 100px;
-        color: var(--white);
-        text-transform: uppercase;
-        white-space: nowrap;
-        letter-spacing: 1.5rem;
-        position: relative;
-        left: 3%;
-        line-height: calc(33vh - 40px);
+font-family: mr-eaves-modern, sans-serif;
+font-weight: 200;
+font-size: 100px;
+color: var(--white);
+text-transform: uppercase;
+white-space: nowrap;
+letter-spacing: 1.5rem;
+position: relative;
+left: 3%;
+line-height: calc(33vh - 40px);
+`
+
+const VideoContainer = styled.div`
+    position: absolute; 
+    padding-bottom: 49.25%; 
+    height: 0; 
+    overflow: hidden;
+    top: 11.5%;
+    left: 3%;
+    width: 94%;
+    height: 53%;
+    z-index: 2;
+    iframe, object, embed, img {
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%;
+    }
+`
+
+const IMacVideoContainer = styled.div`
+position: relative;
+width: 100%;
+margin-top: 20vh;
+`
+
+const ImgContainer = styled.div`
+margin-top: 10vh;
+width: 100%;
 `
 
 const mapStateToProps = state => {
@@ -273,7 +292,7 @@ const mapStateToProps = state => {
 
 class ProjectPage extends Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {
             titleSlug: null
@@ -291,11 +310,9 @@ class ProjectPage extends Component {
             this
                 .props
                 .dispatch(getProjectItem(revertedTitle));
-           
-    }
-       
-        
-         
+
+        }
+
     }
 
     getFirstPathSegment(props) {
@@ -308,12 +325,9 @@ class ProjectPage extends Component {
         return `${monthNames[d.getMonth()]} - ${d.getFullYear()}`;
     }
 
-
-
-
     render() {
         let item = this.props.projects.projectItem[0];
-        
+
         return (
             <div>
                 {this.props.projects.projectItem.length
@@ -352,7 +366,7 @@ class ProjectPage extends Component {
                                             <FadeInWhenVisibleScale duration={1}>
                                                 <ImgContainerTop>
                                                     <Img src={item.projectImages[0]}></Img>
-                                            </ImgContainerTop>
+                                                </ImgContainerTop>
                                             </FadeInWhenVisibleScale>
                                         </Row>
                                     </Col>
@@ -370,13 +384,13 @@ class ProjectPage extends Component {
                                         <Col xs={2}></Col>
                                         <Col >
                                             <FadeInWhenVisibleScale duration={1}>
-                                                <div
-                                                    style={{
-                                                    width: '100%',
-                                                    height: '800px'
-                                                }}>
-                                                    <Img src={item.projectImages[2]}></Img>
-                                                </div>
+                                            <IMacVideoContainer>
+                                                 <Img src={item.projectImages[2]}></Img>
+                                                <VideoContainer>
+                                                    <iframe width="1280" height="662" src={`${item.projectImages[3]}?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&list=PLj4VihjkPuiOB2rA00R7vinrxWfX4RWIj`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                </VideoContainer>
+                                            </IMacVideoContainer>
+                                                
                                             </FadeInWhenVisibleScale>
                                         </Col>
                                         <Col xs={2}></Col>
@@ -385,13 +399,9 @@ class ProjectPage extends Component {
                                         <Col xs={2}></Col>
                                         <Col >
                                             <FadeInWhenVisibleScale duration={1}>
-                                                <div
-                                                    style={{
-                                                    width: '100%',
-                                                    height: '800px'
-                                                }}>
-                                                    <Img src={item.projectImages[3]}></Img>
-                                                </div>
+                                                <ImgContainer>
+                                                    <Img src={item.projectImages[4]}></Img>
+                                            </ImgContainer>
                                             </FadeInWhenVisibleScale>
                                         </Col>
                                         <Col xs={2}></Col>
@@ -414,7 +424,7 @@ class ProjectPage extends Component {
 
                                         <FiftyVWImg >
                                             <FadeInWhenVisibleScale duration={1}>
-                                                <Img src={item.projectImages[4]}></Img>
+                                                <Img src={item.projectImages[6]}></Img>
                                             </FadeInWhenVisibleScale>
                                         </FiftyVWImg>
 
@@ -485,10 +495,8 @@ class ProjectPage extends Component {
                             </ResultsSection>
                             <Waypoint
                                 onEnter={() => {
-                                this
-                                    .props
-                                    .dispatch(getIntersectingState(true))
-                                 this.props.dispatch(getNextProjectItem(item.id + 1)) 
+                                this.props.dispatch(getIntersectingState(true)), 
+                                this.props.dispatch(getNextProjectItem(item.id + 1))
                             }}
                                 bottomOffset={'100%'}
                                 topOffset={100}
@@ -498,28 +506,33 @@ class ProjectPage extends Component {
                                     .dispatch(getIntersectingState(false))
                             }}>
                                 <NextProject>
-                                <Link to={this.props.projects.nextProjectItemPathname} >
-                                    <Wrapper >
-                                        <Col xs={2}></Col>
-                                        <Col xs={8}>
-                                            <FirstLine>
-                                                <LineAnimationL2R />
-                                                <StaticHeroText >
-                                                    Next
-                                                </StaticHeroText>
-                                            </FirstLine>
-                                            <SecondLine>
-                                                <LineAnimationR2L />
-                                                <TextTranslation duration={35} delay={.5} reverse ratio3rd text={this.props.projects.nextProjectItem.title} />
-                                            </SecondLine>
-                                            <ThirdLine>
-                                                <LineAnimationL2R />
-                                            </ThirdLine>
+                                    <Link to={this.props.projects.nextProjectItemPathname}>
+                                        <Wrapper >
+                                            <Col xs={2}></Col>
+                                            <Col xs={8}>
+                                                <FirstLine>
+                                                    <LineAnimationL2R/>
+                                                    <StaticHeroText >
+                                                        Next
+                                                    </StaticHeroText>
+                                                </FirstLine>
+                                                <SecondLine>
+                                                    <LineAnimationR2L/>
+                                                    <TextTranslation
+                                                        duration={35}
+                                                        delay={.5}
+                                                        reverse
+                                                        ratio3rd
+                                                        text={this.props.projects.nextProjectItem.title}/>
+                                                </SecondLine>
+                                                <ThirdLine>
+                                                    <LineAnimationL2R/>
+                                                </ThirdLine>
 
-                                        </Col>
-                                        <Col xs={2}></Col>
-                                    </Wrapper>
-                                </Link>
+                                            </Col>
+                                            <Col xs={2}></Col>
+                                        </Wrapper>
+                                    </Link>
                                     <ProjectFooter>
                                         <Footer/>
                                     </ProjectFooter>
@@ -534,7 +547,5 @@ class ProjectPage extends Component {
 
     }
 }
-
-
 
 export default connect(mapStateToProps)(ProjectPage);

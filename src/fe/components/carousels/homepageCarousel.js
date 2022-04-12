@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { getCurrentSlide, getCurrentCarouselAnimatedText, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../../actions/homepage.actions';
 import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore ,{ Autoplay } from 'swiper'; 
 
@@ -26,6 +27,12 @@ const SlideImage = styled.img`
     top: -65px;
     left: -35px;
 `;
+
+const StyledLink = styled(Link)`
+cursor: pointer;
+width: 100%;
+height: 100%;
+`
 
 const mapStateToProps = state => {
     return {
@@ -101,13 +108,16 @@ class HomepageCarouselComponent extends Component{
                         this.props.dispatch(getCurrentCarouselAnimatedText(carousel.title));
                         this.props.dispatch(getCurrentCarouselBkgColor(carousel.bkgColor));
                     }}>
+                    <StyledLink to={`${carousel.homePageCarousellink}`}>
                     <SlideImage
                         ref={this.props.imageElement}
                         src={carousel.homepageHeroCardImage}
                         onLoad={() => this.props.dispatch(getImgWidth(this.props.imageElement.current))}
                         dynamicWidth={this.props.imgWidth / 2}
                     />
+                    </StyledLink>
                 </SwiperSlide >
+                    
                 })
             }
         </StyledCarouselProvider> 

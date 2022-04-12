@@ -81,7 +81,7 @@ class FilteredCards extends Component {
                                 `;
 
                         const ContainerDiv = styled.div`
-                                background-color: ${generateHsl()};
+                                background-color: ${projectEntry.bkgColorArray[3]};
                                 transition: 500ms ease-in;
                                 margin-top: 20px;
                                 `;
@@ -156,7 +156,7 @@ class UnfilteredCards extends Component {
                                 `;
 
                         const ContainerDiv = styled.div`
-                                background-color: ${generateHsl()};
+                                background-color: ${projectEntry.bkgColorArray[3]};
                                 transition: 500ms ease-in;
                                 margin-top: 20px;
                                 `;

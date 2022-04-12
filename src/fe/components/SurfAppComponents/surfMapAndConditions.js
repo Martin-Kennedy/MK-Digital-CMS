@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import {connect} from 'react-redux'
 import SunriseSunsetGraph from './sunriseSunsetGraph';
 import UvIndexGraph from './uvIndexGraph';
-import { WaterTempSVGPath  } from '../designElementComponents/waterTempSVGPath';
-import { UvIconSVGPath } from '../designElementComponents/uvIconSVGPath';
-import { SunPositionSVGPath } from '../designElementComponents/sunPositionSVGPath';
+import {WaterTempSVGPath} from '../designElementComponents/waterTempSVGPath';
+import {UvIconSVGPath} from '../designElementComponents/uvIconSVGPath';
+import {SunPositionSVGPath} from '../designElementComponents/sunPositionSVGPath';
 import {formatAMPMwMins} from '../../helpers/utilities';
 import {useDispatch} from 'react-redux';
 var SunCalc = require('suncalc');
@@ -105,7 +105,7 @@ padding: 0;
 const WaterTempData = styled(Temp)`
 font-size: 1.75vw;
 `
-const HiLoTemp = styled.div`
+const HiLoTemp = styled.div `
 width: 50%;
 text-align: center;
 margin: .2vh 0 .2vh 1vh;
@@ -126,7 +126,7 @@ color: rgba(255,255,255, 0.5);
 }
 `
 
-const TempWeatherIconContainer = styled.div`
+const TempWeatherIconContainer = styled.div `
 width: 70%;
 text-align: center;
 margin: .2vh auto;
@@ -136,7 +136,7 @@ height: auto;
 padding: 0;
 `
 
-const WaterTempContainer = styled.div`
+const WaterTempContainer = styled.div `
 width: 90%;
 text-align: center;
 margin: .2vh auto;
@@ -185,7 +185,9 @@ top: -5px;
 right: -5px;
 background-size: cover;
 background-repeat: no-repeat;
-background-image: ${props => props.icon ? `url(https://www.weatherbit.io/static/img/icons/${props.icon}.png)` : null};
+background-image: ${props => props.icon
+    ? `url(https://www.weatherbit.io/static/img/icons/${props.icon}.png)`
+    : null};
 `
 
 const WaterTempIcon = styled.svg `
@@ -202,13 +204,13 @@ path {
 const UvIcon = styled(WaterTempIcon)``;
 
 const SunIcon = styled(WaterTempIcon)``
-const SunPositionGraphRow = styled.div`
+const SunPositionGraphRow = styled.div `
 width: 100%;
 height: 7vh;
 display: flex;
 `
 
-const SunPositionDataRow = styled.div`
+const SunPositionDataRow = styled.div `
 width: 100%;
 display: flex;
 div {
@@ -239,7 +241,6 @@ div:nth-child(2){
     }
 }
 `
-
 
 const UnitType = styled.span `
 width: 100%;
@@ -305,8 +306,6 @@ const SurfMapAndConditions = (props) => {
         return formatted;
     }
 
-
-
     // get position of the sun (azimuth and altitude) at today's sunrise
     const convertToSec = (time) => {
         return time * 60 * 60;
@@ -333,10 +332,6 @@ const SurfMapAndConditions = (props) => {
 
     const getSolarDatums = (sunset, sunrise) => {
 
-       
-
-        
-
         return [
             {
                 event: 'Night End',
@@ -353,8 +348,7 @@ const SurfMapAndConditions = (props) => {
                 time: goldenHourEndTime,
                 timeTick: convertToSec(times.goldenHourEnd.getHours()),
                 position: goldenHourEndPos.altitude
-            },
-             {
+            }, {
                 event: 'Solar Noon',
                 time: solarNoonTime,
                 timeTick: convertToSec(times.solarNoon.getHours()),
@@ -391,32 +385,31 @@ const SurfMapAndConditions = (props) => {
                 <Weather>
                     {!Array.isArray(props.surf.weather)
                         ? <Fragment>
-                            <TitleIconRow>
+                                <TitleIconRow>
                                     <Title>Weather</Title>
-                                <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon>
-                                    
-                            </TitleIconRow>
-                            <Row>
-                                <TempWeatherIconContainer>
-                                    <Temp>{parseInt(props.surf.weather.data[0].app_temp)}{degree}
-                                        <UnitType>f</UnitType>
-                                    </Temp>
-                                    {!Array.isArray(props.surf.weatherForecast) ?
-                                        <Fragment>
-                                            <HiLoTemp>
-                                                <p>H: {parseInt(props.surf.weatherForecast.daily[0].temp.max)}{degree}</p>
-                                                <p>L: {parseInt(props.surf.weatherForecast.daily[0].temp.min)}{degree}</p>
-                                            </HiLoTemp>
-                                        </Fragment>
-                                        : null}
-                                    
-                                </TempWeatherIconContainer>
-                            </Row>
-                            <Row>
-                                <Description>{props.surf.weather.data[0].weather.description}</Description>
-                            </Row>
-                           
-                                
+                                    <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon>
+
+                                </TitleIconRow>
+                                <Row>
+                                    <TempWeatherIconContainer>
+                                        <Temp>{parseInt(props.surf.weather.data[0].app_temp)}{degree}
+                                            <UnitType>f</UnitType>
+                                        </Temp>
+                                        {!Array.isArray(props.surf.weatherForecast)
+                                            ? <Fragment>
+                                                    <HiLoTemp>
+                                                        <p>H: {parseInt(props.surf.weatherForecast.daily[0].temp.max)}{degree}</p>
+                                                        <p>L: {parseInt(props.surf.weatherForecast.daily[0].temp.min)}{degree}</p>
+                                                    </HiLoTemp>
+                                                </Fragment>
+                                            : null}
+
+                                    </TempWeatherIconContainer>
+                                </Row>
+                                <Row>
+                                    <Description>{props.surf.weather.data[0].weather.description}</Description>
+                                </Row>
+
                             </Fragment>
                         : null}
                 </Weather>
@@ -424,15 +417,15 @@ const SurfMapAndConditions = (props) => {
                     <TitleIconRow>
                         <Title>Water Temp</Title>
                         <WaterTempIcon x="0px" y="0px" viewBox="0 0 100 100">
-                            <WaterTempSVGPath />
+                            <WaterTempSVGPath/>
                         </WaterTempIcon>
-                        </TitleIconRow>
+                    </TitleIconRow>
                     <Row>
                         <WaterTempContainer>
                             <WaterTempData>
                                 {parseInt(props.surf.waterTemp) - 2}{degree}
-                            - {parseInt(props.surf.waterTemp) + 1}{degree}
-                            <UnitType>f</UnitType>
+                                - {parseInt(props.surf.waterTemp) + 1}{degree}
+                                <UnitType>f</UnitType>
                             </WaterTempData>
                         </WaterTempContainer>
                     </Row>
@@ -441,34 +434,35 @@ const SurfMapAndConditions = (props) => {
                     <TitleIconRow>
                         <Title>Sun Position</Title>
                         <SunIcon x="0px" y="0px" viewBox="0 0 100 100">
-                            <SunPositionSVGPath />
+                            <SunPositionSVGPath/>
                         </SunIcon>
                     </TitleIconRow>
                     {!Array.isArray(props.surf.weather)
                         ? <Fragment>
-                            <SunPositionGraphRow>
-                                <SunriseSunsetGraph data={getSolarDatums()} />
-                            </SunPositionGraphRow>
-                            <SunPositionDataRow>
-                                <div>
-                                    <p>Sunrise:</p>
-                                    <p>{sunriseTime}</p>
-                                </div>
-                                <div>
-                                    <p>Sunset:</p>
-                                    <p>{sunsetTime}</p>
-                                </div>
-                            </SunPositionDataRow></Fragment>
+                                <SunPositionGraphRow>
+                                    <SunriseSunsetGraph data={getSolarDatums()}/>
+                                </SunPositionGraphRow>
+                                <SunPositionDataRow>
+                                    <div>
+                                        <p>Sunrise:</p>
+                                        <p>{sunriseTime}</p>
+                                    </div>
+                                    <div>
+                                        <p>Sunset:</p>
+                                        <p>{sunsetTime}</p>
+                                    </div>
+                                </SunPositionDataRow>
+                            </Fragment>
                         : null}
                 </SunPosition>
                 {!Array.isArray(props.surf.weatherForecast) && props.surf.weatherForecast.current.uvi != 0
                     ? <WaterTemp>
-                        <TitleIconRow>
-                            <Title>UV Index</Title>
-                            <UvIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                <UvIconSVGPath />
-                            </UvIcon>
-                        </TitleIconRow>
+                            <TitleIconRow>
+                                <Title>UV Index</Title>
+                                <UvIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                    <UvIconSVGPath/>
+                                </UvIcon>
+                            </TitleIconRow>
                             <UvIndexGraph data={props.surf.weatherForecast.current}/>
                             <UvValue>{parseInt(props.surf.weatherForecast.current.uvi)}
                             </UvValue>

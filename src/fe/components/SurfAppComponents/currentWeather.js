@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
-import { Row } from 'react-bootstrap'
+import {Row} from 'react-bootstrap'
 
-const WaveConditionBackdrop = styled.div`
+const WaveConditionBackdrop = styled.div `
 // border-radius: 5px;
 // background: rgba(255, 255, 255, 0.04);
 // border: 1px solid rgba(255, 255, 255, 0.15);
@@ -18,8 +18,6 @@ const WaveConditionBackdrop = styled.div`
 z-index: 2;
 `
 
-
-
 const Title = styled(Row)`
 p {
     color: var(--white);
@@ -34,7 +32,7 @@ margin-bottom: .5vh;
 text-transform: uppercase;
 }
 `
-const WaveHeight = styled.div`
+const WaveHeight = styled.div `
 
 p {
 color: var(--white);
@@ -102,11 +100,22 @@ export const CurrWeatherDataComponent = (props) => {
     let degree = String.fromCodePoint(176)
     return <WaveConditionBackdrop>
 
-        <Title><p>Surf Height</p></Title>
-        <WaveHeight><p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p><span>ft</span></WaveHeight>
-        <PeriodAndDirection><span>at</span><p>{props.waveData.components.primary.period}</p><span>s</span><p> {props.waveData.components.primary.compassDirection}</p><span>({parseInt(props.waveData.components.primary.direction)}{degree})</span></PeriodAndDirection>
+        <Title>
+            <p>Surf Height</p>
+        </Title>
+        <WaveHeight>
+            <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
+            <span>ft</span>
+        </WaveHeight>
+        <PeriodAndDirection>
+            <span>at</span>
+            <p>{props.waveData.components.primary.period}</p>
+            <span>s</span>
+            <p>
+                {props.waveData.components.primary.compassDirection}</p>
+            <span>({parseInt(props.waveData.components.primary.direction)}{degree})</span>
+        </PeriodAndDirection>
 
     </WaveConditionBackdrop>
 
 };
-

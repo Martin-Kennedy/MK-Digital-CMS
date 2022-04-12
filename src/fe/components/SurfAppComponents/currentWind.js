@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
 import {Row} from 'react-bootstrap'
 import {motion} from "framer-motion"
-import { WindIconSVGPath } from '../designElementComponents/windIconSVGPath'
+import {WindIconSVGPath} from '../designElementComponents/windIconSVGPath'
 
 const WaveConditionBackdrop = styled.div `
 width: 100%;
@@ -22,9 +22,7 @@ svg:nth-child(3){
 
 `
 
-
-
-const WindIcon = styled.svg`
+const WindIcon = styled.svg `
     width: 2.25vh;
     height: 2.25vh;
     position: relative;
@@ -36,7 +34,7 @@ const WindIcon = styled.svg`
     }
 `
 
-const Title = styled.p`
+const Title = styled.p `
 text-transform: uppercase;
 color: rgba(255, 255, 255, 0.8);
 margin-left: 0;
@@ -48,7 +46,6 @@ font-size: .75vw;
 height: fit-content;
 line-height: .65vw;
 `
-
 
 const StyledCompassBase = styled.svg `
 width: 15vh;
@@ -166,7 +163,24 @@ span {
 
 function degToCompass(num) {
     const val = Math.floor((num / 22.5) + 0.5);
-    const arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    const arr = [
+        "N",
+        "NNE",
+        "NE",
+        "ENE",
+        "E",
+        "ESE",
+        "SE",
+        "SSE",
+        "S",
+        "SSW",
+        "SW",
+        "WSW",
+        "W",
+        "WNW",
+        "NW",
+        "NNW"
+    ];
     return arr[(val % 16)];
 }
 
@@ -186,10 +200,10 @@ export const CurrWindDataComponent = (props) => {
         <TitleIconRow>
             <Title>Wind</Title>
             <WindIcon x="0px" y="0px" viewBox="0 0 100 100">
-                <WindIconSVGPath />
+                <WindIconSVGPath/>
             </WindIcon>
         </TitleIconRow>
-        
+
         <StyledCompassBase
             version="1.1"
             id="Layer_1"
@@ -242,11 +256,17 @@ export const CurrWindDataComponent = (props) => {
         </StyledCompassBase>
         <StyledCompassArrow
             whileHover={{
-                opacity: 1
-            }}
-            initial={{rotate: 0}}
-            animate={{rotate: rotationArr}}
-            exit={{rotate: rotationArr}}
+            opacity: 1
+        }}
+            initial={{
+            rotate: 0
+        }}
+            animate={{
+            rotate: rotationArr
+        }}
+            exit={{
+            rotate: rotationArr
+        }}
             transition={{
             ease: "linear",
             duration: 1.5,
@@ -281,8 +301,14 @@ export const CurrWindDataComponent = (props) => {
             <span>MPH</span>
         </WindSpeed>
         <BottomRow>
-            <p><span>{degToCompass(props.weatherForecast.current.wind_deg)}</span></p>
-            {!isNaN(props.weatherForecast.current.wind_gust) ? <p>Gusts: <span>{parseInt(props.weatherForecast.current.wind_gust)}</span></p> : null}
+            <p>
+                <span>{degToCompass(props.weatherForecast.current.wind_deg)}</span>
+            </p>
+            {!isNaN(props.weatherForecast.current.wind_gust)
+                ? <p>Gusts:
+                        <span>{parseInt(props.weatherForecast.current.wind_gust)}</span>
+                    </p>
+                : null}
         </BottomRow>
     </WaveConditionBackdrop>
 
