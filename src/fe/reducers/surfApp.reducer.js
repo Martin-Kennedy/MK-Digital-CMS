@@ -1,4 +1,4 @@
-import { GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_WEATHER_STATIONS, GET_TIDE_STATIONS, GET_NDBC_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL } from '../helpers/types';
+import { GET_LOCATION_OBJECT, GET_CLOSE_SURFSPOTS, GET_SPOT_FORECAST, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_WEATHER_STATIONS, GET_TIDE_STATIONS, GET_NDBC_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL } from '../helpers/types';
 import { formatAMPM } from '../helpers/utilities';
 
 const INITIAL_STATE = {
@@ -11,6 +11,12 @@ const INITIAL_STATE = {
 
 const surfAppReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case GET_LOCATION_OBJECT:
+            
+            return {
+                ...state,
+                locations: action.payload
+            }
         case GET_CLOSE_SURFSPOTS:
             return {
                 ...state,

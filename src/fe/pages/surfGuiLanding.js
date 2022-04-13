@@ -6,12 +6,13 @@ import { motion } from "framer-motion";
 import { FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
-import { getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getNdbcStations, getWeatherStations, getWaterTemp, getWeather, getWeatherForecast, getCurrentSwell } from '../actions/surfApp.actions';
+import { getLocationsObject, getSurfForecast, getCloseSurfSpots, getSwellForecast, getWindForecast, getMaxWaveHeight, getTideForecast, getTideStations, getNdbcStations, getWeatherStations, getWaterTemp, getWeather, getWeatherForecast, getCurrentSwell } from '../actions/surfApp.actions';
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
 import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
 import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
 import  SurfMapAndConditions  from '../components/SurfAppComponents/surfMapAndConditions';
+import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
 
 
 
@@ -31,6 +32,7 @@ z-index: 1;
 `
 const DataDashBoardRow = styled(Row)`
 margin: 2vh 0;
+padding: 0;
 &:first-child{
     margin-top: 5vh;
 }
@@ -38,6 +40,7 @@ margin: 2vh 0;
 
 const CurrentConditionRow = styled(Row)`
 padding-left: 0;
+margin-left: -.25vw;
 &:last-child {
     margin-bottom: 0;
 }
@@ -50,8 +53,8 @@ const CurrentConditionRowBottom = styled(CurrentConditionRow)`
 `
 
 const StyledCol40 = styled.div`
-width: calc(40% - 2vh);
-margin: 0 0 0 2vh;
+width: 40%;
+margin: 0;
 padding:0;
 display: block;
 ${CurrentConditionRow} {
@@ -62,12 +65,14 @@ ${CurrentConditionRow} {
 `
 
 const StyledCol60 = styled(StyledCol40)`
-width: calc(60% - 2vh);
-margin: 0 2vh 0 0;
+width: 60%;
+margin: 0;
 `
 
 const SwellChartContainer = styled.div`
 margin-left: 0;
+padding-right: 0;
+padding-left: 0;
 `
 
 const BackDrop = styled.div`
@@ -79,7 +84,7 @@ border-bottom-color: rgba(255, 255, 255, 0.07);
 box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
 position: relative;
 height:  ${props => props.dynamicHeight > 8 ? props.dynamicHeight / 6 + 22 : 22}vh;
-width: calc(100% - 5vh);
+width: 100%;
 padding: 4vh 0 0 0;
 `
 
@@ -90,9 +95,9 @@ z-index: 2;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
-width: calc(50% - 4vh);
+width: calc(50% - 1.35vw);
 height: 20vh;
-margin:0 0 2vh 2vh;
+margin:0 0.5vw 2vh 0.5vw;
 `
 
 const SwellChartLabel = styled.p`
@@ -129,7 +134,7 @@ text-transform: uppercase;
 const GlassContainerBkg = styled(Row)`
 `
 
-const LeftNavBkg = styled.div`
+const RightNavBkg = styled.div`
   margin: 5vh 0;
   height: 90vh;
   border-radius: 5px;
@@ -147,6 +152,28 @@ const LeftNavBkg = styled.div`
       padding: 0;
   }
 `
+const MenuNavBkg = styled(RightNavBkg)`
+z-index: 2;
+`;
+const SearchMenu = styled(RightNavBkg)`
+z-index: 3;
+position: absolute;
+left: 1vw;
+width: 13vw;
+ul {
+    li {
+     color: var(--white);
+    opacity: .3;
+
+    letter-spacing: 1.25px;
+    width: 100%;
+    text-align: center;
+    font-weight: 400;
+    font-size: .9vw;
+    margin-top: 3px;
+    }
+}
+`;
 
 const Title = styled(Row)`
 p {
@@ -242,6 +269,7 @@ const StyledPath = styled(motion.path)`
 const mapStateToProps = state => {
     return {
         surf: {
+            locations: state.surf.locations,
             closeSurfSpots: state.surf.closeSurfSpots,
             closestSurfSpot: state.surf.closestSurfSpot,
             hourlyForecast: state.surf.hourlyForecast,
@@ -263,6 +291,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
+    getLocationsObject: locations => dispatch(getLocationsObject(locations)),
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
     getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast)),
     getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast)),
@@ -292,7 +321,8 @@ class SurfGUILanding extends Component {
     componentDidMount() {
         const { getCloseSurfSpots } = this.props;
         getCloseSurfSpots();
-
+        const { getLocationsObject } = this.props;
+        getLocationsObject();
         document.body.style.overflow = "hidden";
     }
 
@@ -382,34 +412,15 @@ class SurfGUILanding extends Component {
                     <Col sm={1}></Col>
                     <Col sm={10}>
                         <GlassContainerBkg>
-                            <Col sm={2}>
-                                <LeftNavBkg >
-                                    <Title>
-                                        <p>Surf Spots Near You</p>
-                                        <span>within a 100km radius</span>
-                                    </Title>
-                                    <Row>
-                                        <ul>
-                                            {this
-                                                .props
-                                                .surf
-                                                .closeSurfSpots
-                                                .map((surfSpot, index) => {
-                                                    return <SurfSpot key={index} active={() => this.state.activeSurfSpot === surfSpot.spotId ? '.8' : '.3'} onClick={() => {
-                                                        this.setState({ activeSurfSpot: surfSpot.spotId })
-                                                        this.props.getSurfForecast(surfSpot.spotId)
-                                                        this.props.getWeather(surfSpot);
-                                                        this.props.getWeatherForecast(surfSpot);
-                                                        this.props.getTideStations(surfSpot);
-                                                        this.setState({ lat: surfSpot.lat })
-                                                        this.setState({ lng: surfSpot.lng })
-                                                    }} >{surfSpot.town}</SurfSpot>
-                                                })}
-                                        </ul>
-                                    </Row>
-                                </LeftNavBkg>
+                            <SearchMenu >
+                                <SurfSpotsSearchFilter />
+                            </SearchMenu>
+                            <Col sm={1}>
+                                <MenuNavBkg >
+                                   
+                                </MenuNavBkg>
                             </Col>
-                            <Col sm={10}>
+                            <Col sm={9}>
                                 <DataDashBoardRow>
                                     <StyledCol40 >
                                         <CurrentConditionRow>
@@ -457,6 +468,34 @@ class SurfGUILanding extends Component {
                                 </DataDashBoardRow>
                                 <DataDashBoardRow></DataDashBoardRow>
                             </Col>
+                            <Col sm={2}>
+                                <RightNavBkg >
+                                    <Title>
+                                        <p>Surf Spots Near You</p>
+                                        <span>within a 100km radius</span>
+                                    </Title>
+                                    <Row>
+                                        <ul>
+                                            {this
+                                                .props
+                                                .surf
+                                                .closeSurfSpots
+                                                .map((surfSpot, index) => {
+                                                    return <SurfSpot key={index} active={() => this.state.activeSurfSpot === surfSpot.spotId ? '.8' : '.3'} onClick={() => {
+                                                        this.setState({ activeSurfSpot: surfSpot.spotId })
+                                                        this.props.getSurfForecast(surfSpot.spotId)
+                                                        this.props.getWeather(surfSpot);
+                                                        this.props.getWeatherForecast(surfSpot);
+                                                        this.props.getTideStations(surfSpot);
+                                                        this.setState({ lat: surfSpot.lat })
+                                                        this.setState({ lng: surfSpot.lng })
+                                                    }} >{surfSpot.town}</SurfSpot>
+                                                })}
+                                        </ul>
+                                    </Row>
+                                </RightNavBkg>
+                            </Col>
+                                
 
                         </GlassContainerBkg>
                     </Col>

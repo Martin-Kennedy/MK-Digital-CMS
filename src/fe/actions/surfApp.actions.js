@@ -1,4 +1,4 @@
-import { GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL } from '../helpers/types'
+import { GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios'
@@ -14,6 +14,39 @@ const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc';
 const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
 
 
+export const getLocationsObject = () => {
+    let request = new Promise((resolve) => {
+        axios.get(surfSpotsApiUrl)
+        .then(response => {
+            return response.data
+        }).then(data => {
+            let countriesArr = []
+               const countries =  Object.keys(data);
+             countries.map((country) => {
+                if (country) {
+                    return data[country].map((item) => {
+                        item.countryOrState = country;
+                        countriesArr.push(item);
+                    })
+                }
+            })
+            resolve(countriesArr);
+        });
+    })
+    return (dispatch) => {
+        function onSuccess(data) {
+            dispatch({ type: GET_LOCATION_OBJECT, payload: data });
+            return data;
+        }
+        request.then(data => {
+                console.log(data)
+                onSuccess(data);
+            })
+            .catch(error => {
+                throw (error);
+            });
+    }
+}
 
 
 
@@ -119,6 +152,28 @@ export const getCloseSurfSpots = () => {
         request.then(result => {
             return getLocations(result)
         }).then((locationsAndCoords) => {
+            return getCloseSurfSpotsArr(locationsAndCoords)
+        }).then((closeSurfSpotsRaw) => {
+            return closeSurfSpotArrayFiltering(closeSurfSpotsRaw)
+        }).then(data => {
+            onSuccess(data)
+        }).catch((error) => {
+            console.log(error);
+        })
+    };
+}
+
+
+export const searchActionCloseSurfSpots = (value) => {
+
+   console.log(value)
+    return (dispatch) => {
+        function onSuccess(data) {
+            dispatch({ type: GET_CLOSE_SURFSPOTS, payload: data });
+            return data;
+        }
+
+        getLocations([value.lat, value.lng]).then((locationsAndCoords) => {
             return getCloseSurfSpotsArr(locationsAndCoords)
         }).then((closeSurfSpotsRaw) => {
             return closeSurfSpotArrayFiltering(closeSurfSpotsRaw)

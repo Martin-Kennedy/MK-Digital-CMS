@@ -38,6 +38,7 @@ const initalState = {
         activeButton: 1
     },
     surf: {
+        locations: [],
         closeSurfSpots: [],
         closestSurfSpot: [],
         hourlyForecast: [],
