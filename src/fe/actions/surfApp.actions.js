@@ -1,4 +1,4 @@
-import { GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL } from '../helpers/types'
+import { GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL, GET_SEARCH_CLOSE_SURFSPOTS } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios'
@@ -26,6 +26,7 @@ export const getLocationsObject = () => {
                 if (country) {
                     return data[country].map((item) => {
                         item.countryOrState = country;
+                        item.fullLocation = `${item.town}, ${country}`
                         countriesArr.push(item);
                     })
                 }
@@ -166,22 +167,30 @@ export const getCloseSurfSpots = () => {
 
 export const searchActionCloseSurfSpots = (value) => {
 
-   console.log(value)
     return (dispatch) => {
         function onSuccess(data) {
+            console.log(data)
             dispatch({ type: GET_CLOSE_SURFSPOTS, payload: data });
             return data;
         }
-
-        getLocations([value.lat, value.lng]).then((locationsAndCoords) => {
-            return getCloseSurfSpotsArr(locationsAndCoords)
-        }).then((closeSurfSpotsRaw) => {
-            return closeSurfSpotArrayFiltering(closeSurfSpotsRaw)
-        }).then(data => {
-            onSuccess(data)
-        }).catch((error) => {
-            console.log(error);
-        })
+        
+        
+            axios.get(surfSpotsApiUrl)
+            .then(response => {
+                const coords = {
+                    latitude: value.latitude,
+                    longitude: value.longitude
+                }
+                return { locations: response.data, coords: coords }
+            }).then((locationsAndCoords) => {
+                return getCloseSurfSpotsArr(locationsAndCoords)
+            }).then((closeSurfSpotsRaw) => {
+                return closeSurfSpotArrayFiltering(closeSurfSpotsRaw)
+            }).then(data => {
+                onSuccess(data)
+            }).catch((error) => {
+                console.log(error);
+            });
     };
 }
 
@@ -319,7 +328,6 @@ export const getWaterTemp = (data) => {
 
 export const getCurrentSwell = (data) => {
 
-    console.log(data)
 
     // ----------- function to break down columns of txt in ndbc txt file return ----------
 

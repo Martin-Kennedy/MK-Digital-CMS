@@ -2305,6 +2305,13 @@
   "resolved" "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz"
   "version" "2.1.2"
 
+"autosuggest-highlight@^3.2.1":
+  "integrity" "sha512-PZk89g6W6cyE+fbnWF2CCIUAmP55o5wceKVqqL6oosgvbWHKa2Mes6nRC/PGj7OwqBgIy65Nd21Dw3h6qodOmg=="
+  "resolved" "https://registry.npmjs.org/autosuggest-highlight/-/autosuggest-highlight-3.2.1.tgz"
+  "version" "3.2.1"
+  dependencies:
+    "diacritic" "0.0.2"
+
 "available-typed-arrays@^1.0.5":
   "integrity" "sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw=="
   "resolved" "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz"
@@ -4374,6 +4381,11 @@
   "integrity" "sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g=="
   "resolved" "https://registry.npmjs.org/detect-node/-/detect-node-2.1.0.tgz"
   "version" "2.1.0"
+
+"diacritic@0.0.2":
+  "integrity" "sha1-/CqIe1pbwKCoVPthTHwvIJBh7gQ="
+  "resolved" "https://registry.npmjs.org/diacritic/-/diacritic-0.0.2.tgz"
+  "version" "0.0.2"
 
 "diffie-hellman@^5.0.0":
   "integrity" "sha512-kqag/Nl+f3GwyK25fhUMYj81BUOrZ9IuJsjIcDE5icNM9FJHAVm3VcUDxdLPoQtTuUylWm6ZIknYJwwaPxsUzg=="

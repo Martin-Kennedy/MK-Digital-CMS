@@ -1,72 +1,93 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
+const match = require('autosuggest-highlight/match');
+const parse = require('autosuggest-highlight/parse');
 import {connect} from 'react-redux';
-import { searchActionCloseSurfSpots } from '../../actions/surfApp.actions'
-
+import {searchActionCloseSurfSpots, getCloseSurfSpots} from '../../actions/surfApp.actions'
 
 // Imagine you have a list of languages that you'd like to autosuggest.
 
-
 const mapStateToProps = state => {
-    return {
-        locations: state.surf.locations
+    return {locations: state.surf.locations}
+}
+
+const mapDispatchToProps = dispatch => ({
+    searchActionCloseSurfSpots: closeSurfSpots => dispatch(searchActionCloseSurfSpots(closeSurfSpots)),
+    getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots))
+})
+
+// Teach Autosuggest how to calculate suggestions for any given input valu
+
+function getSuggestions(value, data) {
+    const escapedValue = escapeRegexCharacters(value.trim());
+
+    if (escapedValue === '') {
+        return [];
     }
+
+    const regex = new RegExp('\\b' + escapedValue, 'i');
+
+    return data.filter(location => regex.test(getSuggestionValue(location)));
+}
+function getSuggestionValue(suggestion) {
+    return `${suggestion.town}, ${suggestion.countryOrState}`;
 }
 
-const mapDispatchToProps = dispatch => {
-    searchActionCloseSurfSpots: closeSurfSpots => dispatch(searchActionCloseSurfSpots(closeSurfSpots))
+function escapeRegexCharacters(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
-
-// Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = (value, data) => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-
-    return inputLength === 0 ? [] : data.filter(location =>
-        location.town.toLowerCase().slice(0, inputLength) === inputValue
-    );
-};
-
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.town;
 
 // Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-    <div>
-        {suggestion.town}
-    </div>
-);
+function renderSuggestion(suggestion, {query}) {
+    const suggestionText = `${suggestion.town}, ${suggestion.countryOrState}`;
+    const matches = match(suggestionText, query);
+    const parts = parse(suggestionText, matches);
+
+    return (
+
+        <span >
+            {parts.map((part, index) => {
+                const className = part.highlight
+                    ? 'highlight'
+                    : null;
+
+                return (
+                    <span className={className} key={index}>{part.text}</span>
+                );
+            })
+}
+        </span>
+    );
+}
 
 class SurfSpotsSearchFilter extends React.Component {
     constructor() {
         super();
-
-        // Autosuggest is a controlled component.
-        // This means that you need to provide an input value
-        // and an onChange handler that updates this value (see below).
-        // Suggestions also need to be provided to the Autosuggest,
-        // and they are initially empty because the Autosuggest is closed.
         this.state = {
             value: '',
-            suggestions: []
+            suggestions: [],
+            lat: '',
+            lng: ''
         };
     }
 
-    componentDidMount(){
-        const { searchActionCloseSurfSpots} = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.lat != this.state.lat){
+            const { searchActionCloseSurfSpots } = this.props;
+            console.log(this.state.lat, this.state.lng)
+            searchActionCloseSurfSpots({latitude: this.state.lat, longitude: this.state.lng});
     }
+}
 
-    onChange = (event, { newValue }) => {
-        this.setState({
-            value: newValue
-        });
+
+
+    onChange = (event, {newValue}) => {
+        this.setState({value: newValue});
     };
 
-    // Autosuggest will call this function every time you need to update suggestions.
-    // You already implemented this logic above, so just use it.
-    onSuggestionsFetchRequested = ({ value }) => {
+    // Autosuggest will call this function every time you need to update
+    // suggestions. You already implemented this logic above, so just use it.
+    onSuggestionsFetchRequested = ({value}) => {
         this.setState({
             suggestions: getSuggestions(value, this.props.locations)
         });
@@ -74,19 +95,20 @@ class SurfSpotsSearchFilter extends React.Component {
 
     // Autosuggest will call this function every time you need to clear suggestions.
     onSuggestionsClearRequested = () => {
-        this.setState({
-            suggestions: []
-        });
+        this.setState({suggestions: []});
     };
-    onSuggestionSelected = (click, { suggestion, suggestionValue}) => {
-        this.props.locations.filter(location => {
-            location.town.toLowerCase() === suggestionValue
-            
-        })
+    onSuggestionSelected = (click, {suggestion, suggestionValue}) => {
+        const result = this
+            .props
+            .locations
+            .filter(location => {
+                return location.fullLocation === suggestionValue
+            })
+        this.setState({ lat: result[0].lat, lng: result[0].lng });
     }
 
     render() {
-        const { value, suggestions } = this.state;
+        const {value, suggestions} = this.state;
 
         // Autosuggest will pass through all these props to the input.
         const inputProps = {
@@ -96,17 +118,14 @@ class SurfSpotsSearchFilter extends React.Component {
         };
 
         // Finally, render it!
-        return (
-            <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
-                onSuggestionSelected={this.onSuggestionSelected}
-            />
-        );
+        return (<Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            inputProps={inputProps}
+            onSuggestionSelected={this.onSuggestionSelected}/>);
     }
 }
 
