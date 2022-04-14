@@ -150,6 +150,14 @@ const RightNavBkg = styled.div`
   ul {
       margin-left: 0;
       padding: 0;
+      li {
+           &:hover, &:focus {
+        cursor: pointer;
+         font-size: 1vw; {
+         opacity: 0.9;
+        
+        }
+      }
   }
 `
 const MenuNavBkg = styled(RightNavBkg)`
@@ -160,17 +168,26 @@ z-index: 3;
 position: absolute;
 left: 1vw;
 width: 13vw;
+padding: 8px;
 ul {
     li {
-     color: var(--white);
-    opacity: .3;
-
+     margin-right: .8vw;
     letter-spacing: 1.25px;
     width: 100%;
     text-align: center;
     font-weight: 400;
-    font-size: .9vw;
+    font-size: .7vw;
     margin-top: 3px;
+    &:hover, &:focus {
+        cursor: pointer;
+         font-size: .8vw;
+          div {
+            span {
+                opacity: 0.9;
+            }
+            }
+        }
+        }
     }
 }
 `;
@@ -324,6 +341,7 @@ class SurfGUILanding extends Component {
         const { getLocationsObject } = this.props;
         getLocationsObject();
         document.body.style.overflow = "hidden";
+        document.body.classList.add('surf-app');
     }
 
     componentDidUpdate(prevProps) {

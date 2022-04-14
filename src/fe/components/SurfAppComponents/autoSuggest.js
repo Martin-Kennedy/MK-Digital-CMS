@@ -1,5 +1,6 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
+import styled from 'styled-components'
 const match = require('autosuggest-highlight/match');
 const parse = require('autosuggest-highlight/parse');
 import {connect} from 'react-redux';
@@ -16,7 +17,44 @@ const mapDispatchToProps = dispatch => ({
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots))
 })
 
-// Teach Autosuggest how to calculate suggestions for any given input valu
+const StyledAutoSuggest = styled.div`
+    input {
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-right-color: rgba(255, 255, 255, 0.07);
+    border-bottom-color: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
+    position: relative;
+    width: 100%;
+    height: 4vh;
+    padding: 4%;
+    font-size: 1vw;
+    letter-spacing: 0.06vw;
+    color: rgba(255, 255, 255, 0.8);
+    &::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    }
+    &:focus-visible {
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    }
+}
+`
+
+const SuggestionTextContainer = styled.div`
+color: white;   
+    span {
+        opacity: 0.6;
+        &:hover, &:focus {
+            opacity: 0.8;
+        }
+    }
+    & .highlight {
+        opacity: 1;
+    }
+`
 
 function getSuggestions(value, data) {
     const escapedValue = escapeRegexCharacters(value.trim());
@@ -45,7 +83,7 @@ function renderSuggestion(suggestion, {query}) {
 
     return (
 
-        <span >
+        <SuggestionTextContainer>
             {parts.map((part, index) => {
                 const className = part.highlight
                     ? 'highlight'
@@ -56,7 +94,7 @@ function renderSuggestion(suggestion, {query}) {
                 );
             })
 }
-        </span>
+        </SuggestionTextContainer>
     );
 }
 
@@ -74,7 +112,6 @@ class SurfSpotsSearchFilter extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.lat != this.state.lat){
             const { searchActionCloseSurfSpots } = this.props;
-            console.log(this.state.lat, this.state.lng)
             searchActionCloseSurfSpots({latitude: this.state.lat, longitude: this.state.lng});
     }
 }
@@ -118,14 +155,18 @@ class SurfSpotsSearchFilter extends React.Component {
         };
 
         // Finally, render it!
-        return (<Autosuggest
+        return (<StyledAutoSuggest>
+            <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             getSuggestionValue={getSuggestionValue}
             renderSuggestion={renderSuggestion}
             inputProps={inputProps}
-            onSuggestionSelected={this.onSuggestionSelected}/>);
+            onSuggestionSelected={this.onSuggestionSelected}
+            />
+                </StyledAutoSuggest>
+                );
     }
 }
 
