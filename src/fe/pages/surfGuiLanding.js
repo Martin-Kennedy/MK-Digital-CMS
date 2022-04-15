@@ -13,6 +13,8 @@ import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentS
 import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
 import  SurfMapAndConditions  from '../components/SurfAppComponents/surfMapAndConditions';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
+import { SpotSearchSVGPath } from '../components/designElementComponents/spotSearchSVGPath';
+import { CloseButtonSVGPath } from '../components/designElementComponents/closeButtonSVGPath';
 
 
 
@@ -166,9 +168,12 @@ z-index: 2;
 const SearchMenu = styled(RightNavBkg)`
 z-index: 3;
 position: absolute;
-left: 1vw;
+left: -15vw;
 width: 13vw;
 padding: 8px;
+transition: 600ms ease;
+backdrop-filter: blur(2px);
+background: rgba(255, 255, 255, 0.06);
 ul {
     li {
      margin-right: .8vw;
@@ -230,7 +235,53 @@ margin-top: 3px;
 &:hover {
     cursor: pointer;
 }
+`
 
+
+const CloseButtonContainer = styled.div`
+width: 100%;
+padding: 0;
+margin-bottom: 2vh;
+`
+
+
+const CloseButtonIcon = styled.svg`
+width: 1vw;
+height: 1vw;
+position: absolute;
+right: -0.5vw;
+top: -0.5vw;
+padding: 0;
+&:hover, &:focus {
+    cursor: pointer;
+    path {
+    fill: rgba(255,255,255, 0.7);
+}
+}
+path {
+    fill: rgba(255,255,255, 0.4);
+}
+`
+const SpotSearchContainer = styled.div`
+width: 2.5vw;
+height: 2.5vw;
+position: relative;
+padding: 0;`
+
+const SpotSearchIcon = styled.svg`
+width: 2.5vw;
+height: 2.5vw;
+position: relative;
+padding: 0;
+cursor: pointer;
+&:hover, &:focus {
+    path {
+    fill: rgba(255,255,255, 0.8);
+}
+}
+path {
+    fill: rgba(255,255,255, 0.5);
+}
 `
 
 
@@ -331,7 +382,8 @@ class SurfGUILanding extends Component {
         this.state = {
             activeSurfSpot: null,
             lat: null,
-            lng: null
+            lng: null,
+            isOpen: false
         };
     }
 
@@ -383,9 +435,11 @@ class SurfGUILanding extends Component {
             getCurrentSwell(this.props.surf.ndbcStations[0]);
         }
 
+    }
 
-
-
+    setOpen() {
+        this.setState({isOpen: !this.state.isOpen});
+        console.log(this.state.isOpen)
     }
 
     render() {
@@ -430,12 +484,24 @@ class SurfGUILanding extends Component {
                     <Col sm={1}></Col>
                     <Col sm={10}>
                         <GlassContainerBkg>
-                            <SearchMenu >
+                            <SearchMenu className={this.state.isOpen ? 'slideInFromLeftSurfSPA' : null}>
+                                <CloseButtonContainer onClick={() => this.setOpen()}>
+                                    <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                    <CloseButtonSVGPath />
+                                    </CloseButtonIcon>
+                                </CloseButtonContainer>
+                                
                                 <SurfSpotsSearchFilter />
                             </SearchMenu>
                             <Col sm={1}>
                                 <MenuNavBkg >
-                                   
+                                    <SpotSearchContainer
+                                    onClick={() => this.setOpen()}>
+                                        <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                            <SpotSearchSVGPath />
+                                        </SpotSearchIcon>
+                                    </SpotSearchContainer>
+                                    
                                 </MenuNavBkg>
                             </Col>
                             <Col sm={9}>

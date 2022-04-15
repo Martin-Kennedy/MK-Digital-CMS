@@ -44,12 +44,10 @@ const StyledAutoSuggest = styled.div`
 `
 
 const SuggestionTextContainer = styled.div`
-color: white;   
+color: white;
+   
     span {
         opacity: 0.6;
-        &:hover, &:focus {
-            opacity: 0.8;
-        }
     }
     & .highlight {
         opacity: 1;

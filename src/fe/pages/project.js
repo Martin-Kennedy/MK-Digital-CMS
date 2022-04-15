@@ -387,7 +387,7 @@ class ProjectPage extends Component {
                                             <IMacVideoContainer>
                                                  <Img src={item.projectImages[2]}></Img>
                                                 <VideoContainer>
-                                                    <iframe width="1280" height="662" src={`${item.projectImages[3]}?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&list=PLj4VihjkPuiOB2rA00R7vinrxWfX4RWIj`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                    <iframe width="1280" height="662" src={`${item.projectImages[3]}&controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                                 </VideoContainer>
                                             </IMacVideoContainer>
                                                 
