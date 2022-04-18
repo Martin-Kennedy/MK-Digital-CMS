@@ -23,7 +23,7 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
             }
 
         case GET_NEXT_PROJECT_ITEM:
-            let titleSlug = action.payload.title;
+            let titleSlug = action.payload.client;
             titleSlug = titleSlug.replace(/\s+/g, '-');
             return {
                 ...state,

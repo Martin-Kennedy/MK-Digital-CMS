@@ -180,6 +180,7 @@ const ProjectPageHero = props => {
                     <HeroImage heroImg={props.item.heroImg}>
                         </HeroImage>
                     </HeromImageContainer>
+                {console.log(props.item)}
                 <WebsiteLink href={props.item.externalLink} target="_blank" color={props.item.bkgColorArray[0]} className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
                 </Col>
                 <Col xs={2}></Col>

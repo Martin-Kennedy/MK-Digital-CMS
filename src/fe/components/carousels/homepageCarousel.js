@@ -24,8 +24,8 @@ const SlideImage = styled.img`
     height: 620px;
     object-fit: contain;
     position: relative;
-    top: -65px;
-    left: -35px;
+    top: -4.5vw;
+    left: -3.5vw;
 `;
 
 const StyledLink = styled(Link)`

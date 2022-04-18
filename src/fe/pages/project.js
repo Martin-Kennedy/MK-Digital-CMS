@@ -61,7 +61,7 @@ const Img = styled.img `
     width: 100%;
     height: 100%;
 margin: 100px 0;
-object-fit: cover;
+object-fit: contain;
 `
 
 const ImgSection = styled(Row)`
@@ -519,11 +519,11 @@ class ProjectPage extends Component {
                                                 <SecondLine>
                                                     <LineAnimationR2L/>
                                                     <TextTranslation
-                                                        duration={35}
-                                                        delay={.5}
+                                                        duration={20}
+                                                        delay={0}
                                                         reverse
                                                         ratio3rd
-                                                        text={this.props.projects.nextProjectItem.title}/>
+                                                        text={this.props.projects.nextProjectItem.client}/>
                                                 </SecondLine>
                                                 <ThirdLine>
                                                     <LineAnimationL2R/>
