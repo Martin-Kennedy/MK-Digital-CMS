@@ -464,7 +464,7 @@ const SurfMapAndConditions = (props) => {
                                 </UvIcon>
                             </TitleIconRow>
                             <UvIndexGraph data={props.surf.weatherForecast.current}/>
-                            <UvValue>{parseInt(props.surf.weatherForecast.current.uvi)}
+                        <UvValue>{parseInt(props.surf.weatherForecast.current.uvi) > 11 ? 11 : parseInt(props.surf.weatherForecast.current.uvi)}
                             </UvValue>
                         </WaterTemp>
                     : null}

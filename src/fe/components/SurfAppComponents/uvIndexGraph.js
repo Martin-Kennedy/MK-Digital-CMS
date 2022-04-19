@@ -104,6 +104,9 @@ export default class UvIndexGraph extends PureComponent {
 
     render() {
         const uvi = parseInt(this.props.data.uvi) -1;
+        const convertedUvi = uvi > 11 ? 10 : uvi;
+        console.log(this.props.data.uvi);
+        console.log(convertedUvi)
 
         return (
             <div style={{ width: '100%', height: '6.6vw', marginTop: '.5vw',  }}>
@@ -113,7 +116,7 @@ export default class UvIndexGraph extends PureComponent {
                     
                     <Pie
                         data={data}
-                        activeIndex={uvi}
+                        activeIndex={convertedUvi}
                         activeShape={ActiveShape}
                         startAngle={180}
                         endAngle={0}
