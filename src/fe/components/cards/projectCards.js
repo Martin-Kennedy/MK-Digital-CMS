@@ -78,6 +78,9 @@ class FilteredCards extends Component {
                                 height: calc(${projectEntry.height}px - 20px);
                                 object-fit: contain;
                                 transition: 500ms ease-in;
+                                position: relative;
+                                top: calc(${projectEntry.height * (projectEntry.positionTop / 100)}px - 20px);
+                                left: ${projectEntry.positionLeft}%;
                                 `;
 
                         const ContainerDiv = styled.div`
@@ -153,6 +156,9 @@ class UnfilteredCards extends Component {
                                 height: calc(${projectEntry.height}px - 20px);
                                 object-fit: contain;
                                 transition: 500ms ease-in;
+                                position: relative;
+                                top:${projectEntry.height * (projectEntry.positionTop / 100)}px;
+                                left: ${projectEntry.positionLeft}%;
                                 `;
 
                         const ContainerDiv = styled.div`

@@ -16,7 +16,7 @@ const StyledHomepageHero = styled(Row)`
 const CarouselContainer = styled.div `
     position: absolute;
     top: 0;
-    left: calc(50% - 190px);
+    left: 33vw;
     overflow: hidden;
     display: flex;
     height: 100vh;

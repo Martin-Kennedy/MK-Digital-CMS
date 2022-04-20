@@ -106,7 +106,7 @@ top: 0;
 `
 const HeroImage = styled.div`
 background-image: ${props => props.heroImg ? `url(${props.heroImg})` : null};
-background-size: cover;
+background-size: contain;
 background-repeat: no-repeat;
     width: 100%;
     height: 100%;

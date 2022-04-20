@@ -20,12 +20,12 @@ const StyledCarouselProvider = styled(Swiper)`
 
 const SlideImage = styled.img`
     display: block;
-    width: 100%;
+    width: 33vw;
+    max-width: ;
     height: 620px;
     object-fit: contain;
     position: relative;
     top: -4.5vw;
-    left: -3.5vw;
 `;
 
 const StyledLink = styled(Link)`
