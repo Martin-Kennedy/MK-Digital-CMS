@@ -54,8 +54,8 @@ const CurrentConditionRowBottom = styled(CurrentConditionRow)`
     }
 `
 
-const StyledCol40 = styled.div`
-width: 40%;
+const StyledCol35 = styled.div`
+width: 35%;
 margin: 0;
 padding:0;
 display: block;
@@ -66,9 +66,10 @@ ${CurrentConditionRow} {
 }
 `
 
-const StyledCol60 = styled(StyledCol40)`
-width: 60%;
-margin: 0;
+const StyledCol65 = styled(StyledCol35)`
+width: 65%;
+padding: 0 0 0 0.5vw;
+margin:0;
 `
 
 const SwellChartContainer = styled.div`
@@ -164,6 +165,7 @@ const RightNavBkg = styled.div`
 `
 const MenuNavBkg = styled(RightNavBkg)`
 z-index: 2;
+margin-left: 2vw;
 `;
 const SearchMenu = styled(RightNavBkg)`
 z-index: 3;
@@ -481,8 +483,7 @@ class SurfGUILanding extends Component {
             <SurfGUILandingContainer>
                 {console.log(this.props.surf)}
                 <DataContainer>
-                    <Col sm={1}></Col>
-                    <Col sm={10}>
+                    <Col sm={12}>
                         <GlassContainerBkg>
                             <SearchMenu className={this.state.isOpen ? 'slideInFromLeftSurfSPA' : null}>
                                 <CloseButtonContainer onClick={() => this.setOpen()}>
@@ -506,7 +507,7 @@ class SurfGUILanding extends Component {
                             </Col>
                             <Col sm={9}>
                                 <DataDashBoardRow>
-                                    <StyledCol40 >
+                                    <StyledCol35 >
                                         <CurrentConditionRow>
                                             <CurrentConditionBackdrop>
                                                 {!Array.isArray(this.props.surf.currentConditions)  ? <CurrWaveDataComponent rating={rating} ndbcData={this.props.surf.currentSwell} waveData={this.props.surf.currentConditions.swell} /> : null}
@@ -524,12 +525,12 @@ class SurfGUILanding extends Component {
                                                 {!Array.isArray(this.props.surf.tideForecast) ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} /> : null}
                                             </CurrentConditionBackdrop>
                                         </CurrentConditionRowBottom>
-                                    </StyledCol40>
-                                    <StyledCol60>
+                                    </StyledCol35>
+                                    <StyledCol65>
                                         <SurfMapBackDrop>
                                             {this.state.lng && this.state.lat ? <SurfMapAndConditions coords={{lat: this.state.lat, lng: this.state.lng}} /> : null}
                                         </SurfMapBackDrop>
-                                    </StyledCol60>
+                                    </StyledCol65>
                                 </DataDashBoardRow>
                                 <DataDashBoardRow>
                                     <SwellChartContainer >
@@ -583,7 +584,6 @@ class SurfGUILanding extends Component {
 
                         </GlassContainerBkg>
                     </Col>
-                    <Col sm={1}></Col>
                 </DataContainer>
                 <WaveFormBottom>
 

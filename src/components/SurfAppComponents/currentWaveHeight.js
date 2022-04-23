@@ -48,7 +48,7 @@ const WaveIcon = styled.svg`
     height: 2.25vh;
     position: relative;
     top: -2px;
-    right: .5vw;
+    right: -0.5vw;
     padding: 0;
     path {
         fill: rgba(255,255,255, 0.4);
