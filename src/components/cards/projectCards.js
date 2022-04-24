@@ -149,7 +149,7 @@ class UnfilteredCards extends Component {
                     .projects
                     .projectData
                     .map((projectEntry, index) => {
-                        let id = projectEntry.id;
+                        let url = projectEntry.url;
 
                         const FittedImage = styled.img`
                                 max-width: calc(100% - 20px);
@@ -157,12 +157,12 @@ class UnfilteredCards extends Component {
                                 object-fit: contain;
                                 transition: 500ms ease-in;
                                 position: relative;
-                                top:${projectEntry.height * (projectEntry.positionTop / 100)}px;
-                                left: ${projectEntry.positionLeft}%;
+                                top:${projectEntry.cardHeight * (projectEntry.imagePositionTop / 100)}px;
+                                left: calc(${projectEntry.imagePositionLeft}% / 2);
                                 `;
 
                         const ContainerDiv = styled.div`
-                                background-color: ${projectEntry.bkgColorArray[3]};
+                                background-color: ${projectEntry.cardColor};
                                 transition: 500ms ease-in;
                                 margin-top: 20px;
                                 `;
@@ -192,18 +192,18 @@ class UnfilteredCards extends Component {
                         let clientSlug = projectEntry.client;
                         clientSlug = clientSlug
                             .replace(/\s+/g, '-');
-                        const card = <MasonryBlogCard key={id} className="grid-item">
+                        const card = <MasonryBlogCard key={projectEntry.id} className="grid-item">
                             <Link to={`project/${clientSlug}`}>
                                 <FadeInWhenVisibleOpacity>
                                     
                                     <ContainerDiv>
                                         <Row>
-                                            <FittedImage className='styledImage' src={projectEntry.projectCardImage} />
+                                            <FittedImage className='styledImage' src={projectEntry.cardImage.publicUrl} />
                                         </Row>
                                     </ContainerDiv>
                                     <CardTextRow>
                                         <CardTitle className='styledTitle' xs={12}>{projectEntry.client}</CardTitle>
-                                        <CardBlurb className='styledBlurb' xs={12}>{projectEntry.blurb}</CardBlurb>
+                                        <CardBlurb className='styledBlurb' xs={12}>{projectEntry.title}</CardBlurb>
                                     </CardTextRow>
                                 </FadeInWhenVisibleOpacity>
                             </Link>

@@ -12,7 +12,7 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
         case GET_PROJECTS:
             return {
                 ...state,
-                projectData: action.payload
+                projectData: action.payload.data.allProjects
             }
 
         case GET_PROJECT_ITEM:

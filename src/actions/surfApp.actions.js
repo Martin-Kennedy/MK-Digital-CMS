@@ -1,7 +1,8 @@
 import { GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL, GET_SEARCH_CLOSE_SURFSPOTS } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
-import axios from 'axios'
+import axios from 'axios';
+
 
 const surfSpotsApiUrl = 'http://localhost:9000/Locations';
 const tideStationApiUrl = 'http://localhost:8888/tideStations';
