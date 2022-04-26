@@ -22,7 +22,6 @@ export const getProjects = () => {
                 cardHeight,
                 imagePositionLeft,
                 imagePositionTop,
-                url,
                 externalLink,
                 expertise,
                 subject,
@@ -111,10 +110,10 @@ export const getProjectItem = (client) => {
                     publicUrl
                 },
                 cardColor,
+                buttonColor,
                 cardHeight,
                 imagePositionLeft,
                 imagePositionTop,
-                url,
                 externalLink,
                 expertise,
                 subject,
@@ -147,7 +146,8 @@ export const getProjectItem = (client) => {
                 resultMetric1Description,
                 resultMetric1Value,
                 resultMetric2Description,
-                resultMetric2Value
+                resultMetric2Value,
+                resultFullText
             }
 } `
             }

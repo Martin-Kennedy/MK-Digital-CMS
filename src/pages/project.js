@@ -366,7 +366,7 @@ class ProjectPage extends Component {
                                         <Row>
                                             <FadeInWhenVisibleScale duration={1}>
                                                 <ImgContainerTop>
-                                                    <Img src={item.projectImages[0]}></Img>
+                                                <Img src={item.image1.publicUrl}></Img>
                                                 </ImgContainerTop>
                                             </FadeInWhenVisibleScale>
                                         </Row>
@@ -376,7 +376,7 @@ class ProjectPage extends Component {
                             </Sticky>
                             <Sticky >
                                 <Section>
-                                    <ImgSection img={item.projectImages[1]}></ImgSection>
+                                <ImgSection img={item.image2FullWidth.publicUrl}></ImgSection>
                                 </Section>
                             </Sticky>
                             <Sticky >
@@ -386,9 +386,9 @@ class ProjectPage extends Component {
                                         <Col >
                                             <FadeInWhenVisibleScale duration={1}>
                                             <IMacVideoContainer>
-                                                 <Img src={item.projectImages[2]}></Img>
+                                                <Img src={item.videoHolderImage.publicUrl}></Img>
                                                 <VideoContainer>
-                                                    <iframe width="1280" height="662" src={`${item.projectImages[3]}&controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                    <iframe width="1280" height="662" src={`https://www.youtube.com/embed/${item.youtubeEmbedCode}?list=${item.youtubeListCode}&controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                                 </VideoContainer>
                                             </IMacVideoContainer>
                                                 
@@ -401,7 +401,7 @@ class ProjectPage extends Component {
                                         <Col >
                                             <FadeInWhenVisibleScale duration={1}>
                                                 <ImgContainer>
-                                                    <Img src={item.projectImages[4]}></Img>
+                                                <Img src={item.image4.publicUrl}></Img>
                                             </ImgContainer>
                                             </FadeInWhenVisibleScale>
                                         </Col>
@@ -416,16 +416,16 @@ class ProjectPage extends Component {
 
                                         <FiftyVWImg>
                                             <FadeInWhenVisibleScale duration={1}>
-                                                <Img src={item.projectImages[5]}></Img>
+                                                <Img src={item.iphoneImageDarkBackground.publicUrl}></Img>
                                             </FadeInWhenVisibleScale>
                                         </FiftyVWImg>
 
                                     </FiftyVW>
-                                    <FiftyVW color={item.bkgColorArray[1]}>
+                                <FiftyVW color={item.cardColor}>
 
                                         <FiftyVWImg >
                                             <FadeInWhenVisibleScale duration={1}>
-                                                <Img src={item.projectImages[6]}></Img>
+                                            <Img src={item.iphoneImageColorBackground.publicUrl}></Img>
                                             </FadeInWhenVisibleScale>
                                         </FiftyVWImg>
 
@@ -440,10 +440,10 @@ class ProjectPage extends Component {
                                         <ResultsMetricType>
 
                                             <Col>
-                                                <p>{item.uniqueData1.dataType}</p>
+                                            <p>{item.resultMetric1Description}</p>
                                             </Col>
                                             <Col>
-                                                <p>{item.uniqueData2.dataType}</p>
+                                            <p>{item.resultMetric2Description}</p>
                                             </Col>
                                         </ResultsMetricType>
                                     </FadeInWhenVisibleScale>
@@ -460,11 +460,11 @@ class ProjectPage extends Component {
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricData>
                                             <Col sm={6}>
-                                                <p>{item.uniqueData1.dataValue}</p>
+                                            <p>{item.resultMetric1Value}</p>
                                             </Col>
                                             <Col></Col>
                                             <Col sm={6}>
-                                                <p>{item.uniqueData2.dataValue}</p>
+                                            <p>{item.resultMetric2Value}</p>
                                             </Col>
                                         </ResultsMetricData>
                                     </FadeInWhenVisibleScale>
@@ -485,7 +485,7 @@ class ProjectPage extends Component {
                                                 </Col>
                                                 <Col></Col>
                                                 <Col sm={6}>
-                                                    <p>{item.result}</p>
+                                                <p>{item.resultFullText}</p>
                                                 </Col>
                                             </Row>
 
@@ -496,8 +496,8 @@ class ProjectPage extends Component {
                             </ResultsSection>
                             <Waypoint
                                 onEnter={() => {
-                                this.props.dispatch(getIntersectingState(true)), 
-                                this.props.dispatch(getNextProjectItem(item.id + 1))
+                                this.props.dispatch(getIntersectingState(true))
+                                // this.props.dispatch(getNextProjectItem(item.id + 1))
                             }}
                                 bottomOffset={'100%'}
                                 topOffset={100}
@@ -507,7 +507,7 @@ class ProjectPage extends Component {
                                     .dispatch(getIntersectingState(false))
                             }}>
                                 <NextProject>
-                                    <Link to={this.props.projects.nextProjectItemPathname}>
+                                    <Link to={"/"}>
                                         <Wrapper >
                                             <Col xs={2}></Col>
                                             <Col xs={8}>
@@ -524,7 +524,7 @@ class ProjectPage extends Component {
                                                         delay={0}
                                                         reverse
                                                         ratio3rd
-                                                        text={this.props.projects.nextProjectItem.client}/>
+                                                        />
                                                 </SecondLine>
                                                 <ThirdLine>
                                                     <LineAnimationL2R/>
