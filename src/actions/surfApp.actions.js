@@ -4,9 +4,9 @@ import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios';
 
 
-const surfSpotsApiUrl = 'http://localhost:9000/Locations';
-const tideStationApiUrl = 'http://localhost:8888/tideStations';
-const NDBCStationApiUrl = 'http://localhost:8889/ndbcBouys';
+const surfSpotsApiUrl = 'https://jsonkeeper.com/b/PY0D';
+const tideStationApiUrl = 'https://jsonkeeper.com/b/3OH9';
+const NDBCStationApiUrl = 'https://jsonkeeper.com/b/0NHK';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
 const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 
@@ -14,8 +14,12 @@ const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc';
 const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
 
-
+const apiUrl2 = 'https://jsonkeeper.com/b/1U1N';
 export const getLocationsObject = () => {
+    axios.get(apiUrl2)
+        .then(response => {
+            console.log(response.data)
+        })
     let request = new Promise((resolve) => {
         axios.get(surfSpotsApiUrl)
         .then(response => {
@@ -202,7 +206,7 @@ export const getTideStations = (latLon) => {
             return response.data
         }).then(data => {
             let stationsArr = [];
-            data.map((station) => {
+            data.tideStations.map((station) => {
                 const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, station.lat, station.lng);
                 stationsArr.push({
                     distanceFromLocation: distanceFromLocation,
@@ -609,16 +613,17 @@ export const getNdbcStations = (latLon) => {
         .then(response => {
             return response.data
         }).then(data => {
+
             return data;
         }).catch(error => {
             throw (error);
         });
     return (dispatch) => {
         request.then((data) => {
-
+            
             return new Promise((resolve) => {
                 let stationsArr = [];
-                for (const [key, value] of Object.entries(data)) {
+                for (const [key, value] of Object.entries(data.ndbcBouys)) {
                     const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, value.SpatialExtent.coordinates[1], value.SpatialExtent.coordinates[0]);
                     Number.isInteger(parseInt(key)) ? stationsArr.push({
                         buoyId: parseInt(key),

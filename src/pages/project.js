@@ -332,6 +332,7 @@ class ProjectPage extends Component {
             <div>
                 {this.props.projects.projectItem.length
                     ? <BaseLayer>
+                        {console.log(item)}
                             <HeaderComponent
                                 location={this.getFirstPathSegment(this.props.location.pathname)}/>
                             <Sticky >

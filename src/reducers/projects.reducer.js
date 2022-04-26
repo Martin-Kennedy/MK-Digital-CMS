@@ -16,6 +16,7 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
             }
 
         case GET_PROJECT_ITEM:
+            console.log(action.payload)
             return {
                 ...state,
                 projectItem: action.payload,
