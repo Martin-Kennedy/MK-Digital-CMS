@@ -11,52 +11,20 @@ export const getProjects = () => {
             method: 'post',
             data: {
                 query: `query {
-            allProjects {
-                id,
-                client,
-                title,
-                cardImage {
-                    publicUrl
-                },
-                cardColor,
-                cardHeight,
-                imagePositionLeft,
-                imagePositionTop,
-                externalLink,
-                expertise,
-                subject,
-                heroImage {
-                publicUrl
-                },
-                launchDate,
-                aboutClient,
-                whatWeDid,
-                image1 {
-                    publicUrl
-                },
-                image2FullWidth {
-                    publicUrl
-                },
-                videoHolderImage {
-                    publicUrl
-                },
-                youtubeEmbedCode,
-                youtubeListCode,
-                image4 {
-                    publicUrl
-                },
-                iphoneImageDarkBackground {
-                    publicUrl
-                },
-                iphoneImageColorBackground {
-                    publicUrl
-                },
-                resultMetric1Description,
-                resultMetric1Value,
-                resultMetric2Description,
-                resultMetric2Value
-            }
-} `
+                allProjects(sortBy: id_ASC) {
+                    id,
+                    client,
+                    title,
+                    cardImage {
+                        publicUrl
+                    },
+                    cardColor,
+                    cardHeight,
+                    imagePositionLeft,
+                    imagePositionTop,
+                    expertise, 
+                    }
+                } `
             }
         })
             .then(response => {
@@ -74,24 +42,15 @@ export const getProjects = () => {
     };
 };
 
-export const getNextProjectItem = (NextId) => {
+export const getNextProjectItem = (NextCLient) => {
     return (dispatch) => {
         
-        return axios.get(apiUrl + '/' + NextId)
-            .then(response => {
-                return response.data
-            })
-            .then(data => {
                 dispatch({
                     type: GET_NEXT_PROJECT_ITEM,
-                    payload: data
+                    payload: NextCLient
                 })
-            })
-            .catch(error => {
-                throw (error);
-            });
+            }
     };
-};
 
 export const getProjectItem = (client) => {
     
@@ -111,6 +70,7 @@ export const getProjectItem = (client) => {
                 },
                 cardColor,
                 buttonColor,
+                fiftyVwBkgColor,
                 cardHeight,
                 imagePositionLeft,
                 imagePositionTop,

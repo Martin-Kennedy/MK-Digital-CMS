@@ -10,13 +10,17 @@ const INITIAL_STATE = {
 const projectsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_PROJECTS:
+            const newArr = [];
+            action.payload.data.allProjects.map((project, index) => {
+                project.orderNum = index + 1;
+                newArr.push(project);
+            })
             return {
                 ...state,
                 projectData: action.payload.data.allProjects
             }
 
         case GET_PROJECT_ITEM:
-            console.log(action.payload)
             return {
                 ...state,
                 projectItem: action.payload,
@@ -24,7 +28,7 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
             }
 
         case GET_NEXT_PROJECT_ITEM:
-            let titleSlug = action.payload.client;
+            let titleSlug = action.payload;
             titleSlug = titleSlug.replace(/\s+/g, '-');
             return {
                 ...state,

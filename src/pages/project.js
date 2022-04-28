@@ -310,7 +310,19 @@ class ProjectPage extends Component {
             this
                 .props
                 .dispatch(getProjectItem(revertedTitle));
+        }
+        if(prevProps.projects.projectItem !== this.props.projects.projectItem) {
+            if(this.props.projects.projectItem.length){
+                const result = this.props.projects.projectData.filter(project => {
+                    return project.client === this.props.projects.projectItem[0].client;
+                });
+                const nextClient = this.props.projects.projectData.filter(project => {
+                    return result[0].orderNum + 1 === project.orderNum;
+                });
 
+                this.props.dispatch(getNextProjectItem(nextClient[0].client))
+            }
+           
         }
 
     }
@@ -324,6 +336,8 @@ class ProjectPage extends Component {
         const d = new Date(date);
         return `${monthNames[d.getMonth()]} - ${d.getFullYear()}`;
     }
+
+
 
     render() {
         let item = this.props.projects.projectItem[0];
@@ -421,7 +435,8 @@ class ProjectPage extends Component {
                                         </FiftyVWImg>
 
                                     </FiftyVW>
-                                <FiftyVW color={item.cardColor}>
+                                {console.log(item)}
+                                <FiftyVW color={item.fiftyVwBkgColor}>
 
                                         <FiftyVWImg >
                                             <FadeInWhenVisibleScale duration={1}>
@@ -497,7 +512,6 @@ class ProjectPage extends Component {
                             <Waypoint
                                 onEnter={() => {
                                 this.props.dispatch(getIntersectingState(true))
-                                // this.props.dispatch(getNextProjectItem(item.id + 1))
                             }}
                                 bottomOffset={'100%'}
                                 topOffset={100}
@@ -507,7 +521,7 @@ class ProjectPage extends Component {
                                     .dispatch(getIntersectingState(false))
                             }}>
                                 <NextProject>
-                                    <Link to={"/"}>
+                                <Link to={this.props.projects.nextProjectItemPathname}>
                                         <Wrapper >
                                             <Col xs={2}></Col>
                                             <Col xs={8}>
@@ -524,6 +538,7 @@ class ProjectPage extends Component {
                                                         delay={0}
                                                         reverse
                                                         ratio3rd
+                                                text={this.props.projects.nextProjectItem}
                                                         />
                                                 </SecondLine>
                                                 <ThirdLine>
