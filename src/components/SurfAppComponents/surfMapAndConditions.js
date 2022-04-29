@@ -51,6 +51,7 @@ margin: 1.5vh 0 1.5vh 1.5vh;
 const TitleIconRow = styled(Row)`
 width: 100%;
 display: flex;
+height: 1vw;
 justify-content: space-between;
 margin: 0;
 padding: 0;
@@ -256,12 +257,12 @@ position: relative;
 `
 
 const UvValue = styled(Data)`
-    font-size: 2vw;
+    font-size: calc(60vw / 4 / 8);
     font-weight: 600;
     letter-spacing: .5px;
     color: rgba(255,255,255,1);
     position: relative;
-    top: -10.3vh;
+    top: -72%;
     left: calc(50% - 1vw);
     padding-left: 0.5vw;
 `

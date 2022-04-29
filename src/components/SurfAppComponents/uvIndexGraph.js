@@ -11,6 +11,13 @@ const SunGraphToolTip = styled.div`
 padding: 0;
 `
 
+const StyledPieChart = styled(PieChart)`
+svg {
+    > g {
+    transform: translateY(9%);
+    }
+}
+`
 const SunGraphDateTime = styled.p`
 width: 100%;
 display: block;
@@ -112,7 +119,7 @@ export default class UvIndexGraph extends PureComponent {
             <div style={{ width: '100%', height: '6.6vw', marginTop: '.5vw',  }}>
             <ResponsiveContainer>
 
-                <PieChart >
+                    < StyledPieChart>
                     
                     <Pie
                         data={data}
@@ -132,7 +139,7 @@ export default class UvIndexGraph extends PureComponent {
                         </Pie>
                         {/* <ReferenceDot x={closest.time} y={closest.position} r={5} stroke="none" fill="rgba(251,176,59,1)" ifOverflow="extendDomain" /> */}
                       
-                </PieChart>
+                    </StyledPieChart>
                 </ResponsiveContainer>
             </div>
                    

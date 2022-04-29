@@ -9,6 +9,7 @@ const StyledProjectPageHero = styled(Row)`
     height: 100vh;
     background-color: var(--white);
     z-index: 2;
+    margin-top: 50px;
     position: relative;
 `
 
@@ -18,6 +19,12 @@ const FirstLine = styled.div`
     margin: 120px 0 0;
     width: 100%;
     top: 0%;
+    div {
+         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+    }
     svg {
     position: relative; 
     left: 0;
@@ -35,7 +42,12 @@ const SecondLine = styled.div`
     padding: 0 0 calc(25vh - 40px) 0;
     width: 100%;
     top: 0%;
-
+    div {
+         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+    }
     svg  {
     position: relative; 
     left: 0;
@@ -53,7 +65,12 @@ const ThirdLine = styled.div`
     
     width: 100%;
     top: 0%;
-
+    div {
+         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+    }
     svg  {
     position: relative; 
     left: 0;
@@ -70,7 +87,12 @@ const FourthLine = styled.div`
     padding: 0 0 calc(25vh - 40px) 0;
     width: 100%;
     top: 0%;
-
+    div {
+         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+    }
     svg  {
     position: relative; 
     left: 0;
@@ -84,6 +106,10 @@ const StaticHeroText = styled.div`
         font-family: mr-eaves-modern, sans-serif;
         font-weight: 200;
         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+        
         color: var(--black);
         text-transform: uppercase;
         white-space: nowrap;
@@ -97,12 +123,16 @@ padding-left: 26px;
 `
 
 const HeromImageContainer = styled.div`
-height: 60vh;
-width: 72vh;
-margin: 20vh 0;
+height: 33vw;
+width: 33vw;
+margin: 15vw 0;
 position: absolute;
 right: 15vw;
 top: 0;
+@media (max-width: 900px) {
+    margin: 33vh 0;
+    width: 33vh;
+}
 `
 const HeroImage = styled.div`
 background-image: ${props => props.heroImg ? `url(${props.heroImg})` : null};

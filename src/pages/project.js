@@ -60,7 +60,10 @@ height: 80vh;
 const Img = styled.img `
     width: 100%;
     height: 100%;
-margin: 100px 0;
+    margin: 50px 0;
+    @media (max-width: 980px){
+        margin: 9vw 0;
+    }
 object-fit: contain;
 `
 
@@ -222,7 +225,6 @@ height: 0;
 position: relative;
 z-index: 0;
 padding: 0 0 calc(33vh - 40px) 0;
-
 width: 100%;
 top: 0%;
 
@@ -258,6 +260,12 @@ const VideoContainer = styled.div`
     width: 94%;
     height: 53%;
     z-index: 2;
+    @media (max-width: 980px){
+            top: 11.5vw;
+            left: 2vw;
+            width: 61vw;
+            height: 35vw;
+        }
     iframe, object, embed, img {
         position: absolute; 
         top: 0; 
@@ -275,7 +283,11 @@ margin-top: 20vh;
 
 const ImgContainer = styled.div`
 margin-top: 10vh;
-width: 100%;
+width:100%;
+@media (max-width: 980px){
+    width: 50vw;
+}
+
 `
 
 const mapStateToProps = state => {

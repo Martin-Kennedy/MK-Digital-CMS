@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import WebAppRouter from './webAppRouter';
 import { connect } from 'react-redux';
+import { getToken } from '../actions/initialUtility.actions';
 import { getIntersectingState } from '../actions/pages.actions';
 import { getBlogs, getBlogItem, getNextBlogItem } from '../actions/blogs.actions';
 import { getProjects, getProjectItem, getNextProjectItem } from '../actions/projects.actions';
 import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
 
 const mapDispatchToProps = dispatch => ({
+    getToken: token => dispatch(getToken(token)),
     getBlogs: blogData => dispatch(getBlogs(blogData)),
     getProjects: projectData => dispatch(getProjects(projectData)),
     getProjectItem: projectItem => dispatch(getProjectItem(projectItem)),
@@ -26,6 +28,11 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class ReduxHOC extends Component {
+
+    componentWillMount() {
+        const { getToken } = this.props;
+        getToken();
+    }
 
     componentDidMount() {
         const { getBlogs } = this.props;

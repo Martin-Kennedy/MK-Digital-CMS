@@ -4,8 +4,10 @@ import blogsReducer from './blogs.reducer';
 import surfAppReducer from'./surfApp.reducer';
 import homepageReducer from './homepage.reducer';
 import pagesReducer from './pages.reducer';
+import initialUtilityReducer from './initialUtility.reducer';
 
 export default combineReducers({
+    keystoneToken: initialUtilityReducer,
     homepage: homepageReducer,
     projects: projectsReducer,
     blogs: blogsReducer,

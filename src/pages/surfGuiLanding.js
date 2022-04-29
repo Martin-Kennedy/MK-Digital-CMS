@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -445,6 +445,7 @@ class SurfGUILanding extends Component {
     }
 
     render() {
+        let width = window.innerWidth;
         const rating = [this.props.surf.currentConditions.solidRating,this.props.surf.currentConditions.fadedRating];
         const d = [
             "m-17.8273,111.16671c20.66565,-0.55532 37.66464,-38.11063 62.99696,-38.66596c28.3" +
@@ -507,6 +508,8 @@ class SurfGUILanding extends Component {
                             </Col>
                             <Col sm={9}>
                                 <DataDashBoardRow>
+                                    { width > 1120 ?
+                                    <Fragment>
                                     <StyledCol35 >
                                         <CurrentConditionRow>
                                             <CurrentConditionBackdrop>
@@ -530,7 +533,10 @@ class SurfGUILanding extends Component {
                                         <SurfMapBackDrop>
                                             {this.state.lng && this.state.lat ? <SurfMapAndConditions coords={{lat: this.state.lat, lng: this.state.lng}} /> : null}
                                         </SurfMapBackDrop>
-                                    </StyledCol65>
+                                    </StyledCol65> 
+                                </Fragment> : <SurfMapBackDrop>
+                                        {this.state.lng && this.state.lat ? <SurfMapAndConditions coords={{ lat: this.state.lat, lng: this.state.lng }} /> : null}
+                                    </SurfMapBackDrop>}
                                 </DataDashBoardRow>
                                 <DataDashBoardRow>
                                     <SwellChartContainer >
