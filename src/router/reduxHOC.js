@@ -43,32 +43,34 @@ class ReduxHOC extends Component {
 
     componentDidMount() {
         const { getToken } = this.props;
+        const { getProjects } = this.props;
+        const { getBlogs } = this.props;
+        const { getHomepage } = this.props;
+        const { getCurrentCarouselAnimatedText } = this.props;
+        const { getCurrentSlide } = this.props;
+        const { getCurrentCarouselBkgColor } = this.props;
+        const { getImgWidth } = this.props;
+        const { getTotalSlides } = this.props;
+        const { getIntersectingState } = this.props;
+        const { getBlogItem } = this.props;
+        const { getNextBlogItem } = this.props;
+        const { getProjectItem } = this.props;
+
         getToken();
+        // getBlogItem();
+        // getNextBlogItem();
     }
 
     componentDidUpdate(prevProps) {
         console.log(this.props)
+        
         if (prevProps.initialUtility.keystoneToken !== this.props.initialUtility.keystoneToken){
             const { establishSession } = this.props;
             establishSession(this.props.initialUtility.keystoneToken)
         }
         if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
-            const { getBlogs } = this.props;
-            const { getProjects } = this.props;
-            const { getHomepage } = this.props;
-            const { getCurrentCarouselAnimatedText } = this.props;
-            const { getCurrentSlide } = this.props;
-            const { getCurrentCarouselBkgColor } = this.props;
-            const { getImgWidth } = this.props;
-            const { getTotalSlides } = this.props;
-            const { getIntersectingState } = this.props;
-            const { getBlogItem } = this.props;
-            const { getNextBlogItem } = this.props;
-            const { getProjectItem } = this.props;
+           
             
-            // getBlogs();
-            // getBlogItem();
-            // getNextBlogItem();
             // getHomepage();
             // getCurrentCarouselAnimatedText();
             // getCurrentSlide();

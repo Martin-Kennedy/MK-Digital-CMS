@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-component';
+import { getProjects } from '../../actions/projects.actions';
 import { connect } from 'react-redux';
 import { generateHsl } from '../../helpers/utilities';
 import { FadeInWhenVisibleOpacity } from '../../helpers/fadeInOnViewport';
@@ -54,11 +55,12 @@ const mapStateToProps = state => {
             filteredData: state.projects.filteredData,
             sortBy: state.projects.sortBy,
             activeButton: state.projects.activeButton
-        }
+        },
     }
 };
 
 class FilteredCards extends Component {
+
     render() {
         return (
             <MasonryBlog
@@ -138,6 +140,7 @@ class FilteredCards extends Component {
 }
 
 class UnfilteredCards extends Component {
+   
     render() {
         return (
             <MasonryBlog

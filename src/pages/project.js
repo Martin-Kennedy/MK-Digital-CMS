@@ -10,7 +10,7 @@ import {FadeInWhenVisibleOpacity, FadeInWhenVisibleScale} from '../helpers/fadeI
 import {LineAnimationL2R, LineAnimationR2L} from '../components/designElementComponents/lineSvg';
 import {TextTranslation} from "../helpers/textTranslation";
 import {connect} from 'react-redux';
-import {getProjectItem, getNextProjectItem} from '../actions/projects.actions';
+import {getProjectItem, getNextProjectItem, getProjects} from '../actions/projects.actions';
 import Sticky from 'react-stickynode';
 import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
@@ -324,11 +324,10 @@ class ProjectPage extends Component {
             const revertedTitle = slug
                 .replace(/-/g, ' ')
                 .replace(/_/g, ' ');
-            this
-                .props
-                .dispatch(getProjectItem(revertedTitle, this.props.initialUtility.keystoneToken));
+            this.props.dispatch(getProjects( this.props.initialUtility.keystoneToken));
+            this.props.dispatch(getProjectItem(revertedTitle, this.props.initialUtility.keystoneToken));
         }
-        if(prevProps.projects.projectItem !== this.props.projects.projectItem) {
+        if (prevProps.projects.projectData !== this.props.projects.projectData) {
             if(this.props.projects.projectItem.length){
                 const result = this.props.projects.projectData.filter(project => {
                     return project.client === this.props.projects.projectItem[0].client;
@@ -337,7 +336,7 @@ class ProjectPage extends Component {
                     return result[0].orderNum + 1 === project.orderNum;
                 });
 
-                // this.props.dispatch(getNextProjectItem(nextClient[0].client))
+                this.props.dispatch(getNextProjectItem(nextClient[0].client))
             }
            
         }
@@ -555,7 +554,7 @@ class ProjectPage extends Component {
                                                         delay={0}
                                                         reverse
                                                         ratio3rd
-                                                text={this.props.projects.nextProjectItem}
+                                                        text={this.props.projects.nextProjectItem}
                                                         />
                                                 </SecondLine>
                                                 <ThirdLine>

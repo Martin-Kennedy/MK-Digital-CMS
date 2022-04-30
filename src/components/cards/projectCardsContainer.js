@@ -3,7 +3,9 @@ import { Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { ProjectFilterButtonsContainer } from './filterButtons';
 import { FilteredCardsContainer, UnfilteredCardsContainer  } from './projectCards';
+import { getProjects } from '../../actions/projects.actions';
 import { LineAnimationR2L } from "../designElementComponents/lineSvg";
+import cookie from 'react-cookie'
 import styled from 'styled-components';
 
 const ProjectFilterButtons = ProjectFilterButtonsContainer;
@@ -12,6 +14,10 @@ const FilteredCards = FilteredCardsContainer;
 
 const mapStateToProps = state => {
     return {
+        initialUtility: {
+            session: state.initialUtility.session,
+            keystoneToken: state.initialUtility.keystoneToken
+        },
         projects: {
             projectData: state.projects.projectData,
             filteredData: state.projects.filteredData,
@@ -61,6 +67,18 @@ const buildCardArray = (props) => {
 }
 
 class ProjectCardContainer extends Component {
+    componentDidUpdate(prevProps) {
+        
+        if(prevProps.initialUtility.session !== this.props.initialUtility.session) {
+            if (!this.props.projects.projectData.length) {
+                console.log(this.props.initialUtility.keystoneToken)
+                console.log('this is running')
+                this.props.dispatch(getProjects(this.props.initialUtility.keystoneToken))
+            }
+        }
+        
+
+    }
 
     render() {
         return (

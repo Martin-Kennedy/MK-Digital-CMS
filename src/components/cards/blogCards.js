@@ -200,7 +200,7 @@ class UnfilteredCards extends Component {
                                 `;
 
                         const ContainerDiv = styled.div`
-                                background-color: ${generateHsl()};
+                                background-color: ${blogEntry.cardColor};
                                 transition: 500ms ease-in;
                                 margin-top: 20px;
                                 `;
@@ -236,12 +236,12 @@ class UnfilteredCards extends Component {
                                 <FadeInWhenVisibleOpacity>
                                     <ContainerDiv>
                                         <Row>
-                                            <FittedImage className='styledImage' src={blogEntry.blogCardImage} />
+                                            <FittedImage className='styledImage' src={blogEntry.cardImage.publicUrl} />
                                         </Row>
                                     </ContainerDiv>
                                     <CardTextRow>
                                         <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
-                                        <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
+                                        <CardBlurb className='styledBlurb' xs={12}>{blogEntry.article}</CardBlurb>
                                     </CardTextRow>
                                 </FadeInWhenVisibleOpacity>
                             </Link>

@@ -2,11 +2,38 @@
 import { GET_BLOGS, GET_BLOG_ITEM, GET_NEXT_BLOG_ITEM } from '../helpers/types'
 import axios from 'axios'
 
-const apiUrl = 'http://localhost:3000/blog';
+const apiUrl = 'http://localhost:4000/blog';
 
-export const getBlogs = () => {
+export const getBlogs = (token) => {
     return (dispatch) => {
-        return axios.get(apiUrl)
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
+            query: `query {
+                allBlogs(sortBy: id_ASC) {
+                    id,
+                    author {
+                      name
+                    },
+                    subject,
+                    title,
+                    cardImage {
+                        publicUrl
+                    },
+                     mainImage {
+                        publicUrl
+                    },
+                    article, 
+                    launchDate,
+                    cardColor,
+                    cardHeight,
+                    imagePositionLeft,
+                    imagePositionTop,
+                    }
+                }`
+        }
+        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
             .then(response => {
                 return response.data
             })
@@ -22,9 +49,36 @@ export const getBlogs = () => {
     };
 };
 
-export const getBlogItem = (title) => {
+export const getBlogItem = (title, token) => {
     return (dispatch) => {
-        return axios.get(apiUrl + '?title=' + encodeURI(title))
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
+            query: `query {
+            allBlogs (where: {title_contains: "${title}"}) {
+                id,
+                    author {
+                      name
+                    },
+                    subject,
+                    title,
+                    cardImage {
+                        publicUrl
+                    },
+                     mainImage {
+                        publicUrl
+                    },
+                    article, 
+                    launchDate,
+                    cardColor,
+                    cardHeight,
+                    imagePositionLeft,
+                    imagePositionTop,
+            }
+} `
+        }
+        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
             .then(response => {
                 return response.data
             })

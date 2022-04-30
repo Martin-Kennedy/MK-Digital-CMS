@@ -11,9 +11,10 @@ const INITIAL_STATE = {
 const blogsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_BLOGS:
+            console.log(action)
             return {
                 ...state,
-                blogData: action.payload
+                blogData: action.payload.data.allBlogs
             }
 
         case GET_BLOG_ITEM:

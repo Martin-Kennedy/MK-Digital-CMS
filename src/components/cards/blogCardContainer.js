@@ -3,6 +3,7 @@ import {Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {BlogFilterButtonsContainer} from './filterButtons';
 import { FilteredCardsContainer, UnfilteredCardsContainer } from './blogCards';
+import { getBlogs } from '../../actions/blogs.actions';
 import { LineAnimationR2L } from "../designElementComponents/lineSvg";
 const BlogFilterButtons = BlogFilterButtonsContainer;
 const UnfilteredCards = UnfilteredCardsContainer;
@@ -11,6 +12,10 @@ import styled from 'styled-components';
 
 const mapStateToProps = state => {
     return {
+        initialUtility: {
+            session: state.initialUtility.session,
+            keystoneToken: state.initialUtility.keystoneToken
+        },
         blogs: {
             blogData: state.blogs.blogData,
             filteredData: state.blogs.filteredData,
@@ -69,7 +74,17 @@ const BuildCardArray = (props) => {
 }
 
 class BlogCardsContainer extends Component {
+    componentDidUpdate(prevProps) {
 
+        if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
+            if (!this.props.blogs.blogData.length) {
+                console.log(this.props.initialUtility.keystoneToken)
+                this.props.dispatch(getBlogs(this.props.initialUtility.keystoneToken))
+            }
+        }
+
+
+    }
     render() {
         return (
             <div>

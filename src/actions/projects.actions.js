@@ -5,11 +5,11 @@ const apiUrl = 'http://localhost:3000/admin/api';
 export const getProjects = (token) => {
 
     return (dispatch) => {
-        return axios({
-                url: apiUrl,
-                method: 'post',
-                data: {
-                    query: `query {
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
+            query: `query {
                 allProjects(sortBy: id_ASC) {
                     id,
                     client,
@@ -24,8 +24,8 @@ export const getProjects = (token) => {
                     expertise, 
                     }
                 } `
-                }
-            })
+        }
+        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
             .then(response => {
             return response.data
         })
@@ -38,10 +38,10 @@ export const getProjects = (token) => {
     };
 };
 
-export const getNextProjectItem = (NextCLient) => {
+export const getNextProjectItem = (nextClient) => {
     return (dispatch) => {
-
-        dispatch({type: GET_NEXT_PROJECT_ITEM, payload: NextCLient})
+        console.log(nextClient)
+        dispatch({ type: GET_NEXT_PROJECT_ITEM, payload: nextClient})
     }
 };
 
