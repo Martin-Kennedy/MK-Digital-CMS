@@ -292,6 +292,11 @@ width:100%;
 
 const mapStateToProps = state => {
     return {
+        initialUtility: {
+            session: state.initialUtility.session,
+            keystoneToken: state.initialUtility.keystoneToken,
+        },
+        
         projects: {
             projectData: state.projects.projectData,
             nextProjectItem: state.projects.nextProjectItem,
@@ -312,8 +317,8 @@ class ProjectPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
-
-        if (prevProps.projects.projectData !== this.props.projects.projectData) {
+        
+        if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
             let path = this.props.location.pathname;
             let slug = path.substring(path.lastIndexOf('/') + 1)
             const revertedTitle = slug
@@ -321,7 +326,7 @@ class ProjectPage extends Component {
                 .replace(/_/g, ' ');
             this
                 .props
-                .dispatch(getProjectItem(revertedTitle));
+                .dispatch(getProjectItem(revertedTitle, this.props.initialUtility.keystoneToken));
         }
         if(prevProps.projects.projectItem !== this.props.projects.projectItem) {
             if(this.props.projects.projectItem.length){
@@ -332,7 +337,7 @@ class ProjectPage extends Component {
                     return result[0].orderNum + 1 === project.orderNum;
                 });
 
-                this.props.dispatch(getNextProjectItem(nextClient[0].client))
+                // this.props.dispatch(getNextProjectItem(nextClient[0].client))
             }
            
         }
@@ -358,7 +363,7 @@ class ProjectPage extends Component {
             <div>
                 {this.props.projects.projectItem.length
                     ? <BaseLayer>
-                        {console.log(item)}
+                        
                             <HeaderComponent
                                 location={this.getFirstPathSegment(this.props.location.pathname)}/>
                             <Sticky >

@@ -1,4 +1,5 @@
 export const GET_TOKEN = 'GET_TOKEN';
+export const ESTABLISH_SESSION = 'ESTABLISH_SESSION';
 export const GET_BLOGS = 'GET_BLOGS';
 export const GET_BLOG_ITEM = "GET_BLOG_ITEM";
 export const GET_NEXT_BLOG_ITEM = "GET_NEXT_BLOG_ITEM";

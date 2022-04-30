@@ -35,6 +35,7 @@ const ProjectsLanding = (props) => (
 
     <div>
         <HeaderComponent location={props.location.pathname} />
+        {console.log(props)}
         <TopRow>
             <Col sm={2}></Col>
             <Hero xs={8}>

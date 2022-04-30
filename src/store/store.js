@@ -3,9 +3,11 @@ import thunk from 'redux-thunk'
 import rootReducer from '../reducers/root.reducer'
 
 const initalState = {
-    keystoneToken: {
-        Bearer: null,
+    initialUtility: {
+        keystoneToken: '',
+        session: false
     },
+    
     homepage: {
         homepageData: {
             homepageCarousel: {

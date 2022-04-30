@@ -7,7 +7,7 @@ import pagesReducer from './pages.reducer';
 import initialUtilityReducer from './initialUtility.reducer';
 
 export default combineReducers({
-    keystoneToken: initialUtilityReducer,
+    initialUtility: initialUtilityReducer,
     homepage: homepageReducer,
     projects: projectsReducer,
     blogs: blogsReducer,

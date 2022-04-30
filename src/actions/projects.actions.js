@@ -1,16 +1,15 @@
-
-import { GET_PROJECTS, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM } from '../helpers/types'
+import {GET_PROJECTS, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM} from '../helpers/types'
 import axios from 'axios'
 
-
 const apiUrl = 'http://localhost:3000/admin/api';
-export const getProjects = () => {
+export const getProjects = (token) => {
+
     return (dispatch) => {
         return axios({
-            url: apiUrl,
-            method: 'post',
-            data: {
-                query: `query {
+                url: apiUrl,
+                method: 'post',
+                data: {
+                    query: `query {
                 allProjects(sortBy: id_ASC) {
                     id,
                     client,
@@ -25,41 +24,38 @@ export const getProjects = () => {
                     expertise, 
                     }
                 } `
-            }
-        })
-            .then(response => {
-                return response.data
+                }
             })
+            .then(response => {
+            return response.data
+        })
             .then(data => {
-                dispatch({
-                    type: GET_PROJECTS,
-                    payload: data
-                })
+                dispatch({type: GET_PROJECTS, payload: data})
             })
             .catch(error => {
-                throw (error);
+                throw(error);
             });
     };
 };
 
 export const getNextProjectItem = (NextCLient) => {
     return (dispatch) => {
-        
-                dispatch({
-                    type: GET_NEXT_PROJECT_ITEM,
-                    payload: NextCLient
-                })
-            }
-    };
 
-export const getProjectItem = (client) => {
+        dispatch({type: GET_NEXT_PROJECT_ITEM, payload: NextCLient})
+    }
+};
+
+export const getProjectItem = (client, token) => {
+
     
+
     return (dispatch) => {
+        console.log(token)
         console.log(client)
-        return axios({
-            url: apiUrl,
-            method: 'post',
-            data: {
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
                 query: `query {
             allProjects (where: {client_contains: "${client}"}) {
                 id,
@@ -110,20 +106,19 @@ export const getProjectItem = (client) => {
                 resultFullText
             }
 } `
-            }
-        })
+        }
+        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
             .then(response => {
+                console.log(response)
                 return response.data
             })
             .then(data => {
+                
                 let simplifiedData = data.data.allProjects;
-                dispatch({
-                    type: GET_PROJECT_ITEM,
-                    payload: simplifiedData
-                })
+                dispatch({type: GET_PROJECT_ITEM, payload: simplifiedData})
             })
             .catch(error => {
-                throw (error);
+                throw(error);
             });
     };
 };
