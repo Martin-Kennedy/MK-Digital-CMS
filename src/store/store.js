@@ -42,6 +42,9 @@ const initalState = {
         sortByItem: '',
         activeButton: 1
     },
+    about: {
+        aboutData: []
+    },
     surf: {
         locations: [],
         closeSurfSpots: [],

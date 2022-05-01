@@ -12,6 +12,8 @@ import Sticky from 'react-stickynode';
 import { Waypoint } from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
 import {connect} from 'react-redux';
+import {getAbout} from '../actions/about.actions';
+import { getToken, establishSession } from '../actions/initialUtility.actions';
 
 const BaseLayer = styled.div `
     background-color: #1d1e22;
@@ -201,6 +203,9 @@ const Services = styled(Row)`
         font-weight: 300;
         }   
     `
+
+const ServicesInitialDescription = styled.div``;
+
 const ServicesMain = styled(Section)`
 margin-bottom: 2rem;
 .col {
@@ -241,7 +246,14 @@ const AboutFooter = styled.div`
 
 const mapStateToProps = state => {
     return {
-        isIntersecting: state.pages.isIntersecting
+        isIntersecting: state.pages.isIntersecting,
+        initialUtility: {
+            keystoneToken: state.initialUtility.keystoneToken,
+            session: state.initialUtility.session
+        },
+        about: {
+            aboutData: state.about.aboutData
+        }
     }
 }
 
@@ -252,11 +264,28 @@ class About extends Component {
         super()
     }
 
+    componentDidUpdate(prevProps) {
+
+        if (this.props.initialUtility.session === true) {
+            if (!this.props.about.aboutData.length) {
+                this.props.dispatch(getAbout(this.props.initialUtility.keystoneToken))
+            }
+        } else {
+            if (this.props.initialUtility.keystoneToken === null) {
+                this.props.dispatch(getToken())
+            } else {
+                this.props.dispatch(establishSession(this.props.initialUtility.keystoneToken))
+            }
+        }
+
+    }
+
     
     
     render(props){
         return (
             <BaseLayer>
+            {console.log(this.props)}
                 <HeaderComponent location={this.props.location.pathname} />
                 <Sticky>
                     <IntroSection >
@@ -335,9 +364,7 @@ class About extends Component {
 
                                         <Col><span>Established in 2016</span></Col>
                                         <Col>
-                                            <p>In a few short years, MK Digital has made its mark on The New York Metro — our home
-                                                and a powerhouse recognized internationally for its creativity. With a unique
-                                                identity rooted in Manhattan, its reputation branches far beyond its borders.</p>
+                                            <p>In a few short years, MK Digital has made its mark on The New York Metro — our home and a powerhouse recognized internationally for its creativity. With a uniqueidentity rooted in Manhattan, its reputation branches far beyond its borders.</p>
 
                                         </Col>
                                     </Section>
@@ -345,15 +372,13 @@ class About extends Component {
                                         <Col></Col>
                                         <Col>
                                             <Line></Line>
-                                            <MediumText>MK Digital® isn’t just a team — it’s a family. We all share the
-                                                same vision here: to push ideas all the way,
-                                                without taking ourselves too seriously, and overcoming challenges together.
+                                            <MediumText>MK Digital® isn’t just a team — it’s a family. We all share the same vision here: to push ideas all the way, without taking ourselves too seriously, and overcoming challenges together.
                                             </MediumText>
 
                                         </Col>
                                     </Section>
                                     <ScrollComponentContainer>
-                                        <XaxisScrollComponent />
+                                        <XaxisScrollComponent text={'WORK HARD, PLAY HARDER, NEVER PLAY IT SAFE'} />
                                     </ScrollComponentContainer>
                                 </AboutMain>
                             </FadeInWhenVisibleScale>
@@ -370,11 +395,13 @@ class About extends Component {
                             <FadeInWhenVisibleScale>
                                 <Services>
                                     <Line white></Line>
+                                    <ServicesInitialDescription>
                                     <span>Services</span>
                                     <h2>
                                         <span>Digital</span>
                                         <span>First Design</span>
                                     </h2>
+                                    </ServicesInitialDescription>
                                     <ServicesMain>
                                         <Col>
                                             <span>Digital Experience</span>

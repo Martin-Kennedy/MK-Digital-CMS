@@ -3,6 +3,7 @@ import projectsReducer from './projects.reducer';
 import blogsReducer from './blogs.reducer';
 import surfAppReducer from'./surfApp.reducer';
 import homepageReducer from './homepage.reducer';
+import aboutReducer from './about.reducer'
 import pagesReducer from './pages.reducer';
 import initialUtilityReducer from './initialUtility.reducer';
 
@@ -11,6 +12,7 @@ export default combineReducers({
     homepage: homepageReducer,
     projects: projectsReducer,
     blogs: blogsReducer,
+    about: aboutReducer,
     surf: surfAppReducer,
     pages: pagesReducer
 })
