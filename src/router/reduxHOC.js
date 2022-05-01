@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
     getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides)),
     getIntersectingState: isIntersecting => dispatch(getIntersectingState(isIntersecting)),
     getBlogItem: item => dispatch(getBlogItem(item)),
-    getNextBlogItem: nextBlogItem => dispatch(getNextBlogItem(nextBlogItem)),
+    getNextBlogItem: nextBlogItem => dispatch(getNextBlogItem(nextBlogItem))
 });
 
 const mapStateToProps = state => {
@@ -57,19 +57,15 @@ class ReduxHOC extends Component {
         const { getProjectItem } = this.props;
 
         getToken();
-        // getBlogItem();
-        // getNextBlogItem();
     }
 
     componentDidUpdate(prevProps) {
-        console.log(this.props)
         
         if (prevProps.initialUtility.keystoneToken !== this.props.initialUtility.keystoneToken){
             const { establishSession } = this.props;
             establishSession(this.props.initialUtility.keystoneToken)
         }
         if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
-           
             
             // getHomepage();
             // getCurrentCarouselAnimatedText();

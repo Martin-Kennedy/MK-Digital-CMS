@@ -24,8 +24,9 @@ export const getBlogs = (token) => {
                      mainImage {
                         publicUrl
                     },
+                    imageBkgColor,
                     article, 
-                    launchDate,
+                    publishDate,
                     cardColor,
                     cardHeight,
                     imagePositionLeft,
@@ -38,6 +39,7 @@ export const getBlogs = (token) => {
                 return response.data
             })
             .then(data => {
+                
                 dispatch({
                     type: GET_BLOGS,
                     payload: data
@@ -47,6 +49,13 @@ export const getBlogs = (token) => {
                 throw (error);
             });
     };
+};
+
+export const getNextBlogItem = (nextClient) => {
+    return (dispatch) => {
+        console.log(nextClient)
+        dispatch({ type: GET_NEXT_BLOG_ITEM, payload: nextClient })
+    }
 };
 
 export const getBlogItem = (title, token) => {
@@ -69,8 +78,9 @@ export const getBlogItem = (title, token) => {
                      mainImage {
                         publicUrl
                     },
+                    imageBkgColor,
                     article, 
-                    launchDate,
+                    publishDate,
                     cardColor,
                     cardHeight,
                     imagePositionLeft,
@@ -94,22 +104,3 @@ export const getBlogItem = (title, token) => {
     };
 };
 
-export const getNextBlogItem = (NextId) => {
-    console.log(NextId)
-    return (dispatch) => {
-
-        return axios.get(apiUrl + '/' + NextId)
-            .then(response => {
-                return response.data
-            })
-            .then(data => {
-                dispatch({
-                    type: GET_NEXT_BLOG_ITEM,
-                    payload: data
-                })
-            })
-            .catch(error => {
-                throw (error);
-            });
-    };
-};

@@ -10,7 +10,6 @@ const INITIAL_STATE = {
 const projectsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_PROJECTS:
-            console.log(action)
             const newArr = [];
             action.payload.data.allProjects.map((project, index) => {
                 project.orderNum = index + 1;

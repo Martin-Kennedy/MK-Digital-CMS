@@ -4,7 +4,7 @@ import rootReducer from '../reducers/root.reducer'
 
 const initalState = {
     initialUtility: {
-        keystoneToken: '',
+        keystoneToken: null,
         session: false
     },
     

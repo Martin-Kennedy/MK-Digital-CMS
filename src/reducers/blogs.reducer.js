@@ -11,7 +11,11 @@ const INITIAL_STATE = {
 const blogsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_BLOGS:
-            console.log(action)
+            const newArr = [];
+            action.payload.data.allBlogs.map((blog, index) => {
+                blog.orderNum = index + 1;
+                newArr.push(blog);
+            })
             return {
                 ...state,
                 blogData: action.payload.data.allBlogs
@@ -20,12 +24,13 @@ const blogsReducer = (state = INITIAL_STATE, action) => {
         case GET_BLOG_ITEM:
             return {
                 ...state,
-                blogItem: action.payload,
+                blogItem: action.payload.data.allBlogs,
                 sortByItem: action.title
             }
 
         case GET_NEXT_BLOG_ITEM:
-            let titleSlug = action.payload.title;
+            console.log(action)
+            let titleSlug = action.payload;
             titleSlug = titleSlug.replace(/\s+/g, '-');
             return {
                 ...state,

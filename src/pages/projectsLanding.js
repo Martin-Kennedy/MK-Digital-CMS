@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import ProjectCardContainer from '../components/cards/projectCardsContainer';
 import HeaderComponent from '../components/navigation/header';
 import { Main } from '../helpers/commonStyledComponents';
+import { connect } from 'react-redux';
 
 const TopRow = styled(Row)`
 padding-top: 120px;
@@ -29,6 +30,9 @@ const H2Line = styled(Col)`
 const ProjectsLandingMain = styled(Main)`
 
 `
+const mapStateToProps = state => {
+    
+} 
 
 const ProjectsLanding = (props) => (
     
@@ -79,4 +83,4 @@ const ProjectsLanding = (props) => (
 
 )
 
-export default ProjectsLanding;
+export default connect(mapStateToProps)(ProjectsLanding);

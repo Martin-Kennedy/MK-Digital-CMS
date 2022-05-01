@@ -8,9 +8,11 @@ import Footer from '../components/footer';
 import { FadeInWhenVisibleOpacity, FadeInWhenVisibleScale } from '../helpers/fadeInOnViewport';
 import { LineAnimationL2R, LineAnimationR2L } from '../components/designElementComponents/lineSvg';
 import { connect } from 'react-redux';
-import { getBlogItem, getNextBlogItem } from '../actions/blogs.actions';
+import { getBlogItem, getNextBlogItem, getBlogs } from '../actions/blogs.actions';
+import { getToken, establishSession } from '../actions/initialUtility.actions';
 import { Waypoint } from 'react-waypoint';
 import { getIntersectingState } from '../actions/pages.actions';
+import DOMPurify from 'dompurify';
 
 const BaseLayer = styled.div`
     background-color: var(--white);
@@ -122,6 +124,10 @@ height: 120px;
 
 const mapStateToProps = state => {
     return {
+        initialUtility: {
+            keystoneToken: state.initialUtility.keystoneToken,
+            session: state.initialUtility.session
+        },
         blogs: {
             blogData: state.blogs.blogData,
             nextBlogItem: state.blogs.nextBlogItem,
@@ -142,6 +148,18 @@ class BlogPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        
+        if(this.props.initialUtility.session === true) {
+            if (!this.props.blogs.blogData.length){
+                this.props.dispatch(getBlogs(this.props.initialUtility.keystoneToken))
+            }
+        } else {
+            if (this.props.initialUtility.keystoneToken === null) {
+            this.props.dispatch(getToken())
+            } else {
+                this.props.dispatch(establishSession(this.props.initialUtility.keystoneToken))
+            }
+        }
 
         if (prevProps.blogs.blogData !== this.props.blogs.blogData) {
             
@@ -150,13 +168,27 @@ class BlogPage extends Component {
             const revertedTitle = slug
                 .replace(/-/g, ' ')
                 .replace(/_/g, ' ');
-
-            console.log(revertedTitle)
             this
                 .props
-                .dispatch(getBlogItem(revertedTitle));
+                .dispatch(getBlogItem(revertedTitle, this.props.initialUtility.keystoneToken));
+          
 
         }
+        if(prevProps.blogs.blogItem !== this.props.blogs.blogItem){
+            console.log(this.props.blogs.blogItem[0].title);
+                const result = this.props.blogs.blogData.filter(blog => {
+                    return blog.title === this.props.blogs.blogItem[0].title;
+                });
+                console.log(result)
+                const nextBlog = this.props.blogs.blogData.filter(blog => {
+                    return result[0].orderNum + 1 === blog.orderNum;
+                });
+                console.log(nextBlog)
+            nextBlog.length ? this.props.dispatch(getNextBlogItem(nextBlog[0].title)) : this.props.dispatch(getNextBlogItem(this.props.blogs.blogData[0].title));
+                
+            
+        }
+        
 
 
     }
@@ -166,6 +198,16 @@ class BlogPage extends Component {
 
     }
 
+    restructureDate(item) {
+        let publishDateObj = new Date(item.publishDate);
+        return `${publishDateObj.toLocaleString('default', { month: 'short' })} ${publishDateObj.getDate()}, ${publishDateObj.getFullYear()}`;
+    }
+
+    sanitizeHTML(itemToClean) {
+        const clean = DOMPurify.sanitize(itemToClean);
+        return clean;
+    }
+
     
 
 
@@ -173,6 +215,7 @@ class BlogPage extends Component {
 
     render() {
         let item = this.props.blogs.blogItem[0];
+        
 
         return (
             <div>
@@ -185,7 +228,7 @@ class BlogPage extends Component {
                             <IntroSection >
                                 <Col xs={2}></Col>
                                 <Col xs={8}>
-                                <HeroImgSection><ImgBkg bkgColor={item.bkgColor}><FadeInWhenVisibleOpacity duration={2}><Img src={item.blogCardImage} /></FadeInWhenVisibleOpacity></ImgBkg></HeroImgSection>
+                                <HeroImgSection><ImgBkg bkgColor={item.imageBkgColor}><FadeInWhenVisibleOpacity duration={2}><Img src={item.mainImage.publicUrl} /></FadeInWhenVisibleOpacity></ImgBkg></HeroImgSection>
                                     <Row>
                                         <FadeInWhenVisibleOpacity duration={2}>
                                             <Title>{item.title}</Title>
@@ -194,20 +237,19 @@ class BlogPage extends Component {
                                     <Row>
                                         <Col xs={2}>
                                         <FadeInWhenVisibleScale duration={1}>
-                                            <SmallAndThinText>Oct 2, 2021</SmallAndThinText>
+                                            <SmallAndThinText>{this.restructureDate(item)}</SmallAndThinText>
                                         </FadeInWhenVisibleScale>
                                         </Col>
                                         <Col xs={10}><TopLine><LineAnimationR2L/></TopLine></Col>
                                     </Row>
                                     <Row>
-                                        <p>{item.article}</p>
+                                    <div dangerouslySetInnerHTML={{ __html: this.sanitizeHTML(item.article) }}></div>
                                     </Row>
                                 <Waypoint
                                     onEnter={() => {
                                         this
                                             .props
                                             .dispatch(getIntersectingState(true))
-                                        this.props.dispatch(getNextBlogItem(item.id + 1))
                                     }}
                                     onLeave={() => {
                                         this
@@ -217,7 +259,7 @@ class BlogPage extends Component {
                               
                                 <NextArticle>
                                         <BottomLine><LineAnimationL2R /></BottomLine>
-                                        <Link to={this.props.blogs.nextBlogItemPathname} className="btn-flip" data-back={this.props.blogs.nextBlogItem.title} data-front="NEXT ARTICLE"> 
+                                        <Link to={this.props.blogs.nextBlogItemPathname} className="btn-flip" data-back={this.props.blogs.nextBlogItem} data-front="NEXT ARTICLE"> 
                                         </Link>
                                 </NextArticle>
                                 </Waypoint>
