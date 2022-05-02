@@ -14,6 +14,7 @@ import {getIntersectingState} from '../actions/pages.actions';
 import {connect} from 'react-redux';
 import {getAbout} from '../actions/about.actions';
 import { getToken, establishSession } from '../actions/initialUtility.actions';
+import DOMPurify from 'dompurify';
 
 const BaseLayer = styled.div `
     background-color: #1d1e22;
@@ -74,10 +75,6 @@ const FifthLine = styled.div `
 
 const ImgSection = styled(Row)`
     width: 100vw;
-    background-image: url(coding.gif);
-    background-position: center;
-    background-size: 100vw auto;
-    background-repeat: no-repeat;
     margin: 0;
     z-index: 0;
     position: relative;
@@ -97,22 +94,20 @@ const AboutMain = styled(Row)`
     z-index: 1;
     margin-bottom: 3rem;
     h2 {
-        margin: 10px 0 140px 150px;
-        span {
-            display: block;
-            padding: 10px 0 ;
-            
+        margin: 40px 0 100px 150px;
+        display: block;
+        padding: 20px 0 ;
         line-height: 4.2rem;
         font-size: 4rem;
         font-weight: 300;
-        }
 
     }
-    span {
+    p:nth-child(2) {
         font-size: 16px;
         font-weight: 200;
         position: relative;
-        top: 55px;
+        top: 45px;
+        height: 0;
 
     }
     
@@ -126,7 +121,7 @@ const AboutMain = styled(Row)`
         margin: 0;
         }
         p:nth-child(4) {
-            position: relative;
+        position: relative;
         line-height: 4.2rem;
         font-size: 3rem;
         font-weight: 300;
@@ -169,18 +164,13 @@ const Services = styled(Row)`
         margin: 10px 0 140px 150px;
         position: relative;
         top: -3rem;
-        
-        span {
         display: block;
-        padding: 10px 0;
-            
         line-height: 4.2rem;
         font-size: 4rem;
         font-weight: 300;
-        }
     }
     
-    span {
+    p:nth-child(2)  {
         font-size: 16px;
         font-weight: 200;
         position: relative;
@@ -205,6 +195,34 @@ const Services = styled(Row)`
     `
 
 const ServicesInitialDescription = styled.div``;
+
+const VideoContainer = styled.div`
+    width: 100vw;
+    height: 100vh;
+    div{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+    }
+    iframe {
+        top: 50%;
+        left: 50%;
+        width: 100vw;
+        height: 100vh;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        @media (min-aspect-ratio: 16/9){  
+            height: 56.25vw;
+        }
+        @media (max-aspect-ratio: 16/9) {
+            width: 177.78vh;
+        }
+    }
+`
 
 const ServicesMain = styled(Section)`
 margin-bottom: 2rem;
@@ -280,12 +298,19 @@ class About extends Component {
 
     }
 
-    
+    sanitizeHTML(itemToClean) {
+        const clean = DOMPurify.sanitize(itemToClean);
+        return clean;
+    }    
     
     render(props){
+        let item = this.props.about.aboutData[0];
         return (
+            <div>
+                {this.props.about.aboutData.length ? 
             <BaseLayer>
             {console.log(this.props)}
+                
                 <HeaderComponent location={this.props.location.pathname} />
                 <Sticky>
                     <IntroSection >
@@ -302,10 +327,7 @@ class About extends Component {
                                     <FadeInWhenVisibleScale>
                                         <Row>
                                             <IntroBlurb1 >
-                                                With years of development experience, MK Digital can create a digital solution
-                                                for you that will become the reference for all that’s digital, web design and
-                                                branding. I'm not just bragging, I'm good. My promise: finding tomorrow’s
-                                                creative solutions — today.
+                                                {item.introBlurbOne}
                                             </IntroBlurb1>
 
                                         </Row>
@@ -317,7 +339,7 @@ class About extends Component {
                                         </Row>
                                         <Row >
                                             <IntroBlurb2 >
-                                                A forward-thinking developer driven by passion — and fuelled by curiosity.
+                                                        {item.introBlurbTwo}
                                             </IntroBlurb2>
                                         </Row>
                                     </FadeInWhenVisibleScale>
@@ -329,7 +351,12 @@ class About extends Component {
                     </IntroSection>
                 </Sticky>
                 <Sticky >
-                    <ImgSection ></ImgSection>
+                    <ImgSection >
+                                <VideoContainer>
+                                    <div></div>
+                                    <iframe width="1280" height="662" src={`https://www.youtube.com/embed/${item.parallaxVideoEmbed}?list=${item.parallaxVideoPlaylist}&controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </VideoContainer>
+                    </ImgSection>
                 </Sticky>
 
 
@@ -339,20 +366,9 @@ class About extends Component {
                         <Col sm={2}></Col>
                         <Col sm={8}>
                             <FadeInWhenVisibleScale>
-                                <AboutMain>
-                                    <h2>
-                                        <span>Why</span>
-                                        <span>MK Digital?</span>
-                                    </h2>
-                                    <span>About</span>
-                                    <p>
-                                        MK Digital stands out among digital creators,
-                                    </p>
-                                    <p>
-                                        and offers a wide range of creative and digital services for brands, companies,
-                                        foundations and other remarkable organizations. I assist and educate my clients
-                                        in making the best use of the solutions I build with them.
-                                    </p>
+                                        <AboutMain dangerouslySetInnerHTML={{
+                                            __html: this.sanitizeHTML(item.aboutInitialDescription)
+                                        }}>
                                 </AboutMain>
                             </FadeInWhenVisibleScale>
                             <Row>
@@ -362,9 +378,9 @@ class About extends Component {
                                 <AboutMain>
                                     <Section>
 
-                                        <Col><span>Established in 2016</span></Col>
+                                                <Col><span>{item.aboutSectionOneShort}</span></Col>
                                         <Col>
-                                            <p>In a few short years, MK Digital has made its mark on The New York Metro — our home and a powerhouse recognized internationally for its creativity. With a uniqueidentity rooted in Manhattan, its reputation branches far beyond its borders.</p>
+                                                    <p>{item.aboutSectionOneLong}</p>
 
                                         </Col>
                                     </Section>
@@ -372,13 +388,13 @@ class About extends Component {
                                         <Col></Col>
                                         <Col>
                                             <Line></Line>
-                                            <MediumText>MK Digital® isn’t just a team — it’s a family. We all share the same vision here: to push ideas all the way, without taking ourselves too seriously, and overcoming challenges together.
+                                                    <MediumText>{item.aboutSectionTwoLong}
                                             </MediumText>
 
                                         </Col>
                                     </Section>
                                     <ScrollComponentContainer>
-                                        <XaxisScrollComponent text={'WORK HARD, PLAY HARDER, NEVER PLAY IT SAFE'} />
+                                                <XaxisScrollComponent text={item.dragComponentText} />
                                     </ScrollComponentContainer>
                                 </AboutMain>
                             </FadeInWhenVisibleScale>
@@ -395,21 +411,18 @@ class About extends Component {
                             <FadeInWhenVisibleScale>
                                 <Services>
                                     <Line white></Line>
-                                    <ServicesInitialDescription>
-                                    <span>Services</span>
-                                    <h2>
-                                        <span>Digital</span>
-                                        <span>First Design</span>
-                                    </h2>
+                                    <ServicesInitialDescription dangerouslySetInnerHTML={{
+                                        __html: this.sanitizeHTML(item.servicesInitialDescription)
+                                    }}>
                                     </ServicesInitialDescription>
                                     <ServicesMain>
                                         <Col>
-                                            <span>Digital Experience</span>
+                                            <span>{item.serviceOneName}</span>
                                             <Line white></Line>
                                         </Col>
                                         <Col sm={1}></Col>
                                         <Col>
-                                            <span>01</span>
+                                            <span>{item.serviceOneValue}</span>
                                             <Line white></Line>
                                         </Col>
                                     </ServicesMain>
@@ -419,36 +432,16 @@ class About extends Component {
                                         <Col sm={1}></Col>
                                         <Col>
                                             <MediumText>
-                                                We make digital the starting point around which revolve creative, strategy and technology.
-                                                We work this way whatever the size of your project, because it works.
+                                               {item.serviceOneDescription}
                                             </MediumText>
-                                            <DigitalServicesList>
-                                                <Col>
-                                                    <ul>
-                                                        <li>
-                                                            Digital strategy
-                                                        </li>
-                                                        <li>
-                                                            User experience (UX)
-                                                        </li>
-                                                        <li>
-                                                            Front End Development
-                                                        </li>
-                                                    </ul>
+                                                <DigitalServicesList >
+                                                <Col dangerouslySetInnerHTML={{
+                                                    __html: this.sanitizeHTML(item.serviceOneListOne)
+                                                }}>
                                                 </Col>
-                                                <Col>
-                                                    <ul>
-                                                        <li>
-                                                            Web design
-                                                        </li>
-                                                        <li>
-                                                            Web development
-                                                        </li>
-                                                        <li>
-                                                            Application Development
-                                                        </li>
-                                                    </ul>
-
+                                                <Col dangerouslySetInnerHTML={{
+                                                    __html: this.sanitizeHTML(item.serviceOneListTwo)
+                                                }}>
                                                 </Col>
                                             </DigitalServicesList>
 
@@ -457,12 +450,12 @@ class About extends Component {
 
                                     <ServicesMain>
                                         <Col>
-                                            <span>Brand Experience</span>
+                                            <span>{item.serviceTwoName}</span>
                                             <Line white></Line>
                                         </Col>
                                         <Col sm={1}></Col>
                                         <Col>
-                                            <span>02</span>
+                                            <span>{item.serviceTwoValue}</span>
                                             <Line white></Line>
                                         </Col>
                                     </ServicesMain>
@@ -473,35 +466,16 @@ class About extends Component {
                                         <Col sm={1}></Col>
                                         <Col>
                                             <MediumText>
-                                                We make digital the starting point around which revolve creative, strategy and technology.
-                                                We work this way whatever the size of your project, because it works.
+                                                        {item.serviceOneDescription}
                                             </MediumText>
                                             <DigitalServicesList>
-                                                <Col>
-                                                    <ul>
-                                                        <li>
-                                                            Digital strategy
-                                                        </li>
-                                                        <li>
-                                                            User experience (UX)
-                                                        </li>
-                                                        <li>
-                                                            Front End Development
-                                                        </li>
-                                                    </ul>
+                                                <Col dangerouslySetInnerHTML={{
+                                                    __html: this.sanitizeHTML(item.serviceTwoListOne)
+                                                }}>
                                                 </Col>
-                                                <Col>
-                                                    <ul>
-                                                        <li>
-                                                            Web design
-                                                        </li>
-                                                        <li>
-                                                            Web development
-                                                        </li>
-                                                        <li>
-                                                            Application Development
-                                                        </li>
-                                                    </ul>
+                                                <Col dangerouslySetInnerHTML={{
+                                                    __html: this.sanitizeHTML(item.serviceTwoListTwo)
+                                                }}>
 
                                                 </Col>
                                             </DigitalServicesList>
@@ -518,10 +492,9 @@ class About extends Component {
                         <Footer />
                     </AboutFooter>
                 </Sticky>
-
-
-
-            </BaseLayer>
+            </BaseLayer> : null}
+            </div>
+            
         );
     }
   

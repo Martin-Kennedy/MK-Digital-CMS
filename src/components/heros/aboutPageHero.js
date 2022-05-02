@@ -100,36 +100,35 @@ const TextTop = styled.div`
 
 const mapStateToProps = state => {
     return { 
-            carouselText: state.homepage.carouselText,
-            currentSlide: state.homepage.currentSlide,
-            previousSlide: state.homepage.previousSlide,
-            bkgColor: state.homepage.bkgColor,
-            imgWidth: state.homepage.imgWidth 
+            about: {
+                aboutData: state.about.aboutData
+            }
         }
 }
 
 
 
 class AboutPageHero extends Component {
-
+    
     render() {
+        let item = this.props.about.aboutData[0];
         return (
             <StyledAboutPageHero>
                 <Col xs={2}></Col>
                 <Col xs={8}>
                     <FirstLine>
                         <LineAnimationL2R />
-                        <TextTop>Time To Derp</TextTop>
+                        <TextTop>{item.aboutHeroLineOne}</TextTop>
                     </FirstLine>
                     <SecondLine>
                         <LineAnimationR2L />
                     </SecondLine>
                     <AnimatedTextContainer>
-                        <TextScrollTranslation text={'herp a derp derp'}  />
+                        <TextScrollTranslation text={item.aboutHeroLineTwo}  />
                     </AnimatedTextContainer>
                     <ThirdLine>
                         <LineAnimationL2R />
-                        <TextTop>Time To Derp</TextTop>
+                        <TextTop>{item.aboutHeroLineThree}</TextTop>
                     </ThirdLine>
                     
                     <FourthLine>
