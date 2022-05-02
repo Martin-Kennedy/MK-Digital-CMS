@@ -102,14 +102,7 @@ const AboutMain = styled(Row)`
         font-weight: 300;
 
     }
-    p:nth-child(2) {
-        font-size: 16px;
-        font-weight: 200;
-        position: relative;
-        top: 45px;
-        height: 0;
 
-    }
     
     p:nth-child(3) {
         position: relative;
@@ -127,7 +120,21 @@ const AboutMain = styled(Row)`
         font-weight: 300;
         }   
     `
+const AboutMainTop = styled(AboutMain)`
+    p:nth-child(2) {
+        font-size: 16px;
+        font-weight: 200;
+        position: relative;
+        left: 20px;
+        top: 65px;
+        padding: 0 10px 0 10px;
+        height: 20px;
+        width: auto;
+        border-left: 1px solid var(--black);
+        border-right: 1px solid var(--black);
 
+    }
+`
 
 const ScrollComponentContainer = styled.div`
 position: relative;
@@ -231,6 +238,7 @@ margin-bottom: 2rem;
         display: block;
         margin-bottom: 20px;
     }
+    
 }
 `
 
@@ -366,10 +374,10 @@ class About extends Component {
                         <Col sm={2}></Col>
                         <Col sm={8}>
                             <FadeInWhenVisibleScale>
-                                        <AboutMain dangerouslySetInnerHTML={{
+                                        <AboutMainTop dangerouslySetInnerHTML={{
                                             __html: this.sanitizeHTML(item.aboutInitialDescription)
                                         }}>
-                                </AboutMain>
+                                        </AboutMainTop>
                             </FadeInWhenVisibleScale>
                             <Row>
                                 <Line></Line>
