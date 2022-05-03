@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { getCurrentSlide, getCurrentCarouselAnimatedText, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../../actions/homepage.actions';
+import { getCurrentSlide, getHomepage, getHomepageCarousel, getHomepageCarouselArray, getCurrentCarouselAnimatedText, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../../actions/homepage.actions';
+import { establishSession, getToken } from '../../actions/initialUtility.actions';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -36,7 +37,15 @@ height: 100%;
 
 const mapStateToProps = state => {
     return {
-        homepageData: state.homepage.homepageData,
+        initialUtility: {
+            session: state.initialUtility.session,
+            keystoneToken: state.initialUtility.keystoneToken,
+        },
+        homepageData: {
+           homepageCarousel: state.homepage.homepageData.homepageCarousel,
+            homepageCarouselArray: state.homepage.homepageData.homepageCarouselArrayl,
+
+        },
         totalSlides: state.homepage.totalSlides,
         currentSlide: state.homepage.currentSlide,
         hoverState: state.homepage.hoverState,
@@ -54,6 +63,39 @@ class HomepageCarouselComponent extends Component{
         super();
         this.swiperRef = React.createRef();
         SwiperCore.use([Autoplay]);
+    }
+
+    componentDidUpdate(prevProps) {
+
+        if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
+            console.log((prevProps.initialUtility.session !== this.props.initialUtility.session))
+                this
+                    .props
+                    .dispatch(getHomepage(this.props.initialUtility.keystoneToken));
+                this.props.dispatch(getHomepageCarousel(this.props.initialUtility.keystoneToken));
+            
+        } 
+        // else {
+        //     if (this.props.initialUtility.keystoneToken === null) {
+        //         this
+        //             .props
+        //             .dispatch(getToken())
+        //     } else {
+        //         this
+        //             .props
+        //             .dispatch(establishSession(this.props.initialUtility.keystoneToken))
+        //     }
+        // }
+
+        // if (prevProps.homepageData.homepageCarousel !== this.props.homepageData.homepageCarousel) {
+        //         this
+        //             .props
+        //             .dispatch(getHomepageCarouselArray(this.props.homepage.homepageData.homepageCarousel, this.props.initialUtility.keystoneToken));
+            
+           
+
+        // }
+
     }
      
     
@@ -100,7 +142,7 @@ class HomepageCarouselComponent extends Component{
     return (
         
         <StyledCarouselProvider {...params}  >
-            {this.props.homepageData.homepageCarousel.homepageCarouselArray.map((carousel, index) => {
+            {this.props.homepageCarouselArray.map((carousel, index) => {
                 return <SwiperSlide
                     key={index}
                     index={index}

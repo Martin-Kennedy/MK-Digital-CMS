@@ -10,9 +10,8 @@ const initalState = {
     
     homepage: {
         homepageData: {
-            homepageCarousel: {
-                homepageCarouselArray: []
-            }
+            homepageCarousel: [],
+            homepageCarouselArray: []
         },
         previousSlide: 0,
         currentSlide: 0,

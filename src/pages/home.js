@@ -5,6 +5,7 @@ import HomepageHero from '../components/heros/homepageHero'
 import faker from 'faker';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
+import {getHomepage} from './../actions/homepage.actions';
 
 const stylingObject = {
   section: {
@@ -24,10 +25,25 @@ const stylingObject = {
 
 
 const mapStateToProps = state => {
-   return { homepage: state.homepage };
+   return { 
+     initialUtility: {
+       session: state.initialUtility.session,
+       keystoneToken: state.initialUtility.keystoneToken,
+     },
+     homepage: state.homepage
+     };
 } 
 
 class Home extends Component {
+
+  componentDidUpdate(prevProps) {
+
+    // if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
+    //   this.props.dispatch(getHomepage(this.props.initialUtility.keystoneToken));
+    // }
+
+
+  }
 
 
   render() {
@@ -37,10 +53,12 @@ class Home extends Component {
         <HeaderComponent location={this.props.location.pathname} />
         {/* Hero Section */}
         <HomepageHero />
+
           
 
          {/* Bio Section  */}
         <Row style={stylingObject.section}>
+          {console.log(this.props)}
           <Col sm={2}>
           </Col>
           {/* Carousel */}
