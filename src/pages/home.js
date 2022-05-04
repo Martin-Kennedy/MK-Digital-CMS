@@ -5,7 +5,7 @@ import HomepageHero from '../components/heros/homepageHero'
 import faker from 'faker';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
-import { getHomepage, getHomepageCarousel, getHomepageCarouselProjectsArray, getHomepageCarouselBlogsArray, combineCarouselArrays } from './../actions/homepage.actions';
+import { getHomepage, getHomepageCarousel, getHomepageCarouselProjectsArray, getHomepageCarouselBlogsArrayandCombine, combineCarouselArrays } from './../actions/homepage.actions';
 import { getToken, establishSession, } from './../actions/initialUtility.actions';
 
 const stylingObject = {
@@ -35,9 +35,7 @@ const mapStateToProps = state => {
       homepageCarouselItems: state.homepage.homepageCarouselItems,
       homepageCarouselArrayProjects: state.homepage.homepageCarouselArrayProjects,
       homepageCarouselArrayBlogs: state.homepage.homepageCarouselArrayBlogs,
-      homepageCarouselArrayCombined: state.homepage.homepageCarouselArrayCombined,
       pageData: state.homepage.pageData,
-
     },
     totalSlides: state.homepage.totalSlides,
     currentSlide: state.homepage.currentSlide,
@@ -45,7 +43,6 @@ const mapStateToProps = state => {
     intervalID: state.homepage.intervalID,
     imageElement: React.createRef(),
     imgWidth: state.homepage.imgWidth
-
   }
 }
 
@@ -89,10 +86,7 @@ class Home extends Component {
       const blogsArr = this.props.homepage.homepageCarouselItems.filter((items) => {
         return items.listType === 'BLOG';
       });
-      this.props.dispatch(getHomepageCarouselBlogsArray(this.props.homepage.homepageCarouselArrayProjects, blogsArr, this.props.initialUtility.keystoneToken));
-    }
-    if (prevProps.homepage.homepageCarouselArrayBlogs !== this.props.homepage.homepageCarouselArrayBlogs){
-        this.props.dispatch(combineCarouselArrays(this.props.homepage.homepageCarouselArrayBlogs))
+      this.props.dispatch(getHomepageCarouselBlogsArrayandCombine(this.props.homepage.homepageCarouselArrayProjects, blogsArr, this.props.initialUtility.keystoneToken));
     }
 
 
@@ -111,6 +105,7 @@ class Home extends Component {
 
          {/* Bio Section  */}
         <Row style={stylingObject.section}>
+          
           <Col sm={2}>
           </Col>
           {/* Carousel */}

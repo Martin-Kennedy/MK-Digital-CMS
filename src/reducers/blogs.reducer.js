@@ -11,10 +11,8 @@ const INITIAL_STATE = {
 const blogsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_BLOGS:
-            const newArr = [];
             action.payload.data.allBlogs.map((blog, index) => {
                 blog.orderNum = index + 1;
-                newArr.push(blog);
             })
             return {
                 ...state,

@@ -34,7 +34,7 @@ cursor: pointer;
 width: 100%;
 height: 100%;
 `
-
+const derp = [{}, {}, {}, {}];
 const mapStateToProps = state => {
     return {
         initialUtility: {
@@ -42,9 +42,10 @@ const mapStateToProps = state => {
             keystoneToken: state.initialUtility.keystoneToken,
         },
         homepage: {
-           homepageCarouselItems: state.homepage.homepageCarouselItems,
-            homepageCarouselArray: state.homepage.homepageCarouselArray,
-
+            homepageCarouselItems: state.homepage.homepageCarouselItems,
+            homepageCarouselArrayProjects: state.homepage.homepageCarouselArrayProjects,
+            homepageCarouselArrayBlogs: state.homepage.homepageCarouselArrayBlogs,
+            pageData: state.homepage.pageData,
         },
         totalSlides: state.homepage.totalSlides,
         currentSlide: state.homepage.currentSlide,
@@ -52,7 +53,6 @@ const mapStateToProps = state => {
         intervalID: state.homepage.intervalID,
         imageElement: React.createRef(),
         imgWidth: state.homepage.imgWidth
-
     }
 }
 
@@ -74,7 +74,7 @@ class HomepageCarouselComponent extends Component{
     }
 
     dispatchTotalSlideCount(props){
-        props.dispatch(getTotalSlides(props.homepage.homepageCarouselArray.length));
+        props.dispatch(getTotalSlides(props.homepage.homepageCarouselArrayBlogs.length));
     }
 
 
@@ -82,7 +82,7 @@ class HomepageCarouselComponent extends Component{
     
     
     render() { 
-        
+       const derp = new Array(this.props.homepage.homepageCarouselArrayBlogs)
         const params = {
             
             direction: 'vertical',
@@ -111,12 +111,14 @@ class HomepageCarouselComponent extends Component{
     return (
         
         <StyledCarouselProvider {...params}  >
-            {/* {this.props.homepage.homepageData.homepageCarouselArray.map((carousel, index) => {
+           
+            {this.props.homepage.homepageCarouselArrayBlogs.map((carousel, index) => {
+                
                 return <SwiperSlide
                     key={index}
                     index={index}
                     onLoad={() => {
-                        this.props.dispatch(getCurrentCarouselAnimatedText(carousel.title));
+                        this.props.dispatch(getCurrentCarouselAnimatedText(carousel.data.title));
                         this.props.dispatch(getCurrentCarouselBkgColor(carousel.bkgColor));
                     }}>
                     <StyledLink to={`${carousel.homePageCarousellink}`}>
@@ -130,7 +132,7 @@ class HomepageCarouselComponent extends Component{
                 </SwiperSlide >
                     
                 })
-            } */}
+            }
         </StyledCarouselProvider> 
         
     )

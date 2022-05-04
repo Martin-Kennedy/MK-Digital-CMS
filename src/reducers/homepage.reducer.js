@@ -1,4 +1,4 @@
-import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL, GET_HOMEPAGE_CAROUSEL_PROJECTS_ARRAY, GET_HOMEPAGE_CAROUSEL_BLOGS_ARRAY, COMBINE_CAROUSEL_ARRAYS, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types';
+import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL, GET_HOMEPAGE_CAROUSEL_PROJECTS_ARRAY, GET_HOMEPAGE_CAROUSEL_BLOGS_ARRAY, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types';
 
 const INITIAL_STATE = {
     pageData: [],
@@ -36,15 +36,6 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 homepageCarouselArrayBlogs: action.payload
-            }
-        case COMBINE_CAROUSEL_ARRAYS:
-            const orderedArray = [...state.homepageCarouselArrayProjects, ...action.payload].sort((a, b) => {
-                console.log(a, b)
-                return a.orderNum > b.orderNum
-            })
-            return {
-                ...state,
-                homepageCarouselArrayCombined: orderedArray
             }
         case CAROUSEL_CURRENT_SLIDE:
             return {

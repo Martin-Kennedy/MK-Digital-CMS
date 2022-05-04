@@ -135,7 +135,7 @@ export const getHomepageCarouselProjectsArray = (homepageCarouselProjects, token
 
 }
 
-export const getHomepageCarouselBlogsArray = (homepageCarouselProjects, homepageCarouselBlogs, token) => {
+export const getHomepageCarouselBlogsArrayandCombine = (homepageCarouselProjects, homepageCarouselBlogs, token) => {
 
     const config = {
         headers: {
@@ -144,7 +144,6 @@ export const getHomepageCarouselBlogsArray = (homepageCarouselProjects, homepage
     };
 
     const request = new Promise((res) => {
-        let blogsCarouselArr = [];
         homepageCarouselBlogs.map((blog) => {
             const blogTitle = blog.blogTitle.title;
             const bodyParametersBlog = {
@@ -161,27 +160,22 @@ export const getHomepageCarouselBlogsArray = (homepageCarouselProjects, homepage
                     return response.data
                 })
                 .then(data => {
-                     blogsCarouselArr.push({data: {
+                    homepageCarouselProjects.push({
                         data: data.data.allBlogs,
                         orderNum: blog.orderNum
-                    }});
+                    });
                 })
-        })
-        res(blogsCarouselArr);
+        });
+        res(homepageCarouselProjects);
 
     });
     return (dispatch) => {
-         let combinedArr = homepageCarouselProjects;
         function onSuccess(data) {
             dispatch({ type: GET_HOMEPAGE_CAROUSEL_BLOGS_ARRAY, payload: data })
             return data;
         }
         request.then((data) => {  
-             data.push(data[0])
-
-        }).then((data) => {
-            console.log(combinedArr)
-            onSuccess(combinedArr)
+            onSuccess(data)
         }).catch((error) => {
             console.log(error);
         })
