@@ -9,7 +9,9 @@ const initalState = {
     },
     homepage: {
         homepageCarouselItems: [],
-        homepageCarouselArray: [],
+        homepageCarouselArrayProjects: [],
+        homepageCarouselArrayBlogs: [],
+        homepageCarouselArrayCombined: [],
         pageData: null,
         previousSlide: 0,
         currentSlide: 0,

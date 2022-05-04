@@ -6,7 +6,7 @@ import { getIntersectingState } from '../actions/pages.actions';
 import {getAbout} from '../actions/about.actions';
 import { getBlogs, getBlogItem, getNextBlogItem } from '../actions/blogs.actions';
 import { getProjects, getProjectItem, getNextProjectItem } from '../actions/projects.actions';
-import { getHomepage, getHomepageCarousel, getHomepageCarouselArrayProjects, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
+import { getHomepage, getHomepageCarousel, getHomepageCarouselArrayProjects, getHomepageCarouselBlogsArray, combineCarouselArrays, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
 
 const mapDispatchToProps = dispatch => ({
     getToken: token => dispatch(getToken(token)),
@@ -29,7 +29,10 @@ const mapDispatchToProps = dispatch => ({
     getIntersectingState: isIntersecting => dispatch(getIntersectingState(isIntersecting)),
     getBlogItem: item => dispatch(getBlogItem(item)),
     getNextBlogItem: nextBlogItem => dispatch(getNextBlogItem(nextBlogItem)),
-    getAbout: aboutData => dispatch(getAbout(aboutData))
+    getAbout: aboutData => dispatch(getAbout(aboutData)),
+    getHomepageCarouselArrayProjects: projectsCarousel => dispatch(getHomepageCarouselArrayProjects(projectsCarousel)),
+    getHomepageCarouselBlogsArray: blogsCarousel => dispatch(getHomepageCarouselBlogsArray(blogsCarousel)),
+    combineCarouselArrays: carouselArrays => dispatch(combineCarouselArrays(carouselArrays))
 });
 
 const mapStateToProps = state => {
@@ -62,6 +65,9 @@ class ReduxHOC extends Component {
         const { getProjectItem } = this.props;
         const { getHomepageCarousel } = this.props;
         const { getHomepageCarouselArray } = this.props;
+        const { getHomepageCarouselArrayProjects } = this.props;
+        const { getHomepageCarouselBlogsArray } = this.props;
+        const { combineCarouselArrays } = this.props;
 
         getToken();
     }

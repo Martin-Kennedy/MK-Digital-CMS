@@ -45,7 +45,6 @@ export const getLocationsObject = () => {
             return data;
         }
         request.then(data => {
-                console.log(data)
                 onSuccess(data);
             })
             .catch(error => {
