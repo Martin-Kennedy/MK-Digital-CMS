@@ -7,12 +7,10 @@ const initalState = {
         keystoneToken: null,
         session: false
     },
-    
     homepage: {
-        homepageData: {
-            homepageCarousel: [],
-            homepageCarouselArray: []
-        },
+        homepageCarouselItems: [],
+        homepageCarouselArray: [],
+        pageData: null,
         previousSlide: 0,
         currentSlide: 0,
         totalSlides: 0,

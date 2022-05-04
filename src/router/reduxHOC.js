@@ -6,7 +6,7 @@ import { getIntersectingState } from '../actions/pages.actions';
 import {getAbout} from '../actions/about.actions';
 import { getBlogs, getBlogItem, getNextBlogItem } from '../actions/blogs.actions';
 import { getProjects, getProjectItem, getNextProjectItem } from '../actions/projects.actions';
-import { getHomepage, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
+import { getHomepage, getHomepageCarousel, getHomepageCarouselArrayProjects, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
 
 const mapDispatchToProps = dispatch => ({
     getToken: token => dispatch(getToken(token)),
@@ -18,6 +18,8 @@ const mapDispatchToProps = dispatch => ({
     sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject)),
     sortByProjectSubject: subject => dispatch(sortByBlogSubject(subject)),
     getHomepage: homepageData => dispatch(getHomepage(homepageData)),
+    getHomepageCarousel: carouselData => dispatch(getHomepageCarousel(carouselData)),
+    getHomepageCarouselProjectsArray: carouselProjects => dispatch(getHomepageCarouselProjectsArray(carouselProjects)),
     getCarouselHoverState: isHovered => dispatch(getCarouselHoverState(isHovered)),
     getCurrentCarouselAnimatedText: carouselText => dispatch(getCurrentCarouselAnimatedText(carouselText)),
     getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide)),
@@ -58,6 +60,8 @@ class ReduxHOC extends Component {
         const { getBlogItem } = this.props;
         const { getNextBlogItem } = this.props;
         const { getProjectItem } = this.props;
+        const { getHomepageCarousel } = this.props;
+        const { getHomepageCarouselArray } = this.props;
 
         getToken();
     }

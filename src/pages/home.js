@@ -5,7 +5,8 @@ import HomepageHero from '../components/heros/homepageHero'
 import faker from 'faker';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
-import {getHomepage} from './../actions/homepage.actions';
+import { getHomepage, getHomepageCarousel, getHomepageCarouselProjectsArray } from './../actions/homepage.actions';
+import { getToken, establishSession, } from './../actions/initialUtility.actions';
 
 const stylingObject = {
   section: {
@@ -25,23 +26,61 @@ const stylingObject = {
 
 
 const mapStateToProps = state => {
-   return { 
-     initialUtility: {
-       session: state.initialUtility.session,
-       keystoneToken: state.initialUtility.keystoneToken,
-     },
-     homepage: state.homepage
-     };
-} 
+  return {
+    initialUtility: {
+      session: state.initialUtility.session,
+      keystoneToken: state.initialUtility.keystoneToken,
+    },
+    homepage: {
+      homepageCarouselItems: state.homepage.homepageCarouselItems,
+      homepageCarouselArray: state.homepage.homepageCarouselArray,
+      pageData: state.homepage.pageData,
+
+    },
+    totalSlides: state.homepage.totalSlides,
+    currentSlide: state.homepage.currentSlide,
+    hoverState: state.homepage.hoverState,
+    intervalID: state.homepage.intervalID,
+    imageElement: React.createRef(),
+    imgWidth: state.homepage.imgWidth
+
+  }
+}
 
 class Home extends Component {
 
   componentDidUpdate(prevProps) {
 
-    // if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
-    //   this.props.dispatch(getHomepage(this.props.initialUtility.keystoneToken));
-    // }
+    if (this.props.initialUtility.session === true) {
+      if(!this.props.homepage.pageData){
+      this
+        .props
+        .dispatch(getHomepage(this.props.initialUtility.keystoneToken));
+      }
+      if(!this.props.homepage.homepageCarouselItems.length){
+        this.props.dispatch(getHomepageCarousel(this.props.initialUtility.keystoneToken));
+      }
+    } else {
+      if (this.props.initialUtility.keystoneToken === null) {
+        this
+          .props
+          .dispatch(getToken())
+      } else {
+        this
+          .props
+          .dispatch(establishSession(this.props.initialUtility.keystoneToken))
+      }
+    }
 
+    if (prevProps.homepage.homepageCarouselItems !== this.props.homepage.homepageCarouselItems) {
+      const projectsArr = this.props.homepage.homepageCarouselItems.filter((items) => {
+        return items.listType === 'PROJECT';
+      });
+      console.log(projectsArr)
+      this
+        .props
+        .dispatch(getHomepageCarouselProjectsArray(projectsArr, this.props.initialUtility.keystoneToken));
+    }
 
   }
 

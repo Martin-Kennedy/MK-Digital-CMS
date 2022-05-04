@@ -1,4 +1,4 @@
-import {GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL} from '../helpers/types'
+import {GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL, GET_HOMEPAGE_CAROUSEL_PROJECTS_ARRAY} from '../helpers/types'
 import {CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types'
 import axios from 'axios'
 
@@ -41,7 +41,7 @@ export const getHomepageCarousel = (token) => {
 };
 
 export const getHomepage = (token) => {
-    
+
     return (dispatch) => {
         const config = {
             headers: {
@@ -51,7 +51,7 @@ export const getHomepage = (token) => {
         const bodyParameters = {
             query: `
                 query {
-                allHomepage {
+                allHomepages {
                     id,
                     sectionOneTitle,
                     sectionOneBlurbOne,
@@ -76,7 +76,6 @@ export const getHomepage = (token) => {
                 return response.data
             })
             .then(data => {
-                console.log(data)
                 dispatch({type: GET_HOMEPAGE, payload: data.data.allHomepages[0]})
             })
             .catch(error => {
@@ -85,85 +84,56 @@ export const getHomepage = (token) => {
     };
 };
 
-export const getHomepageCarouselArray = (homepageCarousel, token) => {
-    const results = new Promise((resolve) => {
-        console.log('making it into func')
-        resolve(homepageCarousel.map((slide) => {
-           
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            };
-            switch (slide.listType) {
-                case 'PROJECT':
-                const bodyParametersProject = {
-                    query: `query {
-                    allProjects (where: {client_contains: "${slide.client}"})  {
-                        cardImage,
-                        cardColor,
-                        title
+export const getHomepageCarouselProjectsArray = (homepageCarouselProjects, token) => {
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+
+    const request = new Promise((res) => {
+        let projectsCarouselArr = [];
+        homepageCarouselProjects.map((project) => {
+            const clientName = project.clientName.client;
+            const bodyParametersProject = {
+                query: `query {
+                    allProjects (where: {client_contains: "${clientName}"})  {
+                        id,
+                        title,
+                        cardImage {
+                            publicUrl
+                        },
+                        cardColor
                     }
                 }`
-                }
-                    console.log('making it here project')
-                return axios
-                    .post("http://localhost:3000/admin/api", bodyParametersProject, config)
-                    .then(response => {
-                        return response.data
-                    })
-                    .then(data => {
-                        console.log(data)
-                        return data;
-                    })
-                    .catch(error => {
-                        throw (error);
-                    });
-                    case 'BLOG': 
-                    console.log('making it here')
-                    const bodyParametersBlog = {
-                        query: `
-                        query {
-                            allBlogs (where: {title_contains: "${slide.title}"})  {
-                                cardImage,
-                                cardColor,
-                                title
-                            }
-                        }`
-                    }
-                    return axios
-                        .post("http://localhost:3000/admin/api", bodyParametersBlog, config)
-                        .then(response => {
-                            return response.data
-                        })
-                        .then(data => {
-                            console.log(data)
-                            return data;
-                        })
-                        .catch(error => {
-                            throw (error);
-                        });
             }
-               
+            return axios
+                .post("http://localhost:3000/admin/api", bodyParametersProject, config)
+                .then(response => {
+                    return response.data
+                })
+                .then(data => {
+                    projectsCarouselArr.push({
+                        data: data.data.allProjects[0]
+                    });
+                })
+        })
+        res(projectsCarouselArr);
 
-            
-            
-        }))
-    })
-
+    });
     return (dispatch) => {
         function onSuccess(data) {
-            dispatch({type: GET_HOMEPAGE_CAROUSEL_ARRAY, payload: data.data.allHomepageCarousels})
+            dispatch({type: GET_HOMEPAGE_CAROUSEL_PROJECTS_ARRAY, payload: data})
             return data;
         }
-
-        results.then(data => {
+        request.then(data => {
             onSuccess(data)
-            return data
         }).catch((error) => {
             console.log(error);
         })
-    };
+    }
+
 }
 
 export const getCurrentSlide = (previousSlide, currentSlide) => ({type: CAROUSEL_CURRENT_SLIDE, previousSlide: previousSlide, currentSlide: currentSlide});
@@ -171,5 +141,7 @@ export const getCurrentSlide = (previousSlide, currentSlide) => ({type: CAROUSEL
 export const getCurrentCarouselAnimatedText = (text) => ({type: CAROUSEL_TEXT, carouselText: text});
 
 export const getCurrentCarouselBkgColor = (color) => ({type: CAROUSEL_BKG_COLOR, bkgColor: color});
+
 export const getImgWidth = (width) => ({type: CAROUSEL_IMG_WIDTH, imgWidth: width});
+
 export const getTotalSlides = (totalSlides) => ({type: CAROUSEL_TOTAL_SLIDES, totalSlide: totalSlides})

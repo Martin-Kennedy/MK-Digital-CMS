@@ -50,8 +50,6 @@ export const getProjectItem = (client, token) => {
     
 
     return (dispatch) => {
-        console.log(token)
-        console.log(client)
         const config = {
             headers: { Authorization: `Bearer ${token}` }
         };
@@ -109,7 +107,6 @@ export const getProjectItem = (client, token) => {
         }
         return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
             .then(response => {
-                console.log(response)
                 return response.data
             })
             .then(data => {
