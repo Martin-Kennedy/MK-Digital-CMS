@@ -8,10 +8,7 @@ const initalState = {
         session: false
     },
     homepage: {
-        homepageCarouselItems: [],
-        homepageCarouselArrayProjects: [],
-        homepageCarouselArrayBlogs: [],
-        homepageCarouselArrayCombined: [],
+        homepageCarouselSlides: [],
         pageData: null,
         previousSlide: 0,
         currentSlide: 0,

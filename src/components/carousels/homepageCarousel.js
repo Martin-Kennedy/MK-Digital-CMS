@@ -112,7 +112,7 @@ class HomepageCarouselComponent extends Component{
         
         <StyledCarouselProvider {...params}  >
            
-            {this.props.homepage.homepageCarouselArrayBlogs.map((carousel, index) => {
+            {/* {this.props.homepage.homepageCarouselArrayBlogs.map((carousel, index) => {
                 
                 return <SwiperSlide
                     key={index}
@@ -132,7 +132,7 @@ class HomepageCarouselComponent extends Component{
                 </SwiperSlide >
                     
                 })
-            }
+            } */}
         </StyledCarouselProvider> 
         
     )

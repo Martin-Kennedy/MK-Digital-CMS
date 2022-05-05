@@ -5,7 +5,7 @@ import HomepageHero from '../components/heros/homepageHero'
 import faker from 'faker';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
-import { getHomepage, getHomepageCarousel, getHomepageCarouselProjectsArray, getHomepageCarouselBlogsArrayandCombine, combineCarouselArrays } from './../actions/homepage.actions';
+import { getHomepage, getHomepageCarouselSlides} from './../actions/homepage.actions';
 import { getToken, establishSession, } from './../actions/initialUtility.actions';
 
 const stylingObject = {
@@ -32,9 +32,7 @@ const mapStateToProps = state => {
       keystoneToken: state.initialUtility.keystoneToken,
     },
     homepage: {
-      homepageCarouselItems: state.homepage.homepageCarouselItems,
-      homepageCarouselArrayProjects: state.homepage.homepageCarouselArrayProjects,
-      homepageCarouselArrayBlogs: state.homepage.homepageCarouselArrayBlogs,
+      homepageCarouselSlides: state.homepage.homepageCarouselSlides,
       pageData: state.homepage.pageData,
     },
     totalSlides: state.homepage.totalSlides,
@@ -56,9 +54,9 @@ class Home extends Component {
         .props
         .dispatch(getHomepage(this.props.initialUtility.keystoneToken));
       }
-      if(!this.props.homepage.homepageCarouselItems.length){
-        this.props.dispatch(getHomepageCarousel(this.props.initialUtility.keystoneToken));
-      }
+        if(prevProps.homepage.pageData !== this.props.homepage.pageData){
+          this.props.dispatch(getHomepageCarouselSlides(this.props.initialUtility.keystoneToken));
+        }
     } else {
       if (this.props.initialUtility.keystoneToken === null) {
         this
@@ -70,33 +68,13 @@ class Home extends Component {
           .dispatch(establishSession(this.props.initialUtility.keystoneToken))
       }
     }
-
-    if (prevProps.homepage.homepageCarouselItems !== this.props.homepage.homepageCarouselItems) {
-      const projectsArr = this.props.homepage.homepageCarouselItems.filter((items) => {
-        return items.listType === 'PROJECT';
-      });
-      
-      this
-        .props
-        .dispatch(getHomepageCarouselProjectsArray(projectsArr, this.props.initialUtility.keystoneToken));
-     
-    }
-
-    if (prevProps.homepage.homepageCarouselArrayProjects !== this.props.homepage.homepageCarouselArrayProjects){
-      const blogsArr = this.props.homepage.homepageCarouselItems.filter((items) => {
-        return items.listType === 'BLOG';
-      });
-      this.props.dispatch(getHomepageCarouselBlogsArrayandCombine(this.props.homepage.homepageCarouselArrayProjects, blogsArr, this.props.initialUtility.keystoneToken));
-    }
-
-
   }
 
 
   render() {
     return (
       <div>
-        
+        {console.log(this.props)}
         <HeaderComponent location={this.props.location.pathname} />
         {/* Hero Section */}
         <HomepageHero />

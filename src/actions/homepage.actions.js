@@ -1,43 +1,8 @@
-import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL, GET_HOMEPAGE_CAROUSEL_PROJECTS_ARRAY, GET_HOMEPAGE_CAROUSEL_BLOGS_ARRAY, COMBINE_CAROUSEL_ARRAYS } from '../helpers/types'
+import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_SLIDES } from '../helpers/types'
 import {CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:3000/admin/api';
-export const getHomepageCarousel = (token) => {
-    return (dispatch) => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        };
-        const bodyParameters = {
-            query: `
-                query {
-                    allHomepageCarousels {
-                        listType,
-                        clientName {
-                            client
-                        },
-                        blogTitle {
-                            title
-                        }
-                    }
-                }`
-        }
-        return axios
-            .post("http://localhost:3000/admin/api", bodyParameters, config)
-            .then(response => {
-                return response.data
-            })
-            .then(data => {
-                dispatch({type: GET_HOMEPAGE_CAROUSEL, payload: data.data.allHomepageCarousels})
-            })
-            .catch(error => {
-                throw(error);
-            });
-    };
-};
-
 export const getHomepage = (token) => {
 
     return (dispatch) => {
@@ -82,17 +47,62 @@ export const getHomepage = (token) => {
     };
 };
 
-export const getHomepageCarouselProjectsArray = (homepageCarouselProjects, token) => {
 
+const getHomepageCarouselItems = (token) => new Promise((res, rej) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     };
+    const bodyParameters = {
+        query: `
+                query {
+                    allHomepageCarousels {
+                        listType,
+                        clientName {
+                            client
+                        },
+                        blogTitle {
+                            title
+                        }
+                    }
+                }`
+    }
+    return axios
+        .post(apiUrl, bodyParameters, config)
+        .then(response => {
+            return response.data
+        })
+        .then((data) => {
+             res({data: data.data.allHomepageCarousels, token: token})
+        })
+        .catch(error => {
+            throw (error);
+        });
+})
 
-    const request = new Promise((res) => {
+const getHomepageCarouselOrder = (results) => {
+    return new Promise((res) => {
+    results.data.map((item, index)=> {
+        item.orderNumber = index + 1;
+    })
+    res({data: results.data, token: results.token})
+})
+}
+
+ const getHomepageCarouselData = (results) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${results.token}`
+        }
+    };
+    const projectsArr = results.data.filter((items) => {
+        return items.listType === 'PROJECT';
+    });
+
+    return new Promise((res) => {
         let projectsCarouselArr = [];
-        homepageCarouselProjects.map((project) => {
+        projectsArr.map((project) => {
             const clientName = project.clientName.client;
             const bodyParametersProject = {
                 query: `query {
@@ -106,80 +116,80 @@ export const getHomepageCarouselProjectsArray = (homepageCarouselProjects, token
                     }
                 }`
             }
-            return axios
+             return axios
                 .post("http://localhost:3000/admin/api", bodyParametersProject, config)
                 .then(response => {
                     return response.data
                 })
                 .then(data => {
-                    projectsCarouselArr.push({
-                        data: data.data.allProjects[0],
-                        orderNum: project.orderNum
-                    });
+                     data.data.allProjects[0].orderNumber = project.orderNumber;
+                     projectsCarouselArr.push(data.data.allProjects[0]);
                 })
         })
-        res(projectsCarouselArr);
+        res({projectsSlides: projectsCarouselArr, unmutatedData: results.data, token: results.token});
 
     });
-    return (dispatch) => {
-        function onSuccess(data) {
-            dispatch({type: GET_HOMEPAGE_CAROUSEL_PROJECTS_ARRAY, payload: data})
-            return data;
-        }
-        request.then(data => {
-            onSuccess(data)
-        }).catch((error) => {
-            console.log(error);
-        })
-    }
-
 }
 
-export const getHomepageCarouselBlogsArrayandCombine = (homepageCarouselProjects, homepageCarouselBlogs, token) => {
-
+const combineData = (results) => {
+    
     const config = {
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${results.token}`
         }
     };
-
-    const request = new Promise((res) => {
-        homepageCarouselBlogs.map((blog) => {
-            const blogTitle = blog.blogTitle.title;
-            const bodyParametersBlog = {
-                query: `query {
-                    allBlogs (where: {title_contains: "${blogTitle}"})  {
+    const blogsArr = results.unmutatedData.filter((items) => {
+        return items.listType === 'BLOG';
+    });
+    return new Promise((res) => {
+        let allSlides = results.projectsSlides;
+    blogsArr.map((blog) => {
+        const titleName = blog.blogTitle.title;
+        const bodyParametersBlogs = {
+            query: `query {
+                    allBlogs (where: {title_contains: "${titleName}"})  {
                         id,
                         title,
                     }
                 }`
-            }
-            return axios
-                .post("http://localhost:3000/admin/api", bodyParametersBlog, config)
-                .then(response => {
-                    return response.data
-                })
-                .then(data => {
-                    homepageCarouselProjects.push({
-                        data: data.data.allBlogs,
-                        orderNum: blog.orderNum
-                    });
-                })
-        });
-        res(homepageCarouselProjects);
+        }
+         axios
+             .post("http://localhost:3000/admin/api", bodyParametersBlogs, config)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                 data.data.allBlogs[0].orderNumber = blog.orderNumber;
+                allSlides.push(data.data.allBlogs[0])
+            })
+    })
+    res(allSlides)
+})
+ 
+}
+export const getHomepageCarouselSlides = (token) => {
 
+    const request = new Promise((res) => {
+        res(getHomepageCarouselItems(token))
     });
     return (dispatch) => {
         function onSuccess(data) {
-            dispatch({ type: GET_HOMEPAGE_CAROUSEL_BLOGS_ARRAY, payload: data })
+            dispatch({ type: GET_HOMEPAGE_CAROUSEL_SLIDES, payload: data });
             return data;
         }
-        request.then((data) => {  
+
+        request.then(result => {
+            return getHomepageCarouselOrder(result)
+        }).then((result) => {
+            return getHomepageCarouselData(result)
+        }).then((result) => {
+            return combineData(result)
+        }).then(data => {
             onSuccess(data)
         }).catch((error) => {
             console.log(error);
         })
-    }
+    };
 }
 
 export const combineCarouselArrays = (blogCarousel) => ({type: COMBINE_CAROUSEL_ARRAYS, payload: blogCarousel})

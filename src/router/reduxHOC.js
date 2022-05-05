@@ -30,8 +30,7 @@ const mapDispatchToProps = dispatch => ({
     getBlogItem: item => dispatch(getBlogItem(item)),
     getNextBlogItem: nextBlogItem => dispatch(getNextBlogItem(nextBlogItem)),
     getAbout: aboutData => dispatch(getAbout(aboutData)),
-    getHomepageCarouselArrayProjects: projectsCarousel => dispatch(getHomepageCarouselArrayProjects(projectsCarousel)),
-    getHomepageCarouselBlogsArrayandCombine: blogsCarousel => dispatch(getHomepageCarouselBlogsArrayandCombine(blogsCarousel)),
+    getHomepageCarouselSlides: slides => dispatch(getHomepageCarouselSlides(slides))
 })
 
 const mapStateToProps = state => {
@@ -62,11 +61,7 @@ class ReduxHOC extends Component {
         const { getBlogItem } = this.props;
         const { getNextBlogItem } = this.props;
         const { getProjectItem } = this.props;
-        const { getHomepageCarousel } = this.props;
-        const { getHomepageCarouselArray } = this.props;
-        const { getHomepageCarouselArrayProjects } = this.props;
-        const { getHomepageCarouselBlogsArrayandCombine } = this.props;
-
+        const { getHomepageCarouselSlides } = this.props;
         getToken();
     }
 
