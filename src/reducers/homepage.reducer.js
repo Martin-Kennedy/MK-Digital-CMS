@@ -24,7 +24,6 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                 homepageCarouselItems: action.payload
             }
         case CAROUSEL_CURRENT_SLIDE:
-            console.log(action)
             return {
                 ...state,
                 previousSlide: action.previousSlide,

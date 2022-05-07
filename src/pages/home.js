@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
+import React, {Fragment, Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import HomepageHero from '../components/heros/homepageHero'
 import faker from 'faker';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
-import { getHomepage, getHomepageCarouselSlides} from './../actions/homepage.actions';
+import styled from 'styled-components';
+import { getHomepage} from './../actions/homepage.actions';
 import { getToken, establishSession, } from './../actions/initialUtility.actions';
+import {Link} from 'react-router-dom';
 
 const stylingObject = {
   section: {
@@ -22,8 +24,37 @@ const stylingObject = {
   }
 }
 
+const Line = styled.div `
+position: relative;
+display: block;
+width: 100%;
+margin: 0 0 3rem;
+border-bottom: ${ props => props.white ? "#fff" : "#1d1e22" } 1px solid;
+`
 
-
+const H2 = styled.h2`
+    font-size: 9vw;
+    font-weight: 500;
+    `
+const SectionLink = styled(Link)`
+    background-color: ${props => props.color ? props.color : 'var(--black)'};
+    width: 15vh;
+    height: 15vh;
+    border-radius: 100%;
+    position: absolute;
+    top: 0;
+    margin: 50vh 0 0 0;
+    left: 25vw;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 15vh;
+    &:hover {
+        cursor: pointer;
+        color: var(--white);
+    }
+`
 
 const mapStateToProps = state => {
   return {
@@ -32,7 +63,6 @@ const mapStateToProps = state => {
       keystoneToken: state.initialUtility.keystoneToken,
     },
     homepage: {
-      homepageCarouselSlides: state.homepage.homepageCarouselSlides,
       pageData: state.homepage.pageData,
     },
     totalSlides: state.homepage.totalSlides,
@@ -45,6 +75,14 @@ const mapStateToProps = state => {
 }
 
 class Home extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      mouseLeft: null
+    }
+
+  }
 
   componentDidUpdate(prevProps) {
 
@@ -69,9 +107,11 @@ class Home extends Component {
 
 
   render() {
+    const pageData = this.props.homepage.pageData;
     return (
       <div>
-        
+        {this.props.homepage.pageData ? 
+        <Fragment>
         <HeaderComponent location={this.props.location.pathname} />
         {/* Hero Section */}
         <HomepageHero />
@@ -85,11 +125,16 @@ class Home extends Component {
           <Col sm={8}>
             
             <Row>
-              <Col>
-                <h2 style={stylingObject.h2}>CASE STUDIES</h2>
+              <Col xs={2}>
+              
+                
               </Col>
-              <Col>
-              <p>{faker.lorem.paragraph(8)}</p>
+              <Col sm={10}>
+                <Line></Line>
+                {console.log(pageData)}
+                <H2>{pageData.sectionOneTitle}</H2>
+                <p>{pageData.sectionOneBlurbOne}</p>
+                    <SectionLink to={pageData.sectionOneLink} target="_blank" color={pageData.sectionOneLinkColor} className={this.state.mouseLeft === true ? 'projectSiteLinkHoverOut' : this.state.mouseLeft === false ? 'projectSiteLinkHoverIn' : null} onMouseEnter={() => this.setState({ mouseLeft: false })} onMouseLeave={() => this.setState({ mouseLeft: true })}>{pageData.sectionOneLinkLabel}</SectionLink>
               </Col>
             </Row>
           </Col>
@@ -172,6 +217,8 @@ class Home extends Component {
           </Col>
         </Row>
         <Footer />
+          </Fragment>
+        : null}
         </div>
       
     );
