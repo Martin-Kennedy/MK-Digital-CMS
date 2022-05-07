@@ -1,4 +1,4 @@
-import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_ITEMS, GET_HOMEPAGE_CAROUSEL_PROJECTS, GET_HOMEPAGE_CAROUSEL_BLOGS } from '../helpers/types'
+import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_ITEMS } from '../helpers/types'
 import {CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types'
 import axios from 'axios'
 
@@ -61,9 +61,15 @@ export const getHomepageCarouselItems = (token) => {
                         clientName {
                             client
                         },
+                        cardImage{
+                            publicUrl
+                        }
                         blogTitle {
                             title
-                        }
+                        },
+                        cardColorHexValue,
+                        order,
+                        textTranslation
                     }
                 }`
     }
@@ -84,7 +90,7 @@ export const getHomepageCarouselItems = (token) => {
 
 export const combineCarouselArrays = (blogCarousel) => ({type: COMBINE_CAROUSEL_ARRAYS, payload: blogCarousel})
 
-export const getCurrentSlide = (previousSlide, currentSlide) => ({type: CAROUSEL_CURRENT_SLIDE, previousSlide: previousSlide, currentSlide: currentSlide});
+export const getCurrentSlide = (slides) => ({ type: CAROUSEL_CURRENT_SLIDE, previousSlide: slides.previousSlide, currentSlide: slides.currentSlide});
 
 export const getCurrentCarouselAnimatedText = (text) => ({type: CAROUSEL_TEXT, carouselText: text});
 

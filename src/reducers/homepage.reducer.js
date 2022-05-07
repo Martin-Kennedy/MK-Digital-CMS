@@ -4,7 +4,6 @@ const INITIAL_STATE = {
     pageData: [],
     homepageCarouselItem: [],
     homepageCarouselArrayProjects: [],
-    currentSlide: 0,
     hoverState: false,
     intervalFunc: null,
     carouselText: [],
@@ -25,10 +24,11 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                 homepageCarouselItems: action.payload
             }
         case CAROUSEL_CURRENT_SLIDE:
+            console.log(action)
             return {
                 ...state,
                 previousSlide: action.previousSlide,
-                currentSlide: action.currentSlide
+                currentSlide: action.currentSlide,
                 }
             
         case CAROUSEL_IMG_WIDTH:
@@ -55,9 +55,8 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
         case CAROUSEL_BKG_COLOR:
             switch (true) {
                 case (typeof action.bkgColor === 'string'):
-                    state
-                        .bkgColor
-                        .push(action.bkgColor);
+                   
+                    state.bkgColor.push(action.bkgColor);
                     return {
                         ...state,
                         bkgColor: state.bkgColor

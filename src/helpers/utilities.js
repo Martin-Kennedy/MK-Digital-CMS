@@ -167,3 +167,26 @@ export const getBoundingBox = (centerPoint, distance) => {
     };
 };
 
+export const colorsOnly = (colorString) => { 
+    const colors = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
+    const r = colors[0];
+    const g = colors[1];
+   const  b = colors[2];
+    const a = 1;
+    return [ r, g, b, a]
+}
+export const RGBAToHexA = ([r, g, b, a]) => {
+     r = [0].toString(16);
+     g = [1].toString(16);
+     b = [2].toString(16);
+     a = Math.round([3] * 255).toString(16);
+
+    if (r.length == 1)
+        r = "0" + r;
+    if (g.length == 1)
+        g = "0" + g;
+    if (b.length == 1)
+        b = "0" + b;
+
+    return "#" + r + g + b;
+}

@@ -18,19 +18,14 @@ const mapDispatchToProps = dispatch => ({
     sortByBlogSubject: subject => dispatch(sortByBlogSubject(subject)),
     sortByProjectSubject: subject => dispatch(sortByBlogSubject(subject)),
     getHomepage: homepageData => dispatch(getHomepage(homepageData)),
-    getHomepageCarousel: carouselData => dispatch(getHomepageCarousel(carouselData)),
-    getHomepageCarouselProjectsArray: carouselProjects => dispatch(getHomepageCarouselProjectsArray(carouselProjects)),
     getCarouselHoverState: isHovered => dispatch(getCarouselHoverState(isHovered)),
-    getCurrentCarouselAnimatedText: carouselText => dispatch(getCurrentCarouselAnimatedText(carouselText)),
-    getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide)),
     getCurrentCarouselBkgColor: color => dispatch(getCurrentCarouselBkgColor(color)),
     getImgWidth: width => dispatch(getImgWidth(width)),
     getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides)),
     getIntersectingState: isIntersecting => dispatch(getIntersectingState(isIntersecting)),
     getBlogItem: item => dispatch(getBlogItem(item)),
     getNextBlogItem: nextBlogItem => dispatch(getNextBlogItem(nextBlogItem)),
-    getAbout: aboutData => dispatch(getAbout(aboutData)),
-    getHomepageCarouselSlides: slides => dispatch(getHomepageCarouselSlides(slides))
+    getAbout: aboutData => dispatch(getAbout(aboutData))
 })
 
 const mapStateToProps = state => {

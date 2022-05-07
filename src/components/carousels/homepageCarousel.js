@@ -50,8 +50,6 @@ const mapStateToProps = state => {
         },
         homepage: {
             homepageCarouselItems: state.homepage.homepageCarouselItems,
-            homepageCarouselProjects: state.homepage.homepageCarouselProjects,
-            homepageCarouselBlogs: state.homepage.homepageCarouselBlogs,
             pageData: state.homepage.pageData
         },
         totalSlides: state.homepage.totalSlides,
@@ -70,7 +68,7 @@ const mapDispatchToProps = dispatch => ({
     getHomepageCarouselItems: carouselData => dispatch(getHomepageCarouselItems(carouselData)),
     getCarouselHoverState: isHovered => dispatch(getCarouselHoverState(isHovered)),
     getCurrentCarouselAnimatedText: carouselText => dispatch(getCurrentCarouselAnimatedText(carouselText)),
-    getCurrentSlide: currentSlide => dispatch(getCurrentSlide(currentSlide)),
+    getCurrentSlide: slides => dispatch(getCurrentSlide(slides)),
     getCurrentCarouselBkgColor: color => dispatch(getCurrentCarouselBkgColor(color)),
     getImgWidth: width => dispatch(getImgWidth(width)),
     getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides)),
@@ -82,6 +80,10 @@ class HomepageCarouselComponent extends Component {
         super();
         this.swiperRef = React.createRef();
         SwiperCore.use([Autoplay]);
+        this.state = {
+            orderedSlides: null
+        }
+        
     }
 
     componentDidUpdate(prevProps) {
@@ -89,6 +91,8 @@ class HomepageCarouselComponent extends Component {
         const { getToken } = this.props;
         const { establishSession } = this.props;
         const { getHomepageCarouselItems } = this.props;
+        
+        
         if (this.props.initialUtility.session === true) {
             if (!this.props.homepage.pageData) {
                 getHomepage(this.props.initialUtility.keystoneToken);
@@ -96,11 +100,12 @@ class HomepageCarouselComponent extends Component {
             if (prevProps.homepage.pageData !== this.props.homepage.pageData) {
                 getHomepageCarouselItems(this.props.initialUtility.keystoneToken);
             }
-            if (prevProps.homepage.homepageCarouselBlogs !== this.props.homepage.homepageCarouselBlogs) {
-                let arr = [this.props.homepage.homepageCarouselProjects, this.props.homepage.homepageCarouselBlogs];
-                this.props.homepage.homepageCarouselItems.map(item => {
-                    console.log(item)
+            if (prevProps.homepage.homepageCarouselItems !== this.props.homepage.homepageCarouselItems) {
+                
+                const orderedArray = this.props.homepage.homepageCarouselItems.sort((a,b) => {
+                    return a.order - b.order;
                 })
+                this.setState({orderedSlides: orderedArray})
             }
         } else {
             if (this.props.initialUtility.keystoneToken === null) {
@@ -112,13 +117,18 @@ class HomepageCarouselComponent extends Component {
     }
 
     dispatchNextSlide(previousSlide, currentSlide) {
-        this
-            .props
-            .dispatch(getCurrentSlide(previousSlide, currentSlide));
+        const { getCurrentSlide } = this.props;
+        getCurrentSlide({previousSlide: previousSlide, currentSlide: currentSlide});
     }
 
     dispatchTotalSlideCount(props) {
-        props.dispatch(getTotalSlides(props.homepage.homepageCarouselArrayBlogs.length));
+        const { getTotalSlides } = this.props;
+        getTotalSlides(props.homepage.homepageCarouselItems.length);
+    }
+    getLink(data){
+        let title = data.blogTitle !== null ? data.blogTitle.title : data.clientName.client;
+        let titleSlug = title.replace(/\s+/g, '-');
+        return `${titleSlug}`
     }
 
     render() {
@@ -146,28 +156,32 @@ class HomepageCarouselComponent extends Component {
         return (
 
             <StyledCarouselProvider {...params}>
-                {console.log(this.props)}
-                {/* {this.props.homepage.homepageCarouselArrayBlogs.map((carousel, index) => {
+                {Array.isArray(this.state.orderedSlides) ? this.state.orderedSlides.map((carousel, index) => {
 
                 return <SwiperSlide
                     key={index}
                     index={index}
                     onLoad={() => {
-                        this.props.dispatch(getCurrentCarouselAnimatedText(carousel.data.title));
-                        this.props.dispatch(getCurrentCarouselBkgColor(carousel.bkgColor));
+                        const { getCurrentCarouselAnimatedText } = this.props;
+                        const { getCurrentCarouselBkgColor } = this.props;
+                        getCurrentCarouselAnimatedText(carousel.textTranslation);
+                        getCurrentCarouselBkgColor(carousel.cardColorHexValue);
                     }}>
-                    <StyledLink to={`${carousel.homePageCarousellink}`}>
+                    <StyledLink to={this.getLink(carousel)}>
                     <SlideImage
                         ref={this.props.imageElement}
-                        src={carousel.homepageHeroCardImage}
-                        onLoad={() => this.props.dispatch(getImgWidth(this.props.imageElement.current))}
+                        src={carousel.cardImage.publicUrl}
+                        onLoad={() => {
+                            const { getImgWidth } = this.props;
+                            getImgWidth(this.props.imageElement.current);
+                        }}
                         dynamicWidth={this.props.imgWidth / 2}
                     />
                     </StyledLink>
                 </SwiperSlide >
 
-                })
-            } */}
+                }) : null
+            }
             </StyledCarouselProvider>
 
         )
