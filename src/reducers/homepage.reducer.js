@@ -1,4 +1,4 @@
-import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_SLIDES, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types';
+import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_ITEMS, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types';
 
 const INITIAL_STATE = {
     pageData: [],
@@ -19,11 +19,10 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 pageData: action.payload
             }
-        case GET_HOMEPAGE_CAROUSEL_SLIDES:
-            console.log(action)
+        case GET_HOMEPAGE_CAROUSEL_ITEMS:
             return {
                 ...state,
-                homepageCarouselSlides: action.payload
+                homepageCarouselItems: action.payload
             }
         case CAROUSEL_CURRENT_SLIDE:
             return {

@@ -8,7 +8,7 @@ const initalState = {
         session: false
     },
     homepage: {
-        homepageCarouselSlides: [],
+        homepageCarouselItems: [],
         pageData: null,
         previousSlide: 0,
         currentSlide: 0,

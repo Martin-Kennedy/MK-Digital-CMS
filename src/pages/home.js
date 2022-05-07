@@ -54,9 +54,6 @@ class Home extends Component {
         .props
         .dispatch(getHomepage(this.props.initialUtility.keystoneToken));
       }
-        if(prevProps.homepage.pageData !== this.props.homepage.pageData){
-          this.props.dispatch(getHomepageCarouselSlides(this.props.initialUtility.keystoneToken));
-        }
     } else {
       if (this.props.initialUtility.keystoneToken === null) {
         this
@@ -74,12 +71,10 @@ class Home extends Component {
   render() {
     return (
       <div>
-        {console.log(this.props)}
+        
         <HeaderComponent location={this.props.location.pathname} />
         {/* Hero Section */}
         <HomepageHero />
-
-        
 
          {/* Bio Section  */}
         <Row style={stylingObject.section}>
