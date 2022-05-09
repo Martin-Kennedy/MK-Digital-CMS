@@ -20,6 +20,7 @@ export const getHomepage = (token) => {
                     sectionOneBlurbOne,
                     sectionOneLink,
                     sectionOneLinkLabel,
+                    sectionOneLinkColor,
                     sectionTwoTitle,
                     sectionTwoBlurbOne
                     sectionTwoBlurbTwo,
@@ -29,6 +30,7 @@ export const getHomepage = (token) => {
                     sectionFourBlurb,
                     sectionFourLink,
                     sectionFourLinkLabel,
+                    sectionFourLinkColor,
                     status,
                     }
                 }`
