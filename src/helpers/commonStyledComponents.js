@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Row, Col } from 'react-bootstrap';
 
 export const displayValueArray = [
-    "/blogs", "blog", "/projects", "project"
+    "/blogs", "blog", "/projects", "project", "/contact"
 ]
 
 export const MediumText = styled.p`

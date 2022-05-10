@@ -8,6 +8,7 @@ import ProjectsLanding from '../pages/projectsLanding';
 import SurfGUILanding from '../pages/surfGuiLanding';
 import ProjectPage from '../pages/project';
 import BlogPage from '../pages/blogArticle';
+import ContactPage from '../pages/contact';
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history';
 
@@ -55,6 +56,9 @@ const WebAppRouter = (props) => {
                         </Route>
                         <Route path='/charge-and-bless'>
                             <SurfGUILanding />
+                        </Route>
+                        <Route path='/contact'>
+                            <ContactPage location={currentLocation} />
                         </Route>
                     </Switch>
                 </Page>
