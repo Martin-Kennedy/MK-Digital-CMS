@@ -126,9 +126,9 @@ class HomepageCarouselComponent extends Component {
         getTotalSlides(props.homepage.homepageCarouselItems.length);
     }
     getLink(data){
-        let title = data.blogTitle !== null ? data.blogTitle.title : data.clientName.client;
-        let titleSlug = title.replace(/\s+/g, '-');
-        return `${titleSlug}`
+        let title = data.blogTitle !== null ? {type: 'blog', title: data.blogTitle.title} : {type: 'project', title: data.clientName.client};
+        let titleSlug = title.title.replace(/\s+/g, '-');
+        return `${title.type}/${titleSlug}`
     }
 
     render() {

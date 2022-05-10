@@ -1,6 +1,16 @@
 import React, { useRef, useEffect, useState }from "react";
 import { useMotionValue, motion, useTransform } from "framer-motion";
 import { useWindowDimensions } from '../helpers/utilities';
+import styled from 'styled-components';
+
+const TextContainer = styled.div`
+ color: ${props => props.white
+        ? 'var(--white)'
+        : 'var(--black)'};
+position: absolute;
+left: 100;
+font-size: 300px;
+white-space: nowrap;`
 
 export default function XaxisScrollComponent(props) {
     const scrollX = useMotionValue(0);
@@ -42,15 +52,8 @@ export default function XaxisScrollComponent(props) {
                         }
                     }}
                 >
-                    <div ref={widthRef}
-                                style={{
-                                    color: '#1d1e22',
-                                    position: "absolute",
-                                    left: 100,
-                                    fontSize: "300px",
-                                    whiteSpace: "nowrap"
-                                }}
-                            >{props.text} </div>
+                    <TextContainer ref={widthRef}
+                            >{props.text} </TextContainer>
                         
                 </motion.div>
             </motion.div>

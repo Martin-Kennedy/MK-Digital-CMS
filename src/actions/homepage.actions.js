@@ -31,6 +31,11 @@ export const getHomepage = (token) => {
                     sectionFourLink,
                     sectionFourLinkLabel,
                     sectionFourLinkColor,
+                     sectionFiveTitle,
+                    sectionFiveBlurb,
+                    sectionFiveLink,
+                    sectionFiveLinkLabel,
+                    sectionFiveLinkColor,
                     status,
                     }
                 }`
