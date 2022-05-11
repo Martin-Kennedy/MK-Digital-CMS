@@ -2,6 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { Row, Col } from 'react-bootstrap';
 
+
+export const H1 = styled.h1`
+font-size: 7vw;
+font-weight: 500;
+margin-bottom: 2vw;
+color: ${props => props.white ? "#fff" : "#1d1e22"}
+`
+
+export const H2 = styled.h2`
+font-size: 3vw;
+line-height: 3vw;
+font-weight: 300;
+color: ${props => props.white ? "#fff" : "#1d1e22"}
+`
 export const displayValueArray = [
     "/blogs", "blog", "/projects", "project", "/contact"
 ]

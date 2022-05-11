@@ -1,15 +1,15 @@
-import { GET_ABOUT } from '../helpers/types'
+import { GET_CONTACT } from '../helpers/types'
 
 const INITIAL_STATE = {
-    aboutData: [],
+    contactData: [],
 }
 
 const aboutReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case GET_ABOUT:
+        case GET_CONTACT:
             return {
                 ...state,
-                aboutData: action.payload.data.allAbouts
+                contactData: action.payload.data.allContacts
             }
         default:
             return state;
@@ -17,4 +17,3 @@ const aboutReducer = (state = INITIAL_STATE, action) => {
 }
 
 export default aboutReducer;
-

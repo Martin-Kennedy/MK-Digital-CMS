@@ -41,6 +41,9 @@ const initalState = {
     about: {
         aboutData: []
     },
+    contact: {
+        contactData: []
+    },
     surf: {
         locations: [],
         closeSurfSpots: [],
