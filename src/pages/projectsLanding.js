@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect}from 'react';
 import { Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import ProjectCardContainer from '../components/cards/projectCardsContainer';
@@ -34,52 +34,55 @@ const mapStateToProps = state => {
     
 } 
 
-const ProjectsLanding = (props) => (
-    
+const ProjectsLanding = (props) => {
+   
+    return (
 
-    <div>
-        <HeaderComponent location={props.location.pathname} />
-        <TopRow>
-            <Col sm={2}></Col>
-            <Hero xs={8}>
-                <ProjectsLandingMain>
-                    
+
+        <div>
+            <HeaderComponent location={props.location.pathname} />
+            <TopRow>
+                <Col sm={2}></Col>
+                <Hero xs={8}>
+                    <ProjectsLandingMain>
+
                         <h2 >My Work</h2>
-                    
+
                         <span>MK Digital develops, designs and delivers</span>
                         <p>
                             websites and creative campaigns that drive results,
                             build awareness and win awards. Our work never brags,
                             but it sure loves to speak for itself.</p>
-                   
-                </ProjectsLandingMain>
-                <Row>
-                </Row>
-            </Hero>
-            <Col sm={2}></Col>
-        </TopRow>
-        {/* Above the Fold Text and CTA */}
-        <Row>
-            <Col sm={2}></Col>
-            <Col sm={8}>
-                <ProjectCardContainer />
-            </Col>
-            <Col sm={2}></Col>
 
-        </Row>
-        <Row>
-            <Col>
+                    </ProjectsLandingMain>
+                    <Row>
+                    </Row>
+                </Hero>
+                <Col sm={2}></Col>
+            </TopRow>
+            {/* Above the Fold Text and CTA */}
+            <Row>
+                <Col sm={2}></Col>
+                <Col sm={8}>
+                    <ProjectCardContainer />
+                </Col>
+                <Col sm={2}></Col>
 
-                {/* Blog Menu */}
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                {/* Blog Grid */}
-            </Col>
-        </Row>
-    </div>
+            </Row>
+            <Row>
+                <Col>
 
-)
+                    {/* Blog Menu */}
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    {/* Blog Grid */}
+                </Col>
+            </Row>
+        </div>
+
+    )
+}
 
 export default connect(mapStateToProps)(ProjectsLanding);

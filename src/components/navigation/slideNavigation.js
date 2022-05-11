@@ -414,32 +414,25 @@ export const NavOffCanvasRight = (props) => {
                     <Li location={props.location}>
                                 <FadeInWhenVisibleScale duration={1}>
 
-                        <StyledLink to={'/projects'} >
+                                                <StyledLink to={location => ({ ...location, pathname: "/projects" })} >
                                     Projects
                         </StyledLink>
                                 </FadeInWhenVisibleScale>
                     </Li>
                             
                             
-                    <Li location={props.location}>
-                                <FadeInWhenVisibleScale duration={1.25}>
-                    <StyledLink to={'/contributions'} location={props.location}>
-                                    Contributions 
-                    </StyledLink>
-                                </FadeInWhenVisibleScale>
-                                </Li>
                                 
                                 
                     <Li location={props.location}>
                                 <FadeInWhenVisibleScale duration={1.5}>
-                        <StyledLink to={'/about'} location={props.location}>
+                                                <StyledLink to={location => ({ ...location, pathname: "/about" })}location={props.location}>
                                     About 
                         </StyledLink>
                                 </FadeInWhenVisibleScale>
                     </Li>
                     <Li location={props.location}>
                                 <FadeInWhenVisibleScale duration={1.75}>
-                    <StyledLink to={'/blogs'} location={props.location}>
+                                                <StyledLink to={location => ({ ...location, pathname: "/blog" })} location={props.location}>
                                     Blog 
                     </StyledLink>
                                 </FadeInWhenVisibleScale>
@@ -448,7 +441,7 @@ export const NavOffCanvasRight = (props) => {
                             
                     <Li location={props.location}>
                                 <FadeInWhenVisibleScale duration={2}>
-                        <StyledLink to={'/contact'} location={props.location}>
+                                                <StyledLink to={location => ({ ...location, pathname: "/contact" })}location={props.location}>
                                     Contact 
                         </StyledLink>
                                 </FadeInWhenVisibleScale>

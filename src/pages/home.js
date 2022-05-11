@@ -158,16 +158,18 @@ const DragComponentContainer = styled.div`
 word-spacing: 100px;
 `
 const HomeFooter = styled.div`
-    height: 20vh;
+    height: 30vh;
     background-color: #1d1e22;
-    .row {
-        color: #fff;
-        width: 100vw;
-        padding: 10vh 10px 10px 0;
-        margin: 0;
-        display: flex;
-        align-items: center;
-    }
+    display: flex;
+    color: var(--white);
+    width: 100%;
+    padding-top: 10vh;
+`
+
+const HomeFooterRow = styled(Row)`
+width: 100%;
+display: flex;
+align-items: center;
 `
 
 const mapStateToProps = state => {
@@ -197,6 +199,8 @@ class Home extends Component {
         }
 
     }
+
+    
 
     componentDidUpdate(prevProps) {
 
@@ -349,7 +353,15 @@ class Home extends Component {
                    
                 </ContactRow>
                 <HomeFooter>
-                  <Footer />
+                    <HomeFooterRow>
+
+                        <Col sm={3}></Col>
+                        <Col sm={7}>
+                                    <Footer />
+                        </Col>
+                        <Col sm={2}></Col>
+                            </HomeFooterRow>
+                  
                 </HomeFooter>
                 
             </Fragment>

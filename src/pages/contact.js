@@ -33,6 +33,10 @@ const TopCol = styled(Col)`
 margin: 0 1vw;
 `
 
+const ContactFooter = styled(Col)`
+margin: 6vh 0 0 0;
+`
+
 const mapStateToProps = state => {
     return {
         initialUtility: {
@@ -51,6 +55,20 @@ const mapStateToProps = state => {
         super();
         this.state = {}
     }
+     componentDidMount() {
+         this._isMounted = true;
+         window.onpopstate = () => {
+             if (this._isMounted) {
+                 const { hash } = location;
+                 if (hash.indexOf('home') > -1 && this.state.value !== 0)
+                     this.setState({ value: 0 })
+                 if (hash.indexOf('users') > -1 && this.state.value !== 1)
+                     this.setState({ value: 1 })
+                 if (hash.indexOf('data') > -1 && this.state.value !== 2)
+                     this.setState({ value: 2 })
+             }
+         }
+     }
 
      componentDidUpdate(prevProps) {
 
@@ -98,7 +116,10 @@ const mapStateToProps = state => {
                     </Col>
                     <Col xs={2}></Col>
                 </Row>
-                <Footer/>
+                <ContactFooter>
+                    <Footer />
+                </ContactFooter>
+                
             </BaseLayer>
 
         )

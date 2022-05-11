@@ -121,7 +121,7 @@ const Nav = (props) => {
                             onMouseLeave={() => setHover(false)}
                             location={props.location}>
 
-                            <StyledLink to={'/projects'}>
+                            <StyledLink to={location => ({ ...location, pathname: "/projects" })}>
                                 Projects
                             </StyledLink>
                             <WaveLink isHovered={isHovered}></WaveLink>
@@ -136,7 +136,7 @@ const Nav = (props) => {
                         <Li onMouseEnter={() => setHover(true)}
                             onMouseLeave={() => setHover(false)}
                             location={props.location}>
-                            <StyledLink to={'/about'} location={props.location}>
+                            <StyledLink to={location => ({ ...location, pathname: "/about" })} location={props.location}>
                                 About
                             </StyledLink>
                             <WaveLink isHovered={isHovered}></WaveLink>
