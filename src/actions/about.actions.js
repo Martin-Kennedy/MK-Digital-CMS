@@ -38,7 +38,6 @@ export const getAbout = (token) => {
                     serviceTwoListOne,
                     serviceTwoListTwo,
                     parallaxVideoEmbed,
-                    parallaxVideoPlaylist,
                     }
                 }`
         }

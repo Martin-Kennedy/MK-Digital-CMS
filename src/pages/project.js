@@ -432,7 +432,10 @@ class ProjectPage extends Component {
                                             <IMacVideoContainer>
                                                 <Img src={item.videoHolderImage.publicUrl}></Img>
                                                 <VideoContainer>
-                                                    <iframe width="1280" height="662" src={`https://www.youtube.com/embed/${item.youtubeEmbedCode}?list=${item.youtubeListCode}&controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                    <video height="auto" width="100%" autoplay="true" loop="true" muted="" controls="">
+                                                        <source src={item.videoEmbedUrl}/>
+                                                        <p class="warning">Your browser does not support HTML5 video.</p>
+                                                    </video>
                                                 </VideoContainer>
                                             </IMacVideoContainer>
                                                 

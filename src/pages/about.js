@@ -206,7 +206,7 @@ const ServicesInitialDescription = styled.div``;
 const VideoContainer = styled.div`
     width: 100vw;
     height: 100vh;
-    div{
+    div {
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -215,11 +215,11 @@ const VideoContainer = styled.div`
     transform: translate(-50%, -50%);
     z-index: 9;
     }
-    iframe {
+    video {
         top: 50%;
         left: 50%;
         width: 100vw;
-        height: 100vh;
+        height: auto;
         transform: translate(-50%, -50%);
         position: absolute;
         @media (min-aspect-ratio: 16/9){  
@@ -362,7 +362,10 @@ class About extends Component {
                     <ImgSection >
                                 <VideoContainer>
                                     <div></div>
-                                    <iframe width="1280" height="662" src={`https://www.youtube.com/embed/${item.parallaxVideoEmbed}?list=${item.parallaxVideoPlaylist}&controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                     <video height="auto" width="100%" autoplay="true" loop="true" muted="" controls="">
+                                        <source src={item.parallaxVideoEmbed}/>
+                                        <p class="warning">Your browser does not support HTML5 video.</p>
+                                    </video>
                                 </VideoContainer>
                     </ImgSection>
                 </Sticky>

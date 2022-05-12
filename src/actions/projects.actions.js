@@ -87,6 +87,7 @@ export const getProjectItem = (client, token) => {
                     publicUrl
                 },
                 youtubeEmbedCode,
+                videoEmbedUrl,
                 youtubeListCode,
                 image4 {
                     publicUrl

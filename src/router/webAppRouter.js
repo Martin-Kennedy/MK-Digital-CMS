@@ -34,15 +34,14 @@ const Page = styled(Container)`
 
 const WebAppRouter = (props) => {
     const [locationKeys, setLocationKeys] = useState([])
-    const browserHistory = useHistory();
 
     useEffect(() => {
         return history.listen(location => {
-            if (browserHistory.action === 'PUSH') {
+            if (history.action === 'PUSH') {
                 setLocationKeys([location.key])
             }
 
-            if (browserHistory.action === 'POP') {
+            if (history.action === 'POP') {
                 if (locationKeys[1] === location.key) {
                     setLocationKeys(([_, ...keys]) => keys)
 

@@ -13,33 +13,43 @@ const StyledAboutPageHero = styled(Row)`
 `
 
 const FirstLine = styled.div`
-    height: 0;
+    height: calc(25vh - 40px);
     position: relative;
-    padding: 120px 0 calc(25vh - 40px) 0;
+    margin: 120px 0 0;
     width: 100%;
     top: 0%;
+    div {
+         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+    }
     svg {
     position: relative; 
     left: 0;
     line {
-        stroke: #fff;
+        stroke: var(--white);
     }
-    }
-    `;
+    }`;
 
 const SecondLine = styled.div`
-    height: 0;
+      height: 0;
     position: relative;
     z-index: 0;
     padding: 0 0 calc(25vh - 40px) 0;
     width: 100%;
     top: 0%;
-
+    div {
+         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+    }
     svg  {
-    position: relative; 
+    position: relative;
     left: 0;
     line {
-        stroke: #fff;
+        stroke: var(--white);
     }
     }
     `;
@@ -52,12 +62,17 @@ const ThirdLine = styled.div`
     
     width: 100%;
     top: 0%;
-
+    div {
+         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+    }
     svg  {
     position: relative; 
     left: 0;
     line {
-        stroke: #fff;
+        stroke: var(--white);
     }
     }
     `;
@@ -69,26 +84,44 @@ const FourthLine = styled.div`
     padding: 0 0 calc(25vh - 40px) 0;
     width: 100%;
     top: 0%;
-
+    div {
+         font-size: 100px;
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+    }
     svg  {
     position: relative; 
     left: 0;
     line {
-        stroke: #fff;
+        stroke: var(--white);
     }
     }
     `;
 
 const AnimatedTextContainer = styled.div`
-        position: absolute;
-        top: calc(50% - 65px);
+         height: 0;
+    position: relative;
+    z-index: 0;
+    padding: 0 0 calc(25vh - 40px) 0;
+    width: 100%;
+    top: 0%;
         right: 0;
+        div {
+            font-size: calc(25vh - 40px);
+        line-height: calc(25vh - 40px);
+        } 
 `
 const TextTop = styled.div`
         font-family: mr-eaves-modern, sans-serif;
         font-weight: 200;
-        font-size: 100px;
-        color: #fff;
+        font-size: calc(25vh - 40px);
+        line-height: calc(25vh - 40px);
+        @media (max-width: 900px) {
+            font-size: 12vw;
+        }
+        
+        color: var(--white);
         text-transform: uppercase;
         white-space: nowrap;
         letter-spacing: 1.5rem;
