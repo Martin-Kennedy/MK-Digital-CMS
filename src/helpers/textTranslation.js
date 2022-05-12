@@ -8,7 +8,6 @@ white-space: nowrap;
 will-change: transform;
 font-family: mr-eaves-modern, sans-serif;
 font-weight: 200;
-font-size: 100px;
 color: ${props => props.black
     ? 'var(--black)'
     : 'var(--white)'};

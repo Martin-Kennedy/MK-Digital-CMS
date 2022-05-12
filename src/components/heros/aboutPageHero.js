@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
 import { TextScrollTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
+import MediaQuery from 'react-responsive';
 
 const StyledAboutPageHero = styled(Row)`
     height: 100vh;
@@ -12,121 +13,64 @@ const StyledAboutPageHero = styled(Row)`
     position: relative;
 `
 
-const FirstLine = styled.div`
-    height: calc(25vh - 40px);
+const FirstSection = styled.div`
+    height: calc(33vh - 66px);
     position: relative;
-    margin: 120px 0 0;
+    margin: 200px 0 0 0;
     width: 100%;
     top: 0%;
-    div {
-         font-size: 100px;
-        @media (max-width: 900px) {
-            font-size: 12vw;
-        }
-    }
-    svg {
-    position: relative; 
-    left: 0;
+    svg:first-child {
+    transform: rotate(180deg);
+    position: absolute; 
+    top: 0;
+    right: -3%;
     line {
-        stroke: var(--white);
+        stroke: #fff;
     }
-    }`;
-
-const SecondLine = styled.div`
-      height: 0;
-    position: relative;
-    z-index: 0;
-    padding: 0 0 calc(25vh - 40px) 0;
-    width: 100%;
-    top: 0%;
-    div {
-         font-size: 100px;
-        @media (max-width: 900px) {
-            font-size: 12vw;
-        }
     }
-    svg  {
-    position: relative;
-    left: 0;
+    svg:last-child {
+    position: absolute; 
+    bottom: 0;
+    left: -3%;
     line {
-        stroke: var(--white);
+        stroke: #fff;
+        width: 100%;
     }
     }
     `;
 
-const ThirdLine = styled.div`
-    height: 0;
-    position: relative;
-    z-index: 0;
-    padding: 0 0 calc(25vh - 40px) 0;
-    
-    width: 100%;
-    top: 0%;
-    div {
-         font-size: 100px;
-        @media (max-width: 900px) {
-            font-size: 12vw;
-        }
-    }
-    svg  {
-    position: relative; 
-    left: 0;
-    line {
-        stroke: var(--white);
-    }
-    }
-    `;
+const SecondSection = styled(FirstSection)`
+margin: 0;
+`
 
-const FourthLine = styled.div`
-    height: 0;
-    position: relative;
-    z-index: 0;
-    padding: 0 0 calc(25vh - 40px) 0;
-    width: 100%;
-    top: 0%;
-    div {
-         font-size: 100px;
-        @media (max-width: 900px) {
-            font-size: 12vw;
-        }
-    }
-    svg  {
-    position: relative; 
-    left: 0;
-    line {
-        stroke: var(--white);
-    }
-    }
-    `;
+const ThirdSection = styled(FirstSection)`
+margin: 0;`
 
 const AnimatedTextContainer = styled.div`
-         height: 0;
-    position: relative;
-    z-index: 0;
-    padding: 0 0 calc(25vh - 40px) 0;
-    width: 100%;
-    top: 0%;
-        right: 0;
-        div {
-            font-size: calc(25vh - 40px);
-        line-height: calc(25vh - 40px);
-        } 
+font-family: mr-eaves-modern, sans-serif;
+        font-weight: 200;
+        font-size: 7vw;
+        line-height: 7vw;
+        top: 3.5vw;
+        color: #fff;
+        text-transform: uppercase;
+        white-space: nowrap;
+        letter-spacing: 1.5rem;
+        position: absolute;
+        left: -1%;
 `
 const TextTop = styled.div`
         font-family: mr-eaves-modern, sans-serif;
         font-weight: 200;
-        font-size: calc(25vh - 40px);
-        line-height: calc(25vh - 40px);
-        @media (max-width: 900px) {
-            font-size: 12vw;
-        }
-        
-        color: var(--white);
+        font-size: 7vw;
+        line-height: 7vw;
+        top: 3.5vw;
+        color: #fff;
         text-transform: uppercase;
         white-space: nowrap;
         letter-spacing: 1.5rem;
-        position: relative;
-        left: 3%;
+        position: absolute;
+        left: -1%;
 `
 
 
@@ -149,24 +93,23 @@ class AboutPageHero extends Component {
             <StyledAboutPageHero>
                 <Col xs={2}></Col>
                 <Col xs={8}>
-                    <FirstLine>
+                    <FirstSection>
+                        
                         <LineAnimationL2R />
                         <TextTop>{item.aboutHeroLineOne}</TextTop>
-                    </FirstLine>
-                    <SecondLine>
-                        <LineAnimationR2L />
-                    </SecondLine>
+                        <MediaQuery minWidth={1224}><LineAnimationL2R /></MediaQuery>
+                    </FirstSection>
+                    <MediaQuery minWidth={1224}>
+                    <SecondSection>
                     <AnimatedTextContainer>
-                        <TextScrollTranslation text={item.aboutHeroLineTwo}  />
+                        <TextScrollTranslation ratio3rd text={item.aboutHeroLineTwo}  />
                     </AnimatedTextContainer>
-                    <ThirdLine>
-                        <LineAnimationL2R />
+                    </SecondSection>
+                    </MediaQuery>
+                    <ThirdSection><LineAnimationL2R />
                         <TextTop>{item.aboutHeroLineThree}</TextTop>
-                    </ThirdLine>
-                    
-                    <FourthLine>
-                        <LineAnimationR2L />
-                    </FourthLine>
+                        <LineAnimationL2R />
+                    </ThirdSection>
                 </Col>
                 <Col xs={2}></Col>
             </StyledAboutPageHero>

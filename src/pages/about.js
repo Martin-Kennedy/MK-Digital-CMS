@@ -1,20 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
-import { MediumText } from '../helpers/commonStyledComponents'
+import {MediumText} from '../helpers/commonStyledComponents'
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
 import AboutPageHero from '../components/heros/aboutPageHero';
-import { LineAnimationL2R } from "../components/designElementComponents/lineSvg";
-import { FadeInWhenVisibleScale, FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
+import {LineAnimationL2R} from "../components/designElementComponents/lineSvg";
+import {FadeInWhenVisibleScale, FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import XaxisScrollComponent from '../helpers/dragOnXaxis';
 import Sticky from 'react-stickynode';
-import { Waypoint } from 'react-waypoint';
+import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
 import {connect} from 'react-redux';
 import {getAbout} from '../actions/about.actions';
-import { getToken, establishSession } from '../actions/initialUtility.actions';
+import {getToken, establishSession} from '../actions/initialUtility.actions';
 import DOMPurify from 'dompurify';
+import MediaQuery  from 'react-responsive';
+
 
 const BaseLayer = styled.div `
     background-color: #1d1e22;
@@ -22,23 +24,24 @@ const BaseLayer = styled.div `
 
 const IntroSection = styled(Row)`
     background-color: #1d1e22;
-    min-height: 500px;
+    min-height: 130vh;
     color: #fff;
     z-index: 1;
     position: relative;
 `;
-
-
 
 const Line = styled.div `
     position: relative;
     display: block;
     width: 100%;
     margin: 0 0 3rem ;
-    border-bottom: ${props => props.white ? "#fff" : "#1d1e22"} 1px solid;
+    border-bottom: ${props => props.white
+    ? "#fff"
+    : "#1d1e22"} 1px solid;
 `
 
 const IntroBlurb1 = styled.h1 `
+margin-top: 7vw;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -78,7 +81,7 @@ const ImgSection = styled(Row)`
     margin: 0;
     z-index: 0;
     position: relative;
-    height: 60vh;
+    height: 100vh;
 `
 const AboutSection = styled(Row)`
     background-color: #fff;
@@ -136,7 +139,7 @@ const AboutMainTop = styled(AboutMain)`
     }
 `
 
-const ScrollComponentContainer = styled.div`
+const ScrollComponentContainer = styled.div `
 position: relative;
 top: -100px;
 `
@@ -201,9 +204,9 @@ const Services = styled(Row)`
         }   
     `
 
-const ServicesInitialDescription = styled.div``;
+const ServicesInitialDescription = styled.div ``;
 
-const VideoContainer = styled.div`
+const VideoContainer = styled.div `
     width: 100vw;
     height: 100vh;
     div {
@@ -211,7 +214,6 @@ const VideoContainer = styled.div`
     height: 100vh;
     position: absolute;
     left: 50%;
-    top: 50%;
     transform: translate(-50%, -50%);
     z-index: 9;
     }
@@ -222,12 +224,6 @@ const VideoContainer = styled.div`
         height: auto;
         transform: translate(-50%, -50%);
         position: absolute;
-        @media (min-aspect-ratio: 16/9){  
-            height: 56.25vw;
-        }
-        @media (max-aspect-ratio: 16/9) {
-            width: 177.78vh;
-        }
     }
 `
 
@@ -257,17 +253,19 @@ ul {
 }
 `
 
-const AboutFooter = styled.div`
-    height: 100px;
+const AboutFooter = styled.div `
+    height: 30vh;
     background-color: #1d1e22;
-    .row {
-        color: #fff;
-        width: 100vw;
-        padding: 20px 10px 10px 0;
-        margin: 0;
-        display: flex;
-        align-items: center;
-    }
+    display: flex;
+    color: var(--white);
+    width: 100%;
+    padding-top: 10vh;
+`
+
+const AboutFooterRow = styled(Row)`
+width: 100%;
+display: flex;
+align-items: center;
 `
 
 const mapStateToProps = state => {
@@ -283,10 +281,9 @@ const mapStateToProps = state => {
     }
 }
 
-
 class About extends Component {
 
-    constructor(){
+    constructor() {
         super()
     }
 
@@ -294,13 +291,19 @@ class About extends Component {
 
         if (this.props.initialUtility.session === true) {
             if (!this.props.about.aboutData.length) {
-                this.props.dispatch(getAbout(this.props.initialUtility.keystoneToken))
+                this
+                    .props
+                    .dispatch(getAbout(this.props.initialUtility.keystoneToken))
             }
         } else {
             if (this.props.initialUtility.keystoneToken === null) {
-                this.props.dispatch(getToken())
+                this
+                    .props
+                    .dispatch(getToken())
             } else {
-                this.props.dispatch(establishSession(this.props.initialUtility.keystoneToken))
+                this
+                    .props
+                    .dispatch(establishSession(this.props.initialUtility.keystoneToken))
             }
         }
 
@@ -309,207 +312,232 @@ class About extends Component {
     sanitizeHTML(itemToClean) {
         const clean = DOMPurify.sanitize(itemToClean);
         return clean;
-    }    
-    
-    render(props){
+    }
+
+    render(props) {
         let item = this.props.about.aboutData[0];
         return (
             <div>
-                {this.props.about.aboutData.length ? 
-            <BaseLayer>
-            {console.log(this.props)}
-                
-                <HeaderComponent location={this.props.location.pathname} />
-                <Sticky>
-                    <IntroSection >
-                        <FadeInWhenVisibleOpacity duration={2}>
-                            <AboutPageHero />
-                        </FadeInWhenVisibleOpacity>
-                        <Col sm={2}></Col>
-                        <Col sm={8}>
+                {this.props.about.aboutData.length
+                    ? <BaseLayer>
+                            {console.log(this.props)}
 
-                            <Row>
-                                <Col sm={6}></Col>
-                                <Col sm={6}>
+                            <HeaderComponent location={this.props.location.pathname}/>
+                            <Sticky>
+                                <IntroSection >
+                                    <FadeInWhenVisibleOpacity duration={2}>
+                                        <AboutPageHero/>
+                                    </FadeInWhenVisibleOpacity>
+                                    <Col sm={2}></Col>
+                                    <Col sm={8}>
 
-                                    <FadeInWhenVisibleScale>
                                         <Row>
-                                            <IntroBlurb1 >
-                                                {item.introBlurbOne}
-                                            </IntroBlurb1>
+                                            <Col sm={6}></Col>
+                                            <Col sm={6}>
 
+                                                <FadeInWhenVisibleScale>
+                                                    <Row>
+                                                        <IntroBlurb1 >
+                                                            {item.introBlurbOne}
+                                                        </IntroBlurb1>
+
+                                                    </Row>
+                                                    <Row>
+                                                        <FifthLine>
+                                                            <LineAnimationL2R/>
+                                                        </FifthLine>
+
+                                                    </Row>
+                                                    <Row >
+                                                        <IntroBlurb2 >
+                                                            {item.introBlurbTwo}
+                                                        </IntroBlurb2>
+                                                    </Row>
+                                                </FadeInWhenVisibleScale>
+                                            </Col>
                                         </Row>
+                                    </Col>
+                                    <Col sm={2}></Col>
+
+                                </IntroSection>
+                            </Sticky>
+                            <Sticky >
+                                <ImgSection >
+                                    <VideoContainer>
+                                        <div></div>
+                                        <video
+                                            height="auto"
+                                            width="100%"
+                                            autoplay="true"
+                                            loop="true"
+                                            muted=""
+                                            controls="">
+                                            <source src={item.parallaxVideoEmbed}/>
+                                            <p class="warning">Your browser does not support HTML5 video.</p>
+                                        </video>
+                                    </VideoContainer>
+                                </ImgSection>
+                            </Sticky>
+
+                            <Waypoint
+                                onEnter={() => {
+                                this
+                                    .props
+                                    .dispatch(getIntersectingState(true))
+                            }}
+                                bottomOffset={'100%'}
+                                topOffset={100}
+                                onLeave={() => {
+                                this
+                                    .props
+                                    .dispatch(getIntersectingState(false))
+                            }}>
+
+                                <AboutSection >
+                                    <Col sm={2}></Col>
+                                    <Col sm={8}>
+                                        <FadeInWhenVisibleScale>
+                                            <AboutMainTop
+                                                dangerouslySetInnerHTML={{
+                                                __html: this.sanitizeHTML(item.aboutInitialDescription)
+                                            }}></AboutMainTop>
+                                        </FadeInWhenVisibleScale>
                                         <Row>
-                                            <FifthLine>
-                                                <LineAnimationL2R />
-                                            </FifthLine>
-
-                                        </Row>
-                                        <Row >
-                                            <IntroBlurb2 >
-                                                        {item.introBlurbTwo}
-                                            </IntroBlurb2>
-                                        </Row>
-                                    </FadeInWhenVisibleScale>
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col sm={2}></Col>
-
-                    </IntroSection>
-                </Sticky>
-                <Sticky >
-                    <ImgSection >
-                                <VideoContainer>
-                                    <div></div>
-                                     <video height="auto" width="100%" autoplay="true" loop="true" muted="" controls="">
-                                        <source src={item.parallaxVideoEmbed}/>
-                                        <p class="warning">Your browser does not support HTML5 video.</p>
-                                    </video>
-                                </VideoContainer>
-                    </ImgSection>
-                </Sticky>
-
-
-                <Waypoint onEnter={() => {this.props.dispatch(getIntersectingState(true))}} bottomOffset={'100%'} topOffset={100} onLeave={() => {this.props.dispatch(getIntersectingState(false))}}>
-
-                    <AboutSection >
-                        <Col sm={2}></Col>
-                        <Col sm={8}>
-                            <FadeInWhenVisibleScale>
-                                        <AboutMainTop dangerouslySetInnerHTML={{
-                                            __html: this.sanitizeHTML(item.aboutInitialDescription)
-                                        }}>
-                                        </AboutMainTop>
-                            </FadeInWhenVisibleScale>
-                            <Row>
-                                <Line></Line>
-                            </Row>
-                            <FadeInWhenVisibleScale>
-                                <AboutMain>
-                                    <Section>
-
-                                                <Col><span>{item.aboutSectionOneShort}</span></Col>
-                                        <Col>
-                                                    <p>{item.aboutSectionOneLong}</p>
-
-                                        </Col>
-                                    </Section>
-                                    <Section>
-                                        <Col></Col>
-                                        <Col>
                                             <Line></Line>
-                                                    <MediumText>{item.aboutSectionTwoLong}
-                                            </MediumText>
+                                        </Row>
+                                        <FadeInWhenVisibleScale>
+                                            <AboutMain>
+                                                <Section>
 
-                                        </Col>
-                                    </Section>
-                                    <ScrollComponentContainer>
-                                                <XaxisScrollComponent text={item.dragComponentText} />
-                                    </ScrollComponentContainer>
-                                </AboutMain>
-                            </FadeInWhenVisibleScale>
-                        </Col>
-                        <Col sm={2}></Col>
-                    </AboutSection>
+                                                    <Col>
+                                                        <span>{item.aboutSectionOneShort}</span>
+                                                    </Col>
+                                                    <Col>
+                                                        <p>{item.aboutSectionOneLong}</p>
 
-                </Waypoint>
+                                                    </Col>
+                                                </Section>
+                                                <Section>
+                                                    <Col></Col>
+                                                    <Col>
+                                                        <Line></Line>
+                                                        <MediumText>{item.aboutSectionTwoLong}
+                                                        </MediumText>
 
-                <Sticky>
-                    <ServicesSection>
-                        <Col sm={2}></Col>
-                        <Col sm={8}>
-                            <FadeInWhenVisibleScale>
-                                <Services>
-                                    <Line white></Line>
-                                    <ServicesInitialDescription dangerouslySetInnerHTML={{
-                                        __html: this.sanitizeHTML(item.servicesInitialDescription)
-                                    }}>
-                                    </ServicesInitialDescription>
-                                    <ServicesMain>
-                                        <Col>
-                                            <span>{item.serviceOneName}</span>
-                                            <Line white></Line>
-                                        </Col>
-                                        <Col sm={1}></Col>
-                                        <Col>
-                                            <span>{item.serviceOneValue}</span>
-                                            <Line white></Line>
-                                        </Col>
-                                    </ServicesMain>
-                                    <ServicesMain>
-                                        <Col>
-                                        </Col>
-                                        <Col sm={1}></Col>
-                                        <Col>
-                                            <MediumText>
-                                               {item.serviceOneDescription}
-                                            </MediumText>
-                                                <DigitalServicesList >
-                                                <Col dangerouslySetInnerHTML={{
-                                                    __html: this.sanitizeHTML(item.serviceOneListOne)
-                                                }}>
-                                                </Col>
-                                                <Col dangerouslySetInnerHTML={{
-                                                    __html: this.sanitizeHTML(item.serviceOneListTwo)
-                                                }}>
-                                                </Col>
-                                            </DigitalServicesList>
+                                                    </Col>
+                                                </Section>
+                                            <MediaQuery minWidth={1224}>
+                                                <ScrollComponentContainer>
+                                                    <XaxisScrollComponent text={item.dragComponentText} />
+                                                </ScrollComponentContainer> 
+                                            </MediaQuery>
+                                                
+                                            </AboutMain>
+                                        </FadeInWhenVisibleScale>
+                                    </Col>
+                                    <Col sm={2}></Col>
+                                </AboutSection>
 
-                                        </Col>
-                                    </ServicesMain>
+                            </Waypoint>
 
-                                    <ServicesMain>
-                                        <Col>
-                                            <span>{item.serviceTwoName}</span>
-                                            <Line white></Line>
-                                        </Col>
-                                        <Col sm={1}></Col>
-                                        <Col>
-                                            <span>{item.serviceTwoValue}</span>
-                                            <Line white></Line>
-                                        </Col>
-                                    </ServicesMain>
+                            <Sticky>
+                                <ServicesSection>
+                                    <Col sm={2}></Col>
+                                    <Col sm={8}>
+                                        <FadeInWhenVisibleScale>
+                                            <Services>
+                                                <Line white></Line>
+                                                <ServicesInitialDescription
+                                                    dangerouslySetInnerHTML={{
+                                                    __html: this.sanitizeHTML(item.servicesInitialDescription)
+                                                }}></ServicesInitialDescription>
+                                                <ServicesMain>
+                                                    <Col>
+                                                        <span>{item.serviceOneName}</span>
+                                                        <Line white></Line>
+                                                    </Col>
+                                                    <Col sm={1}></Col>
+                                                    <Col>
+                                                        <span>{item.serviceOneValue}</span>
+                                                        <Line white></Line>
+                                                    </Col>
+                                                </ServicesMain>
+                                                <ServicesMain>
+                                                    <Col></Col>
+                                                    <Col sm={1}></Col>
+                                                    <Col>
+                                                        <MediumText>
+                                                            {item.serviceOneDescription}
+                                                        </MediumText>
+                                                        <DigitalServicesList >
+                                                            <Col
+                                                                dangerouslySetInnerHTML={{
+                                                                __html: this.sanitizeHTML(item.serviceOneListOne)
+                                                            }}></Col>
+                                                            <Col
+                                                                dangerouslySetInnerHTML={{
+                                                                __html: this.sanitizeHTML(item.serviceOneListTwo)
+                                                            }}></Col>
+                                                        </DigitalServicesList>
 
-                                    <ServicesMain>
-                                        <Col>
+                                                    </Col>
+                                                </ServicesMain>
+
+                                                <ServicesMain>
+                                                    <Col>
+                                                        <span>{item.serviceTwoName}</span>
+                                                        <Line white></Line>
+                                                    </Col>
+                                                    <Col sm={1}></Col>
+                                                    <Col>
+                                                        <span>{item.serviceTwoValue}</span>
+                                                        <Line white></Line>
+                                                    </Col>
+                                                </ServicesMain>
+
+                                                <ServicesMain>
+                                                    <Col></Col>
+                                                    <Col sm={1}></Col>
+                                                    <Col>
+                                                        <MediumText>
+                                                            {item.serviceOneDescription}
+                                                        </MediumText>
+                                                        <DigitalServicesList>
+                                                            <Col
+                                                                dangerouslySetInnerHTML={{
+                                                                __html: this.sanitizeHTML(item.serviceTwoListOne)
+                                                            }}></Col>
+                                                            <Col
+                                                                dangerouslySetInnerHTML={{
+                                                                __html: this.sanitizeHTML(item.serviceTwoListTwo)
+                                                            }}></Col>
+                                                        </DigitalServicesList>
+
+                                                    </Col>
+                                                </ServicesMain>
+                                            </Services>
+                                        </FadeInWhenVisibleScale>
+                                    </Col>
+                                    <Col sm={2}></Col>
+                                </ServicesSection>
+
+                                <AboutFooter>
+                                    <AboutFooterRow>
+                                        <Col sm={2}></Col>
+                                        <Col sm={8}>
+                                            <Footer/>
                                         </Col>
-                                        <Col sm={1}></Col>
-                                        <Col>
-                                            <MediumText>
-                                                        {item.serviceOneDescription}
-                                            </MediumText>
-                                            <DigitalServicesList>
-                                                <Col dangerouslySetInnerHTML={{
-                                                    __html: this.sanitizeHTML(item.serviceTwoListOne)
-                                                }}>
-                                                </Col>
-                                                <Col dangerouslySetInnerHTML={{
-                                                    __html: this.sanitizeHTML(item.serviceTwoListTwo)
-                                                }}>
-
-                                                </Col>
-                                            </DigitalServicesList>
-
-                                        </Col>
-                                    </ServicesMain>
-                                </Services>
-                            </FadeInWhenVisibleScale>
-                        </Col>
-                        <Col sm={2}></Col>
-                    </ServicesSection>
-
-                    <AboutFooter>
-                        <Footer />
-                    </AboutFooter>
-                </Sticky>
-            </BaseLayer> : null}
+                                        <Col sm={2}></Col>
+                                    </AboutFooterRow>
+                                </AboutFooter>
+                            </Sticky>
+                        </BaseLayer>
+                    : null}
             </div>
-            
+
         );
     }
-  
-    
+
 }
 
 export default connect(mapStateToProps)(About);
