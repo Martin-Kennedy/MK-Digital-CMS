@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { displayValueArray } from '../../helpers/commonStyledComponents';
 import HideOnScroll from '../../helpers/hideOnScroll';
 import { connect } from 'react-redux';
-
+import MediaQuery from 'react-responsive';
 
 
 
@@ -54,6 +54,11 @@ const Logo = styled.div`
     display: inline-block;
     float: left;
     margin: 0 13px 0 20px;
+    @media(max-width: 758px){
+      width: 66px;
+      height: 45px;
+      margin-left: 12px;
+    }
 `;
 
 const StlyedHeaderLink = styled(Link)`
@@ -76,14 +81,15 @@ const HeaderComponent = (props) => {
 
     return (
       <HeaderWrapper location={props.location}>
-        {console.log(props)}
           <LogoCol xs={6}>
           <StlyedHeaderLink to={'/'} >
             <Logo id='logo' isIntersecting={props.isIntersecting} style={{position: 'sticky'}} location={props.location}></Logo>
+            <MediaQuery minWidth={968}>
             <HideOnScroll customStyles={customStyles}>
               <LogoLine isIntersecting={props.isIntersecting} location={props.location}></LogoLine>
               <LogoText isIntersecting={props.isIntersecting} location={props.location}>MK Digital</LogoText>
             </HideOnScroll>
+            </MediaQuery>
           </StlyedHeaderLink>
           </LogoCol>
           <Col xs={6}>

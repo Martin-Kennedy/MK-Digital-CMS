@@ -1,10 +1,11 @@
-import { GET_PROJECTS, SORT_BY_PROJECT_EXPERTISE, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM } from '../helpers/types'
+import { GET_PROJECTS, SORT_BY_PROJECT_EXPERTISE, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM, GET_PROJECT_LANDING } from '../helpers/types'
 
 const INITIAL_STATE = {
     projectData: [],
     filteredData: [],
     sortBy: '',
-    activeButton: 1
+    activeButton: 1,
+    projectLandingData: []
 }
 
 const projectsReducer = (state = INITIAL_STATE, action) => {
@@ -42,6 +43,12 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
                 sortBy: action.expertise,
                 filteredData: filteredValues,
                 activeButton: action.index
+            }
+        case GET_PROJECT_LANDING:
+            console.log(action)
+            return {
+                ...state,
+                projectLandingData: action.payload
             }
         default:
             return state;

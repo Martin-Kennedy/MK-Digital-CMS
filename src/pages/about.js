@@ -103,28 +103,37 @@ const AboutMain = styled(Row)`
         line-height: 4.2rem;
         font-size: 4rem;
         font-weight: 300;
-
+        @media(max-width: 960px){
+            margin:50px 0 30px 0;
+            white-space: break-spaces;
+            padding-left: 12px;
+        }
     }
 
     
     p:nth-child(3) {
-        position: relative;
-        line-height: 4.2rem;
-        font-size: 3rem;
-        font-weight: 300;
         padding-left: 150px;
-        white-space: nowrap;
-        margin: 0;
-        }
-        p:nth-child(4) {
-        position: relative;
-        line-height: 4.2rem;
-        font-size: 3rem;
+        margin:0;
+         @media(max-width: 960px){
+        padding-left:12px;
+    }
+        } 
+        
+    p {
+    position: relative;
+    line-height: 4.2rem;
+    font-size: 3rem;
+    font-weight: 300;
+    @media(max-width: 960px){
+        white-space: break-spaces;
+        font-size: 5vw;
         font-weight: 300;
-        }   
+        line-height: 7.5vw;
+    }
+    }
     `
 const AboutMainTop = styled(AboutMain)`
-    p:nth-child(2) {
+        p:nth-child(2) {
         font-size: 16px;
         font-weight: 200;
         position: relative;
@@ -133,16 +142,22 @@ const AboutMainTop = styled(AboutMain)`
         padding: 0 10px 0 10px;
         height: 20px;
         width: auto;
-        border-left: 1px solid var(--black);
-        border-right: 1px solid var(--black);
+        @media(max-width: 960px){
+            display: none;
+        }
 
     }
 `
 
 const ScrollComponentContainer = styled.div `
-position: relative;
-top: -100px;
-`
+        position: relative;
+        top: -100px;
+        div{
+            @media(max-width: 960px){
+            font-size: 33vh;
+        }
+        }
+        `
 
 const Section = styled(Row)`
     margin-bottom: 9rem;
@@ -195,6 +210,10 @@ const Services = styled(Row)`
         padding-left: 150px;
         white-space: nowrap;
         margin: 0;
+         @media(max-width: 960px){
+            padding-left:0;
+            white-space: break-spaces;
+        }
         }
         p:nth-child(4) {
         position: relative;
@@ -321,19 +340,18 @@ class About extends Component {
                 {this.props.about.aboutData.length
                     ? <BaseLayer>
                             {console.log(this.props)}
-
                             <HeaderComponent location={this.props.location.pathname}/>
                             <Sticky>
                                 <IntroSection >
                                     <FadeInWhenVisibleOpacity duration={2}>
                                         <AboutPageHero/>
                                     </FadeInWhenVisibleOpacity>
-                                    <Col sm={2}></Col>
-                                    <Col sm={8}>
+                                    <Col xs={1} sm={2}></Col>
+                                    <Col  xs={10} sm={8}>
 
                                         <Row>
-                                            <Col sm={6}></Col>
-                                            <Col sm={6}>
+                                        <MediaQuery minWidth={575}> <Col sm={6}></Col></MediaQuery>
+                                            <Col xs={12} sm={6}>
 
                                                 <FadeInWhenVisibleScale>
                                                     <Row>
@@ -357,10 +375,11 @@ class About extends Component {
                                             </Col>
                                         </Row>
                                     </Col>
-                                    <Col sm={2}></Col>
+                                    <Col xs={1} sm={2}></Col>
 
                                 </IntroSection>
                             </Sticky>
+                        <MediaQuery minWidth={960}>
                             <Sticky >
                                 <ImgSection >
                                     <VideoContainer>
@@ -368,17 +387,17 @@ class About extends Component {
                                         <video
                                             height="auto"
                                             width="100%"
-                                            autoplay="true"
-                                            loop="true"
-                                            muted=""
-                                            controls="">
+                                            autoPlay={true}
+                                            loop={true}
+                                            muted={true}
+                                            controls={false}>
                                             <source src={item.parallaxVideoEmbed}/>
-                                            <p class="warning">Your browser does not support HTML5 video.</p>
+                                            <p className="warning">Your browser does not support HTML5 video.</p>
                                         </video>
                                     </VideoContainer>
                                 </ImgSection>
                             </Sticky>
-
+                        </MediaQuery>
                             <Waypoint
                                 onEnter={() => {
                                 this
@@ -394,8 +413,8 @@ class About extends Component {
                             }}>
 
                                 <AboutSection >
-                                    <Col sm={2}></Col>
-                                    <Col sm={8}>
+                                    <Col xs={1} sm={2}></Col>
+                                    <Col xs={10} sm={8}>
                                         <FadeInWhenVisibleScale>
                                             <AboutMainTop
                                                 dangerouslySetInnerHTML={{
@@ -409,16 +428,17 @@ class About extends Component {
                                             <AboutMain>
                                                 <Section>
 
-                                                    <Col>
+                                                    <Col xs={12}>
                                                         <span>{item.aboutSectionOneShort}</span>
                                                     </Col>
-                                                    <Col>
+                                                    <Col xs={12}>
                                                         <p>{item.aboutSectionOneLong}</p>
-
                                                     </Col>
                                                 </Section>
                                                 <Section>
-                                                    <Col></Col>
+                                                    <MediaQuery minWidth={960}>
+                                                        <Col xs={0}></Col>
+                                                    </MediaQuery>
                                                     <Col>
                                                         <Line></Line>
                                                         <MediumText>{item.aboutSectionTwoLong}
@@ -426,24 +446,22 @@ class About extends Component {
 
                                                     </Col>
                                                 </Section>
-                                            <MediaQuery minWidth={1224}>
                                                 <ScrollComponentContainer>
                                                     <XaxisScrollComponent text={item.dragComponentText} />
                                                 </ScrollComponentContainer> 
-                                            </MediaQuery>
                                                 
                                             </AboutMain>
                                         </FadeInWhenVisibleScale>
                                     </Col>
-                                    <Col sm={2}></Col>
+                                    <Col xs={1} sm={2}></Col>
                                 </AboutSection>
 
                             </Waypoint>
 
                             <Sticky>
                                 <ServicesSection>
-                                    <Col sm={2}></Col>
-                                    <Col sm={8}>
+                                    <Col xs={1} sm={2}></Col>
+                                    <Col xs={10} sm={8}>
                                         <FadeInWhenVisibleScale>
                                             <Services>
                                                 <Line white></Line>
@@ -456,15 +474,20 @@ class About extends Component {
                                                         <span>{item.serviceOneName}</span>
                                                         <Line white></Line>
                                                     </Col>
-                                                    <Col sm={1}></Col>
+                                                <MediaQuery minWidth={575}>
+                                                    <Col  sm={1}></Col>
                                                     <Col>
                                                         <span>{item.serviceOneValue}</span>
                                                         <Line white></Line>
                                                     </Col>
+                                                    </MediaQuery>
                                                 </ServicesMain>
                                                 <ServicesMain>
+                                                <MediaQuery minWidth={960}>
                                                     <Col></Col>
                                                     <Col sm={1}></Col>
+                                                </MediaQuery>
+                                                    
                                                     <Col>
                                                         <MediumText>
                                                             {item.serviceOneDescription}
@@ -488,16 +511,20 @@ class About extends Component {
                                                         <span>{item.serviceTwoName}</span>
                                                         <Line white></Line>
                                                     </Col>
+                                                <MediaQuery minWidth={960}>
                                                     <Col sm={1}></Col>
                                                     <Col>
                                                         <span>{item.serviceTwoValue}</span>
                                                         <Line white></Line>
                                                     </Col>
+                                                    </MediaQuery>
                                                 </ServicesMain>
 
                                                 <ServicesMain>
+                                                    <MediaQuery minWidth={575}>
                                                     <Col></Col>
                                                     <Col sm={1}></Col>
+                                                    </MediaQuery>
                                                     <Col>
                                                         <MediumText>
                                                             {item.serviceOneDescription}
@@ -518,16 +545,16 @@ class About extends Component {
                                             </Services>
                                         </FadeInWhenVisibleScale>
                                     </Col>
-                                    <Col sm={2}></Col>
+                                    <Col xs={1} sm={2}></Col>
                                 </ServicesSection>
 
                                 <AboutFooter>
                                     <AboutFooterRow>
-                                        <Col sm={2}></Col>
-                                        <Col sm={8}>
+                                        <Col xs={1} sm={2}></Col>
+                                        <Col xs={10} sm={8}>
                                             <Footer/>
                                         </Col>
-                                        <Col sm={2}></Col>
+                                        <Col xs={1} sm={2}></Col>
                                     </AboutFooterRow>
                                 </AboutFooter>
                             </Sticky>

@@ -7,6 +7,7 @@ import {displayValueArray} from "../../helpers/commonStyledComponents.js";
 import {NavOffCanvasLeft, NavOffCanvasRight} from './slideNavigation';
 import HideOnScroll from '../../helpers/hideOnScroll';
 import {connect} from 'react-redux';
+import MediaQuery from 'react-responsive';
 
 const StyledNav = styled.nav `
 margin-left: auto;
@@ -61,7 +62,7 @@ const HamburgerContainer = styled.div `
 display: block;
 position: absolute;
 top: 0;
-right: 100px;
+right: 5vw;
 z-index: 999;
     color: ${props => displayValueArray.includes(props.location)
     ? "#1d1e22"
@@ -114,6 +115,7 @@ const Nav = (props) => {
     return (
         <div>
             <StyledNav >
+                <MediaQuery minWidth={968}>
                 <HideOnScroll>
                     <Ul >
                         <Li
@@ -127,12 +129,6 @@ const Nav = (props) => {
                             <WaveLink isHovered={isHovered}></WaveLink>
 
                         </Li>
-
-                        {/* <Li location={props.location}>
-                    <StyledLink to={'/contributions'} location={props.location.pathname}>
-                        Contributions
-                    </StyledLink>
-                </Li> */}
                         <Li onMouseEnter={() => setHover(true)}
                             onMouseLeave={() => setHover(false)}
                             location={props.location}>
@@ -142,14 +138,11 @@ const Nav = (props) => {
                             <WaveLink isHovered={isHovered}></WaveLink>
                         </Li>
 
-                        {/* <Li location={props.location}>
-                    <StyledLink to='/blog' location={props.location.pathname}>
-                        Blog
-                    </StyledLink>
-                </Li> */}
+                    
 
                     </Ul>
                 </HideOnScroll>
+                </MediaQuery>
             </StyledNav>
             <NavOffCanvasLeft isOpen={isOpen}/>
             <NavOffCanvasRight isOpen={isOpen}/>

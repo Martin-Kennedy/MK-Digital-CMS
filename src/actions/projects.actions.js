@@ -1,4 +1,4 @@
-import {GET_PROJECTS, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM} from '../helpers/types'
+import { GET_PROJECTS, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM, GET_PROJECT_LANDING } from '../helpers/types'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:3000/admin/api';
@@ -120,3 +120,34 @@ export const getProjectItem = (client, token) => {
             });
     };
 };
+
+
+export const getProjectLanding = (token) => {
+    return (dispatch) => {
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
+            query: `query {
+            allProjectLandings {
+                id,
+                h1,
+                paragraphLineOne,
+                paragraph
+            }
+} `
+        }
+        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+
+                let simplifiedData = data.data.allProjectLandings;
+                dispatch({ type: GET_PROJECT_LANDING, payload: simplifiedData })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}

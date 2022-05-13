@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
 import { TextScrollTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
-import MediaQuery from 'react-responsive';
 
 const StyledAboutPageHero = styled(Row)`
     height: 100vh;
@@ -47,30 +46,50 @@ const ThirdSection = styled(FirstSection)`
 margin: 0;`
 
 const AnimatedTextContainer = styled.div`
-font-family: mr-eaves-modern, sans-serif;
-        font-weight: 200;
-        font-size: 7vw;
-        line-height: 7vw;
-        top: 3.5vw;
-        color: #fff;
-        text-transform: uppercase;
-        white-space: nowrap;
-        letter-spacing: 1.5rem;
-        position: absolute;
-        left: -1%;
+        >div{
+            >div {
+                font-family: mr-eaves-modern, sans-serif;
+                font-weight: 200;
+                font-size: 7vw;
+                align-items: center;
+                display: flex;
+                top: 0;
+                color: #fff;
+                text-transform: uppercase;
+                white-space: nowrap;
+                letter-spacing: 1.5rem;
+                position: absolute;
+                left: -1%;
+                height: calc(33vh - 66px);
+                @media(max-width: 690px){
+                        font-size: 13vw;
+                        letter-spacing: 2vw;
+                        display: flex;
+                        align-items: center;
+                }
+            }
+        }     
 `
 const TextTop = styled.div`
         font-family: mr-eaves-modern, sans-serif;
         font-weight: 200;
         font-size: 7vw;
-        line-height: 7vw;
-        top: 3.5vw;
+        align-items: center;
+        display: flex;
+        top: 0;
         color: #fff;
         text-transform: uppercase;
         white-space: nowrap;
         letter-spacing: 1.5rem;
         position: absolute;
         left: -1%;
+        height: calc(33vh - 66px);
+        @media(max-width: 690px){
+                font-size: 13vw;
+                letter-spacing: 2vw;
+                display: flex;
+                align-items: center;
+        }
 `
 
 
@@ -91,27 +110,25 @@ class AboutPageHero extends Component {
         let item = this.props.about.aboutData[0];
         return (
             <StyledAboutPageHero>
-                <Col xs={2}></Col>
-                <Col xs={8}>
+                <Col xs={1} sm={2}></Col>
+                <Col xs={10} sm={8}>
                     <FirstSection>
-                        
                         <LineAnimationL2R />
                         <TextTop>{item.aboutHeroLineOne}</TextTop>
-                        <MediaQuery minWidth={1224}><LineAnimationL2R /></MediaQuery>
+                        <LineAnimationL2R />
                     </FirstSection>
-                    <MediaQuery minWidth={1224}>
                     <SecondSection>
                     <AnimatedTextContainer>
                         <TextScrollTranslation ratio3rd text={item.aboutHeroLineTwo}  />
                     </AnimatedTextContainer>
                     </SecondSection>
-                    </MediaQuery>
-                    <ThirdSection><LineAnimationL2R />
+                    <ThirdSection>
+                        <LineAnimationL2R />
                         <TextTop>{item.aboutHeroLineThree}</TextTop>
                         <LineAnimationL2R />
                     </ThirdSection>
                 </Col>
-                <Col xs={2}></Col>
+                <Col xs={1}  sm={2}></Col>
             </StyledAboutPageHero>
 
         );
