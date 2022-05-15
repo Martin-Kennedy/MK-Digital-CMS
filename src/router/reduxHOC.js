@@ -70,13 +70,6 @@ class ReduxHOC extends Component {
         }
         if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
             
-            // getHomepage();
-            // getCurrentCarouselAnimatedText();
-            // getCurrentSlide();
-            // getCurrentCarouselBkgColor();
-            // getImgWidth();
-            // getTotalSlides();
-            // getIntersectingState();
         }
             
        

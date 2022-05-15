@@ -7,6 +7,7 @@ import { TextTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
 import SvgBlob from "../designElementComponents/blobSvg";
 import SlideCounterComponent from "../carousels/slideCounter";
+import MediaQuery from 'react-responsive';
 
 const StyledHomepageHero = styled(Row)`
     height: 100vh;
@@ -20,6 +21,10 @@ const CarouselContainer = styled.div `
     overflow: hidden;
     display: flex;
     height: 100vh;
+    @media(max-width: 690px){
+        left: 0;
+        height: 70vh;
+    }
 `
 
 const TopLine = styled.div `
@@ -35,6 +40,12 @@ const TopLine = styled.div `
     left: 0;
     line {
         stroke: #fff;
+    }
+    }
+    @media(max-width: 690px){
+        top: 70vh;
+        line {
+        stroke: 2px solid #fff;
     }
     }
     `;
@@ -54,6 +65,12 @@ const BottomLine = styled.div `
         stroke: #fff;
     }
     }
+    @media(max-width: 690px){
+        top: 82vh;
+        line {
+        stroke: 2px solid #fff;
+    }
+    }
     `;
 
 const AnimatedTextContainer = styled.div`
@@ -61,6 +78,18 @@ const AnimatedTextContainer = styled.div`
         top: 44vh;
         right: 0;
         height: 100px;
+        font-family: mr-eaves-modern, sans-serif;
+        font-weight: 200;
+        font-size: 7vw;
+        color: #fff;
+        text-transform: uppercase;
+        white-space: nowrap;
+        letter-spacing: 1.5rem;
+        @media(max-width: 690px){
+                font-size: 17vw;
+                letter-spacing: 2vw;
+                top: 70vh;
+        }
 `
 
 const mapStateToProps = state => {
@@ -89,6 +118,7 @@ const getSlides = (currentSlide, previousSlide) => {
 
 class HomepageHero extends Component {
 
+
     render() {
         return (
             <StyledHomepageHero>
@@ -109,7 +139,7 @@ class HomepageHero extends Component {
                     <CarouselContainer imgWidth={this.props.imgWidth}>
                     <HomepageCarouselComponent/>
                     </CarouselContainer>
-                    <SlideCounterComponent />
+                    <MediaQuery minWidth={690}><SlideCounterComponent /></MediaQuery>
                 </Col>
                 <Col xs={1}></Col>
             </StyledHomepageHero>

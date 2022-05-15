@@ -25,16 +25,25 @@ const StyledCarouselProvider = styled(Swiper)`
   justify-content: center;
   align-items: center;
   cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+  @media(max-width: 690px){
+                width: 100vw;
+                height: 70vh;
+                margin: 20px auto 5vh;
+        }
 `;
 
 const SlideImage = styled.img `
     display: block;
     width: 33vw;
-    max-width: ;
-    height: 620px;
+    height: 60vh;
     object-fit: contain;
     position: relative;
-    top: -4.5vw;
+    top: 5vh;
+    @media(max-width: 690px){
+                width: 50vw;
+                left: 25vw;
+                top: 0;
+        }
 `;
 
 const StyledLink = styled(Link)`

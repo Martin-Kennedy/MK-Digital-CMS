@@ -11,6 +11,7 @@ import {getToken, establishSession} from './../actions/initialUtility.actions';
 import {Link} from 'react-router-dom';
 import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
+import MediaQuery from 'react-responsive';
 
 
 const AboutRow = styled(Row)`
@@ -246,14 +247,14 @@ class Home extends Component {
                                     .dispatch(getIntersectingState(false))
                             }}>
                   <AboutRow >
-                  <Col sm={3}></Col>
-                  <Col sm={7}>
+                  <Col xs={1} sm={3}></Col>
+                  <Col xs={10} sm={7}>
                       <SectionOne>
                           <Line></Line>
                           {console.log(pageData)}
                           <H2>{pageData.sectionOneTitle}</H2>
                           <SectionOneBlurbOne>{pageData.sectionOneBlurbOne}</SectionOneBlurbOne>
-                          <Line belowText></Line>
+                                        <MediaQuery minWidth={690}><Line belowText></Line></MediaQuery>
                           <SectionLink
                               to={pageData.sectionOneLink}
                               replace
@@ -278,13 +279,13 @@ class Home extends Component {
                           <Line belowText></Line>
                       </SectionTwo>
                   </Col>
-                  <Col sm={2}></Col>
+                  <Col xs={1} sm={2}></Col>
                   </AboutRow>
 
                 </Waypoint>
                 <ApplicationRow >
-                  <Col sm={3}></Col>
-                  <Col sm={7}>
+                  <Col xs={1} sm={3}></Col>
+                  <Col xs={10} sm={7}>
                     <SectionThree>
                       <Line white belowText></Line>
                       <H2Small>{pageData.sectionThreeTitle}</H2Small>
@@ -315,11 +316,11 @@ class Home extends Component {
                       <Line belowText></Line>
                         </SectionFour>
                   </Col>
-                  <Col sm={2}></Col>
+                  <Col xs={1} sm={2}></Col>
                 </ApplicationRow>
                 <ContactRow>
-                  <Col sm={3}></Col>
-                  <Col sm={7}>
+                  <Col xs={1} sm={3}></Col>
+                  <Col xs={10} sm={7}>
                     <SectionFive>
                       <Line white belowText></Line>
                       <DragComponentContainer>
@@ -349,17 +350,17 @@ class Home extends Component {
                       </Col>
                     </SectionSix>
                   </Col>
-                  <Col sm={2}></Col>
+                  <Col xs={1} sm={2}></Col>
                    
                 </ContactRow>
                 <HomeFooter>
                     <HomeFooterRow>
 
-                        <Col sm={3}></Col>
-                        <Col sm={7}>
+                        <Col xs={1} sm={3}></Col>
+                        <Col xs={10} sm={7}>
                                     <Footer />
                         </Col>
-                        <Col sm={2}></Col>
+                        <Col xs={1} sm={2}></Col>
                             </HomeFooterRow>
                   
                 </HomeFooter>

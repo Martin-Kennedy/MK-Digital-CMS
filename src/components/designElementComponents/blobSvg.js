@@ -3,18 +3,31 @@ const {useEffect, useState} = React;
 import styled from 'styled-components';
 import {useSpring, animated, useSpringRef} from "react-spring";
 
-const StyledSVG = styled.svg `
+const StyledSVGContainer = styled.div`
+width: 66vw;
+height: 66vw;
+margin: 0;
+padding: 0;
 position: absolute;
-top: calc(50vh - 330px);
-left: calc(50vw - 380px);
+@media(max-width: 690px){
+    width: 168vw;
+    margin-left: -37vw;
+}
+
+`
+const StyledSVG = styled.svg `
+position: relative;
+top: 10vh;
+left: 16.5vw;
 
 `
 
 const StyledPath = styled(animated.path)`
-transform: scale(1.25, 0.8);
+transform: scale(1, 0.65);
 transition: transform 1s;
 transition-timing-function: cubic-bezier(0.07, 2.0, 1.0, 0.1);
 fill: ${props => props.bkgcolor};
+
 `
 
 const SvgBlob = ({slides, bkgcolor}) => {
@@ -80,8 +93,9 @@ const SvgBlob = ({slides, bkgcolor}) => {
 
     })
 
-    return <StyledSVG x="0px" y="0px" width="800" height="800" viewBox="0 0 800 800">
-        <StyledPath
+    return <StyledSVGContainer>
+        <StyledSVG viewBox="0 0 800 800" preserveAspectRatio>
+        <StyledPath 
             bkgcolor={bkgcolor}
             d={x.to({
             range: [
@@ -112,6 +126,7 @@ const SvgBlob = ({slides, bkgcolor}) => {
         })}></StyledPath>
 
     </StyledSVG>
+    </StyledSVGContainer>
 }
 
 export default SvgBlob;
