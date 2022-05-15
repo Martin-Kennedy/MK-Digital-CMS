@@ -21,6 +21,10 @@ const HeaderWrapper = styled.div`
     position: fixed;
     top: 0;
     z-index: 99;
+    @media(max-width: 690px){
+      margin-left: 0;
+      padding-left: 0;
+    }
   `;
 
 const LogoCol = styled(Col)`
@@ -55,9 +59,10 @@ const Logo = styled.div`
     float: left;
     margin: 0 13px 0 20px;
     @media(max-width: 758px){
-      width: 66px;
-      height: 45px;
-      margin-left: 12px;
+      width: 50px;
+      height: 34px;
+      margin: 0 0 2vh 12px;
+
     }
 `;
 
