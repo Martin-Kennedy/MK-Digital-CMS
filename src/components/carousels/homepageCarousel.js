@@ -27,7 +27,7 @@ const StyledCarouselProvider = styled(Swiper)`
   cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
   @media(max-width: 690px){
                 width: 100vw;
-                height: 70vh;
+                height: 100vh;
                 margin: 20px auto 5vh;
         }
 `;

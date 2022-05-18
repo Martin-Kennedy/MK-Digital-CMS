@@ -23,7 +23,7 @@ const CarouselContainer = styled.div `
     height: 100vh;
     @media(max-width: 690px){
         left: 0;
-        height: 70vh;
+        height: 100vh;
     }
 `
 
@@ -43,7 +43,7 @@ const TopLine = styled.div `
     }
     }
     @media(max-width: 690px){
-        top: 70vh;
+        top: 80vh;
         line {
         stroke: 2px solid #fff;
     }
@@ -66,7 +66,7 @@ const BottomLine = styled.div `
     }
     }
     @media(max-width: 690px){
-        top: 82vh;
+        top: 90vh;
         line {
         stroke: 2px solid #fff;
     }
@@ -86,9 +86,9 @@ const AnimatedTextContainer = styled.div`
         white-space: nowrap;
         letter-spacing: 1.5rem;
         @media(max-width: 690px){
-                font-size: 17vw;
+                font-size: 10vh;
                 letter-spacing: 2vw;
-                top: 70vh;
+                top: calc(80vh + 10px);
         }
 `
 
@@ -116,9 +116,25 @@ const getSlides = (currentSlide, previousSlide) => {
     return {currentSlide: currentSlide, previousSlide: previousSlide}
 }
 
+
+
+
 class HomepageHero extends Component {
 
+    constructor(){
+        super()
+        this.state = {
+            width: 100,
+            height: 100,
+        }
+    } 
 
+    updateDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+    componentDidMount() {
+        window.addEventListener('resize', this.updateDimensions);
+    }
     render() {
         return (
             <StyledHomepageHero>
@@ -134,6 +150,7 @@ class HomepageHero extends Component {
                         <LineAnimationR2L/>
                     </BottomLine>
                     <SvgBlob
+                        widthHeight={[this.state.width, this.state.height]}
                         slides={getSlides(this.props.currentSlide, this.props.previousSlide)}
                         bkgcolor={getCarouselBkgColor(this.props.bkgColor, this.props.currentSlide)}/>
                     <CarouselContainer imgWidth={this.props.imgWidth}>

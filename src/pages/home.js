@@ -215,6 +215,7 @@ const DragComponentContainer = styled.div `
 word-spacing: 100px;
 @media(max-width: 690px){
     word-spacing: 10vw;
+    height: 30vw;
         >div {
             >div {
                 >div {
@@ -268,6 +269,8 @@ class Home extends Component {
         }
 
     }
+
+   
 
     componentDidUpdate(prevProps) {
 
