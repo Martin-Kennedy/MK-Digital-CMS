@@ -20,17 +20,17 @@ const StyledCarouselProvider = styled(Swiper)`
     width: 100%;
     height: 100%;
     text-align: center;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
-  @media(max-width: 690px){
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+    @media(max-width: 690px){
                 width: 100vw;
                 height: 100vh;
                 margin: 20px auto 5vh;
         }
-`;
+    `;
 
 const SlideImage = styled.img `
     display: block;

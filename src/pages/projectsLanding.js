@@ -1,32 +1,43 @@
-import React, {useState, useEffect}from 'react';
-import { Row, Col } from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import ProjectCardContainer from '../components/cards/projectCardsContainer';
 import HeaderComponent from '../components/navigation/header';
-import { Main } from '../helpers/commonStyledComponents';
-import { connect } from 'react-redux';
-import { getToken, establishSession } from '../actions/initialUtility.actions';
-import { getProjectLanding } from '../actions/projects.actions';
+import {Main} from '../helpers/commonStyledComponents';
+import {connect} from 'react-redux';
+import {getToken, establishSession} from '../actions/initialUtility.actions';
+import {getProjectLanding} from '../actions/projects.actions';
+import variables from '../variables.module.scss';
 
 const TopRow = styled(Row)`
 padding-top: 120px;
+
+`
+
+const Paragraph = styled.p `
+font-size: 2vw;
+line-height: 3vw;
+margin:0;
+padding: 0;
+word-wrap: none;
+ @media(max-width:${variables.medium}){
+        font-size: 5vw;
+    }
 `
 
 const Hero = styled(Col)`
 min-height: calc(60vh - 120px);
-padding: 60px 0 25px 0;
+padding-top: 60px;
+padding-bottom: 60px;
 `
 
-const H1 = styled.h1`
-text-align: left;
-font-size: 1rem;
-font-weight: 100;
-`
-
-const H2Line = styled(Col)`
-alignItems: "center",
-height: 50%;
-border-top: 1px solid #1d1e22;
+const H1 = styled.h1 `
+    font-size: 5vw;
+    font-weight: 500;
+    padding-left: 0;
+     @media(max-width:${variables.medium}){
+        font-size: 18vw;
+    }
 `
 
 const ProjectsLandingMain = styled(Main)`
@@ -45,7 +56,7 @@ const mapStateToProps = state => {
 }
 
 const ProjectsLanding = (props) => {
-    useEffect(()=>{
+    useEffect(() => {
         if (props.initialUtility.session === true) {
             if (!props.projects.projectLandingData.length) {
                 props.dispatch(getProjectLanding(props.initialUtility.keystoneToken))
@@ -58,37 +69,30 @@ const ProjectsLanding = (props) => {
             }
         }
     })
-    
-   
+
     return (
 
-
         <div>
-            <HeaderComponent location={props.location.pathname} />
+            <HeaderComponent location={props.location.pathname}/>
             <TopRow>
-                <Col xs={1} sm={2}></Col>
-                {console.log(props)}
-                <Hero xs={10} sm={8}>
-                    {props.projects.projectLandingData.length &&
-                    <ProjectsLandingMain>
+                <Col xs={2}></Col>
+                <Hero xs={8}>
+                    {props.projects.projectLandingData.length && <ProjectsLandingMain>
 
                         <H1>{props.projects.projectLandingData[0].h1}</H1>
-
-                        <span>{props.projects.projectLandingData[0].paragraphLineOne}</span>
-                        <p>{props.projects.projectLandingData[0].paragraph}</p>
+                        <Paragraph>{props.projects.projectLandingData[0].paragraph}</Paragraph>
 
                     </ProjectsLandingMain>}
-                    <Row>
-                    </Row>
+                    <Row></Row>
                 </Hero>
-                <Col xs={1} sm={2}></Col>
+                <Col xs={2}></Col>
             </TopRow>
             <Row>
-                <Col xs={1} sm={2}></Col>
-                <Col xs={10} sm={8}>
-                    <ProjectCardContainer />
+                <Col xs={2}></Col>
+                <Col xs={8}>
+                    <ProjectCardContainer/>
                 </Col>
-                <Col xs={1} sm={2}></Col>
+                <Col xs={2}></Col>
 
             </Row>
         </div>

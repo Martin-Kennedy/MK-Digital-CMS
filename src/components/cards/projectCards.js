@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import styled from 'styled-components';
+import variables from '../../variables.module.scss';
 import Masonry from 'react-masonry-component';
 import { getProjects } from '../../actions/projects.actions';
 import { connect } from 'react-redux';
@@ -24,28 +25,41 @@ const CardTextRow = styled(Row)`
 
 const CardTitle = styled(Col)`
 font-weight: 500;
-font-size: 1.2rem;
+font-size: 2vw;
+line-height: 2vw;
 text-align: left;
 color: #fff;
-padding: 20px 10px 0px 10px;
+padding: 1vw 1.5vw;
 position: absolute;
-top: 25px;
 transition: 500ms ease-in;
 opacity: 0;
+@media(max-width: ${variables.medium}){
+    font-size: 7vw;
+    line-height: 8vw;
+    padding: 3vw 5vw;
+    top: 6vw;
+}
 `;
 
 const CardBlurb = styled(Col)`
 font-weight: 300;
-font-size: .8rem;
+font-size: 1.25vw;
+line-height: 1.25vw;
 text-align: left;
 color: #fff;
-padding: 10px;
+padding: 1vw 1.5vw;
 position: absolute;
-top: 75px;
 transition-timing-function: ease-in;
 transition-duration: 500ms ;
 transition-delay: .2s;
 opacity: 0;
+@media(max-width: ${variables.medium}){
+    font-size: 5vw;
+    line-height: 6vw;
+    padding: 3vw 5vw;
+    top: 22vw;
+    padding: 3vw 5vw;
+}
 `;
 
 const mapStateToProps = state => {
@@ -91,11 +105,11 @@ class FilteredCards extends Component {
                                 margin-top: 20px;
                                 `;
                         const MasonryBlogCard = styled(Card)`
-                                width: calc(33.33% - 50px);
-                                margin: 20px;
+                                width: calc(33.33% - 5vw);
                                 padding: 0;
                                 margin-bottom: 0;
                                 border: none;
+                               
                                 &:hover, &:focus {
                                     ${ContainerDiv} {
                                     filter: brightness(70%);
@@ -112,7 +126,11 @@ class FilteredCards extends Component {
                                     opacity: 1;
                                     transform: translateY(-10px);
                                     }
-                                }`;
+                                }
+                                @media(max-width: ${variables.medium}){
+                                    width: calc(100% - 5vw);
+                                }
+                                `;
 
 
 
@@ -170,11 +188,17 @@ class UnfilteredCards extends Component {
                                 margin-top: 20px;
                                 `;
                         const MasonryBlogCard = styled(Card)`
-                                width: calc(33.33% - 50px);
-                                margin: 20px;
+                                width: calc(33.33% - 5vw);
+                                margin: 0 2.5vw;
                                 padding: 0;
                                 margin-bottom: 0;
                                 border: none;
+                                 ${CardTitle} {
+                                    top: ${projectEntry.cardHeight / 6}px;
+                                }
+                                ${CardBlurb} {
+                                    top: ${projectEntry.cardHeight / 2}px;
+                                }
                                 &:hover, &:focus {
                                     ${ContainerDiv} {
                                     filter: brightness(70%);
@@ -191,14 +215,17 @@ class UnfilteredCards extends Component {
                                     opacity: 1;
                                     transform: translateY(-10px);
                                     }
-                                }`;
+                                }
+                                 @media(max-width: ${variables.medium}){
+                                    width: calc(100% - 5vw);
+                                }
+                                `;
                         let clientSlug = projectEntry.client;
                         clientSlug = clientSlug
                             .replace(/\s+/g, '-');
-                        const card = <MasonryBlogCard key={projectEntry.id} className="grid-item">
+                        const card = <MasonryBlogCard key={projectEntry.id}  className="grid-item">
                             <Link to={`project/${clientSlug}`}>
                                 <FadeInWhenVisibleOpacity>
-                                    
                                     <ContainerDiv>
                                         <Row>
                                             <FittedImage className='styledImage' src={projectEntry.cardImage.publicUrl} />

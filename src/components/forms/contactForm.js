@@ -7,6 +7,9 @@ import {Row, Col} from 'react-bootstrap';
 
 const FormRow = styled(Row)`
 margin-top: 5vh;
+@media(max-width: 768px){
+    margin-top: 0;
+}
 `
 
 const FormInput = styled.input `
@@ -21,6 +24,12 @@ opacity: .7;
 }
 color: var(--black);
 border: 1px solid var(--black);
+@media(max-width: 768px){
+    width: calc(100% - 2vw);
+    height: 6vh;
+    font-size: 3vw;
+    margin-top: 3vh;
+}
 `
 const FormTextArea = styled.textarea `
 padding: 1vw;
@@ -34,6 +43,11 @@ opacity: .7;
 }
 color: var(--black);
 border: 1px solid #aaa;
+@media(max-width: 768px){
+    height: 30vh;
+    font-size: 3vw;
+    margin-top: 5vh;
+}
 `
 
 const FormSelect = styled.select `
@@ -48,6 +62,12 @@ opacity: .7;
 }
 color: var(--black);
 border: 1px solid var(--black);
+@media(max-width: 768px){
+    width: calc(100% - 2vw);
+    height: 6vh;
+    font-size: 3vw;
+    margin-top: 3vh;
+}
 `
 const SubmitCol = styled(Col)`
 flex-wrap: nowrap;
@@ -55,6 +75,9 @@ flex-wrap: nowrap;
 const StyledReCAPTCHA = styled(ReCAPTCHA)`
 margin: 0 1vw;
 width: calc(100% - 15vw);
+@media(max-width: 768px){
+    margin-top: 5vh;
+}
 `
 
 const ContactFormButton = styled.button`
@@ -73,6 +96,10 @@ transform: translateZ(-25px);
 transition: transform 0.3s;
 position: relative;
 margin-top: 40px;
+@media(max-width: 768px){
+    width: 50vw;
+
+}
 
 
 

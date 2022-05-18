@@ -132,7 +132,6 @@ export const getProjectLanding = (token) => {
             allProjectLandings {
                 id,
                 h1,
-                paragraphLineOne,
                 paragraph
             }
 } `

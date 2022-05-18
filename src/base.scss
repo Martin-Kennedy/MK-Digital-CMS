@@ -6,9 +6,9 @@
   --white: #fff;
   --color-1: #1d1e22;
   --gutter: 2rem;
-  /* this value is going to be changed by javascript */
   --replace-offset: 50%;
-  --replace-offset-2: calc((100% - var(--replace-offset) ) * -1)
+  --replace-offset-2: calc((100% - var(--replace-offset) ) * -1);
+  
 }
 
 
@@ -20,6 +20,7 @@ body {
     background-color: #fff;
     color: #1d1e22;
     overflow-x: hidden !important;
+    
     
     li {
         list-style: none;

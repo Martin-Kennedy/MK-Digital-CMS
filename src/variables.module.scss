@@ -1,0 +1,13 @@
+$small: 576px;
+$medium: 768px;
+$large: 996px;
+$extra-large: 1200px;
+$large-desktop: 1400px;
+
+:export {
+    small: $small;
+    medium: $medium;
+    large: $large;
+    extra-large: $extra-large;
+    large-desktop: $large-desktop;
+}

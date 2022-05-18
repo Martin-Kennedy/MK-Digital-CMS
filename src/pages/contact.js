@@ -19,6 +19,10 @@ height: 100vh;
 
 const ContactH2 = styled(H2)`
 margin-bottom: 6vh;
+@media(max-width: 768px){
+    font-size: 5vw;
+    line-height: 7vw;
+}
 `
 
 const ContactLine = styled(Line)`
@@ -35,6 +39,13 @@ margin: 0 1vw;
 
 const ContactFooter = styled(Col)`
 margin: 6vh 0 0 0;
+`
+
+const ContactH1 = styled(H1)`
+@media(max-width: 768px){
+    font-size: 10vw;
+    line-height: 12vw;
+}
 `
 
 const mapStateToProps = state => {
@@ -96,9 +107,9 @@ const mapStateToProps = state => {
                     
                     {this.props.contact.contactData.length ? 
                     <TopCol>
-                    <H1>
+                            <ContactH1>
                     {this.props.contact.contactData[0].h1}
-                    </H1>
+                            </ContactH1>
                             <ContactH2>
                     {this.props.contact.contactData[0].h2}
                             </ContactH2>

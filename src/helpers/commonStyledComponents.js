@@ -12,7 +12,7 @@ color: ${props => props.white ? "#fff" : "#1d1e22"}
 
 export const H2 = styled.h2`
 font-size: 3vw;
-line-height: 3vw;
+line-height: 5vw;
 font-weight: 300;
 color: ${props => props.white ? "#fff" : "#1d1e22"}
 `
