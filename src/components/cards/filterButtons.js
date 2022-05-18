@@ -42,8 +42,8 @@ const FilterContainer = styled(Col)`
 display: flex;
 flex-direction: row;
 background-color: transparent;
-margin-bottom: 10px;
-padding: 20px 0;
+margin-bottom: 5vh;
+padding: 5vh 0;
 height: 80px;
 `;
 

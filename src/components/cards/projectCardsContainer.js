@@ -29,7 +29,7 @@ const FilterLine = styled(Row)`
     z-index: 0;
     padding: 0;
     width: calc(100% - 5vw);
-    margin: 2vw 2.5vw 0 2.5vw;
+    margin: 2vw 2.5vw 5vh 2.5vw;
     overflow-y: hidden;
     
     

@@ -38,7 +38,7 @@ margin: 0 1vw;
 `
 
 const ContactFooter = styled(Col)`
-margin: 6vh 0 0 0;
+padding: 10vh 4vw 10vh 2vw;
 `
 
 const ContactH1 = styled(H1)`
@@ -120,16 +120,21 @@ const mapStateToProps = state => {
                 </TopRow>
                 <Row>
                     <Col xs={2}></Col>
-                    <Col>
+                    <Col xs={8}>
                         <ContactFormContainer>
                             <ContactForm/>
                         </ContactFormContainer>
                     </Col>
                     <Col xs={2}></Col>
                 </Row>
-                <ContactFooter>
-                    <Footer />
-                </ContactFooter>
+                <Row>
+                    <Col xs={2}></Col>
+                    <ContactFooter xs={8}>
+                        <Footer />
+                    </ContactFooter>
+                    <Col xs={2}></Col>
+                </Row>
+                
                 
             </BaseLayer>
 

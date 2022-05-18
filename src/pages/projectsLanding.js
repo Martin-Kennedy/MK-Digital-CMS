@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {getToken, establishSession} from '../actions/initialUtility.actions';
 import {getProjectLanding} from '../actions/projects.actions';
 import variables from '../variables.module.scss';
+import Footer from '../components/footer';
 
 const TopRow = styled(Row)`
 padding-top: 120px;
@@ -44,6 +45,10 @@ const ProjectsLandingMain = styled(Main)`
 margin: 0 2vw;
 padding: 0;
 
+`
+
+const ProjectLandingFooter = styled(Col)`
+padding: 20vh 6vw 10vh 3vw;
 `
 const mapStateToProps = state => {
     return {
@@ -82,9 +87,7 @@ const ProjectsLanding = (props) => {
                     {props.projects.projectLandingData.length && <ProjectsLandingMain>
                         <H1>{props.projects.projectLandingData[0].h1}</H1>
                         <Paragraph>{props.projects.projectLandingData[0].paragraph}</Paragraph>
-
                     </ProjectsLandingMain>}
-                    <Row></Row>
                 </Hero>
                 <Col xs={2} sm={1}></Col>
             </TopRow>
@@ -96,6 +99,15 @@ const ProjectsLanding = (props) => {
                 <Col xs={2} sm={2}></Col>
 
             </Row>
+            <Row>
+                <Col xs={2} sm={1}></Col>
+                <ProjectLandingFooter xs={8} sm={10}>
+                    <Footer location={props.location.pathname} />
+                </ProjectLandingFooter>
+                <Col xs={2} sm={1}></Col>
+            </Row>
+           
+            
         </div>
 
     )
