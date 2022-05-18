@@ -3,9 +3,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import variables from '../../variables.module.scss';
 import Masonry from 'react-masonry-component';
-import { getProjects } from '../../actions/projects.actions';
 import { connect } from 'react-redux';
-import { generateHsl } from '../../helpers/utilities';
 import { FadeInWhenVisibleOpacity } from '../../helpers/fadeInOnViewport';
 import { Link } from 'react-router-dom';
 

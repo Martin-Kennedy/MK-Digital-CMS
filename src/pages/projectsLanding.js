@@ -41,6 +41,8 @@ const H1 = styled.h1 `
 `
 
 const ProjectsLandingMain = styled(Main)`
+margin: 0 2vw;
+padding: 0;
 
 `
 const mapStateToProps = state => {
@@ -75,24 +77,23 @@ const ProjectsLanding = (props) => {
         <div>
             <HeaderComponent location={props.location.pathname}/>
             <TopRow>
-                <Col xs={2}></Col>
-                <Hero xs={8}>
+                <Col xs={2} sm={1}></Col>
+                <Hero xs={8} sm={10}>
                     {props.projects.projectLandingData.length && <ProjectsLandingMain>
-
                         <H1>{props.projects.projectLandingData[0].h1}</H1>
                         <Paragraph>{props.projects.projectLandingData[0].paragraph}</Paragraph>
 
                     </ProjectsLandingMain>}
                     <Row></Row>
                 </Hero>
-                <Col xs={2}></Col>
+                <Col xs={2} sm={1}></Col>
             </TopRow>
             <Row>
-                <Col xs={2}></Col>
-                <Col xs={8}>
+                <Col xs={2} sm={1}></Col>
+                <Col xs={8} sm={10}>
                     <ProjectCardContainer/>
                 </Col>
-                <Col xs={2}></Col>
+                <Col xs={2} sm={2}></Col>
 
             </Row>
         </div>

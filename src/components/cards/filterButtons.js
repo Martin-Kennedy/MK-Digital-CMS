@@ -15,6 +15,7 @@ border: 0;
 transition: .5s ease;
 padding: 0;
 margin: 0;
+margin-right: 2vw;
 transform-style: preserve-3d;
 transform: translateZ(-25px);
 transition: transform 0.3s;

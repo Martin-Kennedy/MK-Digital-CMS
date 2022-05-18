@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { ProjectFilterButtonsContainer } from './filterButtons';
-import { FilteredCardsContainer, UnfilteredCardsContainer  } from './projectCards';
-import { getProjects } from '../../actions/projects.actions';
-import { LineAnimationR2L } from "../designElementComponents/lineSvg";
-import cookie from 'react-cookie'
+import React, {Component} from 'react';
+import {Row, Col} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {ProjectFilterButtonsContainer} from './filterButtons';
+import {FilteredCardsContainer, UnfilteredCardsContainer} from './projectCards';
+import {getProjects} from '../../actions/projects.actions';
+import {LineAnimationR2L} from "../designElementComponents/lineSvg";
 import styled from 'styled-components';
 
 const ProjectFilterButtons = ProjectFilterButtonsContainer;
@@ -20,7 +19,7 @@ const mapStateToProps = state => {
         },
         projects: {
             projectData: state.projects.projectData,
-            filteredData: state.projects.filteredData,
+            filteredData: state.projects.filteredData
         }
     }
 };
@@ -53,38 +52,36 @@ const FilterContainer = styled(Row)`
 `
 
 const buildCardArray = (props) => {
-    const cardArray = 
-    <Row>
-            
+    const cardArray = <Row>
         <FilterContainer >
-            
-                <ProjectFilterButtons />
+            <ProjectFilterButtons/>
         </FilterContainer>
 
         <FilterLine>
-            <LineAnimationR2L />
+            <LineAnimationR2L/>
         </FilterLine>
         <Row>
             {props.projects.filteredData.length
-                ? <FilteredCards />
-                : <UnfilteredCards />
-            }
+                ? <FilteredCards/>
+                : <UnfilteredCards/>
+}
         </Row>
-    </Row>
+        </Row>
     return cardArray;
 }
 
 class ProjectCardContainer extends Component {
     componentDidUpdate(prevProps) {
-        
-        if(prevProps.initialUtility.session !== this.props.initialUtility.session) {
+
+        if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
             if (!this.props.projects.projectData.length) {
                 console.log(this.props.initialUtility.keystoneToken)
                 console.log('this is running')
-                this.props.dispatch(getProjects(this.props.initialUtility.keystoneToken))
+                this
+                    .props
+                    .dispatch(getProjects(this.props.initialUtility.keystoneToken))
             }
         }
-        
 
     }
 
