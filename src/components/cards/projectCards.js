@@ -93,21 +93,27 @@ class FilteredCards extends Component {
                                 object-fit: contain;
                                 transition: 500ms ease-in;
                                 position: relative;
-                                top: calc(${projectEntry.height * (projectEntry.positionTop / 100)}px - 20px);
-                                left: ${projectEntry.positionLeft}%;
+                                top:${projectEntry.cardHeight * (projectEntry.imagePositionTop / 100)}px;
+                                left: calc(${projectEntry.imagePositionLeft}% / 2);
                                 `;
 
                         const ContainerDiv = styled.div`
-                                background-color: ${projectEntry.bkgColorArray[3]};
+                                background-color: ${projectEntry.cardColor};
                                 transition: 500ms ease-in;
                                 margin-top: 20px;
                                 `;
                         const MasonryBlogCard = styled(Card)`
                                 width: calc(33.33% - 5vw);
+                                margin: 0 2.5vw;
                                 padding: 0;
                                 margin-bottom: 0;
                                 border: none;
-                               
+                                 ${CardTitle} {
+                                    top: ${projectEntry.cardHeight / 6}px;
+                                }
+                                ${CardBlurb} {
+                                    top: ${projectEntry.cardHeight / 2}px;
+                                }
                                 &:hover, &:focus {
                                     ${ContainerDiv} {
                                     filter: brightness(70%);
@@ -125,29 +131,31 @@ class FilteredCards extends Component {
                                     transform: translateY(-10px);
                                     }
                                 }
-                                @media(max-width: ${variables.medium}){
+                                 @media(max-width: ${variables.medium}){
                                     width: calc(100% - 5vw);
                                 }
                                 `;
+                        let clientSlug = projectEntry.client;
+                        clientSlug = clientSlug
+                            .replace(/\s+/g, '-');
+                        const card = <MasonryBlogCard key={projectEntry.id} className="grid-item">
+                            <Link to={`project/${clientSlug}`}>
+                                <FadeInWhenVisibleOpacity>
+                                    <ContainerDiv>
+                                        <Row>
+                                            <FittedImage className='styledImage' src={projectEntry.cardImage.publicUrl} />
+                                        </Row>
+                                    </ContainerDiv>
+                                    <CardTextRow>
+                                        <CardTitle className='styledTitle' xs={12}>{projectEntry.client}</CardTitle>
+                                        <CardBlurb className='styledBlurb' xs={12}>{projectEntry.title}</CardBlurb>
+                                    </CardTextRow>
+                                </FadeInWhenVisibleOpacity>
+                            </Link>
+                        </MasonryBlogCard>
 
-
-
-
-                        const card = <MasonryBlogCard key={id} className="grid-item">
-                            <FadeInWhenVisibleOpacity>
-
-                                <ContainerDiv>
-                                    <Row>
-                                        <FittedImage className='styledImage' src={projectEntry.projectCardImage} />
-                                    </Row>
-                                </ContainerDiv>
-                                <CardTextRow>
-                                    <CardTitle className='styledTitle' xs={12}>{projectEntry.title}</CardTitle>
-                                    <CardBlurb className='styledBlurb' xs={12}>{projectEntry.blurb}</CardBlurb>
-                                </CardTextRow>
-                            </FadeInWhenVisibleOpacity>
-                        </MasonryBlogCard>;
                         return card;
+
                     })}
             </MasonryBlog>
 

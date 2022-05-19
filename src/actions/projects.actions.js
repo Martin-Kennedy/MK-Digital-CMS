@@ -141,7 +141,6 @@ export const getProjectLanding = (token) => {
                 return response.data
             })
             .then(data => {
-
                 let simplifiedData = data.data.allProjectLandings;
                 dispatch({ type: GET_PROJECT_LANDING, payload: simplifiedData })
             })

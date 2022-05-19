@@ -26,9 +26,9 @@ position: absolute;
     max-width: 66vw;
     height: 66vw;
     padding: 0;
-    margin-left: 0;
+    margin-left: -0.5vw;
     svg {
-        top: 10vh;
+        top: 6vh;
     }
 }
 

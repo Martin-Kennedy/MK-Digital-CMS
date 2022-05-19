@@ -1,5 +1,5 @@
 import {} from '../helpers/types';
-import { GET_BLOGS, SORT_BY_BLOG_SUBJECT, GET_BLOG_ITEM, GET_NEXT_BLOG_ITEM} from '../helpers/types'
+import { GET_BLOGS, SORT_BY_BLOG_SUBJECT, GET_BLOG_ITEM, GET_NEXT_BLOG_ITEM, GET_BLOG_LANDING} from '../helpers/types'
 
 const INITIAL_STATE = {
     blogData: [],
@@ -37,13 +37,19 @@ const blogsReducer = (state = INITIAL_STATE, action) => {
             }
 
         case SORT_BY_BLOG_SUBJECT:
+            
             let value = action.subject;
-            let filteredValues = state.blogData.filter(card => card.subject === value);
+            let filteredValues = value === 'all' ? state.blogData : state.blogData.filter(card => card.subject === value);
             return {
                 ...state,
                 sortBy: action.subject,
                 filteredData: filteredValues,
                 activeButton: action.index
+            }
+        case GET_BLOG_LANDING:
+            return {
+                ...state,
+                blogLandingData: action.payload,
             }
         default:
             return state;

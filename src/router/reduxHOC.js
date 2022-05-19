@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getToken, establishSession } from '../actions/initialUtility.actions';
 import { getIntersectingState } from '../actions/pages.actions';
 import {getAbout} from '../actions/about.actions';
-import { getBlogs, getBlogItem, getNextBlogItem } from '../actions/blogs.actions';
+import { getBlogs, getBlogItem, getNextBlogItem, getBlogLanding } from '../actions/blogs.actions';
 import { getProjects, getProjectItem, getNextProjectItem, getProjectLanding } from '../actions/projects.actions';
 import { getHomepage, getHomepageCarousel, getHomepageCarouselArrayProjects, getHomepageCarouselBlogsArrayandCombine, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
 
@@ -26,6 +26,7 @@ const mapDispatchToProps = dispatch => ({
     getIntersectingState: isIntersecting => dispatch(getIntersectingState(isIntersecting)),
     getBlogItem: item => dispatch(getBlogItem(item)),
     getNextBlogItem: nextBlogItem => dispatch(getNextBlogItem(nextBlogItem)),
+    getBlogLanding: blogLandingData => dispatch(getBlogLanding(blogLandingData)),
     getAbout: aboutData => dispatch(getAbout(aboutData))
 })
 
@@ -59,6 +60,7 @@ class ReduxHOC extends Component {
         const { getProjectItem } = this.props;
         const { getHomepageCarouselSlides } = this.props;
         const { getProjectLanding } = this.props;
+        const { getBlogLanding } = this.props;
         getToken();
     }
 

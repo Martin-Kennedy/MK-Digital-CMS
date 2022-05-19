@@ -452,7 +452,7 @@ class Home extends Component {
 
                                     <Col xs={1} sm={3}></Col>
                                     <Col xs={10} sm={7}>
-                                        <Footer/>
+                                    <Footer location={this.props.location.pathname} />
                                     </Col>
                                     <Col xs={1} sm={2}></Col>
                                 </HomeFooterRow>

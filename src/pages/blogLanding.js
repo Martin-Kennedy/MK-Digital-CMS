@@ -1,75 +1,113 @@
-import React from 'react';
-import { Row, Col} from 'react-bootstrap';
-import faker from 'faker';
+import React, {Fragment, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {Row, Col} from 'react-bootstrap';
+import variables from '../variables.module.scss';
+import { Main } from '../helpers/commonStyledComponents';
 import styled from 'styled-components';
 import BlogCardsContainer from '../components/cards/blogCardContainer';
 import HeaderComponent from '../components/navigation/header';
+import {getToken, establishSession} from '../actions/initialUtility.actions';
+import {getBlogLanding} from '../actions/blogs.actions';
+import Footer from '../components/footer';
 
 const TopRow = styled(Row)`
 padding-top: 120px;
 `
 
+const Paragraph = styled.p`
+font-size: 2vw;
+line-height: 3vw;
+margin:0;
+padding: 0;
+word-wrap: none;
+ @media(max-width:${variables.medium}){
+        font-size: 5vw;
+    }
+`
+
 const Hero = styled(Col)`
-min-height: calc(80vh - 120px);
-padding: 60px 0 100px 0;
+min-height: calc(60vh - 120px);
+padding-top: 60px;
+padding-bottom: 60px;
 `
 
-const H2 = styled.h2 `
-text-align: left;
-font-size: 1rem;
-font-weight: 100;
+const H1 = styled.h1`
+    font-size: 5vw;
+    font-weight: 500;
+    padding-left: 0;
+     @media(max-width:${variables.medium}){
+        font-size: 18vw;
+    }
+`
+const BlogLandingMain = styled(Main)`
+margin: 0 2vw;
+padding: 0;
 `
 
-const H2Line = styled(Col)`
-        alignItems: "center",
-        height: 50%;
-        border-top: 1px solid #1d1e22;
+const BlogLandingFooter = styled(Col)`
+padding: 20vh 6vw 10vh 3vw;
 `
 
-const BlogLanding = (props) => (
+const mapStateToProps = state => {
+    return {
+        initialUtility: {
+            keystoneToken: state.initialUtility.keystoneToken,
+            session: state.initialUtility.session
+        },
+        blogs: {
+            blogLandingData: state.blogs.blogLandingData
+        }
+    }
+}
 
-    <div>
-        <HeaderComponent location={props.location.pathname} />
+const BlogLanding = (props) => {
+    useEffect(() => {
+        if (props.initialUtility.session === true) {
+            if (!props.blogs.blogLandingData.length) {
+                props.dispatch(getBlogLanding(props.initialUtility.keystoneToken))
+            }
+        } else {
+            if (props.initialUtility.keystoneToken === null) {
+                props.dispatch(getToken())
+            } else {
+                props.dispatch(establishSession(props.initialUtility.keystoneToken))
+            }
+        }
+    })
+    return <div>
+        <HeaderComponent location={props.location.pathname}/>
         <TopRow>
-            <Col sm={2}></Col>
-            <Hero xs={8}>
-                <Row>
-                    <H2Line sm={4}></H2Line>
-                    <Col sm={2}>
-                        <H2 >WHAT'S GOING ON</H2>
-                    </Col>
-                    <Col>
-                        <p>{faker.lorem.paragraph(8)}</p>
-                    </Col>
-                </Row>
-                <Row>
-                </Row>
+            <Col xs={2} sm={1}></Col>
+            <Hero xs={8} sm={10}>
+                {props.blogs.blogLandingData.length && <BlogLandingMain>
+
+                        <H1>{props.blogs.blogLandingData[0].h1}</H1>
+                    <Paragraph>{props.blogs.blogLandingData[0].paragraph}</Paragraph>
+
+                </BlogLandingMain>}
             </Hero>
-            <Col sm={2}></Col>
+            <Col xs={2} sm={1}></Col>
         </TopRow>
         {/* Above the Fold Text and CTA */}
         <Row>
-            <Col sm={2}></Col>
-            <Col sm={8}>
-                 <BlogCardsContainer />
+            <Col xs={2} sm={1}></Col>
+            <Col xs={8} sm={10}>
+                <BlogCardsContainer/>
             </Col>
-            <Col sm={2}></Col>
+            <Col xs={2} sm={1}></Col>
 
         </Row>
-           
-        <Row>
-            <Col>
 
-                {/* Blog Menu */}
-            </Col>
-        </Row>
         <Row>
-            <Col>
-                {/* Blog Grid */}
-            </Col>
+            <Col xs={2} sm={1}></Col>
+            <BlogLandingFooter xs={8} sm={10}>
+                <Footer location={props.location.pathname} />
+            </BlogLandingFooter>
+            <Col xs={2} sm={1}></Col>
         </Row>
+
     </div>
 
-)
+}
 
-export default BlogLanding;
+export default connect(mapStateToProps)(BlogLanding);

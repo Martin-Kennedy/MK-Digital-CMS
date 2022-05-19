@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Row, Col, Card} from 'react-bootstrap';
 import styled from 'styled-components';
+import variables from '../../variables.module.scss';
 import Masonry from 'react-masonry-component';
 import {connect} from 'react-redux';
 import {generateHsl} from '../../helpers/utilities';
@@ -33,28 +34,41 @@ const CardTextRow = styled(Row)`
 
 const CardTitle = styled(Col)`
 font-weight: 500;
-font-size: 1.2rem;
+font-size: 2vw;
+line-height: 2vw;
 text-align: left;
 color: #fff;
-padding: 20px 10px 0px 10px;
+padding: 1vw 1.5vw;
 position: absolute;
-top: 25px;
 transition: 500ms ease-in;
 opacity: 0;
+@media(max-width: ${variables.medium}){
+    font-size: 7vw;
+    line-height: 8vw;
+    padding: 3vw 5vw;
+    top: 6vw;
+}
 `;
 
 const CardBlurb = styled(Col)`
 font-weight: 300;
-font-size: .8rem;
+font-size: 1.25vw;
+line-height: 1.25vw;
 text-align: left;
 color: #fff;
-padding: 10px;
+padding: 1vw 1.5vw;
 position: absolute;
-top: 75px;
 transition-timing-function: ease-in;
 transition-duration: 500ms ;
 transition-delay: .2s;
 opacity: 0;
+@media(max-width: ${variables.medium}){
+    font-size: 5vw;
+    line-height: 6vw;
+    padding: 3vw 5vw;
+    top: 22vw;
+    padding: 3vw 5vw;
+}
 `;
 
 const mapStateToProps = state => {
@@ -103,7 +117,7 @@ class FilteredCards extends Component {
                                 `;
 
                         const ContainerDiv = styled.div`
-                                background-color: ${generateHsl()};
+                                background-color: ${blogEntry.cardColor};
                                 transition: 500ms ease-in;
                                 margin-top: 20px;
                                 `;
@@ -112,9 +126,17 @@ class FilteredCards extends Component {
                                 margin: 20px;
                                 padding: 0;
                                 margin-bottom: 0;
-                                z-index: 2;
                                 border: none;
-                                background-color: tranparent;
+                                    z-index: 2;
+                                      ${CardTitle} {
+                                    top: ${blogEntry.cardHeight / 6}px;
+                                }
+                                ${CardBlurb} {
+                                    top: ${blogEntry.cardHeight / 2}px;
+                                }
+                                 @media(max-width: ${variables.medium}){
+                                    width: calc(100% - 5vw);
+                                }
                                 &:hover, &:focus {
                                     ${ContainerDiv} {
                                     filter: brightness(70%);
@@ -132,30 +154,25 @@ class FilteredCards extends Component {
                                     transform: translateY(-10px);
                                     }
                                 }`;
-
-
-
-
+                        let titleSlug = blogEntry.title;
+                        titleSlug = titleSlug
+                            .replace(/\s+/g, '-');
                         const card = <MasonryBlogCard key={id} className="grid-item">
-                            <FadeInWhenVisibleOpacity>
-
-                                <ContainerDiv>
-                                    <Row>
-                                        <FittedImage className='styledImage' src={blogEntry.blogCardImage} />
-                                    </Row>
-                                </ContainerDiv>
-                                <CardTextRow>
-                                    <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
-                                    <CardBlurb className='styledBlurb' xs={12}>{blogEntry.blurb}</CardBlurb>
-                                </CardTextRow>
-                            </FadeInWhenVisibleOpacity>
-                        </MasonryBlogCard>;
-
-
-
+                            <Link to={`blog/${titleSlug}`}>
+                                <FadeInWhenVisibleOpacity>
+                                    <ContainerDiv>
+                                        <Row>
+                                            <FittedImage className='styledImage' src={blogEntry.cardImage.publicUrl} />
+                                        </Row>
+                                    </ContainerDiv>
+                                    <CardTextRow>
+                                        <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
+                                    </CardTextRow>
+                                </FadeInWhenVisibleOpacity>
+                            </Link>
+                        </MasonryBlogCard>
 
                         return card;
-
 
                     })}
             </MasonryBlog>
@@ -211,6 +228,15 @@ class UnfilteredCards extends Component {
                                 margin-bottom: 0;
                                 border: none;
                                     z-index: 2;
+                                      ${CardTitle} {
+                                    top: ${blogEntry.cardHeight / 6}px;
+                                }
+                                ${CardBlurb} {
+                                    top: ${blogEntry.cardHeight / 2}px;
+                                }
+                                 @media(max-width: ${variables.medium}){
+                                    width: calc(100% - 5vw);
+                                }
                                 &:hover, &:focus {
                                     ${ContainerDiv} {
                                     filter: brightness(70%);
@@ -241,7 +267,6 @@ class UnfilteredCards extends Component {
                                     </ContainerDiv>
                                     <CardTextRow>
                                         <CardTitle className='styledTitle' xs={12}>{blogEntry.title}</CardTitle>
-                                        <CardBlurb className='styledBlurb' xs={12}>{blogEntry.article}</CardBlurb>
                                     </CardTextRow>
                                 </FadeInWhenVisibleOpacity>
                             </Link>

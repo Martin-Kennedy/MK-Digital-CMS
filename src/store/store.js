@@ -26,7 +26,7 @@ const initalState = {
         filteredData: [],
         projectItem: [],
         sortByItem: '',
-        activeButton: 1,
+        activeButton: 0,
         projectLandingData: []
     },
     blogs: {
@@ -37,7 +37,8 @@ const initalState = {
         nextBlogItemPathname: '',
         filteredData: [],
         sortByItem: '',
-        activeButton: 1
+        activeButton: 0,
+        blogLandingData: []
     },
     about: {
         aboutData: []

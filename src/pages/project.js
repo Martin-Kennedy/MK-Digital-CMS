@@ -14,6 +14,7 @@ import {getProjectItem, getNextProjectItem, getProjects} from '../actions/projec
 import Sticky from 'react-stickynode';
 import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
+import variables from '../variables.module.scss';
 
 const BaseLayer = styled.div `
     background-color: var(--white);
@@ -26,6 +27,9 @@ const IntroSection = styled(Row)`
     z-index: 1;
     position: relative;
     padding-bottom: 35vh;
+    @media (max-width: 900px) {
+    margin-top: 33vh;
+}
 `;
 
 const IntroBlurb1 = styled.h2 `
@@ -62,7 +66,7 @@ const Img = styled.img `
     height: 100%;
     margin: 50px 0;
     @media (max-width: 980px){
-        margin: 9vw 0;
+        margin: 0;
     }
 object-fit: contain;
 `
@@ -76,19 +80,28 @@ const ImgSection = styled(Row)`
     margin: 0;
     z-index: 0;
     position: absolute;
-    height: 1000px;
+    height: 100vh;
 `
 const Section = styled(Row)`
-min-height: 1000px;
+min-height: 100vh;
 height: 100%;
 background-color: var(--white);
+@media(max-width: ${variables.medium}){
+min-height: 50vh;
+}
 `
+const SectionFullWidthImage = styled(Section)`
+@media(max-width: ${variables.medium}){
+min-height: 100vh;
+}
+`;
 const Section100VW = styled(Row)`
-min-height: 1000px;
+min-height: 100vh;
 height: 100%;
 width: 100vw;
 padding: 0 !important;
 margin: 0 !important;
+
 `
 
 const FiftyVW = styled(Row)`
@@ -110,6 +123,10 @@ const FiftyVWImg = styled.div `
     align-items: center;
     height: 50vh;
     padding: 50vh 33%;
+    @media(max-width: ${variables.medium}){
+        height: 90vh;
+        padding: 10vh 10%;
+    }
 `
 
 const AssetSection1 = styled.div `
@@ -261,12 +278,10 @@ const VideoContainer = styled.div`
     height: 53%;
     z-index: 2;
     @media (max-width: 980px){
-            top: 11.5vw;
-            left: 2vw;
-            width: 61vw;
-            height: 35vw;
+            height: 52%;
+
         }
-    iframe, object, embed, img {
+    video, object, embed, img {
         position: absolute; 
         top: 0; 
         left: 0; 
@@ -285,7 +300,8 @@ const ImgContainer = styled.div`
 margin-top: 10vh;
 width:100%;
 @media (max-width: 980px){
-    width: 50vw;
+    width: 100vw;
+    margin-top: 30vh;
 }
 
 `
@@ -385,8 +401,8 @@ class ProjectPage extends Component {
                                 </FadeInWhenVisibleOpacity>
 
                                 <IntroSection >
-                                    <Col xs={2}></Col>
-                                    <Col xs={8}>
+                                    <Col xs={1} sm={2}></Col>
+                                    <Col xs={10} sm={8}>
                                         <Row>
                                             <Col sm={6}>
                                                 <FadeInWhenVisibleScale duration={.5}>
@@ -415,36 +431,36 @@ class ProjectPage extends Component {
                                             </FadeInWhenVisibleScale>
                                         </Row>
                                     </Col>
-                                    <Col xs={2}></Col>
+                                    <Col xs={1} sm={2}></Col>
                                 </IntroSection>
                             </Sticky>
                             <Sticky >
-                                <Section>
+                            <SectionFullWidthImage>
                                 <ImgSection img={item.image2FullWidth.publicUrl}></ImgSection>
-                                </Section>
+                            </SectionFullWidthImage>
                             </Sticky>
-                            <Sticky >
+                            <Sticky>
                                 <AssetSection1>
-                                    <Section >
-                                        <Col xs={2}></Col>
-                                        <Col >
+                                    <Section>
+                                        <Col xs={1} sm={2}>\</Col>
+                                        <Col>
                                             <FadeInWhenVisibleScale duration={1}>
                                             <IMacVideoContainer>
                                                 <Img src={item.videoHolderImage.publicUrl}></Img>
                                                 <VideoContainer>
-                                                    <video height="auto" width="100%" autoplay="true" loop="true" muted="" controls="">
+                                                    <video height="auto" width="100%" autoPlay={true} loop={true} muted={true} controls={false}>
                                                         <source src={item.videoEmbedUrl}/>
-                                                        <p class="warning">Your browser does not support HTML5 video.</p>
+                                                        <p className="warning">Your browser does not support HTML5 video.</p>
                                                     </video>
                                                 </VideoContainer>
                                             </IMacVideoContainer>
                                                 
                                             </FadeInWhenVisibleScale>
                                         </Col>
-                                        <Col xs={2}></Col>
+                                        <Col xs={1} sm={2}></Col>
                                     </Section>
                                     <Section>
-                                        <Col xs={2}></Col>
+                                        <Col xs={1} sm={2}></Col>
                                         <Col >
                                             <FadeInWhenVisibleScale duration={1}>
                                                 <ImgContainer>
@@ -452,7 +468,7 @@ class ProjectPage extends Component {
                                             </ImgContainer>
                                             </FadeInWhenVisibleScale>
                                         </Col>
-                                        <Col xs={2}></Col>
+                                        <Col xs={1} sm={2}></Col>
                                     </Section>
                                 </AssetSection1>
                             </Sticky>
@@ -556,8 +572,8 @@ class ProjectPage extends Component {
                                 <NextProject>
                                 <Link to={this.props.projects.nextProjectItemPathname}>
                                         <Wrapper >
-                                            <Col xs={2}></Col>
-                                            <Col xs={8}>
+                                            <Col xs={1} sm={2}>\</Col>
+                                            <Col xs={10} sm={8}>
                                                 <FirstLine>
                                                     <LineAnimationL2R/>
                                                     <StaticHeroText >
@@ -579,11 +595,11 @@ class ProjectPage extends Component {
                                                 </ThirdLine>
 
                                             </Col>
-                                            <Col xs={2}></Col>
+                                            <Col xs={1} sm={2}></Col>
                                         </Wrapper>
                                     </Link>
                                     <ProjectFooter>
-                                        <Footer/>
+                                    <Footer location={this.props.location.pathname} />
                                     </ProjectFooter>
                                 </NextProject>
                             </Waypoint>

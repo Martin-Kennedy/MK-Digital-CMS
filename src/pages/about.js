@@ -552,7 +552,7 @@ class About extends Component {
                                     <AboutFooterRow>
                                         <Col xs={1} sm={2}></Col>
                                         <Col xs={10} sm={8}>
-                                            <Footer/>
+                                        <Footer location={this.props.location.pathname} />
                                         </Col>
                                         <Col xs={1} sm={2}></Col>
                                     </AboutFooterRow>

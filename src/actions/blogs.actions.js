@@ -1,5 +1,5 @@
 
-import { GET_BLOGS, GET_BLOG_ITEM, GET_NEXT_BLOG_ITEM } from '../helpers/types'
+import { GET_BLOGS, GET_BLOG_ITEM, GET_NEXT_BLOG_ITEM, GET_BLOG_LANDING } from '../helpers/types'
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:4000/blog';
@@ -103,4 +103,32 @@ export const getBlogItem = (title, token) => {
             });
     };
 };
+
+export const getBlogLanding = (token) => {
+    return (dispatch) => {
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
+            query: `query {
+            allBlogLandings {
+                id,
+                h1,
+                paragraph
+            }
+} `
+        }
+        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                let simplifiedData = data.data.allBlogLandings;
+                dispatch({ type: GET_BLOG_LANDING, payload: simplifiedData })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
 

@@ -290,7 +290,7 @@ class BlogPage extends Component {
                                 </IntroSection>
 
                                 <BlogArticleFooter>
-                                    <Footer/>
+                                <Footer location={this.props.location.pathname} />
                                 </BlogArticleFooter>
 
                             </BaseLayer>

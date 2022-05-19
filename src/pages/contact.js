@@ -130,7 +130,7 @@ const mapStateToProps = state => {
                 <Row>
                     <Col xs={2}></Col>
                     <ContactFooter xs={8}>
-                        <Footer />
+                        <Footer location={this.props.location.pathname}  />
                     </ContactFooter>
                     <Col xs={2}></Col>
                 </Row>

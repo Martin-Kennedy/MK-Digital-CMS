@@ -130,8 +130,11 @@ position: absolute;
 right: 15vw;
 top: 0;
 @media (max-width: 900px) {
-    margin: 33vh 0;
-    width: 33vh;
+    margin: 0;
+    width: 66vw;
+    height: 66vw;
+    top: 80vh;
+    right: 20vw;
 }
 `
 const HeroImage = styled.div`
@@ -159,6 +162,12 @@ const WebsiteLink = styled.a`
         cursor: pointer;
         color: var(--white);
     }
+    @media (max-width: 900px) {
+    width: 8vh;
+    height: 8vh;
+    line-height: 8vh;
+    margin-top: 85vh;
+}
 `
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
     "July", "Aug", "Sept", "Oct", "Nove", "Dec"

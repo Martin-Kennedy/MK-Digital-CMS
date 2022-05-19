@@ -20,7 +20,6 @@ transform-style: preserve-3d;
 transform: translateZ(-25px);
 transition: transform 0.3s;
 
-
 &:first-child {
     margin-left: 0;
 }
@@ -76,17 +75,29 @@ const buildExpertiseArray = (props) => {
 }
 
 const BlogFilterButtons = (props) => <FilterContainer>
+    <BlogFilterBtn
+        className="btn-flip"
+        data-back={'All'}
+        data-front={'All'}
+        key={0}
+        value={'All'}
+        active={props.projects.activeButton === 0 ? true : false}
+        onClick={(e) => {
+            props.dispatch(sortByProjectExpertise('All', 0));
+        }}>
+    </BlogFilterBtn>
 {
     buildSubjectArray(props).map((subject, index) => {
+        console.log(subject)
         const FilterButton = <BlogFilterBtn
             className="btn-flip" 
             data-back={subject} 
             data-front={subject}
-            key={index}
+            key={index + 1}
             value={subject}
-            active={props.blogs.activeButton === index ? true : false}
+            active={props.blogs.activeButton === index + 1 ? true : false}
             onClick={(e) => {
-                props.dispatch(sortByBlogSubject(subject, index));
+                props.dispatch(sortByBlogSubject(subject, index + 1));
             }}>
            
             </BlogFilterBtn>
@@ -97,17 +108,29 @@ const BlogFilterButtons = (props) => <FilterContainer>
 </FilterContainer>;
 
 const ProjectFilterButtons = (props) => <FilterContainer>
+    <BlogFilterBtn
+        className="btn-flip"
+        data-back={'All'}
+        data-front={'All'}
+        key={0}
+        value={'All'}
+        active={props.projects.activeButton === 0 ? true : false}
+        onClick={(e) => {
+            props.dispatch(sortByProjectExpertise('All', 0));
+        }}>
+    </BlogFilterBtn>
     {
         buildExpertiseArray(props).map((expertise, index) => {
+            
             const FilterButton = <BlogFilterBtn
                 className="btn-flip"
                 data-back={expertise}
                 data-front={expertise}
-                key={index}
+                key={index + 1}
                 value={expertise}
-                active={props.projects.activeButton === index ? true : false}
+                active={props.projects.activeButton === index + 1 ? true : false}
                 onClick={(e) => {
-                    props.dispatch(sortByProjectExpertise(expertise, index));
+                    props.dispatch(sortByProjectExpertise(expertise, index + 1));
                 }}>
             </BlogFilterBtn>
 

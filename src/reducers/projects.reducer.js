@@ -37,7 +37,7 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
 
         case SORT_BY_PROJECT_EXPERTISE:
             let value = action.expertise;
-            let filteredValues = state.projectData.filter(card => card.expertise === value);
+            let filteredValues = value === 'all' ? state.projectData : state.projectData.filter(card => card.expertise === value);
             return {
                 ...state,
                 sortBy: action.expertise,
@@ -45,7 +45,6 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
                 activeButton: action.index
             }
         case GET_PROJECT_LANDING:
-            console.log(action)
             return {
                 ...state,
                 projectLandingData: action.payload
