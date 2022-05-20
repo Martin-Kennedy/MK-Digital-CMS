@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Row, Col} from 'react-bootstrap';
 import styled from "styled-components";
-import {Line, MediumText} from '../helpers/commonStyledComponents';
+import {Line, MediumText, H2, Main} from '../helpers/commonStyledComponents';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
 import ProjectPageHero from '../components/heros/projectPageHero';
@@ -29,46 +29,69 @@ const IntroSection = styled(Row)`
     padding-bottom: 35vh;
     @media (max-width: 900px) {
     margin-top: 33vh;
+    padding:0;
+    margin: 0;
 }
 `;
 
-const IntroBlurb1 = styled.h2 `
+const IntroBlurb1 = styled.div `
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: none;
     font-weight: 200;
-    font-size: 17px;
-    padding-left: 40px;
-    margin-right: 30px;
-    div:first-child {
-        margin-bottom: 1.5rem;
-    }
+    font-size: 5vw;
+    margin-bottom: 1.5rem;
+    padding: 0;
+    margin-left: 0;
 `
-const IntroBlurb2 = styled.h2 `
+
+const ProjectH2 = styled(H2)`
+font-size: 7vw;
+line-height: 8vw;
+font-weight: 500;
+margin-left: 0;
+margin-top: 20vh;
+margin-bottom: 7vw;
+padding-left: 0;
+letter-spacing: .5vw;
+
+`
+
+const ProjectMain = styled(Main)`
+font-size: 5vw;
+line-height: 6vw;
+letter-spacing: .5vw;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+`
+const IntroBlurb2 = styled.div `
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: none;
     font-weight: 200;
-    font-size: 17px;
-    margin-left: 30px;
-    div:first-child {
-        margin-bottom: 1.5rem;
-    }
+    font-size: 5vw;
+    margin-bottom: 1.5rem;
+    padding: 0;
+    margin-left: 0;
 `
 const ImgContainerTop = styled.div `
 width: 100%;
 height: 80vh;
+@media(max-width: ${variables.medium}){
+    width: 100vw;
+    right: 0;
+    margin: 0;
+    padding: 0;
+}
 `
 const Img = styled.img `
     width: 100%;
     height: 100%;
     margin: 50px 0;
-    @media (max-width: 980px){
-        margin: 0;
-    }
-object-fit: contain;
+    object-fit: contain;
+
 `
 
 const ImgSection = styled(Row)`
@@ -78,9 +101,13 @@ const ImgSection = styled(Row)`
     background-size: cover;
     background-repeat: no-repeat;
     margin: 0;
+    right: 0;
     z-index: 0;
     position: absolute;
     height: 100vh;
+    @media(max-width: ${variables.medium}){
+            height: 60vh;
+    }
 `
 const Section = styled(Row)`
 min-height: 100vh;
@@ -228,6 +255,10 @@ const SecondLine = styled.div `
     padding: 0 0 calc(33vh - 40px) 0;
     width: 100%;
     top: 0%;
+    @media(max-width: ${variables.medium}){
+        font-size: 12vw;
+        line-height: 12vw;
+    }
 
     svg  {
     position: relative; 
@@ -303,6 +334,23 @@ width:100%;
     width: 100vw;
     margin-top: 30vh;
 }
+`
+
+const ImgFullWidth = styled.div`
+    width: 100%;
+    height: 100%;
+    margin: 50px 0;
+    background-size: contain;
+    background-image: url('${props => props.background ? props.background : null}');
+    background-repeat: no-repeat;
+ @media(max-width: ${variables.medium}){
+    width: 100vw;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    transform: translate3d(0px, 0px, 0px);
+}
 
 `
 
@@ -328,8 +376,18 @@ class ProjectPage extends Component {
     constructor() {
         super();
         this.state = {
-            titleSlug: null
+            titleSlug: null,
+            width: 100,
+            height: 100,
         }
+    }
+
+
+    updateDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+    componentDidMount() {
+        window.addEventListener('resize', this.updateDimensions);
     }
     componentDidMount() {
         this._isMounted = true;
@@ -404,34 +462,41 @@ class ProjectPage extends Component {
                                     <Col xs={1} sm={2}></Col>
                                     <Col xs={10} sm={8}>
                                         <Row>
-                                            <Col sm={6}>
+                                            <Col xs={12} sm={6}>
                                                 <FadeInWhenVisibleScale duration={.5}>
                                                     <IntroBlurb1 >
-                                                        <Row>About {item.client}</Row>
-                                                        <Row>
-                                                            {item.aboutClient}</Row>
+                                                    <ProjectH2>About {item.client}</ProjectH2>
+                                                    <ProjectMain>
+                                                        {item.aboutClient}</ProjectMain>
                                                     </IntroBlurb1>
                                                 </FadeInWhenVisibleScale>
                                             </Col>
-                                            <Col sm={6}>
+                                        <Col xs={12} sm={6}>
                                                 <FadeInWhenVisibleScale duration={1}>
                                                     <IntroBlurb2 >
-                                                        <Row>The Work</Row>
-                                                        <Row>{item.whatWeDid}</Row>
+                                                    <ProjectH2>The Work</ProjectH2>
+                                                    <ProjectMain>{item.whatWeDid}</ProjectMain>
                                                     </IntroBlurb2>
                                                 </FadeInWhenVisibleScale>
 
                                             </Col>
                                         </Row>
-                                        <Row>
-                                            <FadeInWhenVisibleScale duration={1}>
+                                        </Col>
+                                <Col xs={1} sm={2}></Col>
+                                <FadeInWhenVisibleScale duration={1}>
+                                    <Section100VW>
+
+                                        <Col xs={0} sm={2}></Col>
+                                        <Col xs={12} sm={8}></Col>
+                                            
                                                 <ImgContainerTop>
-                                                <Img src={item.image1.publicUrl}></Img>
+                                                <ImgFullWidth background={item.image1.publicUrl}></ImgFullWidth>
                                                 </ImgContainerTop>
-                                            </FadeInWhenVisibleScale>
-                                        </Row>
-                                    </Col>
-                                    <Col xs={1} sm={2}></Col>
+                                           
+                                    <Col xs={0} sm={2}></Col>
+                                    </Section100VW>
+                                </FadeInWhenVisibleScale>
+                                    
                                 </IntroSection>
                             </Sticky>
                             <Sticky >
@@ -587,6 +652,7 @@ class ProjectPage extends Component {
                                                         delay={0}
                                                         reverse
                                                         ratio3rd
+                                                        screenWidth={this.state.width}
                                                         text={this.props.projects.nextProjectItem}
                                                         />
                                                 </SecondLine>

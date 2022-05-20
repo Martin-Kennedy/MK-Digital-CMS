@@ -2,6 +2,7 @@ import React from 'react';
 const {useEffect, useState} = React;
 import styled from 'styled-components';
 import {useSpring, animated, useSpringRef} from "react-spring";
+import variables from '../../variables.module.scss';
 
 const StyledSVGContainer = styled.div`
 width: ${props => props.widthHeight[0] > 100 ? ((props.widthHeight[0] / 10) * 5) / 6 : 66}vw;
@@ -9,20 +10,21 @@ max-width: 66vw;
 height: 66vw;
 padding: 0;
 position: absolute;
-@media(max-width: 690px){
+@media(max-width: ${variables.medium}){
     width: 168vw;
     max-width: 200vw;
     margin-left: -37vw;
+    top: 6vh;
 }
-@media(min-width: 691px){
+@media(min-width: ${variables.medium}){
     width: 77vw;
     height: 66vw;
     max-width: 77vw;
     padding: 0;
     margin-left: -4vw;
-    
+
 }
-@media(min-width: 1200px){
+@media(min-width: ${variables.large}){
     max-width: 66vw;
     height: 66vw;
     padding: 0;

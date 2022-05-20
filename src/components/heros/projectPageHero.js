@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from 'react-bootstrap';
 import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
 import { TextTranslation } from "../../helpers/textTranslation";
@@ -105,9 +105,12 @@ const FourthLine = styled.div`
 const StaticHeroText = styled.div`
         font-family: mr-eaves-modern, sans-serif;
         font-weight: 200;
-        font-size: 100px;
+        font-size: 7vw;
         @media (max-width: 900px) {
-            font-size: 12vw;
+            font-size: 8vw;
+            top: 2vw;
+            letter-spacing: 1.3vw;
+            
         }
         
         color: var(--black);
@@ -181,6 +184,19 @@ const formatDate = (date) => {
 const ProjectPageHero = props => {
 
     const [mouseLeft, setMouseLeft] = useState(null);
+    const [width, setWidth] = useState(window.innerWidth);
+
+    const updateDimensions = () => {
+        setWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', updateDimensions)
+
+        return () => {
+            window.removeEventListener('resize', updateDimensions)
+        }
+    }, [width])
 
         return <StyledProjectPageHero>
                 <Col xs={2}></Col>
@@ -193,6 +209,7 @@ const ProjectPageHero = props => {
                         delay={.5}
                         reverse
                         black
+                        screenWidth={width}
                         text={props.item.title} />
                         </FirstLine>
                         <SecondLine>
@@ -202,7 +219,8 @@ const ProjectPageHero = props => {
                         <TextTranslation 
                         duration={40}
                          delay={.75} 
-                         black 
+                         black
+                        screenWidth={width}
                             text={`${props.item.client}  -  ${props.item.expertise}`} />
                     </SecondLine>
                         <ThirdLine>

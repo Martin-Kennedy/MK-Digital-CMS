@@ -14,6 +14,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore, {Autoplay} from 'swiper';
+import  variables  from '../../variables.module.scss';
 
 const StyledCarouselProvider = styled(Swiper)`
     margin: 30px auto 60px;
@@ -25,10 +26,10 @@ const StyledCarouselProvider = styled(Swiper)`
     justify-content: center;
     align-items: center;
     cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
-    @media(max-width: 690px){
+    @media(max-width: ${variables.medium}){
                 width: 100vw;
-                height: 100vh;
-                margin: 20px auto 5vh;
+                height: 60vh;
+                margin: 0 auto 5vh;
         }
     `;
 

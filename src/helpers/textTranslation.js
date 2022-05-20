@@ -31,7 +31,8 @@ height: calc(33vh - 40px);
 `
 
 export const TextTranslation = (props) => {
-
+    const width = props.screenWidth * 2.5;
+    const negativeWidth = props.screenWidth * -2.5;
     const [x1,
         setX1] = useState(0);
     const [x2,
@@ -41,13 +42,13 @@ export const TextTranslation = (props) => {
 
         switch (props.reverse) {
             case(props.reverse === true):
-                setX1(-2000);
-                setX2(2000);
+                setX1(negativeWidth);
+                setX2(width);
                 break;
 
             default:
-                setX1(2000);
-                setX2(-2000);
+                setX1(width);
+                setX2(negativeWidth);
         }
         switch (props.start) {
             case(props.start != 'undefined'):

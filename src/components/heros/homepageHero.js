@@ -43,7 +43,7 @@ const TopLine = styled.div `
     }
     }
     @media(max-width: 690px){
-        top: 80vh;
+        top: 75vh;
         line {
         stroke: 2px solid #fff;
     }
@@ -86,9 +86,9 @@ const AnimatedTextContainer = styled.div`
         white-space: nowrap;
         letter-spacing: 1.5rem;
         @media(max-width: 690px){
-                font-size: 10vh;
-                letter-spacing: 2vw;
-                top: calc(80vh + 10px);
+                font-size: 6vh;
+                letter-spacing: 1.5vw;
+                top: calc(78vh - 3vh + 10px);
         }
 `
 
@@ -124,13 +124,12 @@ class HomepageHero extends Component {
     constructor(){
         super()
         this.state = {
-            width: 100,
-            height: 100,
+            width: window.innerWidth
         }
     } 
 
     updateDimensions = () => {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
+        this.setState({ width: window.innerWidth });
     };
     componentDidMount() {
         window.addEventListener('resize', this.updateDimensions);
@@ -144,7 +143,11 @@ class HomepageHero extends Component {
                         <LineAnimationL2R/>
                     </TopLine>
                     <AnimatedTextContainer>
-                        <TextTranslation duration={20} text={getCarouselText(this.props.carouselText, this.props.currentSlide)}/>
+                        <TextTranslation 
+                        duration={20} 
+                        text={getCarouselText(this.props.carouselText, this.props.currentSlide)}
+                        screenWidth={this.state.width}
+                        />
                     </AnimatedTextContainer>
                     <BottomLine>
                         <LineAnimationR2L/>
