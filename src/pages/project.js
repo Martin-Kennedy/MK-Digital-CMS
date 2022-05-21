@@ -15,6 +15,7 @@ import Sticky from 'react-stickynode';
 import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
 import variables from '../variables.module.scss';
+import MediaQuery from 'react-responsive';
 
 const BaseLayer = styled.div `
     background-color: var(--white);
@@ -576,8 +577,8 @@ class ProjectPage extends Component {
                                 </Section100VW>
                             </Sticky>
                             <ResultsSection>
-                                <Col sm={2}></Col>
-                                <Col sm={8}>
+                                <Col xs={1} sm={2}></Col>
+                                <Col xs={10} sm={8}>
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricType>
                                             <Col>
@@ -589,49 +590,58 @@ class ProjectPage extends Component {
                                         </ResultsMetricType>
                                     </FadeInWhenVisibleScale>
                                     <Row>
-                                        <Col sm={6}>
+                                        <Col xs={12} sm={6}>
                                             <Line></Line>
                                         </Col>
-                                        <Col></Col>
-                                        <Col sm={6}>
+                                    <MediaQuery minWidth={variables.medium}> <Col></Col></MediaQuery> 
+                                        <Col xs={12} sm={6}>
                                             <Line></Line>
                                         </Col>
                                     </Row>
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricData>
-                                            <Col sm={6}>
+                                            <Col xs={12}sm={6}>
                                             <p>{item.resultMetric1Value}</p>
                                             </Col>
-                                            <Col></Col>
-                                            <Col sm={6}>
+                                        <MediaQuery minWidth={variables.medium}> <Col></Col></MediaQuery> 
+                                            <Col xs={12} sm={6}>
                                             <p>{item.resultMetric2Value}</p>
                                             </Col>
                                         </ResultsMetricData>
                                     </FadeInWhenVisibleScale>
                                     <Row>
-                                        <Col sm={6}>
+                                        <Col xs={12} sm={6}>
                                             <Line></Line>
                                         </Col>
-                                        <Col></Col>
-                                        <Col sm={6}>
+                                    <MediaQuery minWidth={variables.medium}> <Col></Col></MediaQuery> 
+                                        <Col xs={12} sm={6}>
                                             <Line></Line>
                                         </Col>
                                     </Row>
                                     <FadeInWhenVisibleScale>
                                         <ResultsBlurb>
                                             <Row>
-                                                <Col sm={6}>
+                                            <MediaQuery maxWidth={variables.medium}> 
+                                            <Row>
+                                                <Col>
                                                     <p>The Results</p>
                                                 </Col>
-                                                <Col></Col>
+                                            </Row>
+                                            <Row>
+                                                    <p>{item.resultFullText}</p>
+                                            </Row>
+                                            </MediaQuery> 
                                                 <Col sm={6}>
+                                                <p>The Results</p>
+                                                </Col>
+                                                <Col  sm={6}>
                                                 <p>{item.resultFullText}</p>
                                                 </Col>
                                             </Row>
                                         </ResultsBlurb>
                                     </FadeInWhenVisibleScale>
                                 </Col>
-                                <Col sm={2}></Col>
+                                <Col xs={1} sm={2}></Col>
                             </ResultsSection>
                             <Waypoint
                                 onEnter={() => {
