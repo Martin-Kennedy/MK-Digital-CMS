@@ -27,10 +27,9 @@ const IntroSection = styled(Row)`
     z-index: 1;
     position: relative;
     padding-bottom: 35vh;
-    @media (max-width: 900px) {
-    margin-top: 33vh;
+    @media (max-width: ${variables.medium}) {
+    margin-top: 70vw;
     padding:0;
-    margin: 0;
 }
 `;
 
@@ -40,30 +39,54 @@ const IntroBlurb1 = styled.div `
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: none;
     font-weight: 200;
-    font-size: 5vw;
     margin-bottom: 1.5rem;
     padding: 0;
     margin-left: 0;
+    margin-top: 66vw;
+    @media(max-width: ${variables.medium}){
+         margin-top: 10vh;
+    }
 `
 
 const ProjectH2 = styled(H2)`
-font-size: 7vw;
-line-height: 8vw;
+font-size: 1.5vw;
+line-height: 1.75vw;
 font-weight: 500;
 margin-left: 0;
-margin-top: 20vh;
-margin-bottom: 7vw;
+margin-top: 0;
+margin-bottom: 3vw;
 padding-left: 0;
 letter-spacing: .5vw;
-
+@media(max-width: ${variables.medium}){
+    font-size: 5vw;
+    line-height: 6vw;
+    margin-bottom: 5vw;
+}
+@media(max-width: ${variables.small}){
+    font-size: 7vw;
+    line-height: 8vw;
+    margin-bottom: 7vw;
+}
 `
 
 const ProjectMain = styled(Main)`
-font-size: 5vw;
-line-height: 6vw;
-letter-spacing: .5vw;
+    font-size: 1.25vw;
+    line-height: 1.75vw;
     padding-right: calc(var(--bs-gutter-x) * .5);
     padding-left: calc(var(--bs-gutter-x) * .5);
+    letter-spacing: .125vw;
+     @media(max-width: ${variables.medium}){
+    font-size: 3vw;
+    line-height: 4vw;
+    letter-spacing: .35vw;
+    padding-right: 5vw;
+}
+    @media(max-width: ${variables.small}){
+    font-size: 5vw;
+    line-height: 6vw;
+    letter-spacing: .5vw;
+    padding-right: 5vw;
+}
 `
 const IntroBlurb2 = styled.div `
     line-height: 1.6;
@@ -71,10 +94,13 @@ const IntroBlurb2 = styled.div `
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: none;
     font-weight: 200;
-    font-size: 5vw;
     margin-bottom: 1.5rem;
     padding: 0;
     margin-left: 0;
+    margin-top: 66vw;
+     @media(max-width: ${variables.medium}){
+         margin-top: 10vh;
+    }
 `
 const ImgContainerTop = styled.div `
 width: 100%;
@@ -91,6 +117,7 @@ const Img = styled.img `
     height: 100%;
     margin: 50px 0;
     object-fit: contain;
+
 
 `
 
@@ -337,19 +364,20 @@ width:100%;
 `
 
 const ImgFullWidth = styled.div`
-    width: 100%;
+    width: 66vw;
     height: 100%;
-    margin: 50px 0;
-    background-size: contain;
+    margin: 50px auto;
+    background-size: cover;
     background-image: url('${props => props.background ? props.background : null}');
     background-repeat: no-repeat;
- @media(max-width: ${variables.medium}){
+ @media(max-width: ${variables.large}){
     width: 100vw;
     left: 0;
     margin: 0;
     padding: 0;
     position: relative;
     transform: translate3d(0px, 0px, 0px);
+    background-size: contain;
 }
 
 `
@@ -450,19 +478,17 @@ class ProjectPage extends Component {
             <div>
                 {this.props.projects.projectItem.length
                     ? <BaseLayer>
-                        
                             <HeaderComponent
                                 location={this.getFirstPathSegment(this.props.location.pathname)}/>
                             <Sticky >
                                 <FadeInWhenVisibleOpacity duration={2}>
                                     <ProjectPageHero item={item}/>
                                 </FadeInWhenVisibleOpacity>
-
                                 <IntroSection >
                                     <Col xs={1} sm={2}></Col>
                                     <Col xs={10} sm={8}>
                                         <Row>
-                                            <Col xs={12} sm={6}>
+                                            <Col sm={12} md={6}>
                                                 <FadeInWhenVisibleScale duration={.5}>
                                                     <IntroBlurb1 >
                                                     <ProjectH2>About {item.client}</ProjectH2>
@@ -471,32 +497,27 @@ class ProjectPage extends Component {
                                                     </IntroBlurb1>
                                                 </FadeInWhenVisibleScale>
                                             </Col>
-                                        <Col xs={12} sm={6}>
+                                        <Col  sm={12} md={6}>
                                                 <FadeInWhenVisibleScale duration={1}>
                                                     <IntroBlurb2 >
                                                     <ProjectH2>The Work</ProjectH2>
                                                     <ProjectMain>{item.whatWeDid}</ProjectMain>
                                                     </IntroBlurb2>
                                                 </FadeInWhenVisibleScale>
-
                                             </Col>
                                         </Row>
                                         </Col>
                                 <Col xs={1} sm={2}></Col>
                                 <FadeInWhenVisibleScale duration={1}>
                                     <Section100VW>
-
                                         <Col xs={0} sm={2}></Col>
                                         <Col xs={12} sm={8}></Col>
-                                            
                                                 <ImgContainerTop>
                                                 <ImgFullWidth background={item.image1.publicUrl}></ImgFullWidth>
                                                 </ImgContainerTop>
-                                           
-                                    <Col xs={0} sm={2}></Col>
+                                        <Col xs={0} sm={2}></Col>
                                     </Section100VW>
                                 </FadeInWhenVisibleScale>
-                                    
                                 </IntroSection>
                             </Sticky>
                             <Sticky >
@@ -519,7 +540,6 @@ class ProjectPage extends Component {
                                                     </video>
                                                 </VideoContainer>
                                             </IMacVideoContainer>
-                                                
                                             </FadeInWhenVisibleScale>
                                         </Col>
                                         <Col xs={1} sm={2}></Col>
@@ -537,37 +557,29 @@ class ProjectPage extends Component {
                                     </Section>
                                 </AssetSection1>
                             </Sticky>
-
                             <Sticky>
                                 <Section100VW>
                                     <FiftyVW color={'var(--black)'}>
-
                                         <FiftyVWImg>
                                             <FadeInWhenVisibleScale duration={1}>
                                                 <Img src={item.iphoneImageDarkBackground.publicUrl}></Img>
                                             </FadeInWhenVisibleScale>
                                         </FiftyVWImg>
-
                                     </FiftyVW>
-                                {console.log(item)}
                                 <FiftyVW color={item.fiftyVwBkgColor}>
-
                                         <FiftyVWImg >
                                             <FadeInWhenVisibleScale duration={1}>
                                             <Img src={item.iphoneImageColorBackground.publicUrl}></Img>
                                             </FadeInWhenVisibleScale>
                                         </FiftyVWImg>
-
                                     </FiftyVW>
                                 </Section100VW>
                             </Sticky>
-
                             <ResultsSection>
                                 <Col sm={2}></Col>
                                 <Col sm={8}>
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricType>
-
                                             <Col>
                                             <p>{item.resultMetric1Description}</p>
                                             </Col>
@@ -576,7 +588,6 @@ class ProjectPage extends Component {
                                             </Col>
                                         </ResultsMetricType>
                                     </FadeInWhenVisibleScale>
-
                                     <Row>
                                         <Col sm={6}>
                                             <Line></Line>
@@ -617,7 +628,6 @@ class ProjectPage extends Component {
                                                 <p>{item.resultFullText}</p>
                                                 </Col>
                                             </Row>
-
                                         </ResultsBlurb>
                                     </FadeInWhenVisibleScale>
                                 </Col>
@@ -626,14 +636,14 @@ class ProjectPage extends Component {
                             <Waypoint
                                 onEnter={() => {
                                 this.props.dispatch(getIntersectingState(true))
-                            }}
+                                 }}
                                 bottomOffset={'100%'}
                                 topOffset={100}
                                 onLeave={() => {
                                 this
                                     .props
                                     .dispatch(getIntersectingState(false))
-                            }}>
+                                }}>
                                 <NextProject>
                                 <Link to={this.props.projects.nextProjectItemPathname}>
                                         <Wrapper >
@@ -659,7 +669,6 @@ class ProjectPage extends Component {
                                                 <ThirdLine>
                                                     <LineAnimationL2R/>
                                                 </ThirdLine>
-
                                             </Col>
                                             <Col xs={1} sm={2}></Col>
                                         </Wrapper>
@@ -669,7 +678,6 @@ class ProjectPage extends Component {
                                     </ProjectFooter>
                                 </NextProject>
                             </Waypoint>
-
                         </BaseLayer>
                     : 'loading'
 }
