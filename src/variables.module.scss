@@ -4,10 +4,22 @@ $large: 996px;
 $extra-large: 1200px;
 $large-desktop: 1400px;
 
+
+$smallNum: 576;
+$mediumNum: 768;
+$largeNum: 996;
+$extra-largeNum: 1200;
+$large-desktopNum: 1400;
+
 :export {
     small: $small;
     medium: $medium;
     large: $large;
     extra-large: $extra-large;
     large-desktop: $large-desktop;
+    smallNum: $smallNum;
+    mediumNum: $mediumNum;
+    largeNum: $largeNum;
+    extra-largeNum: $extra-largeNum;
+    large-desktopNum: $large-desktopNum;
 }

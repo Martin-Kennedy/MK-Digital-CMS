@@ -17,6 +17,9 @@ import {getIntersectingState} from '../actions/pages.actions';
 import variables from '../variables.module.scss';
 import MediaQuery from 'react-responsive';
 
+const smallNum = Number(variables.smallNum);
+const mediumNum = Number(variables.mediumNum)
+
 const BaseLayer = styled.div `
     background-color: var(--white);
 `
@@ -71,8 +74,9 @@ letter-spacing: .5vw;
 `
 
 const ProjectMain = styled(Main)`
-    font-size: 1.25vw;
-    line-height: 1.75vw;
+p {
+ font-size: 2.25vw;
+    line-height: 2.75vw;
     padding-right: calc(var(--bs-gutter-x) * .5);
     padding-left: calc(var(--bs-gutter-x) * .5);
     letter-spacing: .125vw;
@@ -88,6 +92,8 @@ const ProjectMain = styled(Main)`
     letter-spacing: .5vw;
     padding-right: 5vw;
 }
+}
+
 `
 const IntroBlurb2 = styled.div `
     line-height: 1.6;
@@ -204,54 +210,83 @@ const ProjectFooter = styled.div `
 
 const ResultsSection = styled(Row)`
     background-color: var(--white);
-    min-height: 500px;
     color: var(--black);
     z-index: 1;
     position: relative;
-    height: 100vh ;
+    min-height: max-content;
     font-weight: 200;
     font-size: .8rem;
-    .row {
-        flex-wrap: nowrap;
-    }
+
 `
 
 const ResultsMetricType = styled(Row)`
     margin-top: 10vh;
     margin-bottom: 2rem;
-    flex-wrap: nowrap;
     p {
     margin-left: 20px;
+   
  }
+
  .col:first-child p {
      margin-left: 5px;
  }
+  @media(max-width: ${variables.medium}){
+      .col{
+          padding: 0;
+      }
+      p{
+         margin-left:0;
+      }
+     
+  }
     `
 
 const ResultsMetricData = styled(Row)`
 margin-bottom: 2rem;
-flex-wrap: nowrap;
  p {
-    font-size: 10rem;
+    font-size: 14vw;
     font-weight: 400;
-    line-height: 150px;
+    line-height: 15vw;
+    @media(max-width: ${variables.medium}){
+        font-size: 35vw;
+        line-height: 35vw;
+    }
+    @media(max-width: ${variables.small}){
+        font-size: 43vw;
+        line-height: 35vw;
+    }
  }
 
 `
 
 const ResultsBlurb = styled(Row)`
-flex-wrap: nowrap;
  p {
     margin-left: 20px;
  }
  .col:first-child p {
      margin-left: 5px;
  }
+
+ font-size: 1.5vw;
+line-height: 1.75vw;
+ padding-bottom: 10vh;
+ @media(max-width: ${variables.medium}){
+     .col{
+         padding-left: 0;
+     }
+     p {
+        margin-left: 0;
+     }
+     padding-bottom: 20vh;
+     font-size: 3.5vw;
+    line-height: 4.5vw;
+ }
+ 
 `
 
 const NextProject = styled(Row)`
 background-color: var(--black);
-height: 100vh;
+min-height: 100vh;
 z-index: 2;
 position: relative;
 `
@@ -494,7 +529,10 @@ class ProjectPage extends Component {
                                                     <IntroBlurb1 >
                                                     <ProjectH2>About {item.client}</ProjectH2>
                                                     <ProjectMain>
-                                                        {item.aboutClient}</ProjectMain>
+                                                        <p>
+                                                            {item.aboutClient}
+                                                        </p>
+                                                    </ProjectMain>
                                                     </IntroBlurb1>
                                                 </FadeInWhenVisibleScale>
                                             </Col>
@@ -502,7 +540,9 @@ class ProjectPage extends Component {
                                                 <FadeInWhenVisibleScale duration={1}>
                                                     <IntroBlurb2 >
                                                     <ProjectH2>The Work</ProjectH2>
-                                                    <ProjectMain>{item.whatWeDid}</ProjectMain>
+                                                    <ProjectMain>
+                                                        <p>{item.whatWeDid} </p>
+                                                    </ProjectMain>
                                                     </IntroBlurb2>
                                                 </FadeInWhenVisibleScale>
                                             </Col>
@@ -577,71 +617,138 @@ class ProjectPage extends Component {
                                 </Section100VW>
                             </Sticky>
                             <ResultsSection>
-                                <Col xs={1} sm={2}></Col>
-                                <Col xs={10} sm={8}>
+                                <Col sm={2}></Col>
+                                <Col sm={8}>
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricType>
-                                            <Col>
+                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                            <Col xs={10} sm={6}>
                                             <p>{item.resultMetric1Description}</p>
                                             </Col>
-                                            <Col>
+                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                        <MediaQuery minWidth={mediumNum}>
+                                            <Col sm={6}>
                                             <p>{item.resultMetric2Description}</p>
                                             </Col>
+                                        </MediaQuery>
                                         </ResultsMetricType>
                                     </FadeInWhenVisibleScale>
                                     <Row>
-                                        <Col xs={12} sm={6}>
+                                    <MediaQuery minWidth={mediumNum}>
+                                        <Col sm={5}>
                                             <Line></Line>
                                         </Col>
-                                    <MediaQuery minWidth={variables.medium}> <Col></Col></MediaQuery> 
-                                        <Col xs={12} sm={6}>
+                                        <Col></Col>
+                                        <Col sm={6}>
                                             <Line></Line>
                                         </Col>
+                                        </MediaQuery>
+                                    <MediaQuery maxWidth={mediumNum}>
+                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                        <Col xs={10} >
+                                            <Line></Line>
+                                        </Col>
+                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                    </MediaQuery>
                                     </Row>
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricData>
-                                            <Col xs={12}sm={6}>
+                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                        <Col xs={10} sm={6}>
                                             <p>{item.resultMetric1Value}</p>
+                                        </Col>
+                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                        <MediaQuery minWidth={mediumNum}>
+                                            <Col sm={6}>
+                                                <p>{item.resultMetric2Value}</p>
                                             </Col>
-                                        <MediaQuery minWidth={variables.medium}> <Col></Col></MediaQuery> 
-                                            <Col xs={12} sm={6}>
-                                            <p>{item.resultMetric2Value}</p>
-                                            </Col>
+                                        </MediaQuery>
                                         </ResultsMetricData>
                                     </FadeInWhenVisibleScale>
+                                    <FadeInWhenVisibleScale>
+                                    <ResultsMetricType>
+                                        <MediaQuery maxWidth={mediumNum}>
+                                            <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                            <Col xs={10} sm={6}>
+                                                <p>{item.resultMetric2Description}</p>
+                                            </Col>
+                                            <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                        </MediaQuery>
+                                    </ResultsMetricType>
+                                    </FadeInWhenVisibleScale>
                                     <Row>
-                                        <Col xs={12} sm={6}>
-                                            <Line></Line>
-                                        </Col>
-                                    <MediaQuery minWidth={variables.medium}> <Col></Col></MediaQuery> 
-                                        <Col xs={12} sm={6}>
-                                            <Line></Line>
-                                        </Col>
+                                        <MediaQuery minWidth={mediumNum}>
+                                            <Col sm={5}>
+                                                <Line></Line>
+                                            </Col>
+                                            <Col></Col>
+                                            <Col sm={6}>
+                                                <Line></Line>
+                                            </Col>
+                                        </MediaQuery>
+                                        <MediaQuery maxWidth={mediumNum}>
+                                            <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                            <Col xs={10} >
+                                                <Line></Line>
+                                            </Col>
+                                            <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                        </MediaQuery>
                                     </Row>
+                                <MediaQuery maxWidth={mediumNum}>
+                                <FadeInWhenVisibleScale>
+                                    <ResultsMetricData>
+                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                        <Col xs={10} sm={6}>
+                                            <p>{item.resultMetric2Value}</p>
+                                        </Col>
+                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                    </ResultsMetricData>
+                                </FadeInWhenVisibleScale>
+                                </MediaQuery>
                                     <FadeInWhenVisibleScale>
                                         <ResultsBlurb>
+                                            
+                                            <MediaQuery minWidth={mediumNum}>
                                             <Row>
-                                            <MediaQuery maxWidth={variables.medium}> 
-                                            <Row>
-                                                <Col>
-                                                    <p>The Results</p>
+                                                <Col sm={5}>
+                                                    <ProjectH2>The Results</ProjectH2>
                                                 </Col>
-                                            </Row>
-                                            <Row>
-                                                    <p>{item.resultFullText}</p>
-                                            </Row>
-                                            </MediaQuery> 
+                                                <Col></Col>
                                                 <Col sm={6}>
-                                                <p>The Results</p>
+                                                    <ProjectMain>{item.resultFullText}</ProjectMain>
                                                 </Col>
-                                                <Col  sm={6}>
-                                                <p>{item.resultFullText}</p>
+                                                 </Row>
+                                                </MediaQuery>
+                                            <MediaQuery maxWidth={mediumNum}>
+                                                <Row>
+                                                    <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                                    <Col xs={10} >
+                                                        <Line></Line>
+                                                    </Col>
+                                                    <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                                </Row>
+                                                <Row>
+                                                <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                                <Col xs={10} >
+                                                    <ProjectH2>The Results</ProjectH2>
                                                 </Col>
-                                            </Row>
+                                                <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                                </Row>
+                                            </MediaQuery>
+                                           
+                                            <MediaQuery maxWidth={mediumNum}>
+                                                <Row>
+                                                <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                                <Col xs={10} >
+                                                    <ProjectMain><p>{item.resultFullText}</p></ProjectMain>
+                                                </Col>
+                                                <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                                </Row>
+                                            </MediaQuery>
                                         </ResultsBlurb>
                                     </FadeInWhenVisibleScale>
                                 </Col>
-                                <Col xs={1} sm={2}></Col>
+                                <Col sm={2}></Col>
                             </ResultsSection>
                             <Waypoint
                                 onEnter={() => {

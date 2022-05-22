@@ -191,3 +191,10 @@ export const RGBAToHexA = ([r, g, b, a]) => {
     return "#" + r + g + b;
 }
 
+// Strip non numeric values from string
+
+export const StripNonNumValFromString = (string) => {
+   const number = string.replace(/[^\d.-]/g, '');
+   return number;
+}
+
