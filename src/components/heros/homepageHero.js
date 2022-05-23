@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import SvgBlob from "../designElementComponents/blobSvg";
 import SlideCounterComponent from "../carousels/slideCounter";
 import MediaQuery from 'react-responsive';
+import variables from '../../variables.module.scss';
 
 const StyledHomepageHero = styled(Row)`
     height: 100vh;
@@ -15,16 +16,15 @@ const StyledHomepageHero = styled(Row)`
 `
 
 const CarouselContainer = styled.div `
-    position: absolute;
-    top: 0;
-    left: 33vw;
+    position: relative;
     overflow: hidden;
     display: flex;
-    height: 100vh;
-    @media(max-width: 690px){
-        left: 0;
-        height: 100vh;
+    height: 66vh;
+    margin: 20vh auto 15vh auto;
+    @media(max-width: ${variables.small}){
+        margin-top: 10vh;
     }
+
 `
 
 const TopLine = styled.div `
@@ -42,7 +42,7 @@ const TopLine = styled.div `
         stroke: #fff;
     }
     }
-    @media(max-width: 690px){
+    @media(max-width: ${variables.small}){
         top: 75vh;
         line {
         stroke: 2px solid #fff;
@@ -65,7 +65,7 @@ const BottomLine = styled.div `
         stroke: #fff;
     }
     }
-    @media(max-width: 690px){
+    @media(max-width: ${variables.small}){
         top: 90vh;
         line {
         stroke: 2px solid #fff;
@@ -85,7 +85,7 @@ const AnimatedTextContainer = styled.div`
         text-transform: uppercase;
         white-space: nowrap;
         letter-spacing: 1.5rem;
-        @media(max-width: 690px){
+        @media(max-width: ${variables.small}){
                 font-size: 6vh;
                 letter-spacing: 1.5vw;
                 top: calc(78vh - 3vh + 10px);

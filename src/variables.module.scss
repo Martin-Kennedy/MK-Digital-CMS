@@ -1,3 +1,4 @@
+$extraSmall: 458px;
 $small: 576px;
 $medium: 768px;
 $large: 996px;
@@ -12,6 +13,7 @@ $extra-largeNum: 1200;
 $large-desktopNum: 1400;
 
 :export {
+    extraSmall: $extraSmall;
     small: $small;
     medium: $medium;
     large: $large;

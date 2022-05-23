@@ -17,40 +17,46 @@ import SwiperCore, {Autoplay} from 'swiper';
 import  variables  from '../../variables.module.scss';
 
 const StyledCarouselProvider = styled(Swiper)`
-    margin: 30px auto 60px;
-    width: 100%;
-    height: 100%;
     text-align: center;
     font-size: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
-    @media(max-width: ${variables.medium}){
-                width: 100vw;
-                height: 60vh;
-                margin: 0 auto 5vh;
+     @media(max-width: ${variables.small}){
+                height: 80vh;
+                margin: 0 auto;
+
         }
+         @media(max-width: ${variables.medium}){
+                height: 60vh;
+                margin: 0 auto;
+
+        }
+    cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+
     `;
 
 const SlideImage = styled.img `
     display: block;
-    width: 33vw;
-    height: 60vh;
+    width: 100%;
+    height: 66vh;
     object-fit: contain;
-    position: relative;
-    top: 5vh;
-    @media(max-width: 690px){
-                width: 50vw;
-                left: 25vw;
-                top: 0;
+    margin: 0 auto;
+      @media(max-width: ${variables.medium}){
+                width: 100%;
+                height: 66vh;
+        }
+        @media(max-width: ${variables.medium}){
+                width: 100%;
+                height: 50vh;
         }
 `;
 
 const StyledLink = styled(Link)`
 cursor: pointer;
-width: 100%;
-height: 100%;
+width: 33vw;
+margin: 0 auto;
+   @media(max-width: ${variables.medium}){
+                width: 50vw;
+                left: 25vw;
+        }
 `
 const mapStateToProps = state => {
     return {
