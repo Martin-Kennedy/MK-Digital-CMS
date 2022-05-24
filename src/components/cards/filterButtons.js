@@ -81,9 +81,9 @@ const BlogFilterButtons = (props) => <FilterContainer>
         data-front={'All'}
         key={0}
         value={'All'}
-        active={props.projects.activeButton === 0 ? true : false}
+        active={props.blogs.activeButton === 0 ? true : false}
         onClick={(e) => {
-            props.dispatch(sortByProjectExpertise('All', 0));
+            props.dispatch(sortByBlogSubject('All', 0));
         }}>
     </BlogFilterBtn>
 {

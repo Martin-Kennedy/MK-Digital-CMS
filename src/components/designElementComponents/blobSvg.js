@@ -12,6 +12,8 @@ position: absolute;
 top: 0;
 left: calc(50% - 300px) ;
 
+
+
 @media screen and (min-height: ${variables.large}) and (max-width: ${variables.large}){
     width: 500px;
     left: calc(50vw - 270px);
@@ -51,11 +53,16 @@ left: calc(50% - 300px) ;
     height: 500px;
     left: calc(50vw - 215px);
 }
+@media screen and (orientation: landscape){
+    max-width: 66vh;
+    left: calc(50vw - 37vh);
+}
 `
 const StyledSVG = styled.svg `
 position: relative;
 width: 100%;
 top: 0;
+transform: scale(1.25,1);
 
 @media(max-width: ${variables.small}){
     top: 0;
@@ -66,6 +73,7 @@ const StyledPath = styled(animated.path)`
 transition: transform 1s;
 transition-timing-function: cubic-bezier(0.07, 2.0, 1.0, 0.1);
 fill: ${props => props.bkgcolor};
+
 `
 
 const SvgBlob = ({slides, bkgcolor, widthHeight}) => {

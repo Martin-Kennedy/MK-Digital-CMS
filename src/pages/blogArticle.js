@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Row, Col} from 'react-bootstrap';
 import styled from "styled-components";
-import {SmallAndThinText} from '../helpers/commonStyledComponents';
+import {SmallAndThinText, Main} from '../helpers/commonStyledComponents';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
 import {FadeInWhenVisibleOpacity, FadeInWhenVisibleScale} from '../helpers/fadeInOnViewport';
@@ -12,6 +12,7 @@ import {getBlogItem, getNextBlogItem, getBlogs} from '../actions/blogs.actions';
 import {getToken, establishSession} from '../actions/initialUtility.actions';
 import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
+import variables from '../variables.module.scss';
 import DOMPurify from 'dompurify';
 
 const BaseLayer = styled.div `
@@ -28,32 +29,29 @@ const IntroSection = styled(Row)`
 
 `;
 
-const IntroBlurb1 = styled.h2 `
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: none;
-    font-weight: 200;
-    font-size: 17px;
-    padding-left: 40px;
-    margin-right: 30px;
-    div:first-child {
-        margin-bottom: 1.5rem;
-    }
-`
-const IntroBlurb2 = styled.h2 `
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: none;
-    font-weight: 200;
-    font-size: 17px;
-    margin-left: 30px;
-    div:first-child {
-        margin-bottom: 1.5rem;
-    }
-`
+const BlogMain = styled(Main)`
+p {
+    font-size: 1.25vw;
+    line-height: 1.5vw;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    letter-spacing: .125vw;
+    padding-right: 5vw;
+     @media(max-width: ${variables.medium}){
+    font-size: 3vw;
+    line-height: 4vw;
+    letter-spacing: .35vw;
 
+}
+    @media(max-width: ${variables.small}){
+    font-size: 5vw;
+    line-height: 6vw;
+    letter-spacing: .5vw;
+
+}
+}
+
+`
 const Img = styled.img `
     height: 50vh;
     width: 100%;
@@ -259,10 +257,10 @@ class BlogPage extends Component {
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <div
+                                        <BlogMain
                                                 dangerouslySetInnerHTML={{
                                                 __html: this.sanitizeHTML(item.article)
-                                            }}></div>
+                                            }}></BlogMain>
                                         </Row>
                                         <Waypoint
                                             onEnter={() => {

@@ -79,6 +79,7 @@ const BlogLanding = (props) => {
         <TopRow>
             <Col xs={2} sm={1}></Col>
             <Hero xs={8} sm={10}>
+              
                 {props.blogs.blogLandingData.length && <BlogLandingMain>
 
                         <H1>{props.blogs.blogLandingData[0].h1}</H1>
