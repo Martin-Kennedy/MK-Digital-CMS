@@ -11,12 +11,12 @@ margin: 0;
 position: absolute;
 top: 0;
 left: calc(50% - 300px) ;
-@media(max-width: ${variables.small}){
-    width: 400px;
-    height: 500px;
-    left: calc(50vw - 215px);
+
+@media screen and (min-height: ${variables.large}) and (max-width: ${variables.large}){
+    width: 500px;
+    left: calc(50vw - 270px);
 }
-@media screen and (min-height: ${variables.large}){
+@media(max-width: ${variables.large}){
     width: 500px;
     left: calc(50vw - 270px);
 }
@@ -38,9 +38,18 @@ left: calc(50% - 300px) ;
     top: 6vh;
     left: calc(50% - 405px);
 }
-@media(max-width: ${variables.extraSmall}){
+@media(max-width: ${variables.extraSmall}) and (orientation: portrait){
     width: 360px;
     left: calc(50vw - 192px);
+}
+@media(min-width: ${variables.largeDesktop}){
+    width: 33vw;
+    left: 32vw;
+}
+@media(max-width: ${variables.small}) and (orientation: portrait){
+    width: 400px;
+    height: 500px;
+    left: calc(50vw - 215px);
 }
 `
 const StyledSVG = styled.svg `
