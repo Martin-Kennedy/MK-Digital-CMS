@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Row, Col } from 'react-bootstrap';
+import variables from '../variables.module.scss';
 
 
 export const H1 = styled.h1`
@@ -27,10 +28,14 @@ color: ${props => props.white ? "#fff" : "#1d1e22"}
 `
 
 export const SmallAndThinText = styled.p`
-font-size: 14px;
+font-size: 1vw;
 font-weight: 100;
 margin-bottom: .5rem;
-color: ${props => props.white ? "#fff" : "#1d1e22"} 
+color: ${props => props.white ? "#fff" : "#1d1e22"};
+@media(max-width: ${variables.medium}){
+    font-size: 3vw;
+    
+}
 `
 
 export const SmallAndThinTextSpaced = styled(SmallAndThinText)`

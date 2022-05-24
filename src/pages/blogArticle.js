@@ -14,6 +14,7 @@ import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
 import variables from '../variables.module.scss';
 import DOMPurify from 'dompurify';
+import MediaQuery from 'react-responsive';
 
 const BaseLayer = styled.div `
     background-color: var(--white);
@@ -30,6 +31,7 @@ const IntroSection = styled(Row)`
 `;
 
 const BlogMain = styled(Main)`
+margin-top: 5vh;
 p {
     font-size: 1.25vw;
     line-height: 1.5vw;
@@ -38,7 +40,7 @@ p {
     letter-spacing: .125vw;
     padding-right: 5vw;
      @media(max-width: ${variables.medium}){
-    font-size: 3vw;
+    font-size: 2.5vw;
     line-height: 4vw;
     letter-spacing: .35vw;
 
@@ -75,12 +77,18 @@ height: 100%;
 background-color: ${props => props.bkgColor};
 `
 
-const Title = styled.div `
-font-size: 50px;
+const Title = styled.h1 `
+font-size: 6vh;
+line-height: 7vh;
 color: var(--black);
 letter-spacing: 2px;
 margin-left: 0;
 padding-left: 0;
+margin-bottom: 5vh;
+@media(max-width: ${variables.small}){
+    font-size: 6vw;
+    line-height: 7.25vw;
+}
 `
 
 const TopLine = styled.div `
@@ -112,11 +120,14 @@ width: 100%;
 a {
     width: 20vw;
     white-space: nowrap;
+    @media(max-width: ${variables.medium}){
+        width: 50vw;
+    }
 }
 `
 
 const BlogArticleFooter = styled(Row)`
-height: 120px;
+height: 20vh;
  align-content: center;
 `
 
@@ -186,7 +197,6 @@ class BlogPage extends Component {
                 .filter(blog => {
                     return blog.title === this.props.blogs.blogItem[0].title;
                 });
-            console.log(result)
             const nextBlog = this
                 .props
                 .blogs
@@ -194,7 +204,6 @@ class BlogPage extends Component {
                 .filter(blog => {
                     return result[0].orderNum + 1 === blog.orderNum;
                 });
-            console.log(nextBlog)
             nextBlog.length
                 ? this
                     .props
@@ -225,7 +234,7 @@ class BlogPage extends Component {
 
         render() {
             let item = this.props.blogs.blogItem[0];
-
+            let urlSegments = this.props.location.pathname.split('/');
             return (
                 <div>
                     {this.props.blogs.blogItem.length
@@ -247,14 +256,14 @@ class BlogPage extends Component {
                                             </FadeInWhenVisibleOpacity>
                                         </Row>
                                         <Row>
-                                            <Col xs={2}>
+                                            <Col sm={12} md={2}>
                                                 <FadeInWhenVisibleScale duration={1}>
                                                     <SmallAndThinText>{this.restructureDate(item)}</SmallAndThinText>
                                                 </FadeInWhenVisibleScale>
                                             </Col>
-                                            <Col xs={10}>
-                                                <TopLine><LineAnimationR2L/></TopLine>
-                                            </Col>
+                                           <MediaQuery minWidth={Number(variables.mediumNum)}>  <Col md={10}>
+                                            <TopLine><LineAnimationR2L/></TopLine>
+                                        </Col></MediaQuery>
                                         </Row>
                                         <Row>
                                         <BlogMain
@@ -262,33 +271,26 @@ class BlogPage extends Component {
                                                 __html: this.sanitizeHTML(item.article)
                                             }}></BlogMain>
                                         </Row>
-                                        <Waypoint
-                                            onEnter={() => {
-                                            this
-                                                .props
-                                                .dispatch(getIntersectingState(true))
-                                        }}
-                                            onLeave={() => {
-                                            this
-                                                .props
-                                                .dispatch(getIntersectingState(false))
-                                        }}>
+                                      
 
                                             <NextArticle>
-                                                <BottomLine><LineAnimationL2R/></BottomLine>
+                                        <MediaQuery minWidth={Number(variables.mediumNum)}><BottomLine><LineAnimationL2R /></BottomLine></MediaQuery>
                                                 <Link
                                                     to={this.props.blogs.nextBlogItemPathname}
                                                     className="btn-flip"
                                                     data-back={this.props.blogs.nextBlogItem}
                                                     data-front="NEXT ARTICLE"></Link>
                                             </NextArticle>
-                                        </Waypoint>
                                     </Col>
                                     <Col xs={2}></Col>
                                 </IntroSection>
 
                                 <BlogArticleFooter>
-                                <Footer location={this.props.location.pathname} />
+                                <Col xs={1} sm={2}></Col>
+                                <Col xs={10} sm={8}>
+                                    <Footer location={this.getFirstPathSegment(this.props.location.pathname)} />
+                                </Col>
+                                <Col xs={1} sm={2}></Col>
                                 </BlogArticleFooter>
 
                             </BaseLayer>
