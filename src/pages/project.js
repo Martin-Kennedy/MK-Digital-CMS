@@ -46,7 +46,7 @@ const IntroBlurb1 = styled.div `
     margin-bottom: 1.5rem;
     padding: 0;
     margin-left: 0;
-    margin-top: 66vw;
+    margin-top: 20vh;
     @media(max-width: ${variables.medium}){
          margin-top: 10vh;
     }
@@ -75,22 +75,23 @@ letter-spacing: .5vw;
 
 const ProjectMain = styled(Main)`
 p {
- font-size: 2.25vw;
-    line-height: 2.75vw;
+    font-size: 1.25vw;
+    line-height: 1.5vw;
     padding-right: calc(var(--bs-gutter-x) * .5);
     padding-left: calc(var(--bs-gutter-x) * .5);
     letter-spacing: .125vw;
+    padding-right: 5vw;
      @media(max-width: ${variables.medium}){
     font-size: 3vw;
     line-height: 4vw;
     letter-spacing: .35vw;
-    padding-right: 5vw;
+
 }
     @media(max-width: ${variables.small}){
     font-size: 5vw;
     line-height: 6vw;
     letter-spacing: .5vw;
-    padding-right: 5vw;
+
 }
 }
 
@@ -104,7 +105,7 @@ const IntroBlurb2 = styled.div `
     margin-bottom: 1.5rem;
     padding: 0;
     margin-left: 0;
-    margin-top: 66vw;
+    margin-top: 20vh;
      @media(max-width: ${variables.medium}){
          margin-top: 10vh;
     }
@@ -195,13 +196,13 @@ padding-bottom: 35vh;
 background-color: var(--white);
 `
 
-const ProjectFooter = styled.div `
+const ProjectFooter = styled(Row) `
     height: 100px;
     background-color: #1d1e22;
     .row {
         color: #fff;
-        width: 100vw;
-        padding: 20px 10px 10px 0;
+        padding: 20px 10px;
+            left: 3%;
         margin: 0;
         display: flex;
         align-items: center;
@@ -318,6 +319,14 @@ const SecondLine = styled.div `
     padding: 0 0 calc(33vh - 40px) 0;
     width: 100%;
     top: 0%;
+    >div {
+        >div {
+            >div {
+                    font-size: 6vw;
+    line-height: 6vw;
+            }
+        }
+    }
     @media(max-width: ${variables.medium}){
         font-size: 12vw;
         line-height: 12vw;
@@ -791,8 +800,13 @@ class ProjectPage extends Component {
                                         </Wrapper>
                                     </Link>
                                     <ProjectFooter>
+                                    <Col xs={1} sm={2}></Col>
+                                    <Col xs={10} sm={8}>
                                     <Footer location={this.props.location.pathname} />
+                                    </Col>
+                                    <Col xs={1} sm={2}></Col>
                                     </ProjectFooter>
+                                    
                                 </NextProject>
                             </Waypoint>
                         </BaseLayer>

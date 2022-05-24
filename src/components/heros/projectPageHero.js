@@ -157,7 +157,8 @@ const WebsiteLink = styled.a`
     margin: 50vh 0 0 0;
     left: 25vw;
     color: var(--white);
-    font-size: 12px;
+    font-size: 2.25vh;
+    letter-spacing: .25vh;
     font-weight: 500;
     text-align: center;
     line-height: 15vh;

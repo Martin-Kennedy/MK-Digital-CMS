@@ -36,7 +36,7 @@ position: relative;
 align-content: center;
 text-align: center;
 justify-content: center;
-margin: 0 1vw;
+margin: 0 0 0 1vw;
  color: ${props => displayValueArray.includes(props.location)
         ? "#1d1e22"
         : "white"} !important;

@@ -24,16 +24,13 @@ const CarouselContainer = styled.div `
     @media(max-width: ${variables.small}){
         margin-top: 10vh;
     }
-
 `
 
 const TopLine = styled.div `
-    
     position: absolute;
     padding: 0 40px;
     width: 83.33333%;
     top: 29vh;
-    
     svg {
     position: relative; 
     top: 25%;
@@ -56,7 +53,6 @@ const BottomLine = styled.div `
     padding: 0 40px;
     width: 83.33333%;
     top: 58vh;
-
     svg  {
     position: relative; 
     top: 60%;

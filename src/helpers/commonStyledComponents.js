@@ -38,7 +38,8 @@ letter-spacing: .2rem;
 `
 
 export const VerySmallText = styled.span`
-        font-size: 12px;
+        font-size: 0.80vw;
+        letter-spacing: .125vw;
         font-weight: 200;
         position: relative;
 `
