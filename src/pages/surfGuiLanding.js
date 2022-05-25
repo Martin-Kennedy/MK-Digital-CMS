@@ -11,11 +11,12 @@ import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWa
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
 import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
 import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
-import  SurfMapAndConditions  from '../components/SurfAppComponents/surfMapAndConditions';
+import { SurfMapAndConditions, SurfMap, WeatherComponent, WaterTempComponent }  from '../components/SurfAppComponents/surfMapAndConditions';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
 import { SpotSearchSVGPath } from '../components/designElementComponents/spotSearchSVGPath';
 import { CloseButtonSVGPath } from '../components/designElementComponents/closeButtonSVGPath';
-
+import MediaQuery from 'react-responsive';
+import variables from '../variables.module.scss';
 
 
 
@@ -24,13 +25,15 @@ import { CloseButtonSVGPath } from '../components/designElementComponents/closeB
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
 background-image: linear-gradient(0deg, #0f2a46 0%, #022f5c 50%, #061a2e 100%);
-height: 100vh;
+height: 100%;
 min-height: 600px;
 z-index: 1;
-overflow: hide;
 `
 const DataContainer = styled(Row)`
 z-index: 1;
+@media(max-width: ${variables.large}){
+    margin: 0;
+}
 `
 const DataDashBoardRow = styled(Row)`
 margin: 2vh 0;
@@ -38,8 +41,28 @@ padding: 0;
 &:first-child{
     margin-top: 5vh;
 }
+@media(max-width: ${variables.large}){
+    margin: 0.5vw 0;
+}
+}
 `
 
+const CustomCol = styled(Col)`
+@media(max-width: ${variables.large}){
+
+}
+`
+
+
+const DataDashboardRowMap = styled(DataDashBoardRow)`
+&:first-child{
+    margin-top: 0;
+}
+@media(max-width: ${variables.large}){
+    width: calc(100% - 1.5vw);
+    margin: 0 1vw 1vw .5vw
+}
+`
 const CurrentConditionRow = styled(Row)`
 padding-left: 0;
 margin-left: -.25vw;
@@ -101,6 +124,11 @@ const CurrentConditionBackdrop = styled(BackDrop)`
 width: calc(50% - 1.35vw);
 height: 20vh;
 margin:0 0.5vw 2vh 0.5vw;
+@media(max-width: ${variables.large}){
+    width: calc(50% - 1.5vw);
+    height: 30vh;
+    margin: 0 1vw 1vw .5vw 
+}
 `
 
 const SwellChartLabel = styled.p`
@@ -293,6 +321,7 @@ position: absolute;
 bottom: 40vh;
 height: 0;
 z-index: 0;
+overflow-x: hidden;
 `
 
 const WaveWrapper = styled(motion.div)`
@@ -394,7 +423,10 @@ class SurfGUILanding extends Component {
         getCloseSurfSpots();
         const { getLocationsObject } = this.props;
         getLocationsObject();
-        document.body.style.overflow = "hidden";
+        if (window.innerWidth > Number(variables.largeNum)){
+            document.body.style.overflow = "hidden";
+        }
+        
         document.body.classList.add('surf-app');
     }
 
@@ -441,11 +473,9 @@ class SurfGUILanding extends Component {
 
     setOpen() {
         this.setState({isOpen: !this.state.isOpen});
-        console.log(this.state.isOpen)
     }
 
     render() {
-        let width = window.innerWidth;
         const rating = [this.props.surf.currentConditions.solidRating,this.props.surf.currentConditions.fadedRating];
         const d = [
             "m-17.8273,111.16671c20.66565,-0.55532 37.66464,-38.11063 62.99696,-38.66596c28.3" +
@@ -495,7 +525,7 @@ class SurfGUILanding extends Component {
                                 
                                 <SurfSpotsSearchFilter />
                             </SearchMenu>
-                            <Col sm={1}>
+                            <MediaQuery minWidth={variables.large}><Col md={1}>
                                 <MenuNavBkg >
                                     <SpotSearchContainer
                                     onClick={() => this.setOpen()}>
@@ -506,14 +536,14 @@ class SurfGUILanding extends Component {
                                     
                                 </MenuNavBkg>
                             </Col>
-                            <Col sm={9}>
+                            </MediaQuery>
+                            <CustomCol md={12} lg={9}>
                                 <DataDashBoardRow>
-                                    { width > 1120 ?
-                                    <Fragment>
+                                    <MediaQuery minWidth={variables.large}>
                                     <StyledCol35 >
                                         <CurrentConditionRow>
                                             <CurrentConditionBackdrop>
-                                                {!Array.isArray(this.props.surf.currentConditions)  ? <CurrWaveDataComponent rating={rating} ndbcData={this.props.surf.currentSwell} waveData={this.props.surf.currentConditions.swell} /> : null}
+                                                    {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent surfSpot={this.props.surf.closestSurfSpot}  rating={rating} ndbcData={this.props.surf.currentSwell} waveData={this.props.surf.currentConditions.swell} /> : null}
                                             </CurrentConditionBackdrop>
                                             <CurrentConditionBackdrop>
                                                 {!Array.isArray(this.props.surf.weatherForecast) ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} /> : null}
@@ -529,14 +559,43 @@ class SurfGUILanding extends Component {
                                             </CurrentConditionBackdrop>
                                         </CurrentConditionRowBottom>
                                     </StyledCol35>
-                                    <StyledCol65>
-                                        <SurfMapBackDrop>
-                                            {this.state.lng && this.state.lat ? <SurfMapAndConditions coords={{lat: this.state.lat, lng: this.state.lng}} /> : null}
-                                        </SurfMapBackDrop>
-                                    </StyledCol65> 
-                                </Fragment> : <SurfMapBackDrop>
-                                        {this.state.lng && this.state.lat ? <SurfMapAndConditions coords={{ lat: this.state.lat, lng: this.state.lng }} /> : null}
-                                    </SurfMapBackDrop>}
+                                    </MediaQuery>
+                                    <MediaQuery minWidth={variables.large}>
+                                        <StyledCol65>
+                                            <SurfMapBackDrop>
+                                                {this.state.lng && this.state.lat ? <SurfMapAndConditions coords={{lat: this.state.lat, lng: this.state.lng}} /> : null}
+                                            </SurfMapBackDrop>
+                                        </StyledCol65> 
+                                    </MediaQuery> 
+                                    <MediaQuery maxWidth={variables.large}>
+                                       
+                                        <DataDashboardRowMap>
+                                            <SurfMapBackDrop>
+                                                {this.state.lng && this.state.lat ? <SurfMap coords={{ lat: this.state.lat, lng: this.state.lng }} /> : null}
+                                            </SurfMapBackDrop>
+                                        </DataDashboardRowMap>
+                                        <DataDashBoardRow>
+                                            <CurrentConditionBackdrop>
+                                                {!Array.isArray(this.props.surf.currentConditions) ? <CurrWaveDataComponent rating={rating} ndbcData={this.props.surf.currentSwell} surfSpot={this.props.surf.closestSurfSpot} waveData={this.props.surf.currentConditions.swell} /> : null}
+                                            </CurrentConditionBackdrop>
+                                            <CurrentConditionBackdrop>
+                                                {!Array.isArray(this.props.surf.weatherForecast) ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} /> : null}
+                                            </CurrentConditionBackdrop>
+                                        </DataDashBoardRow>
+                                        <DataDashBoardRow>
+                                            <CurrentConditionBackdrop>
+                                                {!Array.isArray(this.props.surf.currentConditions) && !Array.isArray(this.props.surf.currentSwell) ? <CurrSwellDataComponent ndbcData={this.props.surf.currentSwell} waveData={this.props.surf.currentConditions.swell} /> : null}
+                                            </CurrentConditionBackdrop>
+                                            <CurrentConditionBackdrop>
+                                                {!Array.isArray(this.props.surf.tideForecast) ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} /> : null}
+                                            </CurrentConditionBackdrop>
+                                        </DataDashBoardRow>
+                                        <DataDashBoardRow>
+                                            <WeatherComponent />
+                                            <WaterTempComponent />
+                                        </DataDashBoardRow>
+                                        
+                                    </MediaQuery>
                                 </DataDashBoardRow>
                                 <DataDashBoardRow>
                                     <SwellChartContainer >
@@ -558,7 +617,8 @@ class SurfGUILanding extends Component {
                                     </WindChartContainer>
                                 </DataDashBoardRow>
                                 <DataDashBoardRow></DataDashBoardRow>
-                            </Col>
+                            </CustomCol>
+                            <MediaQuery minWidth={variables.large}>
                             <Col sm={2}>
                                 <RightNavBkg >
                                     <Title>
@@ -586,11 +646,13 @@ class SurfGUILanding extends Component {
                                     </Row>
                                 </RightNavBkg>
                             </Col>
+                            </MediaQuery>
                                 
 
                         </GlassContainerBkg>
                     </Col>
                 </DataContainer>
+                <MediaQuery minWidth={variables.large}>
                 <WaveFormBottom>
 
                     <FadeInWhenVisibleOpacity duration={1.75}>
@@ -952,6 +1014,7 @@ class SurfGUILanding extends Component {
                     </FadeInWhenVisibleOpacity>
 
                 </WaveFormBottom>
+                </MediaQuery>
 
             </SurfGUILandingContainer>
 

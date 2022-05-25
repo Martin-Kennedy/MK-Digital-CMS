@@ -20,7 +20,7 @@ let currentLocation = history.location
 
 
 const Page = styled(Container)`
-        height: 100vh;
+        height: 100%;
         width: 100vw;
         margin: 0;
         padding: 0;

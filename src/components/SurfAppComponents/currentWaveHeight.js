@@ -1,16 +1,23 @@
 import React from 'react';
 import styled from 'styled-components'
 import {Row} from 'react-bootstrap'
-import { WaveConditionsSVGPath } from '../designElementComponents/waveConditionsSVGPath'
+import { WaveConditionsSVGPath } from '../designElementComponents/waveConditionsSVGPath';
+import variables from '../../variables.module.scss';
 
 const WaveConditionBackdrop = styled.div `
-    width: 22.5vh;
+    width: 100%;
     height: 14vh;
     z-index: 5;
+    marginL 0 auto;
     text-align: center;
-&:hover {
-    cursor: pointer;
-}`
+
+    @media(max-width: ${variables.large}){
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+        text-align: center;
+    }
+    `
 
 const TitleIconRow = styled(Row)`
 width: 100%;
@@ -28,6 +35,7 @@ svg {
     padding: 0;
     margin: 0;
 }
+
 `
 
 const Title = styled.p`
@@ -41,6 +49,10 @@ width: auto;
 font-size: .75vw;
 height: fit-content;
 line-height: .65vw;
+  @media(max-width: ${variables.large}){
+        font-size: 1.5vw;
+        line-height: 1.5vw;
+    }
 `
 
 const WaveIcon = styled.svg`
@@ -48,28 +60,72 @@ const WaveIcon = styled.svg`
     height: 2.25vh;
     position: relative;
     top: -2px;
-    right: -0.5vw;
+    right: 0.5vw;
     padding: 0;
     path {
         fill: rgba(255,255,255, 0.4);
     }
+     @media(max-width: ${variables.large}){
+        width: 1.5rem;
+        height: 1.5rem;
+        position: relative;
+        top: 0;
+        right: 0.5rem;
+    }
 `
-
+const Location = styled.div`
+    color: var(--white);
+    margin: 10px 0 0 15px;
+    font-weight: 500;
+    display: block;
+    margin: 0 auto;
+    text-transform: uppercase;
+      font-size: 0.75vw;
+    line-height: 1vw;
+    letter-spacing: .1vw;
+        opacity: 0.8;
+    @media(max-width: ${variables.large}){
+    font-size: 2.5vw;
+    line-height: 4vw;
+    letter-spacing: .25vw;
+    }
+`
+const Distance = styled.div`
+    color: var(--white);
+    margin: 10px 0 0 15px;
+    font-weight: 500;
+    display: block;
+    margin: 0 auto;
+    font-size: 0.5vw;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+        opacity: 0.8;
+     @media(max-width: ${variables.large}){
+        font-size: 1.5vw;
+    line-height: 2vw;
+    letter-spacing: .25vw;
+    }
+    
+    
+`
 const WaveHeight = styled.div `
     opacity: .8;
-${WaveConditionBackdrop}:hover & {
-    opacity: 1;
-}
 margin-top: -2vh;
 p {
     color: var(--white);
     font-size: 2.75vw;
-    margin: 10px 0 0 15px;
+    margin: 0 0 0 15px;
     font-weight: 600;
     display: inline-block;
     margin-bottom: 0;
     text-transform: uppercase;
-    line-height: normal;
+    line-height: 3.25vw;
+    opacity: .8;
+    @media(max-width: ${variables.large}){
+        font-size: 7vw;
+        line-height: 7vw;
+        margin: 1vw auto;
+    }
 }
 span {
     width: 100%;
@@ -81,6 +137,10 @@ span {
     padding: 0;
     letter-spacing: 1.25px;
     margin-left: 3px;
+    opacity: .8;
+     @media(max-width: ${variables.large}){
+        font-size: 2vw;
+    }
 }`;
 
 const RatingText = styled.div `
@@ -93,6 +153,10 @@ const RatingText = styled.div `
     width: 100%;
     margin-bottom: 0;
     color: var(--white);
+    @media(max-width: ${variables.large}){
+        font-size: 2.5vw;
+        line-height: 6vw;
+    }
 `
 
 const ConditionContainer = styled.div `
@@ -106,18 +170,30 @@ const ConditionContainer = styled.div `
     box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
     width: 18.25vh;
     height: 4vh;
-    margin: 2vh 0 0 2.25vh;
+    margin: 0 auto;
+     @media(max-width: ${variables.large}){
+        width: 50%;
+        height: 6VW;
+    }
 `
 
 export const CurrWaveDataComponent = (props) => {
+
+    const convertMilesToKM = (km) => {
+       const miles = props.surfSpot.distanceFromLocation / 1.609;
+       return parseInt(miles);
+    }
     return <WaveConditionBackdrop>
         <TitleIconRow>
-            <Title>Current Conditions</Title>
+            
+            <Title>Conditions</Title>
             <WaveIcon x="0px" y="0px" viewBox="0 0 100 100">
                 <WaveConditionsSVGPath />
             </WaveIcon>
         </TitleIconRow>
         <WaveHeight>
+            <Location>{props.surfSpot.town}, {props.surfSpot.countryOrState}</Location>
+            <Distance>{convertMilesToKM(props.surfSpot.distanceFromLocation)} miles away</Distance>
             <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
             <span>ft</span>
         </WaveHeight>

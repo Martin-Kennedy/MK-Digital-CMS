@@ -9,6 +9,8 @@ import {UvIconSVGPath} from '../designElementComponents/uvIconSVGPath';
 import {SunPositionSVGPath} from '../designElementComponents/sunPositionSVGPath';
 import {formatAMPMwMins} from '../../helpers/utilities';
 import {useDispatch} from 'react-redux';
+import variables from '../../variables.module.scss';
+
 var SunCalc = require('suncalc');
 
 const StyledMapImg = styled.div `
@@ -28,10 +30,20 @@ box-shadow:
 width: 100%;
 height: 25vh;
 background-size: cover;
-background-repeat: no-repeat;
+background-repeat: no-repeat;    
+background-position: center;
 background-image: ${props => props.coords
     ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=12&size=800x250&style=feature:water|element:all|color:0x55a8e5&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)`
     : null};
+`
+
+const StyledMapImgMobile = styled(StyledMapImg)`
+height: 42vh;
+
+background-image: ${props => props.coords
+        ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=12&size=640x400&style=feature:water|element:all|color:0x55a8e5&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)`
+        : null};
+
 `
 
 const WaterTemp = styled(Col)`
@@ -47,6 +59,18 @@ padding: 1vh;
 height: 14vh;
 margin: 1.5vh 0 1.5vh 1.5vh;
 `;
+
+const WaterTempStandAlone = styled(WaterTemp)`
+    width: calc(50% - 1.35vw);
+    height: 20vh;
+    margin: 0 0.5vw 2vh 0.5vw;
+    @media(max-width: ${variables.large}){
+        height: 30vh;
+    }
+`
+
+const WeatherContainer = styled(WaterTempStandAlone)`
+`
 
 const TitleIconRow = styled(Row)`
 width: 100%;
@@ -161,11 +185,9 @@ margin: 0.5vh 0;
 text-transform: capitalize;
 `
 const Weather = styled(WaterTemp)`
-
 `
 
 const SunPosition = styled(WaterTemp)`
-
 `
 
 const ConditionsContainer = styled(Row)`
@@ -222,16 +244,16 @@ div {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1vw;
-p:first-child {
-    font-size: 0.4vw;
-    font-weight: 300;
-}
-p {
-    
-    text-align: left;
-    margin-bottom: 0;
-    line-height: 0.6vw;
-}
+    p:first-child {
+        font-size: 0.4vw;
+        font-weight: 300;
+    }
+    p {
+        
+        text-align: left;
+        margin-bottom: 0;
+        line-height: 0.6vw;
+    }
 }
 
 div:nth-child(2){
@@ -293,7 +315,7 @@ const mapStateToProps = state => {
 
 let degree = String.fromCodePoint(176)
 
-const SurfMapAndConditions = (props) => {
+const SurfMapAndConditionsDesktop = (props) => {
 
     const times = SunCalc.getTimes(new Date(), props.coords.lat, props.coords.lng);
 
@@ -475,4 +497,75 @@ const SurfMapAndConditions = (props) => {
     )
 };
 
-export default connect(mapStateToProps)(SurfMapAndConditions)
+
+
+
+const SurfMapMobile = (props) => {
+
+
+    return (
+        <StyledMapImgMobile coords={props.coords}></StyledMapImgMobile>
+
+    )
+};
+
+const WeatherMobile = (props) => {
+    return (<WeatherContainer>
+        {!Array.isArray(props.surf.weather)
+            ? <Fragment>
+                <TitleIconRow>
+                    <Title>Weather</Title>
+                    <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon>
+
+                </TitleIconRow>
+                <Row>
+                    <TempWeatherIconContainer>
+                        <Temp>{parseInt(props.surf.weather.data[0].app_temp)}{degree}
+                            <UnitType>f</UnitType>
+                        </Temp>
+                        {!Array.isArray(props.surf.weatherForecast)
+                            ? <Fragment>
+                                <HiLoTemp>
+                                    <p>H: {parseInt(props.surf.weatherForecast.daily[0].temp.max)}{degree}</p>
+                                    <p>L: {parseInt(props.surf.weatherForecast.daily[0].temp.min)}{degree}</p>
+                                </HiLoTemp>
+                            </Fragment>
+                            : null}
+
+                    </TempWeatherIconContainer>
+                </Row>
+                <Row>
+                    <Description>{props.surf.weather.data[0].weather.description}</Description>
+                </Row>
+
+            </Fragment>
+            : null}
+    </WeatherContainer>)
+};
+
+const WaterTempMobile = (props) => {
+return(
+    <WaterTempStandAlone>
+        <TitleIconRow>
+            <Title>Water Temp</Title>
+            <WaterTempIcon x="0px" y="0px" viewBox="0 0 100 100">
+                <WaterTempSVGPath />
+            </WaterTempIcon>
+        </TitleIconRow>
+        <Row>
+            <WaterTempContainer>
+                <WaterTempData>
+                    {parseInt(props.surf.waterTemp) - 2}{degree}
+                    - {parseInt(props.surf.waterTemp) + 1}{degree}
+                    <UnitType>f</UnitType>
+                </WaterTempData>
+            </WaterTempContainer>
+        </Row>
+    </WaterTempStandAlone>
+)
+}
+
+export const SurfMapAndConditions = connect(mapStateToProps)(SurfMapAndConditionsDesktop);
+export const SurfMap = connect(mapStateToProps)(SurfMapMobile);
+export const WeatherComponent = connect(mapStateToProps)(WeatherMobile);
+export const WaterTempComponent = connect(mapStateToProps)(WaterTempMobile)
