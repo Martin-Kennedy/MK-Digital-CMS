@@ -1,21 +1,23 @@
 import React from 'react';
 import styled from 'styled-components'
-import {Row} from 'react-bootstrap'
+import {Row, Col} from 'react-bootstrap'
 import { WaveConditionsSVGPath } from '../designElementComponents/waveConditionsSVGPath';
 import variables from '../../variables.module.scss';
+import MediaQuery from 'react-responsive';
 
 const WaveConditionBackdrop = styled.div `
     width: 100%;
     height: 14vh;
     z-index: 5;
-    marginL 0 auto;
+    margin: 0 auto;
     text-align: center;
 
     @media(max-width: ${variables.large}){
         width: 100%;
         height: 100%;
         z-index: 5;
-        text-align: center;
+        text-align: left;
+        margin: 0 2vw;
     }
     `
 
@@ -27,15 +29,11 @@ margin: 0;
 padding: 0;
 position: relative;
 top: -3vh;
-p {
-    padding: 0 0 0 0.8vw;
-    margin: 0;
-}
-svg {
-    padding: 0;
-    margin: 0;
-}
-
+    @media(max-width: ${variables.large}){
+        position: unset;
+        height: calc(25% - 4vw);
+        margin: 2vw 0;
+    }
 `
 
 const Title = styled.p`
@@ -52,6 +50,7 @@ line-height: .65vw;
   @media(max-width: ${variables.large}){
         font-size: 1.5vw;
         line-height: 1.5vw;
+        padding: 0;
     }
 `
 
@@ -88,6 +87,8 @@ const Location = styled.div`
     font-size: 2.5vw;
     line-height: 4vw;
     letter-spacing: .25vw;
+    display: inline-block;
+    width: fit-content;
     }
 `
 const Distance = styled.div`
@@ -95,7 +96,6 @@ const Distance = styled.div`
     margin: 10px 0 0 15px;
     font-weight: 500;
     display: block;
-    margin: 0 auto;
     font-size: 0.5vw;
     text-transform: uppercase;
     letter-spacing: .1vw;
@@ -104,6 +104,7 @@ const Distance = styled.div`
         font-size: 1.5vw;
     line-height: 2vw;
     letter-spacing: .25vw;
+    width: fit-content;
     }
     
     
@@ -192,11 +193,35 @@ export const CurrWaveDataComponent = (props) => {
             </WaveIcon>
         </TitleIconRow>
         <WaveHeight>
+            <MediaQuery minWidth={Number(variables.largeNum)}>
             <Location>{props.surfSpot.town}, {props.surfSpot.countryOrState}</Location>
             <Distance>{convertMilesToKM(props.surfSpot.distanceFromLocation)} miles away</Distance>
             <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
             <span>ft</span>
+            </MediaQuery>
+            <MediaQuery maxWidth={Number(variables.largeNum)}>
+                <Row>
+                <Col xs={5}>
+                <Location>{props.surfSpot.town}, {props.surfSpot.countryOrState}</Location>
+                <Distance>{convertMilesToKM(props.surfSpot.distanceFromLocation)} miles away</Distance>
+                </Col>
+                    <Col xs={5}>
+                <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
+                <span>ft</span>
+                </Col>
+                <Col xs={2}>
+                        <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
+                            <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
+                                ? 'Good'
+                                : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
+                                    ? 'Poor'
+                                    : 'Fair'}</RatingText>
+                        </ConditionContainer>
+                </Col>
+                </Row>
+            </MediaQuery>
         </WaveHeight>
+        <MediaQuery minWidth={Number(variables.largeNum)}>
         <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
             <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
                     ? 'Good'
@@ -204,6 +229,7 @@ export const CurrWaveDataComponent = (props) => {
                         ? 'Poor'
                         : 'Fair'}</RatingText>
         </ConditionContainer>
+        </MediaQuery>
     </WaveConditionBackdrop>
 
 };
