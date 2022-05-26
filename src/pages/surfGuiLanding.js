@@ -130,6 +130,9 @@ const SurfMapBackDrop = styled(BackDrop)`
 height: 42vh;
 padding: 0;
 z-index: 2;
+@media(max-width: ${variables.large}){
+    height: 35vh;
+}
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
@@ -146,8 +149,17 @@ margin:0 0.5vw 2vh 0.5vw;
 const CurrentConditionsBackDropTablet100vw = styled(CurrentConditionBackdrop)`
 @media(max-width: ${variables.large}){
     width: calc(100% - 1.5vw);
-    height: 15vh;
+    height: calc(100vw / 7);
     margin: 0 1vw 1vw .5vw;
+    padding: 0;
+}
+`
+
+const LocationBackDropTablet100vw = styled.div`
+@media(max-width: ${variables.large}){
+    width: calc(100% - 1.5vw);
+    height: calc(100vw / 9);
+    margin: 0 1vw 2vw .5vw;
     padding: 0;
 }
 `
@@ -381,6 +393,68 @@ const StyledPath = styled(motion.path)`
     stroke: #fff;
 `
 
+const Location = styled.div`
+color: var(--white);
+margin: 10px 0 0 15px;
+font-weight: 500;
+display: block;
+margin: 0 auto;
+text-transform: uppercase;
+font-size: 0.75vw;
+line-height: 1vw;
+letter-spacing: .1vw;
+opacity: 0.9;
+@media(max-width: ${variables.large}){
+font-size: 2.25vw;
+line-height: 2.25vw;
+letter-spacing: .25vw;
+display: block;
+width: fit-content;
+margin-left: 0;
+}
+@media(max-width: ${variables.medium}){
+    font-size: 3.5vw;
+    line-height: 3.5vw;
+    letter-spacing: .25vw;
+    width: fit-content;
+    margin: 1vw auto;
+    text-align: center;
+}
+`
+const Distance = styled.div`
+color: var(--white);
+margin: 10px 0 0 15px;
+font-weight: 500;
+display: block;
+font-size: 0.5vw;
+text-transform: uppercase;
+letter-spacing: .1vw;
+opacity: 0.8;
+@media(max-width: ${variables.large}){
+    font-size: 1.5vw;
+    line-height: 2vw;
+    letter-spacing: .25vw;
+    width: fit-content;
+    margin: 1vw auto;
+    text-align: center;
+}
+
+@media(max-width: ${variables.medium}){
+    font-size: 2.5vw;
+    line-height: 2.5vw;
+    letter-spacing: .25vw;
+    width: fit-content;
+    margin: 1vw auto;
+    text-align: center;
+}
+`
+
+const LocationContainer = styled.div`
+display: block;
+width: fit-content;
+margin: 2vw auto;
+`
+
 const mapStateToProps = state => {
     return {
         surf: {
@@ -421,6 +495,11 @@ const mapDispatchToProps = dispatch => ({
     getWeather: weather => dispatch(getWeather(weather)),
     getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast))
 });
+
+const convertMilesToKM = (km) => {
+    const miles = km / 1.609;
+    return parseInt(miles);
+}
 
 class SurfGUILanding extends Component {
 
@@ -625,6 +704,15 @@ class SurfGUILanding extends Component {
                                             </SurfMapBackDrop>
                                         </DataDashboardRowMap>
                                         <DataDashBoardRow>
+                                            <LocationBackDropTablet100vw>
+                                                {!Array.isArray(this.props.surf.currentConditions) ?
+                                                    <Fragment>
+                                                        <LocationContainer>
+                                                        <Location>{this.props.surf.closestSurfSpot.town}, {this.props.surf.closestSurfSpot.countryOrState}</Location>
+                                                        <Distance>{convertMilesToKM(this.props.surf.closestSurfSpot.distanceFromLocation)} miles away</Distance>
+                                                        </LocationContainer>
+                                                    </Fragment> : null}
+                                            </LocationBackDropTablet100vw>
                                             <CurrentConditionsBackDropTablet100vw>
                                                 {!Array.isArray(this.props.surf.currentConditions)
                                                     ? <CurrWaveDataComponent

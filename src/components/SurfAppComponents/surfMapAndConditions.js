@@ -38,7 +38,7 @@ background-image: ${props => props.coords
 `
 
 const StyledMapImgMobile = styled(StyledMapImg)`
-height: 42vh;
+height: 35vh;
 
 background-image: ${props => props.coords
         ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=12&size=640x400&style=feature:water|element:all|color:0x55a8e5&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)`
