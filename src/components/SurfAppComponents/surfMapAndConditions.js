@@ -8,7 +8,6 @@ import {WaterTempSVGPath} from '../designElementComponents/waterTempSVGPath';
 import {UvIconSVGPath} from '../designElementComponents/uvIconSVGPath';
 import {SunPositionSVGPath} from '../designElementComponents/sunPositionSVGPath';
 import {formatAMPMwMins} from '../../helpers/utilities';
-import {useDispatch} from 'react-redux';
 import variables from '../../variables.module.scss';
 
 var SunCalc = require('suncalc');
@@ -313,7 +312,7 @@ const mapStateToProps = state => {
     }
 }
 
-let degree = String.fromCodePoint(176)
+let degree = String.fromCodePoint(176);
 
 const SurfMapAndConditionsDesktop = (props) => {
 
@@ -565,7 +564,145 @@ return(
 )
 }
 
+
+const SunPositionMobile = (props) => {
+
+    const times = SunCalc.getTimes(new Date(), props.coords.lat, props.coords.lng);
+
+    const formatTime = (time) => {
+        const date = new Date();
+        date.setHours(time.split(':')[0]);
+        date.setMinutes(time.split(':')[1])
+        const dateStr = date.toString();
+        const timeStamp = new Date(dateStr).getTime();
+        const formatted = formatAMPMwMins(new Date(timeStamp));
+        return formatted;
+    }
+
+    // get position of the sun (azimuth and altitude) at today's sunrise
+    const convertToSec = (time) => {
+        return time * 60 * 60;
+    }
+
+    // format sunrise time from the Date object
+
+    const nightEndTime = formatTime(times.nightEnd.getHours() + ':' + times.nightEnd.getMinutes());
+    const sunriseTime = formatTime(times.sunrise.getHours() + ':' + times.sunrise.getMinutes());
+    const goldenHourEndTime = formatTime(times.goldenHourEnd.getHours() + ':' + times.goldenHourEnd.getMinutes());
+    const solarNoonTime = formatTime(times.solarNoon.getHours() + ':' + times.solarNoon.getMinutes());
+    const goldenHourTime = formatTime(times.goldenHour.getHours() + ':' + times.goldenHour.getMinutes());
+    const sunsetTime = formatTime(times.sunset.getHours() + ':' + times.sunset.getMinutes());
+    const duskTime = formatTime(times.dusk.getHours() + ':' + times.dusk.getMinutes());
+    const nightTime = formatTime(times.night.getHours() + ':' + times.night.getMinutes());
+    const nightEndPos = SunCalc.getPosition(times.nightEnd, props.coords.lat, props.coords.lng);
+    const sunrisePos = SunCalc.getPosition(times.sunrise, props.coords.lat, props.coords.lng);
+    const goldenHourEndPos = SunCalc.getPosition(times.goldenHourEnd, props.coords.lat, props.coords.lng);
+    const solarNoonPos = SunCalc.getPosition(times.solarNoon, props.coords.lat, props.coords.lng);
+    const goldenHourPos = SunCalc.getPosition(times.goldenHour, props.coords.lat, props.coords.lng);
+    const sunsetPos = SunCalc.getPosition(times.sunset, props.coords.lat, props.coords.lng);
+    const duskPos = SunCalc.getPosition(times.dusk, props.coords.lat, props.coords.lng);
+    const nightPos = SunCalc.getPosition(times.night, props.coords.lat, props.coords.lng);
+
+    const getSolarDatums = (sunset, sunrise) => {
+
+        return [
+            {
+                event: 'Night End',
+                time: nightEndTime,
+                timeTick: convertToSec(times.nightEnd.getHours()),
+                position: nightEndPos.altitude
+            }, {
+                event: 'Sunrise',
+                time: sunriseTime,
+                timeTick: convertToSec(times.sunrise.getHours()),
+                position: sunrisePos.altitude
+            }, {
+                event: 'Golden Hour End',
+                time: goldenHourEndTime,
+                timeTick: convertToSec(times.goldenHourEnd.getHours()),
+                position: goldenHourEndPos.altitude
+            }, {
+                event: 'Solar Noon',
+                time: solarNoonTime,
+                timeTick: convertToSec(times.solarNoon.getHours()),
+                position: solarNoonPos.altitude
+            }, {
+                event: 'Golden Hour',
+                time: goldenHourTime,
+                timeTick: convertToSec(times.goldenHour.getHours()),
+                position: goldenHourPos.altitude
+            }, {
+                event: 'Sunset',
+                time: sunsetTime,
+                timeTick: convertToSec(times.sunset.getHours()),
+                position: sunsetPos.altitude
+            }, {
+                event: 'Dusk',
+                time: duskTime,
+                timeTick: convertToSec(times.dusk.getHours()),
+                position: duskPos.altitude
+            }, {
+                event: 'Night',
+                time: nightTime,
+                timeTick: convertToSec(times.night.getHours()),
+                position: nightPos.altitude
+            }
+
+        ]
+
+    }
+    return (
+        <SunPosition>
+            <TitleIconRow>
+                <Title>Sun Position</Title>
+                <SunIcon x="0px" y="0px" viewBox="0 0 100 100">
+                    <SunPositionSVGPath />
+                </SunIcon>
+            </TitleIconRow>
+            {!Array.isArray(props.surf.weather)
+                ? <Fragment>
+                    <SunPositionGraphRow>
+                        <SunriseSunsetGraph data={getSolarDatums()} />
+                    </SunPositionGraphRow>
+                    <SunPositionDataRow>
+                        <div>
+                            <p>Sunrise:</p>
+                            <p>{sunriseTime}</p>
+                        </div>
+                        <div>
+                            <p>Sunset:</p>
+                            <p>{sunsetTime}</p>
+                        </div>
+                    </SunPositionDataRow>
+                </Fragment>
+                : null}
+        </SunPosition>
+    )
+}
+
+const UVIndexMobile = (props) => {
+    return (
+        <Fragment>
+        {!Array.isArray(props.surf.weatherForecast) && props.surf.weatherForecast.current.uvi != 0
+                    ? <WaterTemp>
+                            <TitleIconRow>
+                                <Title>UV Index</Title>
+                                <UvIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                    <UvIconSVGPath/>
+                                </UvIcon>
+                            </TitleIconRow>
+                            <UvIndexGraph data={props.surf.weatherForecast.current}/>
+                        <UvValue>{parseInt(props.surf.weatherForecast.current.uvi) > 11 ? 11 : parseInt(props.surf.weatherForecast.current.uvi)}
+                            </UvValue>
+                        </WaterTemp>
+                    : null}
+        </Fragment>
+    )
+}
+
 export const SurfMapAndConditions = connect(mapStateToProps)(SurfMapAndConditionsDesktop);
 export const SurfMap = connect(mapStateToProps)(SurfMapMobile);
 export const WeatherComponent = connect(mapStateToProps)(WeatherMobile);
 export const WaterTempComponent = connect(mapStateToProps)(WaterTempMobile)
+export const SunPositionComponent = connect(mapStateToProps)(SunPositionMobile)
+export const UVIndexComponent = connect(mapStateToProps)(UVIndexMobile)

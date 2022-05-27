@@ -38,6 +38,7 @@ const toolTipGlassMorphism = {
     top: '-22.5vh',
     color: 'white',
     zIndex: '4'
+    
 }
 
 const WindChartDateTime = styled.p`

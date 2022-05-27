@@ -142,6 +142,10 @@ const SwellData = styled.div`
 font-size: 1.7vh;
 font-weight: 300;
 @media(max-width:${variables.large}){
+    font-size: 3.25vw;
+    line-height: 4vw;
+    font-weight: 500;
+    letter-spacing: 0.3vw;
     padding: 0 0 0 0.8vw;
     margin:0 1vw;
     width: calc(100% - 2vw);
