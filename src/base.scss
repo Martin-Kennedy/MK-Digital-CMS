@@ -623,3 +623,9 @@ select.minimal {
   position: relative;
   top: 2px;
   }
+
+  .windForecastContainer {
+    @media(max-width: 768px){
+      min-width: 1400px !important;
+    }
+  }

@@ -155,6 +155,10 @@ const CurrentConditionsBackDropTablet100vw = styled(CurrentConditionBackdrop)`
 }
 `
 
+const TideBackDrop100vw = styled(CurrentConditionsBackDropTablet100vw)`
+height: calc(100vw / 5);
+`
+
 const LocationBackDropTablet100vw = styled.div`
 @media(max-width: ${variables.large}){
     width: calc(100% - 1.5vw);
@@ -176,6 +180,25 @@ margin-bottom: 0;
 `
 
 const WindChartContainer = styled(SwellChartContainer)`
+${BackDrop} {
+    @media(max-width: ${variables.medium}){
+            overflow-x: overlay;
+            overflow-y: hidden;
+              &::-webkit-scrollbar {
+          height: 1.5vw;
+        }
+        
+        &::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+          background-image: linear-gradient(45deg, rgba(64, 188, 240, 0.4), rgba(64, 188, 240, 0.8), rgba(64, 188, 240, 0.4));
+          border-radius: 10px;
+          width: 50px;
+        }
+    }
+}
 `
 const WindChartLabel = styled(SwellChartLabel)`
 
@@ -723,13 +746,7 @@ class SurfGUILanding extends Component {
                                                     : null}
                                             </CurrentConditionsBackDropTablet100vw>
                                         </DataDashBoardRow>
-                                        <DataDashBoardRow>
-                                            <CurrentConditionBackdrop>
-                                                {!Array.isArray(this.props.surf.tideForecast)
-                                                    ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} />
-                                                    : null}
-                                            </CurrentConditionBackdrop>
-                                        </DataDashBoardRow>
+                                        
                                         <DataDashBoardRow>
                                             <CurrentConditionBackdrop>
                                                 {!Array.isArray(this.props.surf.weatherForecast)
@@ -743,6 +760,13 @@ class SurfGUILanding extends Component {
                                                             waveData={this.props.surf.currentConditions.swell}/>
                                                     : null}
                                             </CurrentConditionBackdrop>
+                                            <DataDashBoardRow>
+                                                <TideBackDrop100vw>
+                                                    {!Array.isArray(this.props.surf.tideForecast)
+                                                        ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} />
+                                                        : null}
+                                                </TideBackDrop100vw>
+                                            </DataDashBoardRow>
 
                                             <DataDashBoardRow>
 

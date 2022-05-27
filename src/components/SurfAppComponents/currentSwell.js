@@ -1,7 +1,8 @@
 import React from 'react';
-import styled from 'styled-components'
-import { Row } from 'react-bootstrap'
-import { SwellSVGPath } from '../designElementComponents/swellSVGPath'
+import styled from 'styled-components';
+import { Row } from 'react-bootstrap';
+import { SwellSVGPath } from '../designElementComponents/swellSVGPath';
+import variables from '../../variables.module.scss';
 
 
 const WaveConditionBackdrop = styled.div`
@@ -38,11 +39,17 @@ svg {
     padding: 0;
     margin: 0 0.4vw 0 0;
 }
+ @media(max-width:${variables.large}){
+    font-size: 2vw;
+    margin: 1vw;
+    height: 2vw;
+    width: calc(100% - 2vw);
+    }
 `
 
 const Title = styled.p`
 text-transform: uppercase;
-color: rgba(255, 255, 255, 0.8);
+color: rgba(255, 255, 255, 0.6);
 margin-left: 0;
 margin-top: 0;
 display: block;
@@ -51,6 +58,11 @@ width: auto;
 font-size: .75vw;
 height: fit-content;
 line-height: .65vw;
+@media(max-width:${variables.large}){
+   font-size: 2vw;
+   line-height: 2vw;
+   padding: 0 0 0 0.8vw;
+}
 `
 
 const SwellIcon = styled.svg`
@@ -63,6 +75,11 @@ const SwellIcon = styled.svg`
     path {
         fill: rgba(255,255,255, 0.4);
     }
+    @media(max-width: ${variables.large}){
+        height: 3vw;
+        width: 3vw;
+        position: unset;
+    }
 `
 const Primary = styled.div`
 margin-top: -2vh;
@@ -70,10 +87,13 @@ p {
 color: var(--white);
 opacity: .5;
 margin-left: 15px;
-
 display: inline-block;
 margin-bottom: 0;
 line-height: normal;
+@media(max-width:${variables.large}){
+    padding: 0 0 0 0.8vw;
+    margin:0;
+    }
 }
 span {
     width: 100%;
@@ -86,6 +106,10 @@ span {
     opacity: .5;
     letter-spacing: 1.25px;
     margin-left: 3px;
+    @media(max-width:${variables.large}){
+    padding: 0 0 0 0.8vw;
+    margin:0;
+    }
 }
 `;
 
@@ -99,12 +123,12 @@ margin-top: 0;
 
 
 
-const SwellTrain = styled(Row)`
+const SwellTrain = styled.div`
 font-size: 1.5vh;
 font-weight: 200;
 opacity: 7;
-margin-bottom: 4px;
-margin-top: 1.5vh;
+margin: 1vw;
+width: calc(100% - 2vw);
 `
 
 const SwellTrainPrimary = styled(SwellTrain)`
@@ -114,9 +138,17 @@ opacity: 7;
 margin-bottom: 0;
 margin-top: 0;
 `
-const SwellData = styled(Row)`
+const SwellData = styled.div`
 font-size: 1.7vh;
 font-weight: 300;
+@media(max-width:${variables.large}){
+    padding: 0 0 0 0.8vw;
+    margin:0 1vw;
+    width: calc(100% - 2vw);
+    p {
+        padding-left: 0;
+    }
+    }
 `
 
 export const CurrSwellDataComponent = (props) => {
@@ -130,7 +162,7 @@ export const CurrSwellDataComponent = (props) => {
                     <SwellSVGPath />
             </SwellIcon>
             </TitleIconRow>
-        <Primary>
+            <Primary>
             <SwellTrainPrimary>
                 <p>Primary</p>
             </SwellTrainPrimary> 
@@ -140,7 +172,7 @@ export const CurrSwellDataComponent = (props) => {
                 <p>{`${parseFloat(props.ndbcData.waveHeight.toFixed(1))}ft at ${props.ndbcData.dominantPeriod}s from ${props.waveData.components.primary.compassDirection} ${parseInt(props.ndbcData.swellDirection)}${degree}`}</p>
             </SwellData>
            
-        </Primary>
+            </Primary>
         
         {/* secondary swell train */}
         {props.waveData.components.secondary ?

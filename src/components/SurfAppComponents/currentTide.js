@@ -3,6 +3,7 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ReferenceDot, ResponsiveContain
 import { TideSVGPath } from '../designElementComponents/tideSVGPath'
 import {Row} from 'react-bootstrap';
 import styled from 'styled-components';
+import variables from '../../variables.module.scss';
 
 
 const TitleIconRow = styled(Row)`
@@ -21,11 +22,17 @@ svg {
     padding: 0;
     margin: 0 0.8vw 0 0;
 }
+@media(max-width: ${variables.large}){
+    position: unset;
+    margin: 1vw 0 1vw 0.5vw;
+    height: 2vw;
+    width: calc(100% - 1vw);
+}
 `
 
 const Title = styled.p`
 text-transform: uppercase;
-color: rgba(255, 255, 255, 0.8);
+color: rgba(255, 255, 255, 0.6);
 margin-left: 0;
 margin-top: 0;
 display: block;
@@ -34,6 +41,11 @@ width: auto;
 font-size: .75vw;
 height: fit-content;
 line-height: .65vw;
+@media(max-width: ${variables.large}){
+    font-size: 1.5vw;
+    line-height: 3vw;
+    padding: 0;
+}
 `
 
 const TideIcon = styled.svg`
@@ -46,6 +58,11 @@ const TideIcon = styled.svg`
     path {
         fill: rgba(255,255,255, 0.4);
     }
+@media(max-width: ${variables.large}){
+height: 3vw;
+width: 3vw;
+position: unset;
+}
 `
 
 const TideChartToolTip = styled.div`
@@ -79,7 +96,7 @@ color: rgba(255,255,255, 0.7);
 }
 `
 const StyledResponsiveContainer = styled(ResponsiveContainer)`
-margin: -2vh 0 0 -0.4vw;
+margin: 0 0 0 -0.4vw;
 `
 
 const toolTipGlassMorphism = {
@@ -147,10 +164,10 @@ export default class CurrentTideDataComponent extends PureComponent {
                     stackOffset="silhouette"
                     baseValue="dataMin"
                     margin={{
-                        top: 4,
+                        top: 5,
                         right: 10,
                         left: -35,
-                        bottom: 4
+                        bottom: 5
                     }}
                 >
                     <XAxis dataKey="time" />

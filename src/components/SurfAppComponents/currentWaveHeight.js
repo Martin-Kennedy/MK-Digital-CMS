@@ -38,7 +38,7 @@ top: -3vh;
 
 const Title = styled.p`
 text-transform: uppercase;
-color: rgba(255, 255, 255, 0.8);
+color: rgba(255, 255, 255, 0.6);
 margin-left: 0;
 margin-top: 0;
 display: block;
@@ -47,10 +47,10 @@ width: auto;
 font-size: .75vw;
 height: fit-content;
 line-height: .65vw;
-@media(max-width: ${variables.large}){
-    font-size: 1.5vw;
-    line-height: 3vw;
-    padding: 0;
+@media(max-width:${variables.large}){
+   font-size: 2vw;
+   line-height: 2vw;
+   padding: 0;
 }
 `
 
@@ -66,12 +66,9 @@ path {
 }
 
 @media(max-width: ${variables.large}){
-    height: 2vw;
-    width: 2vw;
+    height: 3vw;
+    width: 3vw;
     position: unset;
-    path {
-    fill: rgba(255,255,255, 0.6);
-}
 }
 `
 
@@ -153,7 +150,6 @@ margin: 0 auto;
     @media(max-width: ${variables.large}){
     width: calc(100% - 1vw);
     height: 6VW;
-    margin-right: 1vw;
 }
 `
 
@@ -196,7 +192,7 @@ opacity: 0.8;
 `
 
 const MobileRow = styled(Row)`
-margin-top: 2vw;
+margin-top: 2.5vw;
 `
 
 

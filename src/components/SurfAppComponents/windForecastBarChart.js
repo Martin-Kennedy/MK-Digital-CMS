@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
     BarChart,
     Bar,
@@ -10,7 +10,9 @@ import {
     Legend,
     ResponsiveContainer
 } from 'recharts';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import MediaQuery from 'react-responsive';
+import variables from '../../variables.module.scss';
 
 const MonthText = styled.text`
 color: #fff !important;
@@ -168,8 +170,9 @@ export default class WindBarChart extends PureComponent {
     render() {
 
         return (
-
-            <ResponsiveContainer width="100%" height="90%">
+            <Fragment>
+            <MediaQuery minWidth={Number(variables.largeNum)}>
+            <ResponsiveContainer className="windForecastContainer" width="100%" height="90%">
                     
                 <BarChart
                     width={500}
@@ -216,6 +219,57 @@ export default class WindBarChart extends PureComponent {
                     </Bar>
                 </BarChart>
             </ResponsiveContainer>
+                </MediaQuery>
+                <MediaQuery maxWidth={Number(variables.largeNum)}>
+                    <ResponsiveContainer className="windForecastContainer" width="100%" height="90%">
+
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={this.props.forecast}
+                            margin={{
+                                top: 8,
+                                right: 25,
+                                left: -25,
+                                bottom: 10
+                            }}
+                            onMouseMove={(state) => {
+                                if (state.isTooltipActive) {
+                                    this.setState({ focusBar: state.activeTooltipIndex, mouseLeave: false });
+                                } else {
+                                    this.setState({ focusBar: null, mouseLeave: true })
+                                }
+                            }}>
+                            <XAxis dataKey="time" />
+                            <XAxis
+                                dataKey="localTime"
+                                axisLine={false}
+                                tickLine={false}
+                                interval={0}
+                                tick={renderDateTick}
+                                height={1}
+                                scale="band"
+                                xAxisId="Date" />
+                            <YAxis
+                                type="number"
+                                margin={{
+                                    top: 5,
+                                    right: 10,
+                                    left: 0,
+                                    bottom: 5
+                                }} />
+                            <Tooltip
+                                wrapperStyle={toolTipGlassMorphism}
+                                content={< WindInfoTooltip />}
+                                cursor={false} />
+
+                            <Bar dataKey="speed" shape={<WindBarb data={this.state} />} >
+
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </MediaQuery>
+            </Fragment>
         );
     }
 }

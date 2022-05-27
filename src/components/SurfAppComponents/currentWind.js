@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
 import {Row} from 'react-bootstrap'
 import {motion} from "framer-motion"
-import {WindIconSVGPath} from '../designElementComponents/windIconSVGPath'
+import {WindIconSVGPath} from '../designElementComponents/windIconSVGPath';
+import variables from '../../variables.module.scss';
 
 const WaveConditionBackdrop = styled.div `
 width: 100%;
@@ -19,7 +20,6 @@ svg:nth-child(3){
         
     }
 }
-
 `
 
 const WindIcon = styled.svg `
@@ -32,11 +32,16 @@ const WindIcon = styled.svg `
     path {
         fill: rgba(255,255,255, 0.25);
     }
+    @media(max-width: ${variables.large}){
+    height: 3vw;
+    width: 3vw;
+    position: unset;
+}
 `
 
 const Title = styled.p `
 text-transform: uppercase;
-color: rgba(255, 255, 255, 0.8);
+color: rgba(255, 255, 255, 0.6);
 margin-left: 0;
 margin-top: 0;
 display: block;
@@ -45,6 +50,10 @@ width: auto;
 font-size: .75vw;
 height: fit-content;
 line-height: .65vw;
+@media(max-width:${variables.large}){
+   font-size: 2vw;
+   line-height: 2vw;
+}
 `
 
 const StyledCompassBase = styled.svg `
@@ -58,6 +67,12 @@ top: 2vh;
 path {
     fill: var(--white);
 }
+@media(max-width:${variables.large}){
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+}
 `
 
 const StyledCompassArrow = styled(motion.svg)`
@@ -69,9 +84,17 @@ opacity: 0.8;
 left: 4vh;
 top: 2vh;
 transform-origin: center center !important;
-
 path {
     fill: var(--white);
+}
+@media(max-width:${variables.large}){
+    width: 80%;
+    height: 80%;
+    z-index: 3;
+    position: absolute;
+    opacity: 0.8;
+    left: 10%;
+    top: 10%;
 }
 `
 
@@ -95,7 +118,10 @@ font-size: 3.5vh;
     letter-spacing: .3vh;
     line-height: 3.5vh;
     top: 4px;
-    position: relative;      
+    position: relative;    
+    @media(max-width:${variables.large}){
+    position: unset;
+}
 }
 span {
     font-size: 1.55vh;
@@ -104,6 +130,23 @@ span {
     line-height: 1.55vh;
     top: -4px;
     position: relative;
+     @media(max-width:${variables.large}){
+    position: unset;
+}
+}
+@media(max-width: ${variables.large}){
+    position: absolute;
+    opacity: 0.8;
+    text-align: center;
+    padding: 0;
+    left: 10%;
+    top: 10%;
+    z-index: 4;
+    width: 80%;
+    height: 80%;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
 }
 `
 
@@ -123,6 +166,12 @@ svg {
     padding: 0;
     margin: 0 0.8vw 0 0;
 }
+ @media(max-width:${variables.large}){
+    font-size: 2vw;
+    margin: 1vw;
+    height: 2vw;
+    width: calc(100% - 2vw);
+    }
 `
 
 const BottomRow = styled(Row)`
@@ -139,11 +188,18 @@ margin-bottom: 1vh;
 font-size: .75vw;
 height: fit-content;
 line-height: .65vw;
+ @media(max-width:${variables.large}){
+    font-size: 2vw;
+    margin: 1vw;
+    height: 2vw;
+    width: calc(100% - 2vw);
+    }
 p:first-child {
     padding: 0 0 0 0.8vw;
     margin: 0;
     width: 50%;
     text-align: left;
+
 }
 p:nth-child(2) {
     padding: 0 0.8vw 0 0;
@@ -151,6 +207,9 @@ p:nth-child(2) {
     width: 50%;
     text-align: right;
     font-size: .5vw;
+    @media(max-width:${variables.large}){
+    font-size: 2vw;
+    }
    
 }
 span {
@@ -158,6 +217,9 @@ span {
     font-weight: 600;
     opacity: 0.6;
     font-size: .75vw;
+     @media(max-width:${variables.large}){
+    font-size: 2vw;
+}
 }
 `
 
