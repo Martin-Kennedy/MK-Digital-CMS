@@ -10,11 +10,6 @@ width: 100%;
 height: 100%;
 padding: 0;
 z-index: 5;
-&:hover {
-    cursor: pointer;
-    div:nth-child(4) {
-       opacity: 1;
-    }
 svg:nth-child(3){
         opacity: 1;
         

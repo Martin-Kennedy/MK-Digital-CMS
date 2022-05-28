@@ -26,7 +26,7 @@ import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWave
 import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
 import {CurrSwellDataComponent} from '../components/SurfAppComponents/currentSwell';
 import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
-import {SurfMapAndConditions, SurfMap, WeatherComponent, WaterTempComponent} from '../components/SurfAppComponents/surfMapAndConditions';
+import { SurfMapAndConditions, SurfMap, WeatherComponent, WaterTempComponent, SunPositionComponent, UVIndexComponent } from '../components/SurfAppComponents/surfMapAndConditions';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
 import {SpotSearchSVGPath} from '../components/designElementComponents/spotSearchSVGPath';
 import {CloseButtonSVGPath} from '../components/designElementComponents/closeButtonSVGPath';
@@ -141,7 +141,7 @@ height: 20vh;
 margin:0 0.5vw 2vh 0.5vw;
 @media(max-width: ${variables.large}){
     width: calc(50% - 1.5vw);
-    height: 30vh;
+    height: calc(50vw - 1.5vw);
     margin: 0 1vw 1vw .5vw 
 }
 `
@@ -769,9 +769,15 @@ class SurfGUILanding extends Component {
                                             </DataDashBoardRow>
 
                                             <DataDashBoardRow>
-
                                                 <WeatherComponent/>
                                                 <WaterTempComponent/>
+                                            </DataDashBoardRow>
+                                            <DataDashBoardRow>
+                                                <SunPositionComponent coords={{
+                                                    lat: this.state.lat,
+                                                    lng: this.state.lng
+                                                }} />
+                                                <UVIndexComponent />
                                             </DataDashBoardRow>
                                         </DataDashBoardRow>
                                         
@@ -796,7 +802,6 @@ class SurfGUILanding extends Component {
                                         </BackDrop>
                                     </WindChartContainer>
                                 </DataDashBoardRow>
-                                <DataDashBoardRow></DataDashBoardRow>
                             </CustomCol>
                             <MediaQuery minWidth={variables.large}>
                                 <Col sm={2}>

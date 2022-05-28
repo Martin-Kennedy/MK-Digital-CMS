@@ -6,16 +6,20 @@ import {
     ResponsiveContainer
 } from "recharts";
 import styled from 'styled-components';
-
-const SunGraphToolTip = styled.div`
-padding: 0;
-`
+import variables from '../../variables.module.scss';
 
 const StyledPieChart = styled(PieChart)`
 svg {
     > g {
     transform: translateY(9%);
     }
+}
+@media(max-width: ${variables.large}){
+    width: 80%;
+height: 80%;
+position: relative;
+top: 10%;
+left: 10%;
 }
 `
 const SunGraphDateTime = styled.p`
@@ -34,37 +38,15 @@ font-weight: 500;
 font-size: 1.25vh !important;
 `
 
-const toolTipGlassMorphism = {
-    width: '20vh',
-    height: '12.5vh',
-    borderRadius: '5px',
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(1px)',
-    border: '1px solid rgba(255, 255, 255, 0.15)',
-    borderRightColor: 'rgba(255, 255, 255, 0.1)',
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
-    boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
-    padding: '5px',
-    position: 'relative',
-    top: '-14.5vh',
-    left: '21vh',
-    color: 'white',
-    zIndex: '5'
+const UVContainer = styled.div`
+width: 100%;
+height: 6.6vw;
+marginTop: .5vw;
+@media(max-width: ${variables.large}){
+    height: 35vw;
+    width: 35vw;
 }
-
-const SunGraphTooltip = ({ active, payload }) => {
-
-    if (active && payload && payload.length) {
-
-        return (
-            <SunGraphToolTip>
-                <SunGraphDateTime>Time: <SunGraphData>{payload[0].payload.uviColor}</SunGraphData></SunGraphDateTime>
-            </SunGraphToolTip>
-        );
-    }
-
-    return null;
-};
+`
 
 const type = "monotone";
 
@@ -93,7 +75,7 @@ const ActiveShape = (props) => {
     const ex = mx + (cos >= 0 ? 1 : -1) * 22;
     const ey = my;
     return <g>
-        <Sector
+        <Sector 
             cx={cx}
             cy={cy}
             innerRadius={innerRadius}
@@ -103,10 +85,11 @@ const ActiveShape = (props) => {
             fill={fill}
             stroke={fill}
         />
-        
-        <circle cx={mx} cy={my} r={5} fill="#0f2a46" stroke="#fff" />
-            </g>;
+
+        <circle cx={mx} cy={my} r={5} fill="#0f2a46" stroke="#fff" preserveAspectRatio />
+    </g>;
 }
+
 export default class UvIndexGraph extends PureComponent {
 
     render() {
@@ -116,19 +99,19 @@ export default class UvIndexGraph extends PureComponent {
         console.log(convertedUvi)
 
         return (
-            <div style={{ width: '100%', height: '6.6vw', marginTop: '.5vw',  }}>
+            <UVContainer>
             <ResponsiveContainer>
 
-                    < StyledPieChart>
+                    <StyledPieChart>
                     
-                    <Pie
+                        <Pie 
                         data={data}
                         activeIndex={convertedUvi}
                         activeShape={ActiveShape}
                         startAngle={180}
                         endAngle={0}
-                        innerRadius={42}
-                        outerRadius={45}
+                        innerRadius={'92%'}
+                        outerRadius={'100%'}
                         fill="#8884d8"
                         dataKey="value"
                         isAnimationActive={false}
@@ -141,7 +124,7 @@ export default class UvIndexGraph extends PureComponent {
                       
                     </StyledPieChart>
                 </ResponsiveContainer>
-            </div>
+            </UVContainer>
                    
                     
                     

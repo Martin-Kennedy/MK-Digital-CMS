@@ -85,7 +85,7 @@ const Primary = styled.div`
 margin-top: -2vh;
 p {
 color: var(--white);
-opacity: .5;
+opacity: .8;
 margin-left: 15px;
 display: inline-block;
 margin-bottom: 0;
@@ -141,6 +141,7 @@ margin-top: 0;
 const SwellData = styled.div`
 font-size: 1.7vh;
 font-weight: 300;
+
 @media(max-width:${variables.large}){
     font-size: 3.25vw;
     line-height: 4vw;

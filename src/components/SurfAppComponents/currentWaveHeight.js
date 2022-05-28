@@ -149,7 +149,10 @@ height: 4vh;
 margin: 0 auto;
     @media(max-width: ${variables.large}){
     width: calc(100% - 1vw);
-    height: 6VW;
+    height: 6vw;
+    font-size: 3vw;
+    line-height: 6vw;
+    letter-spacing: .2vw;
 }
 `
 

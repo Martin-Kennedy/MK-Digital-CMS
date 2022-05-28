@@ -64,11 +64,19 @@ const WaterTempStandAlone = styled(WaterTemp)`
     height: 20vh;
     margin: 0 0.5vw 2vh 0.5vw;
     @media(max-width: ${variables.large}){
-        height: 30vh;
+    width: calc(50% - 1.5vw);
+    height: calc(50vw - 1.5vw);
+    margin: 0 1vw 1vw 0.5vw;
     }
 `
 
 const WeatherContainer = styled(WaterTempStandAlone)`
+`
+
+const SunPositionContainer = styled(WaterTempStandAlone)`
+`
+
+const UVIndexContainer = styled(WaterTempStandAlone)`
 `
 
 const TitleIconRow = styled(Row)`
@@ -86,6 +94,16 @@ svg {
     padding: 0;
     margin: 0;
 }
+@media(max-width: ${variables.large}){
+    position: unset;
+    margin: 1vw 0 1vw 0.5vw;
+    height: 2vw;
+    width: calc(100% - 1vw);
+}
+`
+
+const TitleIconRowWeather = styled(TitleIconRow)`
+height: 7vw;
 `
 
 const Title = styled.p `
@@ -100,6 +118,10 @@ width: auto;
 font-size: .65vw;
 height: fit-content;
 line-height: .65vw;
+@media(max-width:${variables.large}){
+   font-size: 2vw;
+   line-height: 2vw;
+}
 `
 
 const Data = styled.p `
@@ -126,6 +148,33 @@ height: 2vw;
 padding: 0;
 `
 
+const TempMobile = styled(Temp)`
+@media(max-width: ${variables.large}){
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+    font-size: 12vw;
+    line-height: 22vw;
+    span {
+        font-size: 9vw;
+        margin:0;
+        padding: 0;
+        position: relative;
+        top: -2vw;
+    }
+    span:nth-child(2){
+        top: 0;
+        font-size: 5vw;
+        margin-left: 1vw;
+    }
+}
+`
+
+const WaterTempMobileContainer = styled(TempMobile)`
+font-size: 8vw;
+    line-height: 22vw;
+`
+
 const WaterTempData = styled(Temp)`
 font-size: 1.75vw;
 `
@@ -137,6 +186,8 @@ display: block;
 line-height: .6vw;
 height: auto;
 padding: 0;
+
+
 p {
 display: block;
 padding: .15vw;
@@ -148,6 +199,35 @@ font-weight: 500;
 letter-spacing: .5px;
 color: rgba(255,255,255, 0.5);
 }
+
+`
+
+const HiLoTempMobile = styled(HiLoTemp)`
+@media(max-width: ${variables.large}){
+    p {
+        display: inline-block;
+        padding: .15vw;
+        margin: 0;
+        font-size: 3vw;
+        letter-spacing: 0.2vw;
+        font-weight: 500;
+        line-height: 4.6vw;
+        width: 100%;
+        text-align: center;
+        letter-spacing: .5px;
+        color: rgba(255,255,255, 0.5);
+        text-align: center;
+        margin: 0 auto;
+        padding: 0;
+        width: calc(50% - 0.3vw);
+    }
+    font-size: 3vw;
+    letter-spacing: 0.2vw;
+    font-weight: 500;
+    line-height: 4.6vw;
+    width: 100%;
+    margin: 0;
+}
 `
 
 const TempWeatherIconContainer = styled.div `
@@ -156,8 +236,19 @@ text-align: center;
 margin: .2vh auto;
 display: flex;
 line-height: .6vw;
-height: auto;
+height: 22vw;
 padding: 0;
+
+`
+const TempWeatherDescriptionContainer = styled(TempWeatherIconContainer)`
+display: block;
+`
+
+const WeatherDescriptionRow = styled(Row)`
+width: 100%;
+display: block;
+margin: 0 0 1vw 0;
+
 `
 
 const WaterTempContainer = styled.div `
@@ -182,6 +273,14 @@ text-align: center;
 color: rgba(255,255,255, 0.8);
 margin: 0.5vh 0;
 text-transform: capitalize;
+@media(max-width: ${variables.large}){
+    font-size: 3.5vw;
+    letter-spacing: 0.2vw;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
+}
 `
 const Weather = styled(WaterTemp)`
 `
@@ -210,6 +309,10 @@ background-repeat: no-repeat;
 background-image: ${props => props.icon
     ? `url(https://www.weatherbit.io/static/img/icons/${props.icon}.png)`
     : null};
+    @media(max-width: ${variables.large}){
+        width: 7.75vw;
+        height: 7.75vw;
+    }
 `
 
 const WaterTempIcon = styled.svg `
@@ -284,6 +387,16 @@ const UvValue = styled(Data)`
     color: rgba(255,255,255,1);
     position: relative;
     top: -72%;
+    left: calc(50% - 1vw);
+    padding-left: 0.5vw;
+`
+
+const UvValueMobile = styled(Data)`
+    font-size: calc(60vw / 4 / 8);
+    font-weight: 600;
+    letter-spacing: .5px;
+    color: rgba(255,255,255,1);
+    position: relative;
     left: calc(50% - 1vw);
     padding-left: 0.5vw;
 `
@@ -512,30 +625,33 @@ const WeatherMobile = (props) => {
     return (<WeatherContainer>
         {!Array.isArray(props.surf.weather)
             ? <Fragment>
-                <TitleIconRow>
+                <TitleIconRowWeather>
                     <Title>Weather</Title>
                     <WeatherIcon icon={props.surf.weather.data[0].weather.icon}></WeatherIcon>
 
-                </TitleIconRow>
+                </TitleIconRowWeather>
                 <Row>
                     <TempWeatherIconContainer>
-                        <Temp>{parseInt(props.surf.weather.data[0].app_temp)}{degree}
+                        <TempMobile>{parseInt(props.surf.weather.data[0].app_temp)}<span>{degree}</span>
                             <UnitType>f</UnitType>
-                        </Temp>
+                        </TempMobile>
+                    </TempWeatherIconContainer>
+                    <TempWeatherDescriptionContainer>
+                        <WeatherDescriptionRow>
+                        <Description>{props.surf.weather.data[0].weather.description}</Description>
+                        </WeatherDescriptionRow>
+                        <WeatherDescriptionRow>
                         {!Array.isArray(props.surf.weatherForecast)
                             ? <Fragment>
-                                <HiLoTemp>
-                                    <p>H: {parseInt(props.surf.weatherForecast.daily[0].temp.max)}{degree}</p>
-                                    <p>L: {parseInt(props.surf.weatherForecast.daily[0].temp.min)}{degree}</p>
-                                </HiLoTemp>
+                                <HiLoTempMobile>
+                                    <p>H: {parseInt(props.surf.weatherForecast.daily[0].temp.max)}{degree} L: {parseInt(props.surf.weatherForecast.daily[0].temp.min)}{degree}</p>
+                                </HiLoTempMobile>
                             </Fragment>
                             : null}
-
-                    </TempWeatherIconContainer>
+                        </WeatherDescriptionRow>
+                    </TempWeatherDescriptionContainer>
                 </Row>
-                <Row>
-                    <Description>{props.surf.weather.data[0].weather.description}</Description>
-                </Row>
+                
 
             </Fragment>
             : null}
@@ -545,20 +661,27 @@ const WeatherMobile = (props) => {
 const WaterTempMobile = (props) => {
 return(
     <WaterTempStandAlone>
-        <TitleIconRow>
+        <TitleIconRowWeather>
             <Title>Water Temp</Title>
             <WaterTempIcon x="0px" y="0px" viewBox="0 0 100 100">
                 <WaterTempSVGPath />
             </WaterTempIcon>
-        </TitleIconRow>
+        </TitleIconRowWeather>
+        {console.log(typeof props.surf.waterTemp)}
         <Row>
-            <WaterTempContainer>
-                <WaterTempData>
-                    {parseInt(props.surf.waterTemp) - 2}{degree}
-                    - {parseInt(props.surf.waterTemp) + 1}{degree}
-                    <UnitType>f</UnitType>
-                </WaterTempData>
-            </WaterTempContainer>
+            {(typeof props.surf.waterTemp) === 'number' ? 
+            <Fragment>
+            <TempWeatherIconContainer>
+                <WaterTempMobileContainer>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree}
+                </WaterTempMobileContainer>
+            </TempWeatherIconContainer>
+            <TempWeatherDescriptionContainer>
+                <WeatherDescriptionRow>
+                    <Description>Wetsuit: {(parseInt(props.surf.waterTemp) - 2) > 69 ? 'Board Shorts' : (parseInt(props.surf.waterTemp) - 2) < 70 ? '3/2mm' : parseInt(props.surf.waterTemp) - 2 < 60 ? '4/3mm' : (parseInt(props.surf.waterTemp) - 2) < 50 ? '5/4mm' : (parseInt(props.surf.waterTemp) - 2) < 40 ? '6/5mm' : null}</Description>
+                </WeatherDescriptionRow>
+            </TempWeatherDescriptionContainer>
+             </Fragment>
+            : null}
         </Row>
     </WaterTempStandAlone>
 )
@@ -652,7 +775,7 @@ const SunPositionMobile = (props) => {
 
     }
     return (
-        <SunPosition>
+        <SunPositionContainer>
             <TitleIconRow>
                 <Title>Sun Position</Title>
                 <SunIcon x="0px" y="0px" viewBox="0 0 100 100">
@@ -676,15 +799,16 @@ const SunPositionMobile = (props) => {
                     </SunPositionDataRow>
                 </Fragment>
                 : null}
-        </SunPosition>
+        </SunPositionContainer>
     )
 }
 
 const UVIndexMobile = (props) => {
     return (
-        <Fragment>
-        {!Array.isArray(props.surf.weatherForecast) && props.surf.weatherForecast.current.uvi != 0
-                    ? <WaterTemp>
+        
+     <UVIndexContainer >
+                {!Array.isArray(props.surf.weatherForecast) && props.surf.weatherForecast.current.uvi != 0
+                ? <Fragment>
                             <TitleIconRow>
                                 <Title>UV Index</Title>
                                 <UvIcon x="0px" y="0px" viewBox="0 0 100 100">
@@ -692,11 +816,10 @@ const UVIndexMobile = (props) => {
                                 </UvIcon>
                             </TitleIconRow>
                             <UvIndexGraph data={props.surf.weatherForecast.current}/>
-                        <UvValue>{parseInt(props.surf.weatherForecast.current.uvi) > 11 ? 11 : parseInt(props.surf.weatherForecast.current.uvi)}
-                            </UvValue>
-                        </WaterTemp>
-                    : null}
-        </Fragment>
+                    <UvValueMobile>{parseInt(props.surf.weatherForecast.current.uvi) > 11 ? 11 : parseInt(props.surf.weatherForecast.current.uvi)}
+                    </UvValueMobile>
+                </Fragment> : null}
+                </UVIndexContainer>
     )
 }
 
