@@ -105,11 +105,7 @@ padding: 0 0 0 0.5vw;
 margin:0;
 `
 
-const SwellChartContainer = styled.div `
-margin-left: 0;
-padding-right: 0;
-padding-left: 0;
-`
+
 
 const BackDrop = styled.div `
 border-radius: 5px;
@@ -124,6 +120,34 @@ height:  ${props => props.dynamicHeight > 8
     : 22}vh;
 width: 100%;
 padding: 4vh 0 0 0;
+`
+
+const SwellChartContainer = styled.div`
+margin-left: 0;
+padding-right: 0;
+padding-left: 0;
+${BackDrop} {
+    @media(max-width: ${variables.medium}){
+    width: calc(100% - 1.5vw);
+    margin: 0 1vw 1vw 0.5vw;
+    padding: 0;
+    overflow-x: overlay;
+    overflow-y: hidden;
+              &::-webkit-scrollbar {
+          height: 1.5vw;
+        }
+        
+        &::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+          background-image: linear-gradient(45deg, rgba(64, 188, 240, 0.4), rgba(64, 188, 240, 0.8), rgba(64, 188, 240, 0.4));
+          border-radius: 10px;
+          width: 50px;
+        }
+    }
+}
 `
 
 const SurfMapBackDrop = styled(BackDrop)`
@@ -177,6 +201,14 @@ position: relative;
 top: -3vh;
 height: 0;
 margin-bottom: 0;
+@media(max-width: ${variables.large}){
+    position: unset;
+    margin: 1vw 0 1vw 1.5vw;
+    padding: 1vh;
+    font-size: 2vw;
+    width: calc(100% - 1vw);
+    line-height: 2vw;
+}
 `
 
 const WindChartContainer = styled(SwellChartContainer)`
@@ -184,6 +216,9 @@ ${BackDrop} {
     @media(max-width: ${variables.medium}){
             overflow-x: overlay;
             overflow-y: hidden;
+             width: calc(100% - 1.5vw);
+            margin: 0 1vw 1vw 0.5vw;
+            padding: 0;
               &::-webkit-scrollbar {
           height: 1.5vw;
         }

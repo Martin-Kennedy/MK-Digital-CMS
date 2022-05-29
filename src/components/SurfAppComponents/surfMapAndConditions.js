@@ -331,13 +331,19 @@ const UvIcon = styled(WaterTempIcon)``;
 const SunIcon = styled(WaterTempIcon)``
 const SunPositionGraphRow = styled.div `
 width: 100%;
-height: 7vh;
+height: 70%;
 display: flex;
+top: 5%;
+position: relative;
 `
 
 const SunPositionDataRow = styled.div `
 width: 100%;
 display: flex;
+  @media(max-width: ${variables.large}){
+            position: relative;
+            top: 8%;
+        }
 div {
     width: 50%;
     display: block;
@@ -346,15 +352,27 @@ div {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1vw;
+
     p:first-child {
         font-size: 0.4vw;
         font-weight: 300;
+        @media(max-width: ${variables.large}){
+            font-size: 1.5vw;
+            line-height: 3.5vw;
+            font-weight: 300;
+        }
     }
     p {
         
         text-align: left;
         margin-bottom: 0;
         line-height: 0.6vw;
+        @media(max-width: ${variables.large}){
+            font-size: 2.5vw;
+            line-height: 3.5vw;
+            font-weight: 500;
+            
+        }
     }
 }
 
@@ -392,13 +410,28 @@ const UvValue = styled(Data)`
 `
 
 const UvValueMobile = styled(Data)`
-    font-size: calc(60vw / 4 / 8);
+    font-size: 10vw;
     font-weight: 600;
     letter-spacing: .5px;
     color: rgba(255,255,255,1);
     position: relative;
-    left: calc(50% - 1vw);
+    left: calc(25vw - 6vw);
     padding-left: 0.5vw;
+    width: fit-content;
+    top: -20vw;
+    padding: 0;
+`
+const UvValueMobileMessage = styled(Data)`  
+    font-size: 3.5vw;
+    letter-spacing: 0.2vw;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    display: block;
+    top: -17vw;
+    position: relative;
 `
 
 const mapStateToProps = state => {
@@ -818,6 +851,8 @@ const UVIndexMobile = (props) => {
                             <UvIndexGraph data={props.surf.weatherForecast.current}/>
                     <UvValueMobile>{parseInt(props.surf.weatherForecast.current.uvi) > 11 ? 11 : parseInt(props.surf.weatherForecast.current.uvi)}
                     </UvValueMobile>
+                    <UvValueMobileMessage>{parseInt(props.surf.weatherForecast.current.uvi) >= 8 ? 'UV Index Is High, Wear Sun Protection' : parseInt(props.surf.weatherForecast.current.uvi) >= 5 ? 'UV Index Is Moderate, Wear Sun Protection' : parseInt(props.surf.weatherForecast.current.uvi) >= 1 ? 'UV Index Is Low' : null}
+                    </UvValueMobileMessage>
                 </Fragment> : null}
                 </UVIndexContainer>
     )

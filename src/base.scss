@@ -624,8 +624,9 @@ select.minimal {
   top: 2px;
   }
 
-  .windForecastContainer {
+  .windForecastContainer, .swellForecastContainer {
     @media(max-width: 768px){
       min-width: 1400px !important;
+      height: 75% !important;
     }
   }
