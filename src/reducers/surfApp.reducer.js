@@ -25,6 +25,7 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             }
         case GET_SPOT_FORECAST:
             const getCurrentConditions = () => {
+                
                 const now = Date.now() / 1000 | 0;
                 return action.payload.filter((d) => {
                     return d.localTimestamp < now;

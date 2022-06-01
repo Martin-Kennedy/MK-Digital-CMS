@@ -29,9 +29,11 @@ import CurrentTideDataComponent from '../components/SurfAppComponents/currentTid
 import { SurfMapAndConditions, SurfMap, WeatherComponent, WaterTempComponent, SunPositionComponent, UVIndexComponent } from '../components/SurfAppComponents/surfMapAndConditions';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
 import {SpotSearchSVGPath} from '../components/designElementComponents/spotSearchSVGPath';
+import { HomeIconSVGPath } from '../components/designElementComponents/homeIconSVGPath';
 import {CloseButtonSVGPath} from '../components/designElementComponents/closeButtonSVGPath';
 import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
+import {Link} from 'react-router-dom';
 
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
@@ -57,6 +59,8 @@ padding: 0;
 }
 }
 `
+const DataDashboardRowMenuMobile = styled(DataDashBoardRow)`
+`
 
 const CustomCol = styled(Col)`
 @media(max-width: ${variables.large}){
@@ -69,8 +73,8 @@ const DataDashboardRowMap = styled(DataDashBoardRow)`
     margin-top: 0;
 }
 @media(max-width: ${variables.large}){
-    width: calc(100% - 1.5vw);
-    margin: 0 1vw 1vw .5vw
+    width: calc(100% - 1vw);
+    margin: 2vw 0 0;
 }
 `
 const CurrentConditionRow = styled(Row)`
@@ -284,31 +288,47 @@ const RightNavBkg = styled.div `
 const MenuNavBkg = styled(RightNavBkg)`
 z-index: 2;
 margin-left: 2vw;
+height: fit-content;
+`;
+
+const MenuNavBkgMobile = styled(RightNavBkg)`
+z-index: 12;
+position: fixed;
+top: 1.5vw;
+margin: 0 auto !important;
+height: calc(100vw / 8);
+width:  calc(100vw - (var(--bs-gutter-x) * 1.25));
+display: flex;
+justify-content: space-between;
+padding: 2.75vw;
+backdrop-filter: blur(10px);
 `;
 const SearchMenu = styled(RightNavBkg)`
-z-index: 3;
+z-index: 10;
 position: absolute;
-left: -15vw;
-width: 13vw;
+left: -35vw;
+width: 33vw;
 padding: 8px;
 transition: 600ms ease;
-backdrop-filter: blur(2px);
+backdrop-filter: blur(4px);
 background: rgba(255, 255, 255, 0.06);
+padding-top: 2vw;
 ul {
     li {
-     margin-right: .8vw;
+    margin-right: .8vw;
     letter-spacing: 1.25px;
     width: 100%;
     text-align: center;
     font-weight: 400;
-    font-size: .7vw;
+    font-size: 1vw;
     margin-top: 3px;
+    height: 1.7vw;
     &:hover, &:focus {
         cursor: pointer;
-         font-size: .8vw;
+         font-size: 1.2vw;
           div {
             span {
-                opacity: 0.9;
+                opacity: 1;
             }
             }
         }
@@ -358,33 +378,92 @@ margin-top: 3px;
 `
 
 const CloseButtonContainer = styled.div `
-width: 100%;
+width: fit-content;
 padding: 0;
 margin-bottom: 2vh;
+margin-top: 0;
+text-align: right;
+color: var(--white);
+position: absolute; 
+right: .75vw;
+top: 0; 
+display: flex;
+justify-content: flex-end;
+
+p {
+    font-weight: 500;
+    font-size: 1vw;
+    text-transform: capitalize;
+    margin-left: 1vw;
+    opacity: 0.5;
+    margin-bottom: 0;
+    margin-top: 0.3vw;
+    letter-spacing: .075vw;
+    transition-duration: .5s;
+    transition-timing-function: linear;
+    
+}
+svg {
+    position: relative;
+    transition: transform 300ms ease-in;
+    top: .25vw;
+    left: .5vw;
+    path {
+        transition-duration: .5s;
+        transition-timing-function: linear;
+        fill: rgba(255,255,255, 0.5);
+    }
+}
+&:hover, &:focus {
+    cursor: pointer;
+    p {
+    opacity: 0.8;
+    }
+    svg {
+        transform: translateX(-.5vw);
+        path {
+            fill: rgba(255,255,255, 0.8);
+        }
+
+    
+    }
+    
+}
 `
 
 const CloseButtonIcon = styled.svg `
-width: 1vw;
-height: 1vw;
-position: absolute;
-right: -0.5vw;
-top: -0.5vw;
+width: 1.5vw;
+height: 1.5vw;
 padding: 0;
-&:hover, &:focus {
-    cursor: pointer;
-    path {
-    fill: rgba(255,255,255, 0.7);
-}
-}
-path {
-    fill: rgba(255,255,255, 0.4);
 }
 `
+
 const SpotSearchContainer = styled.div `
 width: 2.5vw;
 height: 2.5vw;
 position: relative;
-padding: 0;`
+padding: 0;
+margin-bottom: 1.25vw;
+@media(max-width: ${variables.large}){
+    width: 5vw;
+    height: 5vw;
+    margin-right: 2vw;
+}
+`
+
+const HomeIconContainer = styled(Link)`
+width: 2.5vw;
+height: 2.5vw;
+position: relative;
+display: block;
+padding: 0;
+margin-bottom: 1.25vw;
+@media(max-width: ${variables.large}){
+    width: 7vw;
+    height: 7vw;
+    margin-right: 3vw;
+}
+`;
 
 const SpotSearchIcon = styled.svg `
 width: 2.5vw;
@@ -392,6 +471,10 @@ height: 2.5vw;
 position: relative;
 padding: 0;
 cursor: pointer;
+@media(max-width: ${variables.large}){
+    width: 7vw;
+    height: 7vw;
+}
 &:hover, &:focus {
     path {
     fill: rgba(255,255,255, 0.8);
@@ -400,14 +483,14 @@ cursor: pointer;
 path {
     fill: rgba(255,255,255, 0.5);
 }
-`
+`;
+const HomeIcon = styled(SpotSearchIcon)``;
 
 const WaveFormBottom = styled.div `
 position: absolute;
 bottom: 40vh;
 height: 0;
 z-index: 0;
-overflow-x: hidden;
 `
 
 const WaveWrapper = styled(motion.div)`
@@ -564,6 +647,7 @@ class SurfGUILanding extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            activeLocation: null,
             activeSurfSpot: null,
             lat: null,
             lng: null,
@@ -679,9 +763,11 @@ class SurfGUILanding extends Component {
                                 ? 'slideInFromLeftSurfSPA'
                                 : null}>
                                 <CloseButtonContainer onClick={() => this.setOpen()}>
+                                    
                                     <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
                                         <CloseButtonSVGPath/>
                                     </CloseButtonIcon>
+                                    <p>close</p>
                                 </CloseButtonContainer>
 
                                 <SurfSpotsSearchFilter/>
@@ -689,6 +775,12 @@ class SurfGUILanding extends Component {
                             <MediaQuery minWidth={variables.large}>
                                 <Col md={1}>
                                     <MenuNavBkg >
+                                        <HomeIconContainer to={`/`}>
+                                            <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                <HomeIconSVGPath />
+                                                
+                                            </HomeIcon>
+                                        </HomeIconContainer>
                                         <SpotSearchContainer onClick={() => this.setOpen()}>
                                             <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <SpotSearchSVGPath/>
@@ -706,7 +798,7 @@ class SurfGUILanding extends Component {
                                                 <CurrentConditionBackdrop>
                                                     {!Array.isArray(this.props.surf.currentConditions)
                                                         ? <CurrWaveDataComponent
-                                                                surfSpot={this.props.surf.closestSurfSpot}
+                                                            surfSpot={this.state.activeLocation != null ? this.state.activeLocation : this.props.surf.closestSurfSpot}
                                                                 rating={rating}
                                                                 ndbcData={this.props.surf.currentSwell}
                                                                 waveData={this.props.surf.currentConditions.swell}/>
@@ -749,7 +841,22 @@ class SurfGUILanding extends Component {
                                         </StyledCol65>
                                     </MediaQuery>
                                     <MediaQuery maxWidth={variables.large}>
+                                        <DataDashboardRowMenuMobile>
+                                                <MenuNavBkgMobile >
+                                                    <HomeIconContainer to={`/`}>
+                                                        <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                            <HomeIconSVGPath />
 
+                                                        </HomeIcon>
+                                                    </HomeIconContainer>
+                                                    <SpotSearchContainer onClick={() => this.setOpen()}>
+                                                        <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                            <SpotSearchSVGPath />
+                                                        </SpotSearchIcon>
+                                                    </SpotSearchContainer>
+
+                                            </MenuNavBkgMobile>
+                                        </DataDashboardRowMenuMobile>
                                         <DataDashboardRowMap>
                                             <SurfMapBackDrop>
                                                 {this.state.lng && this.state.lat
@@ -859,6 +966,7 @@ class SurfGUILanding extends Component {
                                                             : '.3'}
                                                             onClick={() => {
                                                             this.setState({activeSurfSpot: surfSpot.spotId});
+                                                            this.setState({ activeLocation: surfSpot });
                                                             this
                                                                 .props
                                                                 .getSurfForecast(surfSpot.spotId);

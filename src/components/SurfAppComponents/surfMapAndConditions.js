@@ -172,7 +172,7 @@ const TempMobile = styled(Temp)`
 
 const WaterTempMobileContainer = styled(TempMobile)`
 font-size: 8vw;
-    line-height: 22vw;
+line-height: 22vw;
 `
 
 const WaterTempData = styled(Temp)`
@@ -186,8 +186,6 @@ display: block;
 line-height: .6vw;
 height: auto;
 padding: 0;
-
-
 p {
 display: block;
 padding: .15vw;
@@ -236,8 +234,13 @@ text-align: center;
 margin: .2vh auto;
 display: flex;
 line-height: .6vw;
-height: 22vw;
+height: 7vh;
 padding: 0;
+align-items: center;
+@media(max-width: ${variables.large}){
+    height: 22vw;
+    align-items: inherit;
+}
 
 `
 const TempWeatherDescriptionContainer = styled(TempWeatherIconContainer)`

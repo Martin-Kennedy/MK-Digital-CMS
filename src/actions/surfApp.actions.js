@@ -13,8 +13,8 @@ const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 // NOAA web services api token
 const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc';
 const tidesAndCurrentsUrl = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
-
 const apiUrl2 = 'https://jsonkeeper.com/b/1U1N';
+
 export const getLocationsObject = () => {
     axios.get(apiUrl2)
         .then(response => {

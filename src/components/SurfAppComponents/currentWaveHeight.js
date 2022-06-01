@@ -11,12 +11,15 @@ height: 14vh;
 z-index: 5;
 margin: 0 auto;
 text-align: center;
+position: relative;
+top: -3vh;
 @media(max-width: ${variables.large}){
     width: calc(100% - 3vw);
     height: 100%;
     z-index: 5;
     text-align: left;
     margin: 0 1vw 0 2vw;
+    position: unset;
 }
 `
 
@@ -26,8 +29,7 @@ display: flex;
 justify-content: space-between;
 margin: 0;
 padding: 0;
-position: relative;
-top: -3vh;
+
 @media(max-width: ${variables.large}){
     position: unset;
     margin: 1vw 0 1vw 0.5vw;
@@ -158,10 +160,9 @@ margin: 0 auto;
 
 const Location = styled.div`
 color: var(--white);
-margin: 10px 0 0 15px;
 font-weight: 500;
 display: block;
-margin: 0 auto;
+margin: 0.5vh auto;
 text-transform: uppercase;
 font-size: 0.75vw;
 line-height: 1vw;
@@ -178,7 +179,7 @@ margin-left: 0;
 `
 const Distance = styled.div`
 color: var(--white);
-margin: 10px 0 0 15px;
+margin: 0.5vh auto;
 font-weight: 500;
 display: block;
 font-size: 0.5vw;
@@ -214,6 +215,7 @@ export const CurrWaveDataComponent = (props) => {
         </TitleIconRow>
         <WaveHeight>
             <MediaQuery minWidth={Number(variables.largeNum)}>
+                {console.log(props.surfSpot)}
             <Location>{props.surfSpot.town}, {props.surfSpot.countryOrState}</Location>
             <Distance>{convertMilesToKM(props.surfSpot.distanceFromLocation)} miles away</Distance>
             <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>

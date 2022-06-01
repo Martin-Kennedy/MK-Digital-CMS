@@ -127,8 +127,11 @@ const SwellTrain = styled.div`
 font-size: 1.5vh;
 font-weight: 200;
 opacity: 7;
-margin: 1vw;
+margin: 0;
 width: calc(100% - 2vw);
+@media(max-width: ${variables.large}){
+    margin: 0 1vw;
+}
 `
 
 const SwellTrainPrimary = styled(SwellTrain)`
@@ -139,8 +142,8 @@ margin-bottom: 0;
 margin-top: 0;
 `
 const SwellData = styled.div`
-font-size: 1.7vh;
-font-weight: 300;
+font-size: 1.5vh;
+font-weight: 500;
 
 @media(max-width:${variables.large}){
     font-size: 3.25vw;
