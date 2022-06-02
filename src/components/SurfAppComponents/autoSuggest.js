@@ -4,7 +4,8 @@ import styled from 'styled-components'
 const match = require('autosuggest-highlight/match');
 const parse = require('autosuggest-highlight/parse');
 import {connect} from 'react-redux';
-import {searchActionCloseSurfSpots, getCloseSurfSpots} from '../../actions/surfApp.actions'
+import {searchActionCloseSurfSpots, getCloseSurfSpots} from '../../actions/surfApp.actions';
+import variables from '../../variables.module.scss';
 
 // Imagine you have a list of languages that you'd like to autosuggest.
 
@@ -32,6 +33,16 @@ const StyledAutoSuggest = styled.div`
     font-size: 1vw;
     letter-spacing: 0.06vw;
     color: rgba(255, 255, 255, 0.8);
+    @media(max-width: ${variables.large}){
+        background: transparent;
+        width: 80%;
+        margin: 6vw auto 0 auto;
+        display: block;
+        border: 0px;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.6);
+        font-size: 4vw;
+    }
     &::placeholder {
     color: rgba(255, 255, 255, 0.3);
     }
@@ -39,6 +50,10 @@ const StyledAutoSuggest = styled.div`
     outline: none;
     color: rgba(255, 255, 255, 0.8);
     border: 2px solid rgba(255, 255, 255, 0.35);
+     @media(max-width: ${variables.large}){
+        border: 0;
+        border-bottom: 1px solid rgba(255,255,255,1);
+        }
     }
 }
 `

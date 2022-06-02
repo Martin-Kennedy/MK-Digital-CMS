@@ -338,6 +338,10 @@ height: 70%;
 display: flex;
 top: 5%;
 position: relative;
+@media(min-width: ${variables.extraLarge}){
+    top: -3%;
+    height: 65%;
+}
 `
 
 const SunPositionDataRow = styled.div `

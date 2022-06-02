@@ -130,6 +130,7 @@ const SwellChartContainer = styled.div`
 margin-left: 0;
 padding-right: 0;
 padding-left: 0;
+
 ${BackDrop} {
     @media(max-width: ${variables.medium}){
     width: calc(100% - 1.5vw);
@@ -220,10 +221,10 @@ ${BackDrop} {
     @media(max-width: ${variables.medium}){
             overflow-x: overlay;
             overflow-y: hidden;
-             width: calc(100% - 1.5vw);
-            margin: 0 1vw 1vw 0.5vw;
+            width: calc(100% - 1.5vw);
+            margin: 0.5vw 1vw 1.5vw 0.5vw;
             padding: 0;
-              &::-webkit-scrollbar {
+            &::-webkit-scrollbar {
           height: 1.5vw;
         }
         
@@ -238,6 +239,7 @@ ${BackDrop} {
         }
     }
 }
+
 `
 const WindChartLabel = styled(SwellChartLabel)`
 
@@ -267,8 +269,7 @@ const RightNavBkg = styled.div `
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-right-color: rgba(255, 255, 255, 0.07);
   border-bottom-color: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
-  padding: 15px;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);padding: 1.35vw;;
   position: relative;
   backdrop-filter: blur(1px);
   z-index: 1;
@@ -292,15 +293,16 @@ height: fit-content;
 `;
 
 const MenuNavBkgMobile = styled(RightNavBkg)`
-z-index: 12;
+z-index: 9;
 position: fixed;
 top: 1.5vw;
 margin: 0 auto !important;
 height: calc(100vw / 8);
+max-height: 63px;
 width:  calc(100vw - (var(--bs-gutter-x) * 1.25));
 display: flex;
 justify-content: space-between;
-padding: 2.75vw;
+padding: min(14px, 2.75vw);
 backdrop-filter: blur(10px);
 `;
 const SearchMenu = styled(RightNavBkg)`
@@ -313,6 +315,17 @@ transition: 600ms ease;
 backdrop-filter: blur(4px);
 background: rgba(255, 255, 255, 0.06);
 padding-top: 2vw;
+@media(max-width: ${variables.large}){
+transition: 450ms ease;
+backdrop-filter: blur(4px);
+background: rgba(255, 255, 255, 0.06);
+top: -110vh;
+opacity: 0.5;
+left: inherit;
+width: 100vw;
+height: 100vh;
+position: fixed;
+}
 ul {
     li {
     margin-right: .8vw;
@@ -323,9 +336,17 @@ ul {
     font-size: 1vw;
     margin-top: 3px;
     height: 1.7vw;
+    @media(max-width: ${variables.large}){
+        font-size: 3vw;
+        height: 4vw;
+    }
     &:hover, &:focus {
         cursor: pointer;
          font-size: 1.2vw;
+          @media(max-width: ${variables.large}){
+                font-size: 3.5vw;
+                height: 4vw;
+            }
           div {
             span {
                 opacity: 1;
@@ -444,10 +465,11 @@ height: 2.5vw;
 position: relative;
 padding: 0;
 margin-bottom: 1.25vw;
+max-width: 35px;
+max-height: 35px;
 @media(max-width: ${variables.large}){
     width: 5vw;
     height: 5vw;
-    margin-right: 2vw;
 }
 `
 
@@ -461,7 +483,6 @@ margin-bottom: 1.25vw;
 @media(max-width: ${variables.large}){
     width: 7vw;
     height: 7vw;
-    margin-right: 3vw;
 }
 `;
 
@@ -474,6 +495,8 @@ cursor: pointer;
 @media(max-width: ${variables.large}){
     width: 7vw;
     height: 7vw;
+    max-width: 35px;
+    max-height: 35px;
 }
 &:hover, &:focus {
     path {

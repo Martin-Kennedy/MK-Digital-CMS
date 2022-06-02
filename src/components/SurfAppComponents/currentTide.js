@@ -155,8 +155,7 @@ export default class CurrentTideDataComponent extends PureComponent {
                 <TideSVGPath />
             </TideIcon>
         </TitleIconRow>
-                <StyledResponsiveContainer  width="100%" height="100%">
-                
+                <StyledResponsiveContainer width="100%" height="90%">    
                 <AreaChart
                     width={500}
                     height={400}

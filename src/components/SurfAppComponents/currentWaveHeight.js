@@ -78,13 +78,13 @@ const WaveHeight = styled.div `
 opacity: .8;
 p {
 color: var(--white);
-font-size: 2.75vw;
+font-size: min(2.75vw, 50px);
 margin: 0 0 0 15px;
 font-weight: 600;
 display: inline-block;
 margin-bottom: 0;
 text-transform: uppercase;
-line-height: 3.25vw;
+line-height: min(3.25vw, 35px);
 opacity: .9;
 @media(max-width: ${variables.large}){
     font-size: 9vw;
@@ -146,15 +146,19 @@ background: ${props => (props.rating[0] >= 2 || props.maxBreakingHeight >= 6) &&
 
 z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
-width: 18.25vh;
+width: 10vw;
 height: 4vh;
 margin: 0 auto;
-    @media(max-width: ${variables.large}){
-    width: calc(100% - 1vw);
-    height: 6vw;
-    font-size: 3vw;
-    line-height: 6vw;
-    letter-spacing: .2vw;
+position: absolute;
+bottom: -25%;
+left: calc(50% - 5vw);
+@media(max-width: ${variables.large}){
+position: unset;
+width: calc(100% - 1vw);
+height: 6vw;
+font-size: 3vw;
+line-height: 6vw;
+letter-spacing: .2vw;
 }
 `
 
@@ -165,7 +169,8 @@ display: block;
 margin: 0.5vh auto;
 text-transform: uppercase;
 font-size: 0.75vw;
-line-height: 1vw;
+line-height: 0.85vw;
+width: 90%;
 letter-spacing: .1vw;
 opacity: 0.9;
 @media(max-width: ${variables.large}){
@@ -206,16 +211,17 @@ export const CurrWaveDataComponent = (props) => {
        const miles = props.surfSpot.distanceFromLocation / 1.609;
        return parseInt(miles);
     }
+
     return <WaveConditionBackdrop>
-        <TitleIconRow>
-            <Title>Conditions</Title>
-            <WaveIcon x="0px" y="0px" viewBox="0 0 100 100">
-                <WaveConditionsSVGPath />
-            </WaveIcon>
-        </TitleIconRow>
-        <WaveHeight>
+            <TitleIconRow>
+                <Title>Conditions</Title>
+                <WaveIcon x="0px" y="0px" viewBox="0 0 100 100">
+                    <WaveConditionsSVGPath />
+                </WaveIcon>
+            </TitleIconRow>
+            <WaveHeight>
             <MediaQuery minWidth={Number(variables.largeNum)}>
-                {console.log(props.surfSpot)}
+            {console.log(props.surfSpot)}
             <Location>{props.surfSpot.town}, {props.surfSpot.countryOrState}</Location>
             <Distance>{convertMilesToKM(props.surfSpot.distanceFromLocation)} miles away</Distance>
             <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
