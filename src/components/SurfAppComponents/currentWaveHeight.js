@@ -78,17 +78,17 @@ const WaveHeight = styled.div `
 opacity: .8;
 p {
 color: var(--white);
-font-size: min(2.75vw, 50px);
+font-size: min(2.5vw,40px);
 margin: 0 0 0 15px;
 font-weight: 600;
 display: inline-block;
 margin-bottom: 0;
 text-transform: uppercase;
-line-height: min(3.25vw, 35px);
-opacity: .9;
+line-height: max(1.8vw,35px);
 @media(max-width: ${variables.large}){
     font-size: 9vw;
     margin: 1.5vw auto;
+    line-height: 2vw;
 }
 }
 span {

@@ -8,7 +8,6 @@ const TextContainer = styled.div`
         ? 'var(--white)'
         : 'var(--black)'};
 position: absolute;
-left: 100;
 font-size: 300px;
 white-space: nowrap;`
 

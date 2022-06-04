@@ -13,23 +13,29 @@ import { formatAMPMwMins } from '../../helpers/utilities';
 import styled from 'styled-components';
 
 const SunGraphToolTip = styled.div`
-padding: 0;
+padding-top: 1vh;
 `
 
 const SunGraphDateTime = styled.p`
 width: 100%;
-display: block;
-margin: 5px 0 0 0;
-font-size: 1.25vh;
-font-weight: 200;
+display: flex;
+margin: 1.2vh 0 1.75vh 0;
+font-size: 1.7vh;
+line-height: 1.7vh;
+font-weight: 300;
 letter-spacing: .1vw;
-color: rgba(255,255,255, 0.7);
+color: rgba(255,255,255, 0.8);
 `
 
 const SunGraphData = styled.span`
+width: 100%;
+display: flex;
+margin: .2vh 0 1vh .5vh;
+font-size: 1.7vh;
+line-height: 1.7vh;
+letter-spacing: .125vw;
 color: rgba(255,255,255, 0.9);
-font-weight: 500;
-font-size: 1.25vh !important;
+font-weight: 400;
 `
 
 const SunGraphHeight = styled.p`
@@ -48,7 +54,7 @@ const toolTipGlassMorphism = {
     height: '12.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(1px)',
+    backdropFilter: 'blur(4px)',
     border: '1px solid rgba(255, 255, 255, 0.15)',
     borderRightColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
@@ -67,8 +73,9 @@ const SunGraphTooltip = ({ active, payload }) => {
         
         return (
             <SunGraphToolTip>
-                <SunGraphDateTime>Time: <SunGraphData>{payload[0].payload.time}</SunGraphData></SunGraphDateTime>
                 <SunGraphDateTime>Event: <SunGraphData>{payload[0].payload.event}</SunGraphData></SunGraphDateTime>
+                <SunGraphDateTime>Time: <SunGraphData>{payload[0].payload.time}</SunGraphData></SunGraphDateTime>
+                
             </SunGraphToolTip>
         );
     }

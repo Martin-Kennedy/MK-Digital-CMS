@@ -3,8 +3,10 @@ import {Row, Col, Nav} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {motion, AnimatePresence} from "framer-motion";
 import styled from 'styled-components';
+import variables from '../../variables.module.scss';
 import {SmallAndThinTextSpaced, SmallAndThinText, Line, MediumText, displayValueArray} from '../../helpers/commonStyledComponents';
 import {FadeInWhenVisibleScale, FadeInWhenVisibleOpacity} from '../../helpers/fadeInOnViewport';
+import MediaQuery from 'react-responsive';
 
 const SlideNavLeft = styled.nav `
 position: absolute;
@@ -58,9 +60,18 @@ const StyledLink = styled(Link)`
 font-family: mr-eaves-modern, sans-serif;
 font-weight: 300;
 font-size: 5vw;
-    line-height: 1.2;
 margin: 0;
 text-decoration: none !important;
+color: var(--white);
+opacity: 0.7;
+transition: 150ms ease-in;
+&:hover, &:active {
+    color: var(--white) !important;
+    opacity: 1;
+}
+@media(max-width: ${variables.large}){
+    margin-bottom: 3vw;
+}
 `
 
 const SlideNavRight = styled.nav `
@@ -75,13 +86,10 @@ overflow: hidden;
 z-index: 2;
 `
 const HeadingRight = styled(Row)`
-position: relative;
-top: 20vh;
+position: absolute;
+top: 30vh;
 `
-const HeadingLeft = styled(Row)`
-position: relative;
-top: 20vh;
-`
+const HeadingLeft = styled(HeadingRight)``;
 
 const StyledSlideNav = styled(Nav)`
 width: 100%;
@@ -96,13 +104,13 @@ height: 0;
 const WaveWrapper = styled(motion.div)`
     width: 130vw;
     height: 10vh;
-    left: 0;
+    left: ;
     position: relative;
     
         x: 0;
         svg {
             position: relative;
-            left: calc(-2000px + 70vw);
+            left: calc(${window.innerWidth}px - 75vw);
             transform: scale(2, 1);
             opacity: 0.3;
             stroke-width: 1.5px;
@@ -133,7 +141,16 @@ const StyledPath = styled(motion.path)`
     strokeLinecap: "round";
     fill: "transparent";
     stroke: #fff;
-    
+`
+
+const SurfAppLink = styled(MediumText)`
+color: var(--white);
+opacity: 0.7;
+transition: 150ms ease-in;
+
+&:hover, &:active {
+    opacity: 1;
+}
 `
 
 export const NavOffCanvasLeft = (props) => {
@@ -179,28 +196,27 @@ export const NavOffCanvasLeft = (props) => {
                     <Row>
                         <Col xs={1}></Col>
                         <Col >
-                            <SmallAndThinTextSpaced white>Charge & Bless</SmallAndThinTextSpaced>
+                            <SmallAndThinTextSpaced white>Surf App</SmallAndThinTextSpaced>
                         </Col>
-                        <Col xs={1}></Col>
+                        <MediaQuery minWidth={Number(variables.mediumNum)}><Col xs={1}></Col></MediaQuery>
                     </Row>
                     <Row>
                         <Col xs={1}></Col>
                         <Col>
                             <Line white></Line>
                         </Col>
-                        <Col xs={1}></Col>
+                        <MediaQuery minWidth={Number(variables.mediumNum)}><Col xs={1}></Col></MediaQuery>
                     </Row>
                     <Row>
                         <Col xs={1}></Col>
                         <Col>
                             <Link to='/charge-and-bless'>
-                                <MediumText white>
-                                    When the wave breaks here, don’t be there.
-                                </MediumText>
-                                <SmallAndThinText white>-Turtle</SmallAndThinText>
+                                <SurfAppLink>
+                                    A Surf-centric Application Built for Wave-riders.
+                                </SurfAppLink>
                             </Link>
                         </Col>
-                        <Col xs={1}></Col>
+                        <MediaQuery minWidth={Number(variables.mediumNum)}><Col xs={1}></Col></MediaQuery>
                     </Row>
                 </HeadingRight>
             </FadeInWhenVisibleScale>
@@ -208,12 +224,12 @@ export const NavOffCanvasLeft = (props) => {
             <WaveFormBottom>
                 <AnimatePresence>
                     {props.isOpen && (
-                        <FadeInWhenVisibleOpacity duration={1.75}>
+                        <FadeInWhenVisibleOpacity duration={2}>
 
                             <div>
                                 <WaveWrapper
                                     animate={{
-                                    x: 1000
+                                    x: window.innerWidth * .75
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -263,7 +279,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper>
                                 <WaveWrapper2
                                     animate={{
-                                    x: 1000
+                                        x: window.innerWidth * .75
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -313,7 +329,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper2>
                                 <WaveWrapper3
                                     animate={{
-                                    x: 1000
+                                        x: window.innerWidth * .75
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -363,7 +379,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper3>
                                 <WaveWrapper4
                                     animate={{
-                                    x: 1000
+                                        x: window.innerWidth * .75
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -413,7 +429,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper4>
                                 <WaveWrapper5
                                     animate={{
-                                    x: 1000
+                                        x: window.innerWidth * .75
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -463,7 +479,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper5>
                                 <WaveWrapper6
                                     animate={{
-                                    x: 1000
+                                        x: window.innerWidth * .75
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -513,7 +529,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper6>
                                 <WaveWrapper7
                                     animate={{
-                                    x: 1000
+                                        x: window.innerWidth * .75
                                 }}
                                     transition={{
                                     ease: 'linear',

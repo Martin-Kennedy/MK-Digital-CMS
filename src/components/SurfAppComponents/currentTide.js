@@ -73,27 +73,24 @@ const TideChartDateTime = styled.p`
 width: 100%;
 display: block;
 margin: .2vh 0 1.75vh 0;
-    font-size: .8vw;
-    font-weight: 300;
-    letter-spacing: .1vw;
-    color: rgba(255,255,255, 0.8);
-    
-
+font-size: 1.7vh;
+font-weight: 300;
+letter-spacing: .1vw;
+color: rgba(255,255,255, 0.8);
 `
 
 const TideChartHeight = styled.p`
 width: 100%;
 display: block;
-margin: .2vh 0 1.25vh 0;
-font-size: .85vw;
+margin: .2vh 0 1vh 0;
+font-size: 1.7vh;
 font-weight: 200;
 letter-spacing: .1vw;
 color: rgba(255,255,255, 0.7);
     span {
     color: rgba(255,255,255, 0.9);
     font-weight: 400;
-
-}
+    }
 `
 const StyledResponsiveContainer = styled(ResponsiveContainer)`
 margin: 0 0 0 -0.4vw;
@@ -104,7 +101,7 @@ const toolTipGlassMorphism = {
     height: '12.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(1px)',
+    backdropFilter: 'blur(4px)',
     border: '1px solid rgba(255, 255, 255, 0.15)',
     borderRightColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',

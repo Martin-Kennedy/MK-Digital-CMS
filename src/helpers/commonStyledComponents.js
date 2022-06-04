@@ -22,9 +22,12 @@ export const displayValueArray = [
 ]
 
 export const MediumText = styled.p`
-font-size: 2rem;
+font-size: 3vw;
 font-weight: 300;
 color: ${props => props.white ? "#fff" : "#1d1e22"} 
+@media(max-width: ${variables.large}){
+    font-size: 3vw;
+}
 `
 
 export const SmallAndThinText = styled.p`
@@ -34,7 +37,6 @@ margin-bottom: .5rem;
 color: ${props => props.white ? "#fff" : "#1d1e22"};
 @media(max-width: ${variables.medium}){
     font-size: 3vw;
-    
 }
 `
 

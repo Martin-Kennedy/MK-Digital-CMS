@@ -63,7 +63,9 @@ const initalState = {
         weather: [],
         weatherForecast: [],
         uvForecast: [],
-        currentSwell: []
+        currentSwell: [],
+        isSearchOpen: false,
+        isCloseSpotsOpen: false,
     },
 
     pages: {

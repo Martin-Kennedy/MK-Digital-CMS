@@ -52,13 +52,14 @@ line-height: .65vw;
 `
 
 const StyledCompassBase = styled.svg `
-width: 15vh;
-height: 15vh;
+width: 80%;
+height: 80%;
+left: 10%;
+top: 10%;
 z-index: 2; 
 position: absolute; 
 opacity: 0.3;
-left: 4vh;
-top: 2vh;
+
 path {
     fill: var(--white);
 }
@@ -71,13 +72,14 @@ path {
 `
 
 const StyledCompassArrow = styled(motion.svg)`
-width: 15vh;
-height: 15vh;
+width: 80%;
+height: 80%;
+left: 10%;
+top: 10%;
 z-index: 3; 
 position: absolute; 
 opacity: 0.8;
-left: 4vh;
-top: 2vh;
+
 transform-origin: center center !important;
 path {
     fill: var(--white);
@@ -97,12 +99,12 @@ const WindSpeed = styled.div `
 position: absolute; 
     opacity: 0.8;
     text-align: center;
-    padding: 4vh;
-    left: 3.5vh;
-    top: 2.5vh;
+    padding: 5vh;
+    left: 10%;
+    top: 10%;
     z-index: 4;
-    width: 16vh;
-    height: 16vh;
+    width: 80%;
+    height: 80%;
     color: var(--white);
     text-transform: uppercase;
 p {

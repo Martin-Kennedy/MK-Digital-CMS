@@ -4,68 +4,31 @@ import {useSpring, animated, useSpringRef} from "react-spring";
 import variables from '../../variables.module.scss';
 
 const StyledSVGContainer = styled.div`
-width: 600px;
-height: 750px;
+width: 100%;
+height: 100vh;
 padding: 0;
 margin: 0;
-position: absolute;
-top: 0;
-left: calc(50% - 300px) ;
-
-
-
-@media screen and (min-height: ${variables.large}) and (max-width: ${variables.large}){
-    width: 500px;
-    left: calc(50vw - 270px);
-}
-@media(max-width: ${variables.large}){
-    width: 500px;
-    left: calc(50vw - 270px);
-}
-@media(max-width: ${variables.large})  and (orientation: portrait){
-    width: 600px;
-    left: calc(50vw - 330px);
-}
-@media(max-height: ${variables.large}) and (min-width: ${variables.large}){
-    width: 535px;
-    left: calc(50% - 290px);
-}
-@media(min-width: ${variables.medium})  and  (min-height: ${variables.large}) and (orientation: portrait){
-        width: 875px;
-    left: calc(50vw - 465px);
-}
-
-@media(min-height: ${variables.medium}) and (max-height: ${variables.large}) and (min-width: ${variables.medium}) and (max-width: ${variables.large}) and (orientation: portrait){
-    width: 750px;
-    top: 6vh;
-    left: calc(50% - 405px);
-}
-@media(max-width: ${variables.extraSmall}) and (orientation: portrait){
-    width: 360px;
-    left: calc(50vw - 192px);
-}
-@media(min-width: ${variables.largeDesktop}){
-    width: 33vw;
-    left: 32vw;
-}
-@media(max-width: ${variables.small}) and (orientation: portrait){
-    width: 400px;
-    height: 500px;
-    left: calc(50vw - 215px);
-}
-@media screen and (orientation: landscape){
-    max-width: 66vh;
-    left: calc(50vw - 37vh);
-}
+display: flex;
+align-items: center;
+justify-content: center;
 `
 const StyledSVG = styled.svg `
-position: relative;
-width: 100%;
-top: 0;
+width: 33%;
+height: auto;
 transform: scale(1.25,1);
+margin-top: -5%;
+margin-left: -5%;
 
+@media(max-width: ${variables.large}){
+   width: 50%;
+   margin-top: -15%;
+}
+@media(max-width: ${variables.medium}){
+     width: 70%;
+     margin-top: -25%;
+}
 @media(max-width: ${variables.small}){
-    top: 0;
+     width: 80%;
 }
 `
 

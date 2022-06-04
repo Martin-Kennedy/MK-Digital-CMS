@@ -19,7 +19,6 @@ text-align: center;
 
 const Marquee = styled.div `
 position: relative;
-top: -20px;
 height: calc(25vh - 40px);
 display: flex;
 justify-content: center;      
@@ -31,8 +30,17 @@ height: calc(33vh - 40px);
 `
 
 export const TextTranslation = (props) => {
-    const width = props.screenWidth * 2.5;
-    const negativeWidth = props.screenWidth * -2.5;
+
+    const widthRef = useRef();
+    const [currentWidth, setCurrentWidth] = useState(0);
+    const [currentHeight, setCurrentHeight] = useState(0);
+
+    useEffect(() => {
+        setCurrentWidth(widthRef.current.clientWidth);
+        const trueHeight = widthRef.current.clientHeight * .75;
+        setCurrentHeight(trueHeight);
+    }, []);
+    const widthAmount = currentWidth - 300;
     const [x1,
         setX1] = useState(0);
     const [x2,
@@ -42,13 +50,13 @@ export const TextTranslation = (props) => {
 
         switch (props.reverse) {
             case(props.reverse === true):
-                setX1(negativeWidth);
-                setX2(width);
+                setX1(-widthAmount);
+                setX2(widthAmount);
                 break;
 
             default:
-                setX1(width);
-                setX2(negativeWidth);
+                setX1(widthAmount);
+                setX2(-widthAmount);
         }
         switch (props.start) {
             case(props.start != 'undefined'):
@@ -99,6 +107,7 @@ export const TextTranslation = (props) => {
 
     const marquee = <Marquee >
         <Track
+            ref={widthRef}
             black={props.black}
             duration={props.duration}
             key={props.text}
@@ -109,7 +118,8 @@ export const TextTranslation = (props) => {
     </Marquee>;
 
     const marquee3rd = <Marquee3rd >
-        <Track
+        <Track 
+            ref={widthRef}
             black={props.black}
             duration={props.duration}
             key={props.text}

@@ -24,56 +24,51 @@ const WindChartToolTip = styled.div`
 `
 
 const toolTipGlassMorphism = {
-    width: '28vh',
+    width: '23vh',
     height: '20.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(2px)',
+    backdropFilter: 'blur(4px)',
     border: '1px solid rgba(255, 255, 255, 0.15)',
     borderRightColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
     boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
     padding: '15px',
     position: 'relative',
-    top: '-22.5vh',
+    top: '-20vh',
     color: 'white',
     zIndex: '4'
-    
 }
 
 const WindChartDateTime = styled.p`
 width: 100%;
 display: block;
 margin: .2vh 0 1.75vh 0;
-    font-size: .8vw;
-    font-weight: 300;
-    letter-spacing: .1vw;
-    color: rgba(255,255,255, 0.8);
-    
-
+font-size: 1.7vh;
+font-weight: 300;
+letter-spacing: .1vw;
+color: rgba(255,255,255, 0.8);
 `
 
 const WindChartWaveHeight = styled.p`
-   width: 100%;
+width: 100%;
 display: block;
-margin: .2vh 0 1.25vh 0;
-    font-size: .85vw;
-    font-weight: 200;
-    letter-spacing: .1vw;
-    color: rgba(255,255,255, 0.7);
-        span {
-        color: rgba(255,255,255, 0.9);
-        font-weight: 400;
-
+margin: .2vh 0 1vh 0;
+font-size: 1.7vh;
+font-weight: 200;
+letter-spacing: .1vw;
+color: rgba(255,255,255, 0.7);
+    span {
+    color: rgba(255,255,255, 0.9);
+    font-weight: 400;
     }
-    
 `
 
 const WindChartPrimary = styled.p`
 width: 100%;
 display: block;
-margin: .2vh 0 1.25vh 0;
-     font-size: .85vw;
+margin: .2vh 0 1vh 0;
+     font-size: 1.7vh;
     font-weight: 200;
     letter-spacing: .1vw;
     color: rgba(255,255,255, 0.7);
@@ -84,7 +79,6 @@ margin: .2vh 0 1.25vh 0;
         span {
         color: rgba(255,255,255, 0.9);
         font-weight: 400;
-        
     }
 `;
 

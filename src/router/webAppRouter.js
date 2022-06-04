@@ -26,10 +26,6 @@ const Page = styled(Container)`
         padding: 0;
         `;
         
-
-
-
-
         
 
 const WebAppRouter = (props) => {

@@ -4,18 +4,22 @@ import styled from 'styled-components'
 const match = require('autosuggest-highlight/match');
 const parse = require('autosuggest-highlight/parse');
 import {connect} from 'react-redux';
-import {searchActionCloseSurfSpots, getCloseSurfSpots} from '../../actions/surfApp.actions';
+import {searchActionCloseSurfSpots, getCloseSurfSpots, searchOpenState} from '../../actions/surfApp.actions';
 import variables from '../../variables.module.scss';
 
 // Imagine you have a list of languages that you'd like to autosuggest.
 
 const mapStateToProps = state => {
-    return {locations: state.surf.locations}
+    return {
+        locations: state.surf.locations,
+        isSearchOpen: state.surf.isSearchOpen,
+    }
 }
 
 const mapDispatchToProps = dispatch => ({
     searchActionCloseSurfSpots: closeSurfSpots => dispatch(searchActionCloseSurfSpots(closeSurfSpots)),
-    getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots))
+    getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
+    searchOpenState: isOpen => dispatch(searchOpenState(isOpen))
 })
 
 const StyledAutoSuggest = styled.div`
@@ -68,6 +72,7 @@ color: white;
         opacity: 1;
     }
 `
+
 
 function getSuggestions(value, data) {
     const escapedValue = escapeRegexCharacters(value.trim());
@@ -125,6 +130,7 @@ class SurfSpotsSearchFilter extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.lat != this.state.lat){
             const { searchActionCloseSurfSpots } = this.props;
+            
             searchActionCloseSurfSpots({latitude: this.state.lat, longitude: this.state.lng});
     }
 }
@@ -153,7 +159,9 @@ class SurfSpotsSearchFilter extends React.Component {
             .locations
             .filter(location => {
                 return location.fullLocation === suggestionValue
-            })
+            });
+        const { searchOpenState } = this.props;
+        searchOpenState(this.props.isSearchOpen)
         this.setState({ lat: result[0].lat, lng: result[0].lng });
     }
 

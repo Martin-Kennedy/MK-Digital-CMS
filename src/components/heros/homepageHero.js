@@ -16,14 +16,13 @@ const StyledHomepageHero = styled(Row)`
 `
 
 const CarouselContainer = styled.div `
-    position: relative;
+    position: absolute;
     overflow: hidden;
     display: flex;
-    height: 66vh;
+    width: 33%;
+    top: 0;
+    left: 33%;
     margin: 20vh auto 15vh auto;
-    @media(max-width: ${variables.small}){
-        margin-top: 10vh;
-    }
 `
 
 const TopLine = styled.div `

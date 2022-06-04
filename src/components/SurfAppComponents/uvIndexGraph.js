@@ -15,7 +15,7 @@ svg {
     }
 }
 @media(max-width: ${variables.large}){
-    width: 80%;
+width: 80%;
 height: 80%;
 position: relative;
 top: 10%;
@@ -25,11 +25,11 @@ left: 10%;
 const SunGraphDateTime = styled.p`
 width: 100%;
 display: block;
-margin: 5px 0 0 0;
-font-size: 1.25vh;
-font-weight: 200;
+margin: .2vh 0 1.75vh 0;
+font-size: 1.7vh;
+font-weight: 300;
 letter-spacing: .1vw;
-color: rgba(255,255,255, 0.7);
+color: rgba(255,255,255, 0.8);
 `
 
 const SunGraphData = styled.span`
@@ -40,7 +40,7 @@ font-size: 1.25vh !important;
 
 const UVContainer = styled.div`
 width: 100%;
-height: 6.6vw;
+height: 14vh;
 marginTop: .5vw;
 @media(max-width: ${variables.large}){
     height: 35vw;
