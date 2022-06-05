@@ -66,6 +66,7 @@ const initalState = {
         currentSwell: [],
         isSearchOpen: false,
         isCloseSpotsOpen: false,
+        activeLocation: null,
     },
 
     pages: {

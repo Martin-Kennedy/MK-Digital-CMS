@@ -175,7 +175,6 @@ export const CurrSwellDataComponent = (props) => {
                 <p>Primary</p>
             </SwellTrainPrimary> 
             {/* primary swell train */}
-            {console.log(props)}
             <SwellData>
                 <p>{`${parseFloat(props.ndbcData.waveHeight.toFixed(1))}ft at ${props.ndbcData.dominantPeriod}s from ${props.waveData.components.primary.compassDirection} ${parseInt(props.ndbcData.swellDirection)}${degree}`}</p>
             </SwellData>

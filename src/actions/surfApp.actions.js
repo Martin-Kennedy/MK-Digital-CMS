@@ -1,4 +1,4 @@
-import { SEARCH_OPEN_STATE, CLOSE_SPOTS_OPEN_STATE, GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL, GET_SEARCH_CLOSE_SURFSPOTS } from '../helpers/types'
+import { GET_ACTIVE_LOCATION, SEARCH_OPEN_STATE, CLOSE_SPOTS_OPEN_STATE, GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL, GET_SEARCH_CLOSE_SURFSPOTS } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios';
@@ -29,12 +29,16 @@ export const closeSpotsOpenState = (data) => {
     };
 };
 
+export const getActiveLocation = (data) => {
+    return {
+        type: GET_ACTIVE_LOCATION,
+        payload: data
+    }
+}
+
 
 export const getLocationsObject = () => {
-    axios.get(apiUrl2)
-        .then(response => {
-            console.log(response.data)
-        })
+   
     let request = new Promise((resolve) => {
         axios.get(surfSpotsApiUrl)
         .then(response => {
@@ -188,7 +192,6 @@ export const searchActionCloseSurfSpots = (value) => {
 
     return (dispatch) => {
         function onSuccess(data) {
-            console.log(data)
             dispatch({ type: GET_CLOSE_SURFSPOTS, payload: data });
             return data;
         }

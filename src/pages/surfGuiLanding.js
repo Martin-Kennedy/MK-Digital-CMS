@@ -22,7 +22,8 @@ import {
     getWeatherForecast,
     getCurrentSwell,
     searchOpenState,
-    closeSpotsOpenState
+    closeSpotsOpenState,
+    getActiveLocation,
 } from '../actions/surfApp.actions';
 import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
 import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
@@ -319,6 +320,10 @@ const MenuNavBkg = styled(RightNavBkg)`
 z-index: 2;
 margin-left: 2vw;
 height: fit-content;
+padding: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
 `;
 
 const MenuNavBkgMobile = styled(RightNavBkg)`
@@ -522,13 +527,14 @@ max-height: 35px;
 const HomeIconContainer = styled(Link)`
 width: 2.5vw;
 height: 2.5vw;
-position: relative;
 display: block;
 padding: 0;
 margin-bottom: 1.25vw;
+margin-top: 1.25vw;
 @media(max-width: ${variables.large}){
     width: 7vw;
     height: 7vw;
+    margin: 0;
 }
 `;
 
@@ -693,6 +699,7 @@ const mapStateToProps = state => {
             currentSwell: state.surf.currentSwell,
             isSearchOpen: state.surf.isSearchOpen,
             isCloseSpotsOpen: state.surf.isCloseSpotsOpen,
+            activeLocation: state.surf.activeLocation
 
         }
     }
@@ -715,6 +722,7 @@ const mapDispatchToProps = dispatch => ({
     getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast)),
     searchOpenState: openState => dispatch(searchOpenState(openState)),
     closeSpotsOpenState: openState => dispatch(closeSpotsOpenState(openState)),
+    getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation))
 });
 
 const convertMilesToKM = (km) => {
@@ -742,6 +750,7 @@ class SurfGUILanding extends Component {
         getLocationsObject();
         const { searchOpenState } = this.props;
         const { closeSpotsOpenState } = this.props;
+        const { getActiveLocation } = this.props;
         if (window.innerWidth > Number(variables.largeNum)) {
             document.body.style.overflow = "hidden";
         }
@@ -761,10 +770,11 @@ class SurfGUILanding extends Component {
             const {getWeather} = this.props;
             const {getWeatherForecast} = this.props;
             const {getNdbcStations} = this.props;
-            this.setState({activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId})
-            this.setState({lat: this.props.surf.closeSurfSpots[0].lat})
-            this.setState({lng: this.props.surf.closeSurfSpots[0].lng})
-            getSurfForecast(this.props.surf.closeSurfSpots[0].spotId)
+            this.props.getActiveLocation(this.props.surf.closeSurfSpots[0]);
+            this.setState({activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId});
+            this.setState({lat: this.props.surf.closeSurfSpots[0].lat});
+            this.setState({lng: this.props.surf.closeSurfSpots[0].lng});
+            getSurfForecast(this.props.surf.closeSurfSpots[0].spotId);
             getTideStations(this.props.surf.closeSurfSpots[0]);
             getNdbcStations(this.props.surf.closeSurfSpots[0]);
             getWeatherStations(this.props.surf.closeSurfSpots[0]);
@@ -838,7 +848,6 @@ class SurfGUILanding extends Component {
 
         return (
             <SurfGUILandingContainer>
-                {console.log(this.props.surf)}
                 <DataContainer>
                     <Col sm={12}>
                         <GlassContainerBkg>
@@ -852,7 +861,6 @@ class SurfGUILanding extends Component {
                                     </CloseButtonIcon>
                                     <p>close</p>
                                 </CloseButtonContainer>
-
                                 <SurfSpotsSearchFilter/>
                             </SearchMenu>
                             <MediaQuery minWidth={variables.large}>
@@ -861,16 +869,13 @@ class SurfGUILanding extends Component {
                                         <HomeIconContainer to={`/`}>
                                             <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <HomeIconSVGPath />
-                                                
                                             </HomeIcon>
                                         </HomeIconContainer>
-                                        
                                         <SpotSearchContainer onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
                                             <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <SpotSearchSVGPath/>
                                             </SpotSearchIcon>
                                         </SpotSearchContainer>
-
                                     </MenuNavBkg>
                                 </Col>
                             </MediaQuery>
@@ -882,7 +887,7 @@ class SurfGUILanding extends Component {
                                                 <CurrentConditionBackdrop>
                                                     {!Array.isArray(this.props.surf.currentConditions)
                                                         ? <CurrWaveDataComponent
-                                                            surfSpot={this.state.activeLocation != null ? this.state.activeLocation : this.props.surf.closestSurfSpot}
+                                                            surfSpot={this.props.surf.activeLocation != null ? this.props.surf.activeLocation : this.props.surf.closestSurfSpot}
                                                                 rating={rating}
                                                                 ndbcData={this.props.surf.currentSwell}
                                                                 waveData={this.props.surf.currentConditions.swell}/>
@@ -962,7 +967,7 @@ class SurfGUILanding extends Component {
                                                 {!Array.isArray(this.props.surf.currentConditions) ?
                                                     <Fragment>
                                                         <LocationContainer>
-                                                            <Location>{this.state.activeLocation != null ? `${this.state.activeLocation.town}, ${this.state.activeLocation.countryOrState}` : `${this.props.surf.closestSurfSpot.town}, ${this.props.surf.closestSurfSpot.countryOrState}`}</Location>
+                                                            <Location>{this.props.surf.activeLocation != null ? `${this.props.surf.activeLocation.town}, ${this.props.surf.activeLocation.countryOrState}` : `${this.props.surf.closestSurfSpot.town}, ${this.props.surf.closestSurfSpot.countryOrState}`}</Location>
                                                         <Distance>{convertMilesToKM(this.props.surf.closestSurfSpot.distanceFromLocation)} miles away</Distance>
                                                         </LocationContainer>
                                                     </Fragment> : null}
@@ -1055,7 +1060,7 @@ class SurfGUILanding extends Component {
                                                             : '.3'}
                                                             onClick={() => {
                                                             this.setState({activeSurfSpot: surfSpot.spotId});
-                                                            this.setState({ activeLocation: surfSpot });
+                                                                this.props.getActiveLocation(surfSpot);
                                                             this
                                                                 .props
                                                                 .getSurfForecast(surfSpot.spotId);
@@ -1106,7 +1111,7 @@ class SurfGUILanding extends Component {
                                                                 : '.3'}
                                                             onClick={() => {
                                                                 this.setState({ activeSurfSpot: surfSpot.spotId });
-                                                                this.setState({ activeLocation: surfSpot });
+                                                                this.props.getActiveLocation(surfSpot);
                                                                 this
                                                                     .props
                                                                     .getSurfForecast(surfSpot.spotId);

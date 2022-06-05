@@ -159,7 +159,6 @@ export default class WindBarChart extends PureComponent {
             mouseLeave: true
 
         };
-        console.log(this.state)
     }
 
     render() {

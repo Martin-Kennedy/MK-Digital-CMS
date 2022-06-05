@@ -95,8 +95,6 @@ export default class UvIndexGraph extends PureComponent {
     render() {
         const uvi = parseInt(this.props.data.uvi) -1;
         const convertedUvi = uvi > 11 ? 10 : uvi;
-        console.log(this.props.data.uvi);
-        console.log(convertedUvi)
 
         return (
             <UVContainer>

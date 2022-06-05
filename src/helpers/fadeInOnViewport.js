@@ -19,7 +19,6 @@ export const FadeInWhenVisibleScale = ({ children, duration = 0.75 }) => {
 }
 
 export const FadeInWhenVisibleOpacity = ({ children, duration }) => {
-    console.log(duration);
     return (
         <motion.div
             initial="hidden"

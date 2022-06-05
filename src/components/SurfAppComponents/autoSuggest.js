@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const match = require('autosuggest-highlight/match');
 const parse = require('autosuggest-highlight/parse');
 import {connect} from 'react-redux';
-import {searchActionCloseSurfSpots, getCloseSurfSpots, searchOpenState} from '../../actions/surfApp.actions';
+import { searchActionCloseSurfSpots, getCloseSurfSpots, searchOpenState, getActiveLocation} from '../../actions/surfApp.actions';
 import variables from '../../variables.module.scss';
 
 // Imagine you have a list of languages that you'd like to autosuggest.
@@ -13,13 +13,15 @@ const mapStateToProps = state => {
     return {
         locations: state.surf.locations,
         isSearchOpen: state.surf.isSearchOpen,
+        activeLocation: state.surf.activeLocation
     }
 }
 
 const mapDispatchToProps = dispatch => ({
     searchActionCloseSurfSpots: closeSurfSpots => dispatch(searchActionCloseSurfSpots(closeSurfSpots)),
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
-    searchOpenState: isOpen => dispatch(searchOpenState(isOpen))
+    searchOpenState: isOpen => dispatch(searchOpenState(isOpen)),
+    getActiveLocation: activeLocation => dispatch(activeLocation)
 })
 
 const StyledAutoSuggest = styled.div`
@@ -126,6 +128,11 @@ class SurfSpotsSearchFilter extends React.Component {
             lng: ''
         };
     }
+
+    componentDidMount(){
+        const { getActiveLocation } = this.props;
+    }
+
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.lat != this.state.lat){

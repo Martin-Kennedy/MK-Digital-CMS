@@ -221,7 +221,6 @@ export const CurrWaveDataComponent = (props) => {
             </TitleIconRow>
             <WaveHeight>
             <MediaQuery minWidth={Number(variables.largeNum)}>
-            {console.log(props.surfSpot)}
             <Location>{props.surfSpot.town}, {props.surfSpot.countryOrState}</Location>
             <Distance>{convertMilesToKM(props.surfSpot.distanceFromLocation)} miles away</Distance>
             <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
