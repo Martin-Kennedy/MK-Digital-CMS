@@ -34,7 +34,6 @@ const StyledLink = styled(Link)`
 display: flex;
 position: relative;
 align-content: center;
-background: ${props => displayValueArray.includes(props.location) ? console.log('false') : console.log(props.location)};
 text-align: center;
 justify-content: center;
 margin: 0 0 0 1vw;
@@ -71,7 +70,6 @@ p {
 `
 
 const Footer = (props) => {
-    console.log(props)
     const [isHovered,
         setHover] = useState(null);
     useEffect(() => {
@@ -83,7 +81,6 @@ const Footer = (props) => {
             </CopyRightContainer>
 
             <LinkContainer>
-            {console.log(props.location)}
                 <StyledLink location={props.location}
                     onMouseEnter={() => setHover(true)}
                     onMouseLeave={() => setHover(false)}
