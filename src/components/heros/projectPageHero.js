@@ -18,9 +18,10 @@ const FirstLine = styled.div`
     position: relative;
     margin: 120px 0 0;
     width: 100%;
-    top: 0%;
+    
     div {
          font-size: 100px;
+         top: -3vh;
         @media (max-width: 900px) {
             font-size: 12vw;
         }
@@ -38,12 +39,14 @@ const FirstLine = styled.div`
 const SecondLine = styled.div`
     height: 0;
     position: relative;
+    
     z-index: 0;
     padding: 0 0 calc(25vh - 40px) 0;
     width: 100%;
-    top: 0%;
+    
     div {
          font-size: 100px;
+         top: -3vh;
         @media (max-width: 900px) {
             font-size: 12vw;
         }
@@ -62,7 +65,6 @@ const ThirdLine = styled.div`
     position: relative;
     z-index: 0;
     padding: 0 0 calc(25vh - 40px) 0;
-    
     width: 100%;
     top: 0%;
     div {

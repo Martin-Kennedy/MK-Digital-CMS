@@ -62,7 +62,8 @@ const HamburgerContainer = styled.div `
 display: block;
 position: absolute;
 top: 0;
-right: 5vw;
+left: -10px;
+width: 100vw;
 z-index: 999;
     color: ${props => displayValueArray.includes(props.location)
     ? "#1d1e22"
