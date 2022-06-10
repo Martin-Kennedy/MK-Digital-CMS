@@ -17,7 +17,7 @@ export const getContact = (token) => {
                     }
                 }`
         }
-        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
+        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
             .then(response => {
                 return response.data
             })

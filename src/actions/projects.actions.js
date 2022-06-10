@@ -25,7 +25,7 @@ export const getProjects = (token) => {
                     }
                 } `
         }
-        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
+        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
             .then(response => {
             return response.data
         })
@@ -106,7 +106,7 @@ export const getProjectItem = (client, token) => {
             }
 } `
         }
-        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
+        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
             .then(response => {
                 return response.data
             })
@@ -136,7 +136,7 @@ export const getProjectLanding = (token) => {
             }
 } `
         }
-        return axios.post("http://localhost:3000/admin/api", bodyParameters, config)
+        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
             .then(response => {
                 return response.data
             })
