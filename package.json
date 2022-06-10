@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Martin Kennedy",
   "license": "MIT",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "serve": "public/",
     "build": "webpack --mode production",
