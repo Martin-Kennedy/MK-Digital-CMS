@@ -71,7 +71,7 @@
     "swiper": "^7.4.1",
     "util": "^0.12.4",
     "validator": "8.0.0",
-    "webpack": "^5.70.0"
+    "webpack": "3.x"
   },
   "devDependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",
