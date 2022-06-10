@@ -5,8 +5,8 @@
   "author": "Martin Kennedy",
   "license": "MIT",
   "scripts": {
-    "serve": "live-server public/",
-    "build": "webpack",
+    "serve": "public/",
+    "build": "webpack --mode production",
     "dev-server": "webpack-dev-server"
   },
   "dependencies": {
