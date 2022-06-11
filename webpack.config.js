@@ -14,10 +14,17 @@ module.exports = {
   module: {
     rules: [
       {
-      use: 'babel-loader',
-      test: /\.js$/,
-      exclude: /node_modules/
-    },
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: "defaults" }]
+            ]
+          }
+        }
+      },
       {
         test: /\.(s(a|c)ss)$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
@@ -26,8 +33,7 @@ module.exports = {
   ]
   },
   plugins: [
-    new NodePolyfillPlugin(),
-    new Dotenv()
+    new NodePolyfillPlugin()
   ],
   
   resolve: {
