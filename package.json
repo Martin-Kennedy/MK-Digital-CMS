@@ -75,7 +75,6 @@
     "webpack": "5.x"
   },
   "devDependencies": {
-    "babel-loader": "7.1.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "dotenv-webpack": "^7.1.0",
     "mini-css-extract-plugin": "^2.4.5",
