@@ -2,7 +2,7 @@
 import { GET_ABOUT } from '../helpers/types'
 import axios from 'axios'
 
-const apiUrl = 'http://localhost:4000/blog';
+const apiUrl = "https://mk-digital-cms.herokuapp.com/admin/api";
 
 export const getAbout = (token) => {
     return (dispatch) => {
@@ -41,7 +41,7 @@ export const getAbout = (token) => {
                     }
                 }`
         }
-        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
+        return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
                 return response.data
             })

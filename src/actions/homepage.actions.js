@@ -2,7 +2,7 @@ import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_ITEMS } from '../helpers/types'
 import {CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types'
 import axios from 'axios'
 
-const apiUrl = 'http://localhost:3000/admin/api';
+const apiUrl = "https://mk-digital-cms.herokuapp.com/admin/api";
 export const getHomepage = (token) => {
 
     return (dispatch) => {
@@ -41,7 +41,7 @@ export const getHomepage = (token) => {
                 }`
         }
         return axios
-            .post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
+            .post(process.env.CMS_BACKEND, bodyParameters, config)
             .then(response => {
                 return response.data
             })

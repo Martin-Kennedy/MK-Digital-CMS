@@ -1,7 +1,7 @@
 import { GET_PROJECTS, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM, GET_PROJECT_LANDING } from '../helpers/types'
 import axios from 'axios'
 
-const apiUrl = 'http://localhost:3000/admin/api';
+const apiUrl = "https://mk-digital-cms.herokuapp.com/admin/api";
 export const getProjects = (token) => {
 
     return (dispatch) => {
@@ -25,7 +25,7 @@ export const getProjects = (token) => {
                     }
                 } `
         }
-        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
+        return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
             return response.data
         })
@@ -106,7 +106,7 @@ export const getProjectItem = (client, token) => {
             }
 } `
         }
-        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
+        return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
                 return response.data
             })
@@ -136,7 +136,7 @@ export const getProjectLanding = (token) => {
             }
 } `
         }
-        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
+        return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
                 return response.data
             })

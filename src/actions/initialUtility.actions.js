@@ -1,7 +1,7 @@
 import {GET_TOKEN, ESTABLISH_SESSION} from '../helpers/types'
 import axios from 'axios'
 
-const apiUrl = 'http://localhost:3000/admin/api';
+const apiUrl = "https://mk-digital-cms.herokuapp.com/admin/api";
 
 export const getToken = () => {
     return (dispatch) => {

@@ -2,7 +2,7 @@
 import { GET_BLOGS, GET_BLOG_ITEM, GET_NEXT_BLOG_ITEM, GET_BLOG_LANDING } from '../helpers/types'
 import axios from 'axios'
 
-const apiUrl = 'http://localhost:4000/blog';
+const apiUrl = "https://mk-digital-cms.herokuapp.com/admin/api";
 
 export const getBlogs = (token) => {
     return (dispatch) => {
@@ -34,7 +34,7 @@ export const getBlogs = (token) => {
                     }
                 }`
         }
-        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
+        return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
                 return response.data
             })
@@ -88,7 +88,7 @@ export const getBlogItem = (title, token) => {
             }
 } `
         }
-        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
+        return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
                 return response.data
             })
@@ -118,7 +118,7 @@ export const getBlogLanding = (token) => {
             }
 } `
         }
-        return axios.post(`http://${process.env.CMS_BACKEND}/admin/api`, bodyParameters, config)
+        return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
                 return response.data
             })
