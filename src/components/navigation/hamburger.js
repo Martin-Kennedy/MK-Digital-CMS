@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 
 
 const StyledHamburger = styled.div`
-
-
-
+    position: absolute;
+    right: 90px;
+    top: -5px;
+width: fit-content;
 animation:  750ms ease-in-out;
 svg {
     position: absolute;
