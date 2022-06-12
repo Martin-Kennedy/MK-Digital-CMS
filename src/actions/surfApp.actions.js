@@ -40,7 +40,9 @@ export const getActiveLocation = (data) => {
 export const getLocationsObject = () => {
    
     let request = new Promise((resolve) => {
-        axios.get(surfSpotsApiUrl)
+        axios.get(surfSpotsApiUrl, {
+            withCredentials: false,
+        })
         .then(response => {
             return response.data
         }).then(data => {
@@ -88,7 +90,9 @@ const latLng = () => new Promise((res, rej) => {
         })
 })
 const getLocations = (coords) => axios
-    .get(surfSpotsApiUrl)
+    .get(surfSpotsApiUrl, {
+        withCredentials: false,
+    })
     .then(response => {
         return { locations: response.data, coords: coords }
     })
@@ -197,7 +201,9 @@ export const searchActionCloseSurfSpots = (value) => {
         }
         
         
-            axios.get(surfSpotsApiUrl)
+        axios.get(surfSpotsApiUrl, {
+            withCredentials: false,
+        })
             .then(response => {
                 const coords = {
                     latitude: value.latitude,
@@ -218,7 +224,9 @@ export const searchActionCloseSurfSpots = (value) => {
 
 export const getTideStations = (latLon) => {
     let request = new Promise((resolve) => {
-        axios.get(tideStationApiUrl)
+        axios.get(tideStationApiUrl, {
+            withCredentials: false,
+        })
         .then(response => {
             return response.data
         }).then(data => {
@@ -626,7 +634,12 @@ export const getWeatherForecast = (data) => {
 
 
 export const getNdbcStations = (latLon) => {
-    const request = axios.get(NDBCStationApiUrl)
+    const request = axios.get(NDBCStationApiUrl, {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+        }
+    })
         .then(response => {
             return response.data
         }).then(data => {
