@@ -17,3 +17,4 @@ const jsx = (
 
 
 ReactDOM.render(jsx, document.getElementById('app'));
+module.hot.accept();

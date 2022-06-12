@@ -41,7 +41,7 @@ export const getHomepage = (token) => {
                 }`
         }
         return axios
-            .post(process.env.CMS_BACKEND, bodyParameters, config)
+            .post(apiUrl, bodyParameters, config)
             .then(response => {
                 return response.data
             })

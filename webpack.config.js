@@ -1,10 +1,9 @@
 const path = require('path');
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
-const Dotenv = require('dotenv-webpack');
+const webpack = require('webpack');
 
 
 module.exports = {
-  mode: "development",
   entry: './src/app.js',
   target: 'web',
   output: {
@@ -14,16 +13,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-env', { targets: "defaults" }]
-            ]
-          }
-        }
+        use: ['babel-loader']
       },
       {
         test: /\.(s(a|c)ss)$/,
@@ -32,8 +24,12 @@ module.exports = {
       
   ]
   },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+  },
   plugins: [
-    new NodePolyfillPlugin()
+    new NodePolyfillPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ],
   
   resolve: {
@@ -41,6 +37,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    hot: true,
   }
 };
