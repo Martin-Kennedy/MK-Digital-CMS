@@ -412,8 +412,7 @@ const ImgFullWidth = styled.div`
     width: 66vw;
     height: 100%;
     margin: 50px auto;
-    background-position: center;
-    background-size: contain;
+    background-size: cover;
     background-image: url('${props => props.background ? props.background : null}');
     background-repeat: no-repeat;
  @media(max-width: ${variables.large}){
