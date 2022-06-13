@@ -4,9 +4,9 @@ import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios';
 
 
-const surfSpotsApiUrl = 'https://jsonkeeper.com/b/PY0D';
-const tideStationApiUrl = 'https://jsonkeeper.com/b/3OH9';
-const NDBCStationApiUrl = 'https://jsonkeeper.com/b/0NHK';
+const surfSpotsApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655135116/MK-Digital-Surf-App/surfSpots_mljo74.json';
+const tideStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134141/MK-Digital-Surf-App/tideStations_vxlwrw.json';
+const NDBCStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134357/MK-Digital-Surf-App/ndbcBuoys_nguiue.json';
 const msUrl = 'https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
 const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 
@@ -40,12 +40,11 @@ export const getActiveLocation = (data) => {
 export const getLocationsObject = () => {
    
     let request = new Promise((resolve) => {
-        axios.get(surfSpotsApiUrl, {
-            withCredentials: false,
-        })
+        axios.get(surfSpotsApiUrl)
         .then(response => {
             return response.data
         }).then(data => {
+            
             let countriesArr = []
                const countries =  Object.keys(data);
              countries.map((country) => {
@@ -90,9 +89,7 @@ const latLng = () => new Promise((res, rej) => {
         })
 })
 const getLocations = (coords) => axios
-    .get(surfSpotsApiUrl, {
-        withCredentials: false,
-    })
+    .get(surfSpotsApiUrl)
     .then(response => {
         return { locations: response.data, coords: coords }
     })
@@ -201,9 +198,7 @@ export const searchActionCloseSurfSpots = (value) => {
         }
         
         
-        axios.get(surfSpotsApiUrl, {
-            withCredentials: false,
-        })
+            axios.get(surfSpotsApiUrl)
             .then(response => {
                 const coords = {
                     latitude: value.latitude,
@@ -224,9 +219,7 @@ export const searchActionCloseSurfSpots = (value) => {
 
 export const getTideStations = (latLon) => {
     let request = new Promise((resolve) => {
-        axios.get(tideStationApiUrl, {
-            withCredentials: false,
-        })
+        axios.get(tideStationApiUrl)
         .then(response => {
             return response.data
         }).then(data => {
@@ -634,12 +627,7 @@ export const getWeatherForecast = (data) => {
 
 
 export const getNdbcStations = (latLon) => {
-    const request = axios.get(NDBCStationApiUrl, {
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-        }
-    })
+    const request = axios.get(NDBCStationApiUrl)
         .then(response => {
             return response.data
         }).then(data => {
