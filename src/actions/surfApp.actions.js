@@ -199,7 +199,7 @@ export const searchActionCloseSurfSpots = (value) => {
         }
         
         
-            axios.get(surfSpotsApiUrl, config)
+            axios.get(surfSpotsApiUrl)
             .then(response => {
                 const coords = {
                     latitude: value.latitude,
