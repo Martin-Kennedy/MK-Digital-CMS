@@ -7,18 +7,13 @@ import axios from 'axios';
 const surfSpotsApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655135116/MK-Digital-Surf-App/surfSpots_mljo74.json';
 const tideStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134141/MK-Digital-Surf-App/tideStations_vxlwrw.json';
 const NDBCStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134357/MK-Digital-Surf-App/ndbcBuoys_nguiue.json';
-const msUrl = 'https://cors-anywhere.herokuapp.com/https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
+const msUrl = 'https://mk-digital-cors-bypass-proxy.herokuapp.com/https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
 const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
 
-const config = {
-    headers: {
-    "X-Requested-With": "XMLHttpRequest"
-    }
-}
 
 // NOAA web services api token
 const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc';
-const tidesAndCurrentsUrl = 'https://cors-anywhere.herokuapp.com/https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
+const tidesAndCurrentsUrl = 'https://mk-digital-cors-bypass-proxy.herokuapp.com/https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?';
 const apiUrl2 = 'https://jsonkeeper.com/b/1U1N';
 
 export const searchOpenState = (data) => {
@@ -46,7 +41,7 @@ export const getActiveLocation = (data) => {
 export const getLocationsObject = () => {
    
     let request = new Promise((resolve) => {
-        axios.get(surfSpotsApiUrl, config)
+        axios.get(surfSpotsApiUrl)
         .then(response => {
             return response.data
         }).then(data => {
@@ -153,7 +148,7 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
 
 export const getSurfForecast = (spotId) => {
     return (dispatch) => {
-        return axios.get(msUrl + spotId, config)
+        return axios.get(msUrl + spotId)
             .then(response => {
                 return response.data
             }).then(data => {
@@ -308,12 +303,12 @@ export const getWaterTemp = (data) => {
 
     // ----------- function to break down columns of txt in ndbc txt file return ----------
 
-    const NdbcWaterTemp = `https://cors-anywhere.herokuapp.com/https://www.ndbc.noaa.gov/data/realtime2/${data.buoyId}.txt`;
+    const NdbcWaterTemp = `https://mk-digital-cors-bypass-proxy.herokuapp.com/https://www.ndbc.noaa.gov/data/realtime2/${data.buoyId}.txt`;
 
 
 
     return (dispatch) => {
-        axios.get(NdbcWaterTemp, config)
+        axios.get(NdbcWaterTemp)
             .then(response => {
                 return response.data
             }).then(data => {
@@ -360,7 +355,7 @@ export const getCurrentSwell = (data) => {
 
     // ----------- function to break down columns of txt in ndbc txt file return ----------
 
-    const NdbcSwell = `https://cors-anywhere.herokuapp.com/https://www.ndbc.noaa.gov/data/realtime2/${data.buoyId}.txt`;
+    const NdbcSwell = `https://mk-digital-cors-bypass-proxy.herokuapp.com/https://www.ndbc.noaa.gov/data/realtime2/${data.buoyId}.txt`;
 
 
 
@@ -572,7 +567,7 @@ export const getWeatherStations = (data) => {
             token: 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc'
         }
     }
-    const closeWeatherStationsUrl = `https://cors-anywhere.herokuapp.com/https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?extent=${boundingBox.minLat},${boundingBox.minLng},${boundingBox.maxLat},${boundingBox.maxLng}`
+    const closeWeatherStationsUrl = `https://mk-digital-cors-bypass-proxy.herokuapp.com/https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?extent=${boundingBox.minLat},${boundingBox.minLng},${boundingBox.maxLat},${boundingBox.maxLng}`
     return (dispatch) => {
         return axios.get(closeWeatherStationsUrl, config)
             .then(response => {
