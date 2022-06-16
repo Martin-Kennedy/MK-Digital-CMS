@@ -2,12 +2,14 @@ import React from "react";
 import {Wave} from '../designElementComponents/waveSvg'
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import variables from '../../variables.module.scss';
 
 
 const StyledHamburger = styled.div`
-    position: absolute;
-    right: 90px;
-    top: -5px;
+position: fixed;
+margin-right: 3vw;
+top: 15px;
+right: 0;
 width: fit-content;
 animation:  750ms ease-in-out;
 svg {
@@ -25,6 +27,7 @@ svg:nth-child(2) {
     right: 0px;
     transition: 275ms ease-in;
 }
+
 `
 
 

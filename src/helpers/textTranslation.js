@@ -3,11 +3,9 @@ import styled from 'styled-components';
 import {useViewportScroll, motion, useTransform} from "framer-motion";
 
 const Track = styled(motion.div)`
-
 white-space: nowrap;
 will-change: transform;
 font-family: mr-eaves-modern, sans-serif;
-font-weight: 200;
 color: ${props => props.black
     ? 'var(--black)'
     : 'var(--white)'};
@@ -19,7 +17,7 @@ text-align: center;
 
 const Marquee = styled.div `
 position: relative;
-height: calc(25vh - 40px);
+height: calc(25vh - 45px);
 display: flex;
 justify-content: center;      
 align-items: center;

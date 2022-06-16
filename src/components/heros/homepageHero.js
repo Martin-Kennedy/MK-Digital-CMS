@@ -21,8 +21,9 @@ const CarouselContainer = styled.div `
     display: flex;
     width: 33%;
     top: 0;
+    height: 100vh;
     left: 33%;
-    margin: 20vh auto 15vh auto;
+    margin: 0 auto 0 auto;
 `
 
 const TopLine = styled.div `
@@ -70,9 +71,9 @@ const BottomLine = styled.div `
 
 const AnimatedTextContainer = styled.div`
         position: absolute;
-        top: 44vh;
+        top: calc(33vh + 12.5vh - 40px);
         right: 0;
-        height: 100px;
+        height: calc(25vh - 45px);
         font-family: mr-eaves-modern, sans-serif;
         font-weight: 200;
         font-size: 7vw;
@@ -81,9 +82,10 @@ const AnimatedTextContainer = styled.div`
         white-space: nowrap;
         letter-spacing: 1.5rem;
         @media(max-width: ${variables.small}){
-                font-size: 6vh;
+                font-size: 10vh;
                 letter-spacing: 1.5vw;
                 top: calc(78vh - 3vh + 10px);
+                font-weight: 500;
         }
 `
 

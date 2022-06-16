@@ -9,9 +9,9 @@ import {FadeInWhenVisibleScale, FadeInWhenVisibleOpacity} from '../../helpers/fa
 import MediaQuery from 'react-responsive';
 
 const SlideNavLeft = styled.nav `
-position: absolute;
-top: -20px;
-left: calc(-70vw - 10px);
+position: fixed;
+top: 0;
+left: -70vw;
 width: 70vw;
 height: 100vh;
 background-color: #000;
@@ -75,9 +75,9 @@ transition: 150ms ease-in;
 `
 
 const SlideNavRight = styled.nav `
-position: absolute;
-top: -20px;
-right: calc(-30vw - 10px);
+position: fixed;
+top: 0;
+right: -30vw;
 width: 30vw;
 height: 100vh;
 background-color: #0e5d97;

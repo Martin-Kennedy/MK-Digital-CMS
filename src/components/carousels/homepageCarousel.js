@@ -38,7 +38,7 @@ const SlideImage = styled.img `
     width: 100%;
     height: 66vh;
     object-fit: contain;
-    margin: 0 auto;
+    margin: 16.6vh auto;
       @media(max-width: ${variables.medium}){
                 width: 100%;
                 height: 66vh;
@@ -102,11 +102,27 @@ class HomepageCarouselComponent extends Component {
         
     }
 
-    componentDidUpdate(prevProps) {
-        const {getHomepage} = this.props;
+    componentDidMount(){
+        const { getHomepage } = this.props;
         const { getToken } = this.props;
         const { establishSession } = this.props;
         const { getHomepageCarouselItems } = this.props;
+        
+        if (this.props.initialUtility.keystoneToken === null) {
+            getToken();
+        } else {
+            establishSession(this.props.initialUtility.keystoneToken);
+        }
+        if (this.props.initialUtility.session === true) {
+            if (!this.props.homepage.pageData) {
+                getHomepage(this.props.initialUtility.keystoneToken);
+            }
+            getHomepageCarouselItems(this.props.initialUtility.keystoneToken);
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+       
         
         
         if (this.props.initialUtility.session === true) {
