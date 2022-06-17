@@ -3,14 +3,15 @@ import { Button, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { sortByBlogSubject, sortByProjectExpertise } from '../../actions/filters.actions';
+import variables from "../../variables.module.scss";
 
 const BlogFilterBtn = styled(Button)`
 display: flex;
-font-size: 14px;
-font-weight: 100;
+font-size: 1vw;
 width: fit-content;
+font-weight: 200;
 background-color: transparent;
-color: #000;
+color: #fff !important;
 border: 0;
 transition: .5s ease;
 padding: 0;
@@ -19,6 +20,12 @@ margin-right: 2vw;
 transform-style: preserve-3d;
 transform: translateZ(-25px);
 transition: transform 0.3s;
+white-space: nowrap;
+@media(max-width: ${variables.medium}){
+    font-size: 4vw;
+    width: 100%;
+    margin-bottom: 2vh;
+}
 
 &:first-child {
     margin-left: 0;
@@ -44,6 +51,13 @@ background-color: transparent;
 margin-bottom: 5vh;
 padding: 5vh 0;
 height: 80px;
+@media(max-width: ${variables.medium}){
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 2vh;
+    height: fit-content;
+    padding: 0;
+}
 `;
 
 const mapStateToProps = state => {

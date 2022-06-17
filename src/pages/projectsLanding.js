@@ -15,14 +15,15 @@ padding-top: 120px;
 
 `
 
-const Paragraph = styled.p `
+const Paragraph = styled.div `
 font-size: 2vw;
-line-height: 3vw;
+line-height: 2.5vw;
 margin:0;
 padding: 0;
 word-wrap: none;
  @media(max-width:${variables.medium}){
-        font-size: 5vw;
+        font-size: 8vw;
+        line-height: 10vw;
     }
 `
 

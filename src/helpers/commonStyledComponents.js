@@ -28,6 +28,9 @@ color: ${props => props.white ? "#fff" : "#1d1e22"}
 @media(max-width: ${variables.large}){
     font-size: 3vw;
 }
+@media(max-width: ${variables.medium}){
+    font-size: 4vw;
+}
 `
 
 export const SmallAndThinText = styled.p`
@@ -42,6 +45,11 @@ color: ${props => props.white ? "#fff" : "#1d1e22"};
 
 export const SmallAndThinTextSpaced = styled(SmallAndThinText)`
 letter-spacing: .2rem;
+@media(max-width: ${variables.medium}){
+    font-size: 3vw;
+    font-weight: 400;
+    letter-spacing: .5vw;;
+}
 `
 
 export const VerySmallText = styled.span`

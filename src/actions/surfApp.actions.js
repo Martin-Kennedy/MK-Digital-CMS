@@ -82,11 +82,21 @@ const latLng = () => new Promise((res, rej) => {
         .getCurrentPosition(function (position) {
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
+
             const coords = {
                 latitude: latitude,
                 longitude: longitude
             }
+
+            
             res(coords);
+        }, (error) => { 
+            const coords = {
+                latitude: 39.5316467,
+                longitude: -74.2620961
+            }
+            res(coords);
+            error.code === 1 ? alert("This browser is not allowing this app to use your location, change your location settings for full functionality.") : null;
         })
 })
 const getLocations = (coords) => axios

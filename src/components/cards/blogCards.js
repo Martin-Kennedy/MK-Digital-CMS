@@ -17,16 +17,6 @@ width: 100%;
 
 `;
 
-const StyledSpinner = styled(Spinner)`
-position: absolute;
-top: 115vh;
-left: calc(50vw - 50px);
-width: 100px;
-height: 100px;
-z-index: 3;
-transition: 1.25s ease-in-out;
-`
-
 
 const CardTextRow = styled(Row)`
 --bs-gutter-x: 0;
@@ -85,14 +75,11 @@ const mapStateToProps = state => {
 class FilteredCards extends Component {
     constructor() {
         super()
-        this.state = {
-            hideSpinner: false
-        }
     }
     render() {
         return (
            <div>
-               <StyledSpinner className={this.state.hideSpinner ? 'hidden' : null} animation="border" ></StyledSpinner>
+               
           
             <MasonryBlog
                 elementType={'div'}
@@ -193,7 +180,7 @@ class UnfilteredCards extends Component {
         return (
             <div>
 
-            <StyledSpinner className={this.state.hideSpinner ? 'hidden' : null} animation="border" ></StyledSpinner>
+           
             <MasonryBlog
                 elementType={'div'}
                 disableImagesLoaded={false}

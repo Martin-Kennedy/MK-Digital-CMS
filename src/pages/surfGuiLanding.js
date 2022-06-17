@@ -753,6 +753,8 @@ class SurfGUILanding extends Component {
         const { getActiveLocation } = this.props;
         if (window.innerWidth > Number(variables.largeNum)) {
             document.body.style.overflow = "hidden";
+
+            document.getElementsByTagName('html')[0].style.overflow = "hidden";
         }
         
 

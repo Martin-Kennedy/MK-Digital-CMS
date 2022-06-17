@@ -6,6 +6,7 @@ import {FilteredCardsContainer, UnfilteredCardsContainer} from './projectCards';
 import {getProjects} from '../../actions/projects.actions';
 import {LineAnimationR2L} from "../designElementComponents/lineSvg";
 import styled from 'styled-components';
+import variables from "../../variables.module.scss";
 
 const ProjectFilterButtons = ProjectFilterButtonsContainer;
 const UnfilteredCards = UnfilteredCardsContainer;
@@ -42,13 +43,20 @@ const FilterLine = styled(Row)`
         }
     }
 `
-
+const CardRow = styled(Row)`
+padding: 0;
+--bs-gutter-x: 0;
+`
 const FilterContainer = styled(Row)`
     height: 50px;
     z-index: 1;
     width: calc(100% - 5vw);
     margin: 0 2.5vw;
     padding: 0;
+    @media(max-width: ${variables.medium}){
+        height: fit-content;
+    }
+
 `
 
 const buildCardArray = (props) => {
@@ -60,12 +68,12 @@ const buildCardArray = (props) => {
         <FilterLine>
             <LineAnimationR2L/>
         </FilterLine>
-        <Row>
+        <CardRow>
             {props.projects.filteredData.length
                 ? <FilteredCards/>
                 : <UnfilteredCards/>
 }
-        </Row>
+        </CardRow>
         </Row>
     return cardArray;
 }
@@ -75,8 +83,6 @@ class ProjectCardContainer extends Component {
 
         if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
             if (!this.props.projects.projectData.length) {
-                console.log(this.props.initialUtility.keystoneToken)
-                console.log('this is running')
                 this
                     .props
                     .dispatch(getProjects(this.props.initialUtility.keystoneToken))

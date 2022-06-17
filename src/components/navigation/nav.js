@@ -109,8 +109,10 @@ const Nav = (props) => {
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = "hidden";
+            document.getElementsByTagName('html')[0].style.overflow = "hidden";
         } else {
             document.body.style.overflow = "overlay";
+            document.getElementsByTagName('html')[0].style.overflowY = "overlay";
         };
     }, [isOpen, isHovered])
     return (

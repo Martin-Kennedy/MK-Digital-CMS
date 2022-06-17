@@ -9,6 +9,7 @@ const BlogFilterButtons = BlogFilterButtonsContainer;
 const UnfilteredCards = UnfilteredCardsContainer;
 const FilteredCards = FilteredCardsContainer;
 import styled from 'styled-components';
+import variables from "../../variables.module.scss";
 
 const mapStateToProps = state => {
     return {
@@ -48,9 +49,12 @@ const FilterContainer = styled(Row)`
     width: calc(100% - 5vw);
     margin: 0 2.5vw;
     padding: 0;
+     @media(max-width: ${variables.medium}){
+        height: fit-content;
+    }
 `
-const CardArrayRow = styled(Row)`
-background-color: transparent;
+const CardRow = styled(Row)`
+padding: 0;
 `
 
 const BuildCardArray = (props) => {
@@ -67,7 +71,7 @@ const BuildCardArray = (props) => {
                 <LineAnimationR2L />
             </FilterLine>
            
-            <Row>
+            <CardRow>
                 
                 {props.data.blogs.filteredData.length
                     ? <FilteredCards />
@@ -75,7 +79,7 @@ const BuildCardArray = (props) => {
                 }
                 
                 
-            </Row>
+            </CardRow>
         </Row>
     return cardArray;
 }
@@ -85,7 +89,6 @@ class BlogCardsContainer extends Component {
 
         if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
             if (!this.props.blogs.blogData.length) {
-                console.log(this.props.initialUtility.keystoneToken)
                 this.props.dispatch(getBlogs(this.props.initialUtility.keystoneToken))
             }
         }

@@ -72,6 +72,9 @@ transition: 150ms ease-in;
 @media(max-width: ${variables.large}){
     margin-bottom: 3vw;
 }
+@media(max-width: ${variables.medium}){
+    opacity: 1;
+}
 `
 
 const SlideNavRight = styled.nav `
@@ -149,6 +152,9 @@ opacity: 0.7;
 transition: 150ms ease-in;
 
 &:hover, &:active {
+    opacity: 1;
+}
+@media(max-width: ${variables.medium}){
     opacity: 1;
 }
 `

@@ -24,11 +24,12 @@ margin-left: -5%;
    margin-top: -15%;
 }
 @media(max-width: ${variables.medium}){
-     width: 70%;
-     margin-top: -25%;
+     width: 100%;
+     margin-top: -50%;
 }
 @media(max-width: ${variables.small}){
-     width: 80%;
+     width: 100%;
+     margin-top: -50%;
 }
 `
 

@@ -20,12 +20,12 @@ const StyledCarouselProvider = styled(Swiper)`
     text-align: center;
     font-size: 18px;
      @media(max-width: ${variables.small}){
-                height: 80vh;
+                height: 100vh;
                 margin: 0 auto;
 
         }
          @media(max-width: ${variables.medium}){
-                height: 60vh;
+                height: 100vh;
                 margin: 0 auto;
 
         }
@@ -45,7 +45,7 @@ const SlideImage = styled.img `
         }
         @media(max-width: ${variables.medium}){
                 width: 100%;
-                height: 50vh;
+                margin: 10vh auto;
         }
 `;
 

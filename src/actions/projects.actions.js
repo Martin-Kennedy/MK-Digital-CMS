@@ -47,8 +47,6 @@ export const getNextProjectItem = (nextClient) => {
 
 export const getProjectItem = (client, token) => {
 
-    console.log(client, token);
-
     return (dispatch) => {
         const config = {
             headers: { Authorization: `Bearer ${token}` }
