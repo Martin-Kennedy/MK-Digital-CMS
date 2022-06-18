@@ -127,7 +127,35 @@ height:  ${props => props.dynamicHeight > 8
 width: 100%;
 padding: 4vh 0 0 0;
 `
-
+const ErrorAlertBar = styled(BackDrop)`
+height: 8vh;
+position: absolute;
+top: 2vh;
+justify-content: center;
+align-items: center;
+padding: 1vw;
+width: 96vw;
+display: flex;
+left: 2vw;
+z-index: 12;
+ backdrop-filter: blur(10px);
+ span {
+    width: 60%;
+    color: rgba(255,255,255,0.7);
+    z-index: 12;
+    font-size: 2vw;
+    line-height: 8vw;
+    font-weight: 500;
+    @media(max-width:${variables.medium}){
+        font-size: 4vw;
+        width: 75%;
+        line-height: 4vw;
+    }
+ }
+   @media(max-width:${variables.medium}){
+        padding: 2vw;
+    }
+`
 const SwellChartContainer = styled.div`
 margin-left: 0;
 padding-right: 0;
@@ -678,10 +706,41 @@ width: fit-content;
 margin: 2vw auto;
 `
 
+const CloseButton = styled.div`
+display: flex;
+align-content: center;
+justify-content: center;
+border-radius: 4px;
+background: rgba(183, 32,32, 0.8);
+z-index: 15;
+box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
+width: 10%;
+height: 6vh;
+line-height: 6vh;
+margin: 0 0 0 auto;
+position: relative;
+color: rgba(255,255,255,0.7);
+font-size: 1.5vw;
+text-transform: uppercase;
+font-weight: 500;
+&:hover, &:active {
+cursor: pointer;
+}
+
+@media(max-width: ${variables.medium}){
+    font-size: 5vw;
+    line-height: 4vh;
+    width: 20%;
+    line-height: 6vh;
+    font-weight: 600;
+}
+`
+
 const mapStateToProps = state => {
     return {
         surf: {
             locations: state.surf.locations,
+            geoLocationError: state.surf.geoLocationError,
             closeSurfSpots: state.surf.closeSurfSpots,
             closestSurfSpot: state.surf.closestSurfSpot,
             hourlyForecast: state.surf.hourlyForecast,
@@ -739,7 +798,8 @@ class SurfGUILanding extends Component {
             activeSurfSpot: null,
             lat: null,
             lng: null,
-            isOpen: false
+            isOpen: false,
+            geoLocationModalClosed: false
         };
     }
 
@@ -857,6 +917,7 @@ class SurfGUILanding extends Component {
                                 className={this.props.surf.isSearchOpen
                                 ? 'slideInFromLeftSurfSPA'
                                 : null}>
+                                    {console.log(this.props, this.state)}
                                 <CloseButtonContainer onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
                                     <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
                                         <CloseButtonSVGPath/>
@@ -881,7 +942,9 @@ class SurfGUILanding extends Component {
                                     </MenuNavBkg>
                                 </Col>
                             </MediaQuery>
+                            {!Array.isArray(this.props.surf.geoLcationError) && <ErrorAlertBar className={this.state.geoLocationModalClosed === true ? "closedModal" : null}><span>For full functionality turn on location settings in your browser.</span> <CloseButton onClick={() => { this.setState({geoLocationModalClosed: true})}}>Close</CloseButton></ErrorAlertBar>}
                             <CustomCol md={12} lg={9}>
+                                
                                 <DataDashBoardRow>
                                     <MediaQuery minWidth={variables.large}>
                                         <StyledCol35 >

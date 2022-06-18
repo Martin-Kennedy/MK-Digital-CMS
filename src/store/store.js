@@ -48,6 +48,7 @@ const initalState = {
     },
     surf: {
         locations: [],
+        geoLocationError: [],
         closeSurfSpots: [],
         closestSurfSpot: [],
         hourlyForecast: [],

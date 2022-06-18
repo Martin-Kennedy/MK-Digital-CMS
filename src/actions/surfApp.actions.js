@@ -1,10 +1,10 @@
-import { GET_ACTIVE_LOCATION, SEARCH_OPEN_STATE, CLOSE_SPOTS_OPEN_STATE, GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL, GET_SEARCH_CLOSE_SURFSPOTS } from '../helpers/types'
+import { GET_ACTIVE_LOCATION, SEARCH_OPEN_STATE, CLOSE_SPOTS_OPEN_STATE, GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL, GET_SEARCH_CLOSE_SURFSPOTS, GEO_LOCATION_ERROR } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios';
 
 
-const surfSpotsApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655135116/MK-Digital-Surf-App/surfSpots_mljo74.json';
+const surfSpotsApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655572169/MK-Digital-Surf-App/surfSpots_yhjhfc.json';
 const tideStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134141/MK-Digital-Surf-App/tideStations_vxlwrw.json';
 const NDBCStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134357/MK-Digital-Surf-App/ndbcBuoys_nguiue.json';
 const msUrl = 'https://mk-digital-cors-bypass-proxy.herokuapp.com/https://magicseaweed.com/api/76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
@@ -93,10 +93,11 @@ const latLng = () => new Promise((res, rej) => {
         }, (error) => { 
             const coords = {
                 latitude: 39.5316467,
-                longitude: -74.2620961
+                longitude: -74.2620961,
+                error: {code: error.code, message: error.message}
             }
             res(coords);
-            error.code === 1 ? alert("This browser is not allowing this app to use your location, change your location settings for full functionality.") : null;
+            
         })
 })
 const getLocations = (coords) => axios
@@ -180,6 +181,10 @@ export const getCloseSurfSpots = () => {
         res(latLng())
     });
     return (dispatch) => {
+        function onError(error) {
+            dispatch({ type: GEO_LOCATION_ERROR, payload: error });
+            return error;
+        }
         function onSuccess(data) {
             dispatch({ type: GET_CLOSE_SURFSPOTS, payload: data });
             return data;
@@ -188,6 +193,7 @@ export const getCloseSurfSpots = () => {
         request.then(result => {
             return getLocations(result)
         }).then((locationsAndCoords) => {
+            locationsAndCoords.coords.error != undefined ? onError(locationsAndCoords.coords.error) : null;
             return getCloseSurfSpotsArr(locationsAndCoords)
         }).then((closeSurfSpotsRaw) => {
             return closeSurfSpotArrayFiltering(closeSurfSpotsRaw)

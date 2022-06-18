@@ -194,7 +194,8 @@ line-height: 8vw;
 
 const SectionFourBlurbOne = styled(SectionOneBlurbOne)`
 font-size: 1.5vw;
-line-height: 1.5vw;
+line-height: 2vw;
+letter-spacing: .15vw;
 @media(max-width: 690px){
         font-size: 6vw;
         line-height: 8vw;
@@ -203,7 +204,8 @@ line-height: 1.5vw;
 
 const SectionFiveBlurbOne = styled(SectionOneBlurbOne)`
 font-size: 1.5vw;
-line-height: 1.5vw;
+line-height: 2vw;
+letter-spacing: .15vw;
 padding-right: 2vw;
 margin-top: 5vh;
 @media(max-width: 690px){
