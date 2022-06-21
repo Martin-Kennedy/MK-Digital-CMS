@@ -135,14 +135,12 @@ export const ContactForm = () => {
         e.preventDefault();
 
         sendForm('service_cnqld15', 'template_m08ndgf', 'form', 'UZj0hTmyzrNYDI30y').then((response) => {
-            console.log('SUCCESS!', response.status, response.text);
         }).catch((err) => {
             console.log('FAILED...', err);
         });
     };
 
     const onChange = (value) => {
-        console.log("Captcha value:", value);
     }
 
     const handleChange = (e) => {

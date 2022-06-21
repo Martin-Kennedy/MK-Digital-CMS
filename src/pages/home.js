@@ -323,7 +323,6 @@ class Home extends Component {
                                         <SectionOne>
                                             <Col>
                                             <Line></Line>
-                                            {console.log(pageData)}
                                             <H2>{pageData.sectionOneTitle}</H2>
                                             <SectionOneBlurbOne>{pageData.sectionOneBlurbOne}</SectionOneBlurbOne>
                                             <Line belowText></Line>

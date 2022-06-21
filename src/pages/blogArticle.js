@@ -189,7 +189,6 @@ class BlogPage extends Component {
 
         }
         if (prevProps.blogs.blogItem !== this.props.blogs.blogItem) {
-            console.log(this.props.blogs.blogItem[0].title);
             const result = this
                 .props
                 .blogs

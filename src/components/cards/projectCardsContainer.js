@@ -94,7 +94,6 @@ class ProjectCardContainer extends Component {
     render() {
         return (
             <div>
-                {console.log(this.props.projects.projectData)}
                 {Array.isArray(this.props.projects.projectData)
                     ? buildCardArray(this.props)
                     : null}

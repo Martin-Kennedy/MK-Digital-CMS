@@ -30,7 +30,7 @@ height: calc(33vh - 40px);
 export const TextTranslation = (props) => {
 
     const widthRef = useRef();
-    const [currentWidth, setCurrentWidth] = useState(0);
+    const [currentWidth, setCurrentWidth] = useState(window.innerWidth * .666);
     const [currentHeight, setCurrentHeight] = useState(0);
 
     useEffect(() => {
@@ -38,7 +38,8 @@ export const TextTranslation = (props) => {
         const trueHeight = widthRef.current.clientHeight * .75;
         setCurrentHeight(trueHeight);
     }, []);
-    const widthAmount = currentWidth - 300;
+    const widthAmount = currentWidth > 0 ? currentWidth : window.innerWidth * .666;
+    
     const [x1,
         setX1] = useState(0);
     const [x2,
@@ -87,7 +88,7 @@ export const TextTranslation = (props) => {
                     repeatType: "reverse",
                     duration: props.duration
                         ? props.duration
-                        : 10,
+                        : 6.6,
                     ease: "linear",
                     delay: props.delay
                         ? props.delay

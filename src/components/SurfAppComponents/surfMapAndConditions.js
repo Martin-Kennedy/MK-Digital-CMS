@@ -706,7 +706,6 @@ return(
                 <WaterTempSVGPath />
             </WaterTempIcon>
         </TitleIconRowWeather>
-        {console.log(typeof props.surf.waterTemp)}
         <Row>
             {(typeof props.surf.waterTemp) === 'number' ? 
             <Fragment>

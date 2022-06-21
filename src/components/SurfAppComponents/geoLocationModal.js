@@ -42,14 +42,12 @@ const GeoLocationModal = (props) => {
                 <Button variant="primary" onClick={navigator
                     .geolocation
                     .getCurrentPosition(function (position) {
-                        console.log('this is runnning')
                         let latitude = position.coords.latitude;
                         let longitude = position.coords.longitude;
                         const coords = {
                             latitude: latitude,
                             longitude: longitude
                         }
-                        console.log(coords)
                         dispatch({
                             type: GET_GEO_LOCATION,
                             payload: coords

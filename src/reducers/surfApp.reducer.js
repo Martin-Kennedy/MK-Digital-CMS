@@ -117,7 +117,6 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 waterTemp: waterTempF
             }
         case GET_CURRENT_SWELL:
-            console.log(action.payload)
             const waveHeight = action.payload.waveHeight * 3.28084;
             return {
                 ...state,

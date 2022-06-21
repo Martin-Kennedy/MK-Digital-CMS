@@ -514,7 +514,6 @@ class ProjectPage extends Component {
                 const nextClient = this.props.projects.projectData.filter(project => {
                     return result[0].orderNum + 1 === project.orderNum;
                 });
-                console.log(nextClient);
                 if (this.props.projects.projectData.length  === result[0].orderNum){
                     this.props.dispatch(getNextProjectItem(this.props.projects.projectData[0].client))
                 } else {

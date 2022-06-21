@@ -53,7 +53,6 @@ export const getBlogs = (token) => {
 
 export const getNextBlogItem = (nextClient) => {
     return (dispatch) => {
-        console.log(nextClient)
         dispatch({ type: GET_NEXT_BLOG_ITEM, payload: nextClient })
     }
 };

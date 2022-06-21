@@ -339,7 +339,6 @@ class About extends Component {
             <div>
                 {this.props.about.aboutData.length
                     ? <BaseLayer>
-                            {console.log(this.props)}
                             <HeaderComponent location={this.props.location.pathname}/>
                             <Sticky>
                                 <IntroSection >

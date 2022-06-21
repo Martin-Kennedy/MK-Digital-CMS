@@ -100,7 +100,6 @@ const mapStateToProps = state => {
     render() {
         return (
             <BaseLayer>
-            {console.log(this.props)}
                 <HeaderComponent location={this.props.location.pathname}/>
                 <TopRow>
                     <Col xs={2}></Col>

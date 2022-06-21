@@ -40,7 +40,6 @@ export const getProjects = (token) => {
 
 export const getNextProjectItem = (nextClient) => {
     return (dispatch) => {
-        console.log(nextClient)
         dispatch({ type: GET_NEXT_PROJECT_ITEM, payload: nextClient})
     }
 };

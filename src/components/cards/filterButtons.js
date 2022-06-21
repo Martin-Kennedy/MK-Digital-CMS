@@ -102,7 +102,6 @@ const BlogFilterButtons = (props) => <FilterContainer>
     </BlogFilterBtn>
 {
     buildSubjectArray(props).map((subject, index) => {
-        console.log(subject)
         const FilterButton = <BlogFilterBtn
             className="btn-flip" 
             data-back={subject} 
