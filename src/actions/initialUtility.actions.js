@@ -3,6 +3,7 @@ import axios from 'axios'
 
 const apiUrl = process.env.CMS_BACKEND;
 
+
 export const getToken = () => {
     return (dispatch) => {
         return axios({
