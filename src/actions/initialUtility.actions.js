@@ -1,7 +1,7 @@
 import {GET_TOKEN, ESTABLISH_SESSION} from '../helpers/types'
 import axios from 'axios'
 
-const apiUrl = "https://mk-digital-cms.herokuapp.com/admin/api";
+const apiUrl = process.env.CMS_BACKEND;
 
 export const getToken = () => {
     return (dispatch) => {
@@ -10,7 +10,7 @@ export const getToken = () => {
                 method: 'post',
                 data: {
                     query: `mutation  {
-                authenticate: authenticateUserWithPassword(email: "martin.kennedy.development@gmail.com", password: "Bridget618!") {
+                authenticate: authenticateUserWithPassword(email: "${process.env.EMAIL}", password: "${process.env.BACKENDPW}") {
             token
             }
             } `

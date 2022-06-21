@@ -203,17 +203,15 @@ export const ContactForm = () => {
                     </FormRow>
                     <FormRow>
                         <StyledReCAPTCHA
-                        sitekey="6LcrxNwfAAAAAOIl4NGttRCHXdfP9iJX-26cxrYf"
+                        sitekey={process.env.RECAPTCHA}
                         onSubmit={onSubmit}
                         name="g-recaptcha-response"/>
-                    
                     <ContactFormButton 
                     className="btn-flip"
                     data-back='Submit'
                     data-front='Submit'
                     type='submit' 
                     value='Submit'></ContactFormButton>
-                       
                     </FormRow>
                 </form>
             </Col>
@@ -221,4 +219,4 @@ export const ContactForm = () => {
         </Fragment>
 
     );
-}
+} 

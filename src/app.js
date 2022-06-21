@@ -6,6 +6,9 @@ import ReduxHOC from './router/reduxHOC';
 import 'core-js/actual';
 import "./base.scss";
 
+
+
+
 const jsx = (
     <Provider store={store}>
         <ReduxHOC />

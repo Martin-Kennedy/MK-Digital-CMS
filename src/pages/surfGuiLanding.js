@@ -917,7 +917,7 @@ class SurfGUILanding extends Component {
                                 className={this.props.surf.isSearchOpen
                                 ? 'slideInFromLeftSurfSPA'
                                 : null}>
-                                    {console.log(this.props, this.state)}
+                                    
                                 <CloseButtonContainer onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
                                     <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
                                         <CloseButtonSVGPath/>
@@ -941,8 +941,7 @@ class SurfGUILanding extends Component {
                                         </SpotSearchContainer>
                                     </MenuNavBkg>
                                 </Col>
-                            </MediaQuery>
-                            {!Array.isArray(this.props.surf.geoLcationError) && <ErrorAlertBar className={this.state.geoLocationModalClosed === true ? "closedModal" : null}><span>For full functionality turn on location settings in your browser.</span> <CloseButton onClick={() => { this.setState({geoLocationModalClosed: true})}}>Close</CloseButton></ErrorAlertBar>}
+                            </MediaQuery><ErrorAlertBar className={this.state.geoLocationModalClosed === true || Array.isArray(this.props.surf.geoLocationError) ? "closedModal" : null}><span>For full functionality turn on location settings in your browser.</span> <CloseButton onClick={() => { this.setState({geoLocationModalClosed: true})}}>Close</CloseButton></ErrorAlertBar>
                             <CustomCol md={12} lg={9}>
                                 
                                 <DataDashBoardRow>

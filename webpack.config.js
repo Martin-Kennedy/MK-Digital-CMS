@@ -1,6 +1,7 @@
 const path = require('path');
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 
 module.exports = {
@@ -29,11 +30,14 @@ module.exports = {
   },
   plugins: [
     new NodePolyfillPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new Dotenv({
+      systemvars: true,
+    }),
   ],
   
   resolve: {
-    fallback: { "path": require.resolve("path-browserify") }
+    fallback: { "path": false }
   },
   devtool: 'inline-source-map',
   devServer: {
