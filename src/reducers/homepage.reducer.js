@@ -1,4 +1,4 @@
-import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_ITEMS, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types';
+import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_ITEMS, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, GET_ORDERED_SLIDES, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types';
 
 const INITIAL_STATE = {
     pageData: [],
@@ -40,13 +40,14 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
 
         case CAROUSEL_TEXT:
             switch (true) {
+                
                 case(typeof action.carouselText === 'string'):
                     state
                         .carouselText
                         .push(action.carouselText);
                         return {
                             ...state,
-                            carouselText: state.carouselText
+                            carouselText: action.carouselText
                         }
                 default:
                     return state;
@@ -54,11 +55,9 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
         case CAROUSEL_BKG_COLOR:
             switch (true) {
                 case (typeof action.bkgColor === 'string'):
-                   
-                    state.bkgColor.push(action.bkgColor);
                     return {
                         ...state,
-                        bkgColor: state.bkgColor
+                        bkgColor: action.bkgColor
                     }
                 default:
                     return state;
@@ -68,6 +67,11 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 totalSlides: action.totalSlide
             }
+        case GET_ORDERED_SLIDES: 
+        return {
+            ...state,
+            orderedSlides: action.orderedSlides
+        }
 
         default:
             return state;

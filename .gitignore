@@ -3,3 +3,4 @@ package-lock.json
 .env
 public/bundles.js
 public/bundle.js
+netlify.toml

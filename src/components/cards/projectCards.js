@@ -89,7 +89,7 @@ class FilteredCards extends Component {
 
                         const FittedImage = styled.img`
                                 max-width: calc(100% - 20px);
-                                height: calc(${projectEntry.height}px - 20px);
+                                height: calc(${projectEntry.cardHeight}px - 20px);
                                 object-fit: contain;
                                 transition: 500ms ease-in;
                                 position: relative;
@@ -99,7 +99,7 @@ class FilteredCards extends Component {
 
                         const ContainerDiv = styled.div`
                                 background-color: ${projectEntry.cardColor};
-                                transition: 500ms ease-in;
+                                transition: 150ms ease-in;
                                 margin-top: 20px;
                                 `;
                         const MasonryBlogCard = styled(Card)`
@@ -180,7 +180,7 @@ class UnfilteredCards extends Component {
 
                         const FittedImage = styled.img`
                                 max-width: calc(100% - 20px);
-                                height: calc(${projectEntry.height}px - 20px);
+                                height: calc(${projectEntry.cardHeight}px - 20px);
                                 object-fit: contain;
                                 transition: 500ms ease-in;
                                 position: relative;
@@ -207,7 +207,7 @@ class UnfilteredCards extends Component {
                                 }
                                 &:hover, &:focus {
                                     ${ContainerDiv} {
-                                    filter: brightness(70%);
+                                    filter: blur(2px) brightness(60%);
                                     cursor: pointer;
                                     }
                                     .styledImage {

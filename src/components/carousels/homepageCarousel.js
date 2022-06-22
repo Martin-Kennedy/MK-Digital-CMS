@@ -7,7 +7,8 @@ import {
     getCurrentCarouselAnimatedText,
     getCurrentCarouselBkgColor,
     getImgWidth,
-    getTotalSlides
+    getTotalSlides,
+    getOrderedSlides
 } from '../../actions/homepage.actions';
 import {establishSession, getToken} from '../../actions/initialUtility.actions';
 import {connect} from 'react-redux';
@@ -73,7 +74,8 @@ const mapStateToProps = state => {
         hoverState: state.homepage.hoverState,
         intervalID: state.homepage.intervalID,
         imageElement: React.createRef(),
-        imgWidth: state.homepage.imgWidth
+        imgWidth: state.homepage.imgWidth,
+        orderedSlides: state.homepage.orderedSlides
     }
 }
 
@@ -88,6 +90,7 @@ const mapDispatchToProps = dispatch => ({
     getCurrentCarouselBkgColor: color => dispatch(getCurrentCarouselBkgColor(color)),
     getImgWidth: width => dispatch(getImgWidth(width)),
     getTotalSlides: totalSlides => dispatch(getTotalSlides(totalSlides)),
+    getOrderedSlides: orderedSlides => dispatch(getOrderedSlides(orderedSlides))
 })
 
 class HomepageCarouselComponent extends Component {
@@ -107,6 +110,7 @@ class HomepageCarouselComponent extends Component {
         const { getToken } = this.props;
         const { establishSession } = this.props;
         const { getHomepageCarouselItems } = this.props;
+        
         
         if (this.props.initialUtility.keystoneToken === null) {
             getToken();
@@ -137,7 +141,8 @@ class HomepageCarouselComponent extends Component {
                 const orderedArray = this.props.homepage.homepageCarouselItems.sort((a,b) => {
                     return a.order - b.order;
                 })
-                this.setState({orderedSlides: orderedArray})
+                const { getOrderedSlides } = this.props;
+                getOrderedSlides(orderedArray)
             }
         } else {
             if (this.props.initialUtility.keystoneToken === null) {
@@ -150,6 +155,7 @@ class HomepageCarouselComponent extends Component {
 
     dispatchNextSlide(previousSlide, currentSlide) {
         const { getCurrentSlide } = this.props;
+
         getCurrentSlide({previousSlide: previousSlide, currentSlide: currentSlide});
     }
 
@@ -188,17 +194,11 @@ class HomepageCarouselComponent extends Component {
         return (
 
             <StyledCarouselProvider {...params}>
-                {Array.isArray(this.state.orderedSlides) ? this.state.orderedSlides.map((carousel, index) => {
+                {Array.isArray(this.props.orderedSlides) ? this.props.orderedSlides.map((carousel, index) => {
 
                 return <SwiperSlide
                     key={index}
-                    index={index}
-                    onLoad={() => {
-                        const { getCurrentCarouselAnimatedText } = this.props;
-                        const { getCurrentCarouselBkgColor } = this.props;
-                        getCurrentCarouselAnimatedText(carousel.textTranslation);
-                        getCurrentCarouselBkgColor(carousel.cardColorHexValue);
-                    }}>
+                    index={index}>
                     <StyledLink to={this.getLink(carousel)}>
                     <SlideImage
                         ref={this.props.imageElement}

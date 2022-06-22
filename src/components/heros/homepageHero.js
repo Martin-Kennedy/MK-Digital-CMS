@@ -9,6 +9,7 @@ import SvgBlob from "../designElementComponents/blobSvg";
 import SlideCounterComponent from "../carousels/slideCounter";
 import MediaQuery from 'react-responsive';
 import variables from '../../variables.module.scss';
+import { getCurrentCarouselBkgColor } from '../../actions/homepage.actions';
 
 const StyledHomepageHero = styled(Row)`
     height: 100vh;
@@ -98,19 +99,15 @@ const mapStateToProps = state => {
             carouselText: state.homepage.carouselText,
             currentSlide: state.homepage.currentSlide,
             previousSlide: state.homepage.previousSlide,
+            orderedSlides: state.homepage.orderedSlides,
             bkgColor: state.homepage.bkgColor,
             imgWidth: state.homepage.imgWidth
         }
 }
 
-const getCarouselText = (text, currentSlide) => {
-    const currentText = text[currentSlide];
+const getCarouselText = (orderedSlides, currentSlide) => {
+    const currentText = orderedSlides[currentSlide].textTranslation;
     return currentText;
-}
-
-const getCarouselBkgColor = (bkgColor, currentSlide) => {
-    const currentBkgColor = bkgColor[currentSlide];
-    return currentBkgColor;
 }
 
 const getSlides = (currentSlide, previousSlide) => {
@@ -135,6 +132,10 @@ class HomepageHero extends Component {
     componentDidMount() {
         window.addEventListener('resize', this.updateDimensions);
     }
+
+    componentDidUpdate(prevProps){
+        
+    }
     render() {
         return (
             <StyledHomepageHero>
@@ -146,7 +147,7 @@ class HomepageHero extends Component {
                     <AnimatedTextContainer>
                         <TextTranslation 
                         duration={20} 
-                        text={getCarouselText(this.props.carouselText, this.props.currentSlide)}
+                            text={getCarouselText(this.props.orderedSlides, this.props.currentSlide)}
                         screenWidth={this.state.width}
                         />
                     </AnimatedTextContainer>
@@ -156,7 +157,7 @@ class HomepageHero extends Component {
                     <SvgBlob
                         widthHeight={[this.state.width, this.state.height]}
                         slides={getSlides(this.props.currentSlide, this.props.previousSlide)}
-                        bkgcolor={getCarouselBkgColor(this.props.bkgColor, this.props.currentSlide)}/>
+                        bkgcolor={[this.props.orderedSlides, this.props.currentSlide]}/>
                     <CarouselContainer imgWidth={this.props.imgWidth}>
                     <HomepageCarouselComponent/>
                     </CarouselContainer>

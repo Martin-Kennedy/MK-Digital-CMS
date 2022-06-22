@@ -41,6 +41,9 @@ fill: ${props => props.bkgcolor};
 `
 
 const SvgBlob = ({slides, bkgcolor, widthHeight}) => {
+    const currentSlide = bkgcolor[1];
+    const currentObj = bkgcolor[0];
+    const currentColor = currentObj[currentSlide] ? currentObj[currentSlide].cardColorHexValue : null;
     const ref = useSpringRef();
     const {x} = useSpring({
         config: { duration: 5000 },
@@ -106,7 +109,7 @@ const SvgBlob = ({slides, bkgcolor, widthHeight}) => {
        
         <StyledSVG viewBox="0 0 550 700" x="0px" y="0px" widthHeight={widthHeight} preserveAspectRatio>
         <StyledPath 
-            bkgcolor={bkgcolor}
+                bkgcolor={currentColor}
             d={x.to({
             range: [
                 0, 0.25, 0.5, 0.75, 1

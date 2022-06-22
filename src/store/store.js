@@ -17,7 +17,8 @@ const initalState = {
         intervalID: 0,
         carouselText: [],
         bkgColor: [],
-        imgWidth: 200
+        imgWidth: 200,
+        orderedSlides: [],
     },
     projects: {
         projectData: [],
