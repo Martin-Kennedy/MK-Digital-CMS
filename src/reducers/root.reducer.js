@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import projectsReducer from './projects.reducer';
 import blogsReducer from './blogs.reducer';
-import surfAppReducer from'./surfApp.reducer';
+import surfAppReducer from './surfApp.reducer';
 import homepageReducer from './homepage.reducer';
 import aboutReducer from './about.reducer'
 import contactReducer from './contact.reducer';

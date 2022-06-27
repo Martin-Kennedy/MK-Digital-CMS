@@ -2,7 +2,7 @@ import React, {Fragment, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
 import variables from '../variables.module.scss';
-import { Main } from '../helpers/commonStyledComponents';
+import {Main} from '../helpers/commonStyledComponents';
 import styled from 'styled-components';
 import BlogCardsContainer from '../components/cards/blogCardContainer';
 import HeaderComponent from '../components/navigation/header';
@@ -14,14 +14,15 @@ const TopRow = styled(Row)`
 padding-top: 120px;
 `
 
-const Paragraph = styled.p`
+const Paragraph = styled.div`
 font-size: 2vw;
-line-height: 3vw;
+line-height: 2.5vw;
 margin:0;
 padding: 0;
 word-wrap: none;
  @media(max-width:${variables.medium}){
-        font-size: 5vw;
+        font-size: 8vw;
+        line-height: 10vw;
     }
 `
 
@@ -31,7 +32,7 @@ padding-top: 60px;
 padding-bottom: 60px;
 `
 
-const H1 = styled.h1`
+const H1 = styled.h1 `
     font-size: 5vw;
     font-weight: 500;
     padding-left: 0;
@@ -79,17 +80,16 @@ const BlogLanding = (props) => {
         <TopRow>
             <Col xs={2} sm={1}></Col>
             <Hero xs={8} sm={10}>
-              
-                {props.blogs.blogLandingData.length && <BlogLandingMain>
 
-                        <H1>{props.blogs.blogLandingData[0].h1}</H1>
+                {props.blogs.blogLandingData.length ? <BlogLandingMain>
+
+                    <H1>{props.blogs.blogLandingData[0].h1}</H1>
                     <Paragraph>{props.blogs.blogLandingData[0].paragraph}</Paragraph>
 
-                </BlogLandingMain>}
+                </BlogLandingMain> : null}
             </Hero>
             <Col xs={2} sm={1}></Col>
         </TopRow>
-        {/* Above the Fold Text and CTA */}
         <Row>
             <Col xs={2} sm={1}></Col>
             <Col xs={8} sm={10}>
@@ -102,7 +102,7 @@ const BlogLanding = (props) => {
         <Row>
             <Col xs={2} sm={1}></Col>
             <BlogLandingFooter xs={8} sm={10}>
-                <Footer location={props.location.pathname} />
+                <Footer location={props.location.pathname}/>
             </BlogLandingFooter>
             <Col xs={2} sm={1}></Col>
         </Row>

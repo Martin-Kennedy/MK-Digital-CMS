@@ -4,6 +4,7 @@ import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/l
 import { TextTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
 import { VerySmallText } from '../../helpers/commonStyledComponents';
+import variables from '../../variables.module.scss';
 
 const StyledProjectPageHero = styled(Row)`
     height: 100vh;
@@ -124,7 +125,12 @@ const StaticHeroText = styled.div`
         line-height: 100px;
 `
 const ProjectHeroVerySmallText = styled(VerySmallText)`
-padding-left: 26px;
+padding-left: 1.5vw;
+font-size: 1.25vw;
+opacity: .6;
+@media(max-width: ${variables.medium}){
+font-size: 3vw;
+}
 `
 
 const HeromImageContainer = styled.div`
@@ -168,10 +174,15 @@ const WebsiteLink = styled.a`
         cursor: pointer;
         color: var(--white);
     }
-    @media (max-width: 900px) {
+    @media (max-width: ${variables.medium}) {
     width: 8vh;
     height: 8vh;
-    line-height: 8vh;
+    line-height: 2vh;
+    line-height: 2.25vh;
+    font-size: 3vw;
+    justify-content: center;
+    align-items: center;
+    display: flex;
     margin-top: 85vh;
 }
 `

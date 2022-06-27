@@ -92,15 +92,16 @@ class FilteredCards extends Component {
                     .filteredData
                     .map((blogEntry, index) => {
                         let id = blogEntry.id;
-                        if (this.props.blogs.blogData.length - 1 === index) {
-                            this.state.hideSpinner = true;
-                        } 
+                        
 
                         const FittedImage = styled.img`
                                 max-width: calc(100% - 20px);
-                                height: calc(${blogEntry.height}px - 20px);
+                                height: calc(${blogEntry.cardHeight}px - 20px);
                                 object-fit: contain;
                                 transition: 500ms ease-in;
+                                position: relative;
+                                 top:${blogEntry.cardHeight * (blogEntry.imagePositionTop / 100)}px;
+                                left: calc(${blogEntry.imagePositionLeft}% / 2);
                                 `;
 
                         const ContainerDiv = styled.div`
@@ -172,9 +173,7 @@ class FilteredCards extends Component {
 class UnfilteredCards extends Component {
     constructor(){
         super()
-        this.state = {
-            hideSpinner: false
-        }
+        
     }
     render() {
         return (
@@ -192,15 +191,16 @@ class UnfilteredCards extends Component {
                     .blogData
                     .map((blogEntry, index) => {
                         let id = blogEntry.id;
-                        if(this.props.blogs.blogData.length - 1 === index){
-                            this.state.hideSpinner = true;
-                        } 
+                        
 
                         const FittedImage = styled.img`
                                 max-width: calc(100% - 20px);
-                                height: calc(${blogEntry.height}px - 20px);
+                                height: calc(${blogEntry.cardHeight}px - 20px);
                                 object-fit: contain;
                                 transition: 500ms ease-in;
+                                position: relative;
+                                top:${blogEntry.cardHeight * (blogEntry.imagePositionTop / 100)}px;
+                                left: calc(${blogEntry.imagePositionLeft}% / 2);
                                 `;
 
                         const ContainerDiv = styled.div`

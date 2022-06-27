@@ -1,7 +1,7 @@
-import { GET_CONTACT } from '../helpers/types'
+import {GET_CONTACT} from '../helpers/types'
 
 const INITIAL_STATE = {
-    contactData: [],
+    contactData: []
 }
 
 const aboutReducer = (state = INITIAL_STATE, action) => {

@@ -103,12 +103,11 @@ const ProjectsLanding = (props) => {
             <Row>
                 <Col xs={2} sm={1}></Col>
                 <ProjectLandingFooter xs={8} sm={10}>
-                    <Footer location={props.location.pathname} />
+                    <Footer location={props.location.pathname}/>
                 </ProjectLandingFooter>
                 <Col xs={2} sm={1}></Col>
             </Row>
-           
-            
+
         </div>
 
     )

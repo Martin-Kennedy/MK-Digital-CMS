@@ -23,17 +23,24 @@ import {
     getCurrentSwell,
     searchOpenState,
     closeSpotsOpenState,
-    getActiveLocation,
+    getActiveLocation
 } from '../actions/surfApp.actions';
 import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
 import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
 import {CurrSwellDataComponent} from '../components/SurfAppComponents/currentSwell';
 import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
-import { SurfMapAndConditions, SurfMap, WeatherComponent, WaterTempComponent, SunPositionComponent, UVIndexComponent } from '../components/SurfAppComponents/surfMapAndConditions';
+import {
+    SurfMapAndConditions,
+    SurfMap,
+    WeatherComponent,
+    WaterTempComponent,
+    SunPositionComponent,
+    UVIndexComponent
+} from '../components/SurfAppComponents/surfMapAndConditions';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
 import {SpotSearchSVGPath} from '../components/designElementComponents/spotSearchSVGPath';
-import { CloseSpotsSVGPath } from '../components/designElementComponents/closeSpotsSVGPath';
-import { HomeIconSVGPath } from '../components/designElementComponents/homeIconSVGPath';
+import {CloseSpotsSVGPath} from '../components/designElementComponents/closeSpotsSVGPath';
+import {HomeIconSVGPath} from '../components/designElementComponents/homeIconSVGPath';
 import {CloseButtonSVGPath} from '../components/designElementComponents/closeButtonSVGPath';
 import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
@@ -156,7 +163,7 @@ z-index: 12;
         padding: 2vw;
     }
 `
-const SwellChartContainer = styled.div`
+const SwellChartContainer = styled.div `
 margin-left: 0;
 padding-right: 0;
 padding-left: 0;
@@ -216,7 +223,7 @@ const TideBackDrop100vw = styled(CurrentConditionsBackDropTablet100vw)`
 height: calc(100vw / 5);
 `
 
-const LocationBackDropTablet100vw = styled.div`
+const LocationBackDropTablet100vw = styled.div `
 @media(max-width: ${variables.large}){
     width: calc(100% - 1.5vw);
     height: calc(100vw / 9);
@@ -341,7 +348,7 @@ position: fixed;
   }
 }
 `
-const RightNavMobileContent = styled.div`
+const RightNavMobileContent = styled.div `
 margin-top: 8vh;
 `
 const MenuNavBkg = styled(RightNavBkg)`
@@ -644,7 +651,7 @@ const StyledPath = styled(motion.path)`
     stroke: #fff;
 `
 
-const Location = styled.div`
+const Location = styled.div `
 color: var(--white);
 margin: 10px 0 0 15px;
 font-weight: 500;
@@ -672,7 +679,7 @@ margin-left: 0;
     text-align: center;
 }
 `
-const Distance = styled.div`
+const Distance = styled.div `
 color: var(--white);
 margin: 10px 0 0 15px;
 font-weight: 500;
@@ -700,13 +707,13 @@ opacity: 0.8;
 }
 `
 
-const LocationContainer = styled.div`
+const LocationContainer = styled.div `
 display: block;
 width: fit-content;
 margin: 2vw auto;
 `
 
-const CloseButton = styled.div`
+const CloseButton = styled.div `
 display: flex;
 align-content: center;
 justify-content: center;
@@ -808,15 +815,14 @@ class SurfGUILanding extends Component {
         getCloseSurfSpots();
         const {getLocationsObject} = this.props;
         getLocationsObject();
-        const { searchOpenState } = this.props;
-        const { closeSpotsOpenState } = this.props;
-        const { getActiveLocation } = this.props;
+        const {searchOpenState} = this.props;
+        const {closeSpotsOpenState} = this.props;
+        const {getActiveLocation} = this.props;
         if (window.innerWidth > Number(variables.largeNum)) {
             document.body.style.overflow = "hidden";
 
             document.getElementsByTagName('html')[0].style.overflow = "hidden";
         }
-        
 
         document
             .body
@@ -832,7 +838,9 @@ class SurfGUILanding extends Component {
             const {getWeather} = this.props;
             const {getWeatherForecast} = this.props;
             const {getNdbcStations} = this.props;
-            this.props.getActiveLocation(this.props.surf.closeSurfSpots[0]);
+            this
+                .props
+                .getActiveLocation(this.props.surf.closeSurfSpots[0]);
             this.setState({activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId});
             this.setState({lat: this.props.surf.closeSurfSpots[0].lat});
             this.setState({lng: this.props.surf.closeSurfSpots[0].lng});
@@ -864,12 +872,12 @@ class SurfGUILanding extends Component {
             getCurrentSwell(this.props.surf.ndbcStations[0]);
         }
         if (window.innerWidth < Number(variables.largeNum)) {
-        if (this.props.surf.isSearchOpen || this.props.surf.isCloseSpotsOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "overlay";
+            if (this.props.surf.isSearchOpen || this.props.surf.isCloseSpotsOpen) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "overlay";
+            }
         }
-    }
 
     }
 
@@ -917,8 +925,9 @@ class SurfGUILanding extends Component {
                                 className={this.props.surf.isSearchOpen
                                 ? 'slideInFromLeftSurfSPA'
                                 : null}>
-                                    
-                                <CloseButtonContainer onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
+
+                                <CloseButtonContainer
+                                    onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
                                     <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
                                         <CloseButtonSVGPath/>
                                     </CloseButtonIcon>
@@ -931,19 +940,30 @@ class SurfGUILanding extends Component {
                                     <MenuNavBkg >
                                         <HomeIconContainer to={`/`}>
                                             <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                <HomeIconSVGPath />
+                                                <HomeIconSVGPath/>
                                             </HomeIcon>
                                         </HomeIconContainer>
-                                        <SpotSearchContainer onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
+                                        <SpotSearchContainer
+                                            onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
                                             <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <SpotSearchSVGPath/>
                                             </SpotSearchIcon>
                                         </SpotSearchContainer>
                                     </MenuNavBkg>
                                 </Col>
-                            </MediaQuery><ErrorAlertBar className={this.state.geoLocationModalClosed === true || Array.isArray(this.props.surf.geoLocationError) ? "closedModal" : null}><span>For full functionality turn on location settings in your browser.</span> <CloseButton onClick={() => { this.setState({geoLocationModalClosed: true})}}>Close</CloseButton></ErrorAlertBar>
+                            </MediaQuery>
+                            <ErrorAlertBar
+                                className={this.state.geoLocationModalClosed === true || Array.isArray(this.props.surf.geoLocationError)
+                                ? "closedModal"
+                                : null}>
+                                <span>For full functionality turn on location settings in your browser.</span>
+                                <CloseButton
+                                    onClick={() => {
+                                    this.setState({geoLocationModalClosed: true})
+                                }}>Close</CloseButton>
+                            </ErrorAlertBar>
                             <CustomCol md={12} lg={9}>
-                                
+
                                 <DataDashBoardRow>
                                     <MediaQuery minWidth={variables.large}>
                                         <StyledCol35 >
@@ -951,7 +971,9 @@ class SurfGUILanding extends Component {
                                                 <CurrentConditionBackdrop>
                                                     {!Array.isArray(this.props.surf.currentConditions)
                                                         ? <CurrWaveDataComponent
-                                                            surfSpot={this.props.surf.activeLocation != null ? this.props.surf.activeLocation : this.props.surf.closestSurfSpot}
+                                                                surfSpot={this.props.surf.activeLocation != null
+                                                                ? this.props.surf.activeLocation
+                                                                : this.props.surf.closestSurfSpot}
                                                                 rating={rating}
                                                                 ndbcData={this.props.surf.currentSwell}
                                                                 waveData={this.props.surf.currentConditions.swell}/>
@@ -995,23 +1017,25 @@ class SurfGUILanding extends Component {
                                     </MediaQuery>
                                     <MediaQuery maxWidth={variables.large}>
                                         <DataDashboardRowMenuMobile>
-                                                <MenuNavBkgMobile >
-                                                    <HomeIconContainer to={`/`}>
-                                                        <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                            <HomeIconSVGPath />
+                                            <MenuNavBkgMobile >
+                                                <HomeIconContainer to={`/`}>
+                                                    <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                        <HomeIconSVGPath/>
 
-                                                        </HomeIcon>
-                                                    </HomeIconContainer>
-                                                <CloseSpotIconContainer onClick={() => this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen)}>
+                                                    </HomeIcon>
+                                                </HomeIconContainer>
+                                                <CloseSpotIconContainer
+                                                    onClick={() => this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen)}>
                                                     <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                        <CloseSpotsSVGPath />
+                                                        <CloseSpotsSVGPath/>
                                                     </CloseSpotIcon>
                                                 </CloseSpotIconContainer>
-                                                    <SpotSearchContainer onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
-                                                        <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                            <SpotSearchSVGPath />
-                                                        </SpotSearchIcon>
-                                                    </SpotSearchContainer>
+                                                <SpotSearchContainer
+                                                    onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
+                                                    <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                        <SpotSearchSVGPath/>
+                                                    </SpotSearchIcon>
+                                                </SpotSearchContainer>
 
                                             </MenuNavBkgMobile>
                                         </DataDashboardRowMenuMobile>
@@ -1028,13 +1052,17 @@ class SurfGUILanding extends Component {
                                         </DataDashboardRowMap>
                                         <DataDashBoardRow>
                                             <LocationBackDropTablet100vw>
-                                                {!Array.isArray(this.props.surf.currentConditions) ?
-                                                    <Fragment>
-                                                        <LocationContainer>
-                                                            <Location>{this.props.surf.activeLocation != null ? `${this.props.surf.activeLocation.town}, ${this.props.surf.activeLocation.countryOrState}` : `${this.props.surf.closestSurfSpot.town}, ${this.props.surf.closestSurfSpot.countryOrState}`}</Location>
-                                                        <Distance>{convertMilesToKM(this.props.surf.closestSurfSpot.distanceFromLocation)} miles away</Distance>
-                                                        </LocationContainer>
-                                                    </Fragment> : null}
+                                                {!Array.isArray(this.props.surf.currentConditions)
+                                                    ? <Fragment>
+                                                            <LocationContainer>
+                                                                <Location>{this.props.surf.activeLocation != null
+                                                                        ? `${this.props.surf.activeLocation.town}, ${this.props.surf.activeLocation.countryOrState}`
+                                                                        : `${this.props.surf.closestSurfSpot.town}, ${this.props.surf.closestSurfSpot.countryOrState}`}</Location>
+                                                                <Distance>{convertMilesToKM(this.props.surf.closestSurfSpot.distanceFromLocation)}
+                                                                    miles away</Distance>
+                                                            </LocationContainer>
+                                                        </Fragment>
+                                                    : null}
                                             </LocationBackDropTablet100vw>
                                             <CurrentConditionsBackDropTablet100vw>
                                                 {!Array.isArray(this.props.surf.currentConditions)
@@ -1063,7 +1091,7 @@ class SurfGUILanding extends Component {
                                             <DataDashBoardRow>
                                                 <TideBackDrop100vw>
                                                     {!Array.isArray(this.props.surf.tideForecast)
-                                                        ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} />
+                                                        ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions}/>
                                                         : null}
                                                 </TideBackDrop100vw>
                                             </DataDashBoardRow>
@@ -1073,14 +1101,14 @@ class SurfGUILanding extends Component {
                                                 <WaterTempComponent/>
                                             </DataDashBoardRow>
                                             <DataDashBoardRow>
-                                                <SunPositionComponent coords={{
+                                                <SunPositionComponent
+                                                    coords={{
                                                     lat: this.state.lat,
                                                     lng: this.state.lng
-                                                }} />
-                                                <UVIndexComponent />
+                                                }}/>
+                                                <UVIndexComponent/>
                                             </DataDashBoardRow>
                                         </DataDashBoardRow>
-
 
                                     </MediaQuery>
                                 </DataDashBoardRow>
@@ -1124,7 +1152,9 @@ class SurfGUILanding extends Component {
                                                             : '.3'}
                                                             onClick={() => {
                                                             this.setState({activeSurfSpot: surfSpot.spotId});
-                                                                this.props.getActiveLocation(surfSpot);
+                                                            this
+                                                                .props
+                                                                .getActiveLocation(surfSpot);
                                                             this
                                                                 .props
                                                                 .getSurfForecast(surfSpot.spotId);
@@ -1147,12 +1177,14 @@ class SurfGUILanding extends Component {
                                 </Col>
                             </MediaQuery>
                             <MediaQuery maxWidth={variables.large}>
-                                <RightNavBkgMobile className={this.props.surf.isCloseSpotsOpen
+                                <RightNavBkgMobile
+                                    className={this.props.surf.isCloseSpotsOpen
                                     ? 'slideInFromTopSurfSPACloseSpots'
                                     : null}>
-                                    <CloseButtonContainer onClick={() => this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen)}>
+                                    <CloseButtonContainer
+                                        onClick={() => this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen)}>
                                         <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                            <CloseButtonSVGPath />
+                                            <CloseButtonSVGPath/>
                                         </CloseButtonIcon>
                                         <p>close</p>
                                     </CloseButtonContainer>
@@ -1171,32 +1203,36 @@ class SurfGUILanding extends Component {
                                                         return <SurfSpot
                                                             key={`${index}-mobile`}
                                                             active={() => this.state.activeSurfSpot === surfSpot.spotId
-                                                                ? '.8'
-                                                                : '.3'}
+                                                            ? '.8'
+                                                            : '.3'}
                                                             onClick={() => {
-                                                                this.setState({ activeSurfSpot: surfSpot.spotId });
-                                                                this.props.getActiveLocation(surfSpot);
-                                                                this
-                                                                    .props
-                                                                    .getSurfForecast(surfSpot.spotId);
-                                                                this
-                                                                    .props
-                                                                    .getWeather(surfSpot);
-                                                                this
-                                                                    .props
-                                                                    .getWeatherForecast(surfSpot);
-                                                                this
-                                                                    .props
-                                                                    .getTideStations(surfSpot);
-                                                                this.setState({ lat: surfSpot.lat });
-                                                                this.setState({ lng: surfSpot.lng });
-                                                                this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
-                                                            }}>{surfSpot.town}</SurfSpot>
+                                                            this.setState({activeSurfSpot: surfSpot.spotId});
+                                                            this
+                                                                .props
+                                                                .getActiveLocation(surfSpot);
+                                                            this
+                                                                .props
+                                                                .getSurfForecast(surfSpot.spotId);
+                                                            this
+                                                                .props
+                                                                .getWeather(surfSpot);
+                                                            this
+                                                                .props
+                                                                .getWeatherForecast(surfSpot);
+                                                            this
+                                                                .props
+                                                                .getTideStations(surfSpot);
+                                                            this.setState({lat: surfSpot.lat});
+                                                            this.setState({lng: surfSpot.lng});
+                                                            this
+                                                                .props
+                                                                .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
+                                                        }}>{surfSpot.town}</SurfSpot>
                                                     })}
                                             </ul>
                                         </Row>
                                     </RightNavMobileContent>
-                                    </RightNavBkgMobile>
+                                </RightNavBkgMobile>
                             </MediaQuery>
 
                         </GlassContainerBkg>

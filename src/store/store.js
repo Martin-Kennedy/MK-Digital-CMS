@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
+import {createStore, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers/root.reducer'
 
@@ -18,7 +18,7 @@ const initalState = {
         carouselText: [],
         bkgColor: [],
         imgWidth: 200,
-        orderedSlides: [],
+        orderedSlides: []
     },
     projects: {
         projectData: [],
@@ -68,7 +68,7 @@ const initalState = {
         currentSwell: [],
         isSearchOpen: false,
         isCloseSpotsOpen: false,
-        activeLocation: null,
+        activeLocation: null
     },
 
     pages: {

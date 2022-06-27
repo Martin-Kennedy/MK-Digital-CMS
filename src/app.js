@@ -6,16 +6,13 @@ import ReduxHOC from './router/reduxHOC';
 import 'core-js/actual';
 import "./base.scss";
 
-
-
-
 const jsx = (
     <Provider store={store}>
-        <ReduxHOC />
+        <ReduxHOC/>
     </Provider>
 );
 
-
 ReactDOM.render(jsx, document.getElementById('app'));
-module.hot.accept();
-
+module
+    .hot
+    .accept();

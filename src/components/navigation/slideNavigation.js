@@ -216,7 +216,7 @@ export const NavOffCanvasLeft = (props) => {
                     <Row>
                         <Col xs={1}></Col>
                         <Col>
-                            <Link to='/charge-and-bless'>
+                            <Link to='/swell'>
                                 <SurfAppLink>
                                     A Surf-centric Application Built for Wave-riders.
                                 </SurfAppLink>

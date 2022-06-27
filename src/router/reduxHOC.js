@@ -1,12 +1,22 @@
 import React, {Component} from 'react';
 import WebAppRouter from './webAppRouter';
-import { connect } from 'react-redux';
-import { getToken, establishSession } from '../actions/initialUtility.actions';
-import { getIntersectingState } from '../actions/pages.actions';
+import {connect} from 'react-redux';
+import {getToken, establishSession} from '../actions/initialUtility.actions';
+import {getIntersectingState} from '../actions/pages.actions';
 import {getAbout} from '../actions/about.actions';
-import { getBlogs, getBlogItem, getNextBlogItem, getBlogLanding } from '../actions/blogs.actions';
-import { getProjects, getProjectItem, getNextProjectItem, getProjectLanding } from '../actions/projects.actions';
-import { getHomepage, getHomepageCarousel, getHomepageCarouselArrayProjects, getHomepageCarouselBlogsArrayandCombine, getCurrentCarouselAnimatedText, getCurrentSlide, getCurrentCarouselBkgColor, getImgWidth, getTotalSlides } from '../actions/homepage.actions';
+import {getBlogs, getBlogItem, getNextBlogItem, getBlogLanding} from '../actions/blogs.actions';
+import {getProjects, getProjectItem, getNextProjectItem, getProjectLanding} from '../actions/projects.actions';
+import {
+    getHomepage,
+    getHomepageCarousel,
+    getHomepageCarouselArrayProjects,
+    getHomepageCarouselBlogsArrayandCombine,
+    getCurrentCarouselAnimatedText,
+    getCurrentSlide,
+    getCurrentCarouselBkgColor,
+    getImgWidth,
+    getTotalSlides
+} from '../actions/homepage.actions';
 
 const mapDispatchToProps = dispatch => ({
     getToken: token => dispatch(getToken(token)),
@@ -35,50 +45,47 @@ const mapStateToProps = state => {
         initialUtility: {
             keystoneToken: state.initialUtility.keystoneToken,
             session: state.initialUtility.session
-            
+
         }
-        
+
     }
 };
 
 class ReduxHOC extends Component {
 
     componentDidMount() {
-        const { getToken } = this.props;
-        const { getAbout } = this.props;
-        const { getProjects } = this.props;
-        const { getBlogs } = this.props;
-        const { getHomepage } = this.props;
-        const { getCurrentCarouselAnimatedText } = this.props;
-        const { getCurrentSlide } = this.props;
-        const { getCurrentCarouselBkgColor } = this.props;
-        const { getImgWidth } = this.props;
-        const { getTotalSlides } = this.props;
-        const { getIntersectingState } = this.props;
-        const { getBlogItem } = this.props;
-        const { getNextBlogItem } = this.props;
-        const { getProjectItem } = this.props;
-        const { getHomepageCarouselSlides } = this.props;
-        const { getProjectLanding } = this.props;
-        const { getBlogLanding } = this.props;
+        const {getToken} = this.props;
+        const {getAbout} = this.props;
+        const {getProjects} = this.props;
+        const {getBlogs} = this.props;
+        const {getHomepage} = this.props;
+        const {getCurrentCarouselAnimatedText} = this.props;
+        const {getCurrentSlide} = this.props;
+        const {getCurrentCarouselBkgColor} = this.props;
+        const {getImgWidth} = this.props;
+        const {getTotalSlides} = this.props;
+        const {getIntersectingState} = this.props;
+        const {getBlogItem} = this.props;
+        const {getNextBlogItem} = this.props;
+        const {getProjectItem} = this.props;
+        const {getHomepageCarouselSlides} = this.props;
+        const {getProjectLanding} = this.props;
+        const {getBlogLanding} = this.props;
         getToken();
     }
 
     componentDidUpdate(prevProps) {
-        
-        if (prevProps.initialUtility.keystoneToken !== this.props.initialUtility.keystoneToken){
-            const { establishSession } = this.props;
+
+        if (prevProps.initialUtility.keystoneToken !== this.props.initialUtility.keystoneToken) {
+            const {establishSession} = this.props;
             establishSession(this.props.initialUtility.keystoneToken)
         }
-        if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
-            
-        }
-            
-       
+        if (prevProps.initialUtility.session !== this.props.initialUtility.session) {}
+
     }
 
     render() {
-        return(<WebAppRouter />)
+        return (<WebAppRouter/>)
     }
 }
 

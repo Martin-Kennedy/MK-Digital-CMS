@@ -196,7 +196,7 @@ padding-bottom: 35vh;
 background-color: var(--white);
 `
 
-const ProjectFooter = styled(Row) `
+const ProjectFooter = styled(Row)`
     height: 100px;
     background-color: #1d1e22;
     .row {
@@ -223,8 +223,9 @@ const ResultsSection = styled(Row)`
 const ResultsMetricType = styled(Row)`
     margin-top: 10vh;
     margin-bottom: 2rem;
+    font-size: 2vw;
     p {
-    margin-left: 20px;
+    margin-left: 0px;
    
  }
 
@@ -232,6 +233,7 @@ const ResultsMetricType = styled(Row)`
      margin-left: 5px;
  }
   @media(max-width: ${variables.medium}){
+    font-size: 5vw;
       .col{
           padding: 0;
       }
@@ -261,9 +263,11 @@ margin-bottom: 2rem;
 `
 
 const ResultsBlurb = styled(Row)`
+
  p {
     margin-left: 20px;
  }
+ 
  .col:first-child p {
      margin-left: 5px;
  }
@@ -370,7 +374,7 @@ left: 3%;
 line-height: calc(33vh - 40px);
 `
 
-const VideoContainer = styled.div`
+const VideoContainer = styled.div `
     position: absolute; 
     padding-bottom: 49.25%; 
     height: 0; 
@@ -393,13 +397,13 @@ const VideoContainer = styled.div`
     }
 `
 
-const IMacVideoContainer = styled.div`
+const IMacVideoContainer = styled.div `
 position: relative;
 width: 100%;
 margin-top: 20vh;
 `
 
-const ImgContainer = styled.div`
+const ImgContainer = styled.div `
 margin-top: 10vh;
 width:100%;
 @media (max-width: 980px){
@@ -408,13 +412,15 @@ width:100%;
 }
 `
 
-const ImgFullWidth = styled.div`
+const ImgFullWidth = styled.div `
     width: 66vw;
     height: 100%;
     margin: 50px auto;
     background-position: center;
     background-size: contain;
-    background-image: url('${props => props.background ? props.background : null}');
+    background-image: url('${props => props.background
+    ? props.background
+    : null}');
     background-repeat: no-repeat;
  @media(max-width: ${variables.large}){
     width: 100vw;
@@ -425,16 +431,18 @@ const ImgFullWidth = styled.div`
     transform: translate3d(0px, 0px, 0px);
     background-size: contain;
 }
-
+`
+const ResultsDescription = styled.div `
+margin-left: 1vw;
 `
 
 const mapStateToProps = state => {
     return {
         initialUtility: {
             session: state.initialUtility.session,
-            keystoneToken: state.initialUtility.keystoneToken,
+            keystoneToken: state.initialUtility.keystoneToken
         },
-        
+
         projects: {
             projectData: state.projects.projectData,
             nextProjectItem: state.projects.nextProjectItem,
@@ -452,13 +460,12 @@ class ProjectPage extends Component {
         this.state = {
             titleSlug: null,
             width: 100,
-            height: 100,
+            height: 100
         }
     }
 
-
     updateDimensions = () => {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
+        this.setState({width: window.innerWidth, height: window.innerHeight});
     };
     componentDidMount() {
         window.addEventListener('resize', this.updateDimensions);
@@ -467,62 +474,121 @@ class ProjectPage extends Component {
         this._isMounted = true;
         window.onpopstate = () => {
             if (this._isMounted) {
-                const { hash } = location;
-                if (hash.indexOf('home') > -1 && this.state.value !== 0)
-                    this.setState({ value: 0 })
-                if (hash.indexOf('users') > -1 && this.state.value !== 1)
-                    this.setState({ value: 1 })
-                if (hash.indexOf('data') > -1 && this.state.value !== 2)
-                    this.setState({ value: 2 })
+                const {hash} = location;
+                if (hash.indexOf('home') > -1 && this.state.value !== 0) 
+                    this.setState({value: 0})
+                if (hash.indexOf('users') > -1 && this.state.value !== 1) 
+                    this.setState({value: 1})
+                if (hash.indexOf('data') > -1 && this.state.value !== 2) 
+                    this.setState({value: 2})
             }
         }
         if (this.props.projects.projectItem.length) {
+            const result = this
+                .props
+                .projects
+                .projectData
+                .filter(project => {
+                    return project.client === this.props.projects.projectItem[0].client;
+                });
+            const nextClient = this
+                .props
+                .projects
+                .projectData
+                .filter(project => {
+                    return result[0].orderNum + 1 === project.orderNum;
+                });
 
-            const result = this.props.projects.projectData.filter(project => {
-                return project.client === this.props.projects.projectItem[0].client;
-            });
-            const nextClient = this.props.projects.projectData.filter(project => {
-                return result[0].orderNum + 1 === project.orderNum;
-            });
+            if (this.props.projects.projectData.length !== result[0].orderNum) {
+                this
+                    .props
+                    .dispatch(getNextProjectItem(nextClient[0].client))
+            }
             if (this.props.projects.projectData.length === result[0].orderNum) {
-                this.props.dispatch(getNextProjectItem(this.props.projects.projectData[0].client))
-            } else {
-
-                this.props.dispatch(getNextProjectItem(nextClient[0].client))
+                this
+                    .props
+                    .dispatch(getNextProjectItem(this.props.projects.projectData[0].client))
             }
 
         }
     }
 
     componentDidUpdate(prevProps) {
-        
+
         if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
             let path = this.props.location.pathname;
             let slug = path.substring(path.lastIndexOf('/') + 1)
             const revertedTitle = slug
                 .replace(/-/g, ' ')
                 .replace(/_/g, ' ');
-            this.props.dispatch(getProjects( this.props.initialUtility.keystoneToken));
-            this.props.dispatch(getProjectItem(revertedTitle, this.props.initialUtility.keystoneToken));
+            this
+                .props
+                .dispatch(getProjects(this.props.initialUtility.keystoneToken));
+            this
+                .props
+                .dispatch(getProjectItem(revertedTitle, this.props.initialUtility.keystoneToken));
         }
         if (prevProps.projects.projectData !== this.props.projects.projectData) {
-            if(this.props.projects.projectItem.length){
-                
-                const result = this.props.projects.projectData.filter(project => {
-                    return project.client === this.props.projects.projectItem[0].client;
-                });
-                const nextClient = this.props.projects.projectData.filter(project => {
-                    return result[0].orderNum + 1 === project.orderNum;
-                });
-                if (this.props.projects.projectData.length  === result[0].orderNum){
-                    this.props.dispatch(getNextProjectItem(this.props.projects.projectData[0].client))
-                } else {
-                    
-                    this.props.dispatch(getNextProjectItem(nextClient[0].client))
+            if (this.props.projects.projectItem.length) {
+                const result = this
+                    .props
+                    .projects
+                    .projectData
+                    .filter(project => {
+                        return project.client === this.props.projects.projectItem[0].client;
+                    });
+                const nextClient = this
+                    .props
+                    .projects
+                    .projectData
+                    .filter(project => {
+                        return result[0].orderNum + 1 === project.orderNum;
+                    });
+                if (this.props.projects.projectData.length !== result[0].orderNum) {
+                    this
+                        .props
+                        .dispatch(getNextProjectItem(nextClient[0].client))
                 }
-                
+                if (this.props.projects.projectData.length === result[0].orderNum) {
+                    this
+                        .props
+                        .dispatch(getNextProjectItem(this.props.projects.projectData[0].client))
+                }
             }
-           
+        }
+        if (prevProps.projects.projectItem !== this.props.projects.projectItem) {
+            if (this.props.projects.projectItem.length) {
+                const resolvedResults = () => new Promise((res) => {
+                    const result = this
+                        .props
+                        .projects
+                        .projectData
+                        .filter(project => {
+                            return project.client === this.props.projects.projectItem[0].client;
+                        });
+                    res(result)
+                })
+                resolvedResults().then((result) => {
+                    const nextClient = this
+                        .props
+                        .projects
+                        .projectData
+                        .filter(project => {
+                            return result[0].orderNum + 1 === project.orderNum;
+                        });
+                    if (this.props.projects.projectData.length !== result[0].orderNum) {
+                        this
+                            .props
+                            .dispatch(getNextProjectItem(nextClient[0].client))
+                    }
+                    if (this.props.projects.projectData.length === result[0].orderNum) {
+                        this
+                            .props
+                            .dispatch(getNextProjectItem(this.props.projects.projectData[0].client))
+                    }
+                })
+
+            }
         }
 
     }
@@ -536,8 +602,6 @@ class ProjectPage extends Component {
         const d = new Date(date);
         return `${monthNames[d.getMonth()]} - ${d.getFullYear()}`;
     }
-
-
 
     render() {
         let item = this.props.projects.projectItem[0];
@@ -559,44 +623,45 @@ class ProjectPage extends Component {
                                             <Col sm={12} md={6}>
                                                 <FadeInWhenVisibleScale duration={.5}>
                                                     <IntroBlurb1 >
-                                                    <ProjectH2>About {item.client}</ProjectH2>
-                                                    <ProjectMain>
-                                                        <p>
-                                                            {item.aboutClient}
-                                                        </p>
-                                                    </ProjectMain>
+                                                        <ProjectH2>About {item.client}</ProjectH2>
+                                                        <ProjectMain>
+                                                            <p>
+                                                                {item.aboutClient}
+                                                            </p>
+                                                        </ProjectMain>
                                                     </IntroBlurb1>
                                                 </FadeInWhenVisibleScale>
                                             </Col>
-                                        <Col  sm={12} md={6}>
+                                            <Col sm={12} md={6}>
                                                 <FadeInWhenVisibleScale duration={1}>
                                                     <IntroBlurb2 >
-                                                    <ProjectH2>The Work</ProjectH2>
-                                                    <ProjectMain>
-                                                        <p>{item.whatWeDid} </p>
-                                                    </ProjectMain>
+                                                        <ProjectH2>The Work</ProjectH2>
+                                                        <ProjectMain>
+                                                            <p>{item.whatWeDid}
+                                                            </p>
+                                                        </ProjectMain>
                                                     </IntroBlurb2>
                                                 </FadeInWhenVisibleScale>
                                             </Col>
                                         </Row>
-                                        </Col>
-                                <Col xs={1} sm={2}></Col>
-                                <FadeInWhenVisibleScale duration={1}>
-                                    <Section100VW>
-                                        <Col xs={0} sm={2}></Col>
-                                        <Col xs={12} sm={8}></Col>
-                                                <ImgContainerTop>
+                                    </Col>
+                                    <Col xs={1} sm={2}></Col>
+                                    <FadeInWhenVisibleScale duration={1}>
+                                        <Section100VW>
+                                            <Col xs={0} sm={2}></Col>
+                                            <Col xs={12} sm={8}></Col>
+                                            <ImgContainerTop>
                                                 <ImgFullWidth background={item.image1.publicUrl}></ImgFullWidth>
-                                                </ImgContainerTop>
-                                        <Col xs={0} sm={2}></Col>
-                                    </Section100VW>
-                                </FadeInWhenVisibleScale>
+                                            </ImgContainerTop>
+                                            <Col xs={0} sm={2}></Col>
+                                        </Section100VW>
+                                    </FadeInWhenVisibleScale>
                                 </IntroSection>
                             </Sticky>
                             <Sticky >
-                            <SectionFullWidthImage>
-                                <ImgSection img={item.image2FullWidth.publicUrl}></ImgSection>
-                            </SectionFullWidthImage>
+                                <SectionFullWidthImage>
+                                    <ImgSection img={item.image2FullWidth.publicUrl}></ImgSection>
+                                </SectionFullWidthImage>
                             </Sticky>
                             <Sticky>
                                 <AssetSection1>
@@ -604,15 +669,21 @@ class ProjectPage extends Component {
                                         <Col xs={1} sm={2}>\</Col>
                                         <Col>
                                             <FadeInWhenVisibleScale duration={1}>
-                                            <IMacVideoContainer>
-                                                <Img src={item.videoHolderImage.publicUrl}></Img>
-                                                <VideoContainer>
-                                                    <video height="auto" width="100%" autoPlay={true} loop={true} muted={true} controls={false}>
-                                                        <source src={item.videoEmbedUrl}/>
-                                                        <p className="warning">Your browser does not support HTML5 video.</p>
-                                                    </video>
-                                                </VideoContainer>
-                                            </IMacVideoContainer>
+                                                <IMacVideoContainer>
+                                                    <Img src={item.videoHolderImage.publicUrl}></Img>
+                                                    <VideoContainer>
+                                                        <video
+                                                            height="auto"
+                                                            width="100%"
+                                                            autoPlay={true}
+                                                            loop={true}
+                                                            muted={true}
+                                                            controls={false}>
+                                                            <source src={item.videoEmbedUrl}/>
+                                                            <p className="warning">Your browser does not support HTML5 video.</p>
+                                                        </video>
+                                                    </VideoContainer>
+                                                </IMacVideoContainer>
                                             </FadeInWhenVisibleScale>
                                         </Col>
                                         <Col xs={1} sm={2}></Col>
@@ -622,8 +693,8 @@ class ProjectPage extends Component {
                                         <Col >
                                             <FadeInWhenVisibleScale duration={1}>
                                                 <ImgContainer>
-                                                <Img src={item.image4.publicUrl}></Img>
-                                            </ImgContainer>
+                                                    <Img src={item.image4.publicUrl}></Img>
+                                                </ImgContainer>
                                             </FadeInWhenVisibleScale>
                                         </Col>
                                         <Col xs={1} sm={2}></Col>
@@ -639,10 +710,10 @@ class ProjectPage extends Component {
                                             </FadeInWhenVisibleScale>
                                         </FiftyVWImg>
                                     </FiftyVW>
-                                <FiftyVW color={item.fiftyVwBkgColor}>
+                                    <FiftyVW color={item.fiftyVwBkgColor}>
                                         <FiftyVWImg >
                                             <FadeInWhenVisibleScale duration={1}>
-                                            <Img src={item.iphoneImageColorBackground.publicUrl}></Img>
+                                                <Img src={item.iphoneImageColorBackground.publicUrl}></Img>
                                             </FadeInWhenVisibleScale>
                                         </FiftyVWImg>
                                     </FiftyVW>
@@ -653,60 +724,21 @@ class ProjectPage extends Component {
                                 <Col sm={8}>
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricType>
-                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                            <MediaQuery maxWidth={smallNum}>
+                                                <Col xs={1}></Col>
+                                            </MediaQuery>
                                             <Col xs={10} sm={6}>
-                                            <p>{item.resultMetric1Description}</p>
+                                                <p>{item.resultMetric1Description}</p>
                                             </Col>
-                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                        <MediaQuery minWidth={mediumNum}>
-                                            <Col sm={6}>
-                                            <p>{item.resultMetric2Description}</p>
-                                            </Col>
-                                        </MediaQuery>
+                                            <MediaQuery maxWidth={smallNum}>
+                                                <Col xs={1}></Col>
+                                            </MediaQuery>
+                                            <MediaQuery minWidth={mediumNum}>
+                                                <Col sm={6}>
+                                                    <p>{item.resultMetric2Description}</p>
+                                                </Col>
+                                            </MediaQuery>
                                         </ResultsMetricType>
-                                    </FadeInWhenVisibleScale>
-                                    <Row>
-                                    <MediaQuery minWidth={mediumNum}>
-                                        <Col sm={5}>
-                                            <Line></Line>
-                                        </Col>
-                                        <Col></Col>
-                                        <Col sm={6}>
-                                            <Line></Line>
-                                        </Col>
-                                        </MediaQuery>
-                                    <MediaQuery maxWidth={mediumNum}>
-                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                        <Col xs={10} >
-                                            <Line></Line>
-                                        </Col>
-                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                    </MediaQuery>
-                                    </Row>
-                                    <FadeInWhenVisibleScale>
-                                        <ResultsMetricData>
-                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                        <Col xs={10} sm={6}>
-                                            <p>{item.resultMetric1Value}</p>
-                                        </Col>
-                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                        <MediaQuery minWidth={mediumNum}>
-                                            <Col sm={6}>
-                                                <p>{item.resultMetric2Value}</p>
-                                            </Col>
-                                        </MediaQuery>
-                                        </ResultsMetricData>
-                                    </FadeInWhenVisibleScale>
-                                    <FadeInWhenVisibleScale>
-                                    <ResultsMetricType>
-                                        <MediaQuery maxWidth={mediumNum}>
-                                            <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                            <Col xs={10} sm={6}>
-                                                <p>{item.resultMetric2Description}</p>
-                                            </Col>
-                                            <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                        </MediaQuery>
-                                    </ResultsMetricType>
                                     </FadeInWhenVisibleScale>
                                     <Row>
                                         <MediaQuery minWidth={mediumNum}>
@@ -719,62 +751,137 @@ class ProjectPage extends Component {
                                             </Col>
                                         </MediaQuery>
                                         <MediaQuery maxWidth={mediumNum}>
-                                            <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                            <Col xs={10} >
+                                            <MediaQuery maxWidth={smallNum}>
+                                                <Col xs={1}></Col>
+                                            </MediaQuery>
+                                            <Col xs={10}>
                                                 <Line></Line>
                                             </Col>
-                                            <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                            <MediaQuery maxWidth={smallNum}>
+                                                <Col xs={1}></Col>
+                                            </MediaQuery>
                                         </MediaQuery>
                                     </Row>
-                                <MediaQuery maxWidth={mediumNum}>
-                                <FadeInWhenVisibleScale>
-                                    <ResultsMetricData>
-                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                        <Col xs={10} sm={6}>
-                                            <p>{item.resultMetric2Value}</p>
-                                        </Col>
-                                        <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                    </ResultsMetricData>
-                                </FadeInWhenVisibleScale>
-                                </MediaQuery>
+                                    <FadeInWhenVisibleScale>
+                                        <ResultsMetricData>
+                                            <MediaQuery maxWidth={smallNum}>
+                                                <Col xs={1}></Col>
+                                            </MediaQuery>
+                                            <Col xs={10} sm={6}>
+                                                <p>{item.resultMetric1Value}</p>
+                                            </Col>
+                                            <MediaQuery maxWidth={smallNum}>
+                                                <Col xs={1}></Col>
+                                            </MediaQuery>
+                                            <MediaQuery minWidth={mediumNum}>
+                                                <Col sm={6}>
+                                                    <p>{item.resultMetric2Value}</p>
+                                                </Col>
+                                            </MediaQuery>
+                                        </ResultsMetricData>
+                                    </FadeInWhenVisibleScale>
+                                    <FadeInWhenVisibleScale>
+                                        <ResultsMetricType>
+                                            <MediaQuery maxWidth={mediumNum}>
+                                                <MediaQuery maxWidth={smallNum}>
+                                                    <Col xs={1}></Col>
+                                                </MediaQuery>
+                                                <Col xs={10} sm={6}>
+                                                    <p>{item.resultMetric2Description}</p>
+                                                </Col>
+                                                <MediaQuery maxWidth={smallNum}>
+                                                    <Col xs={1}></Col>
+                                                </MediaQuery>
+                                            </MediaQuery>
+                                        </ResultsMetricType>
+                                    </FadeInWhenVisibleScale>
+                                    <Row>
+                                        <MediaQuery minWidth={mediumNum}>
+                                            <Col sm={5}>
+                                                <Line></Line>
+                                            </Col>
+                                            <Col></Col>
+                                            <Col sm={6}>
+                                                <Line></Line>
+                                            </Col>
+                                        </MediaQuery>
+                                        <MediaQuery maxWidth={mediumNum}>
+                                            <MediaQuery maxWidth={smallNum}>
+                                                <Col xs={1}></Col>
+                                            </MediaQuery>
+                                            <Col xs={10}>
+                                                <Line></Line>
+                                            </Col>
+                                            <MediaQuery maxWidth={smallNum}>
+                                                <Col xs={1}></Col>
+                                            </MediaQuery>
+                                        </MediaQuery>
+                                    </Row>
+                                    <MediaQuery maxWidth={mediumNum}>
+                                        <FadeInWhenVisibleScale>
+                                            <ResultsMetricData>
+                                                <MediaQuery maxWidth={smallNum}>
+                                                    <Col xs={1}></Col>
+                                                </MediaQuery>
+                                                <Col xs={10} sm={6}>
+                                                    <p>{item.resultMetric2Value}</p>
+                                                </Col>
+                                                <MediaQuery maxWidth={smallNum}>
+                                                    <Col xs={1}></Col>
+                                                </MediaQuery>
+                                            </ResultsMetricData>
+                                        </FadeInWhenVisibleScale>
+                                    </MediaQuery>
                                     <FadeInWhenVisibleScale>
                                         <ResultsBlurb>
-                                            
+
                                             <MediaQuery minWidth={mediumNum}>
-                                            <Row>
-                                                <Col sm={5}>
-                                                    <ProjectH2>The Results</ProjectH2>
-                                                </Col>
-                                                <Col></Col>
-                                                <Col sm={6}>
-                                                    <ProjectMain>{item.resultFullText}</ProjectMain>
-                                                </Col>
-                                                 </Row>
-                                                </MediaQuery>
-                                            <MediaQuery maxWidth={mediumNum}>
                                                 <Row>
-                                                    <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                                    <Col xs={10} >
-                                                        <Line></Line>
+                                                    <Col sm={5}>
+                                                        <ProjectH2>The Results</ProjectH2>
                                                     </Col>
-                                                    <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                                </Row>
-                                                <Row>
-                                                <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                                <Col xs={10} >
-                                                    <ProjectH2>The Results</ProjectH2>
-                                                </Col>
-                                                <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                                    <Col></Col>
+                                                    <Col sm={6}>
+                                                        <ResultsDescription>{item.resultFullText}</ResultsDescription>
+                                                    </Col>
                                                 </Row>
                                             </MediaQuery>
-                                           
                                             <MediaQuery maxWidth={mediumNum}>
                                                 <Row>
-                                                <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
-                                                <Col xs={10} >
-                                                    <ProjectMain><p>{item.resultFullText}</p></ProjectMain>
-                                                </Col>
-                                                <MediaQuery maxWidth={smallNum}> <Col xs={1} ></Col></MediaQuery>
+                                                    <MediaQuery maxWidth={smallNum}>
+                                                        <Col xs={1}></Col>
+                                                    </MediaQuery>
+                                                    <Col xs={10}>
+                                                        <Line></Line>
+                                                    </Col>
+                                                    <MediaQuery maxWidth={smallNum}>
+                                                        <Col xs={1}></Col>
+                                                    </MediaQuery>
+                                                </Row>
+                                                <Row>
+                                                    <MediaQuery maxWidth={smallNum}>
+                                                        <Col xs={1}></Col>
+                                                    </MediaQuery>
+                                                    <Col xs={10}>
+                                                        <ProjectH2>The Results</ProjectH2>
+                                                    </Col>
+                                                    <MediaQuery maxWidth={smallNum}>
+                                                        <Col xs={1}></Col>
+                                                    </MediaQuery>
+                                                </Row>
+                                            </MediaQuery>
+
+                                            <MediaQuery maxWidth={mediumNum}>
+                                                <Row>
+                                                    <MediaQuery maxWidth={smallNum}>
+                                                        <Col xs={1}></Col>
+                                                    </MediaQuery>
+                                                    <Col xs={10}>
+                                                        <ResultsDescription>{item.resultFullText}</ResultsDescription>
+                                                    </Col>
+                                                    <MediaQuery maxWidth={smallNum}>
+                                                        <Col xs={1}></Col>
+                                                    </MediaQuery>
                                                 </Row>
                                             </MediaQuery>
                                         </ResultsBlurb>
@@ -784,17 +891,19 @@ class ProjectPage extends Component {
                             </ResultsSection>
                             <Waypoint
                                 onEnter={() => {
-                                this.props.dispatch(getIntersectingState(true))
-                                 }}
+                                this
+                                    .props
+                                    .dispatch(getIntersectingState(true))
+                            }}
                                 bottomOffset={'100%'}
                                 topOffset={100}
                                 onLeave={() => {
                                 this
                                     .props
                                     .dispatch(getIntersectingState(false))
-                                }}>
+                            }}>
                                 <NextProject>
-                                <Link to={this.props.projects.nextProjectItemPathname}>
+                                    <Link to={this.props.projects.nextProjectItemPathname}>
                                         <Wrapper >
                                             <Col xs={1} sm={2}>\</Col>
                                             <Col xs={10} sm={8}>
@@ -812,8 +921,7 @@ class ProjectPage extends Component {
                                                         reverse
                                                         ratio3rd
                                                         screenWidth={this.state.width}
-                                                        text={this.props.projects.nextProjectItem}
-                                                        />
+                                                        text={this.props.projects.nextProjectItem}/>
                                                 </SecondLine>
                                                 <ThirdLine>
                                                     <LineAnimationL2R/>
@@ -823,13 +931,13 @@ class ProjectPage extends Component {
                                         </Wrapper>
                                     </Link>
                                     <ProjectFooter>
-                                    <Col xs={1} sm={2}></Col>
-                                    <Col xs={10} sm={8}>
-                                    <Footer location={this.props.location.pathname} />
-                                    </Col>
-                                    <Col xs={1} sm={2}></Col>
+                                        <Col xs={1} sm={2}></Col>
+                                        <Col xs={10} sm={8}>
+                                            <Footer location={this.props.location.pathname}/>
+                                        </Col>
+                                        <Col xs={1} sm={2}></Col>
                                     </ProjectFooter>
-                                    
+
                                 </NextProject>
                             </Waypoint>
                         </BaseLayer>

@@ -1,4 +1,13 @@
-import { GET_HOMEPAGE, GET_HOMEPAGE_CAROUSEL_ITEMS, CAROUSEL_IMG_WIDTH, CAROUSEL_TEXT, CAROUSEL_CURRENT_SLIDE, GET_ORDERED_SLIDES, CAROUSEL_BKG_COLOR, CAROUSEL_TOTAL_SLIDES} from '../helpers/types';
+import {
+    GET_HOMEPAGE,
+    GET_HOMEPAGE_CAROUSEL_ITEMS,
+    CAROUSEL_IMG_WIDTH,
+    CAROUSEL_TEXT,
+    CAROUSEL_CURRENT_SLIDE,
+    GET_ORDERED_SLIDES,
+    CAROUSEL_BKG_COLOR,
+    CAROUSEL_TOTAL_SLIDES
+} from '../helpers/types';
 
 const INITIAL_STATE = {
     pageData: [],
@@ -27,12 +36,17 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 previousSlide: action.previousSlide,
-                currentSlide: action.currentSlide,
-                }
-            
+                currentSlide: action.currentSlide
+            }
+
         case CAROUSEL_IMG_WIDTH:
-            
-            const imgWidth = action.imgWidth != undefined ? action.imgWidth.getBoundingClientRect().width : 200;
+
+            const imgWidth = action.imgWidth != undefined
+                ? action
+                    .imgWidth
+                    .getBoundingClientRect()
+                    .width
+                : 200;
             return {
                 ...state,
                 imgWidth: imgWidth
@@ -40,21 +54,21 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
 
         case CAROUSEL_TEXT:
             switch (true) {
-                
+
                 case(typeof action.carouselText === 'string'):
                     state
                         .carouselText
                         .push(action.carouselText);
-                        return {
-                            ...state,
-                            carouselText: action.carouselText
-                        }
+                    return {
+                        ...state,
+                        carouselText: action.carouselText
+                    }
                 default:
                     return state;
             }
         case CAROUSEL_BKG_COLOR:
             switch (true) {
-                case (typeof action.bkgColor === 'string'):
+                case(typeof action.bkgColor === 'string'):
                     return {
                         ...state,
                         bkgColor: action.bkgColor
@@ -62,16 +76,16 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
                 default:
                     return state;
             }
-            case CAROUSEL_TOTAL_SLIDES:
-            return {  
+        case CAROUSEL_TOTAL_SLIDES:
+            return {
                 ...state,
                 totalSlides: action.totalSlide
             }
-        case GET_ORDERED_SLIDES: 
-        return {
-            ...state,
-            orderedSlides: action.orderedSlides
-        }
+        case GET_ORDERED_SLIDES:
+            return {
+                ...state,
+                orderedSlides: action.orderedSlides
+            }
 
         default:
             return state;

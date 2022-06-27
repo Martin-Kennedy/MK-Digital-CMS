@@ -126,10 +126,8 @@ class HomepageCarouselComponent extends Component {
     }
 
     componentDidUpdate(prevProps) {
-       
         
-        
-        if (this.props.initialUtility.session === true) {
+        if (prevProps.initialUtility.session !== this.props.initialUtility.session || this.props.initialUtility.session === true) {
             if (!this.props.homepage.pageData) {
                 getHomepage(this.props.initialUtility.keystoneToken);
             }
@@ -155,7 +153,6 @@ class HomepageCarouselComponent extends Component {
 
     dispatchNextSlide(previousSlide, currentSlide) {
         const { getCurrentSlide } = this.props;
-
         getCurrentSlide({previousSlide: previousSlide, currentSlide: currentSlide});
     }
 

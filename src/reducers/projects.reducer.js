@@ -1,4 +1,4 @@
-import { GET_PROJECTS, SORT_BY_PROJECT_EXPERTISE, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM, GET_PROJECT_LANDING } from '../helpers/types'
+import {GET_PROJECTS, SORT_BY_PROJECT_EXPERTISE, GET_PROJECT_ITEM, GET_NEXT_PROJECT_ITEM, GET_PROJECT_LANDING} from '../helpers/types'
 
 const INITIAL_STATE = {
     projectData: [],
@@ -11,13 +11,17 @@ const INITIAL_STATE = {
 const projectsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_PROJECTS:
-            action.payload.data.allProjects.map((project, index) => {
-                project.orderNum = index + 1;
-            })
-            return {
-                ...state,
-                projectData: action.payload.data.allProjects
-            }
+            action
+                .payload
+                .data
+                .allProjects
+                .map((project, index) => {
+                    project.orderNum = index + 1;
+                });
+                return {
+                    ...state,
+                    projectData: action.payload.data.allProjects
+                }
 
         case GET_PROJECT_ITEM:
             return {
@@ -37,7 +41,11 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
 
         case SORT_BY_PROJECT_EXPERTISE:
             let value = action.expertise;
-            let filteredValues = value === 'all' ? state.projectData : state.projectData.filter(card => card.expertise === value);
+            let filteredValues = value === 'all'
+                ? state.projectData
+                : state
+                    .projectData
+                    .filter(card => card.expertise === value);
             return {
                 ...state,
                 sortBy: action.expertise,

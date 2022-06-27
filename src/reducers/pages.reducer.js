@@ -1,4 +1,4 @@
-import { IS_INTERSECTING } from '../helpers/types';
+import {IS_INTERSECTING} from '../helpers/types';
 
 const INITIAL_STATE = {
     isIntersecting: null

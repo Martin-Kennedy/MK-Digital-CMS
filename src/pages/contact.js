@@ -5,9 +5,9 @@ import HeaderComponent from '../components/navigation/header';
 import {ContactForm} from '../components/forms/contactForm';
 import styled from 'styled-components';
 import Footer from '../components/footer';
-import { H1, H2, Line } from '../helpers/commonStyledComponents';
-import { getContact } from '../actions/contact.actions';
-import { establishSession, getToken } from '../actions/initialUtility.actions';
+import {H1, H2, Line} from '../helpers/commonStyledComponents';
+import {getContact} from '../actions/contact.actions';
+import {establishSession, getToken} from '../actions/initialUtility.actions';
 
 const BaseLayer = styled.div `
     background-color: var(--white);
@@ -52,7 +52,7 @@ const mapStateToProps = state => {
     return {
         initialUtility: {
             session: state.initialUtility.session,
-            keystoneToken: state.initialUtility.keystoneToken,
+            keystoneToken: state.initialUtility.keystoneToken
         },
 
         contact: {
@@ -61,41 +61,47 @@ const mapStateToProps = state => {
     }
 };
 
- class ContactPage extends Component {
+class ContactPage extends Component {
     constructor() {
         super();
         this.state = {}
     }
-     componentDidMount() {
-         this._isMounted = true;
-         window.onpopstate = () => {
-             if (this._isMounted) {
-                 const { hash } = location;
-                 if (hash.indexOf('home') > -1 && this.state.value !== 0)
-                     this.setState({ value: 0 })
-                 if (hash.indexOf('users') > -1 && this.state.value !== 1)
-                     this.setState({ value: 1 })
-                 if (hash.indexOf('data') > -1 && this.state.value !== 2)
-                     this.setState({ value: 2 })
-             }
-         }
-     }
+    componentDidMount() {
+        this._isMounted = true;
+        window.onpopstate = () => {
+            if (this._isMounted) {
+                const {hash} = location;
+                if (hash.indexOf('home') > -1 && this.state.value !== 0) 
+                    this.setState({value: 0})
+                if (hash.indexOf('users') > -1 && this.state.value !== 1) 
+                    this.setState({value: 1})
+                if (hash.indexOf('data') > -1 && this.state.value !== 2) 
+                    this.setState({value: 2})
+            }
+        }
+    }
 
-     componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps) {
 
-         if (this.props.initialUtility.session === true) {
-             if (!this.props.contact.contactData.length) {
-                 this.props.dispatch(getContact(this.props.initialUtility.keystoneToken))
-             }
-         } else {
-             if (this.props.initialUtility.keystoneToken === null) {
-                 this.props.dispatch(getToken())
-             } else {
-                 this.props.dispatch(establishSession(this.props.initialUtility.keystoneToken))
-             }
-         }
+        if (this.props.initialUtility.session === true) {
+            if (!this.props.contact.contactData.length) {
+                this
+                    .props
+                    .dispatch(getContact(this.props.initialUtility.keystoneToken))
+            }
+        } else {
+            if (this.props.initialUtility.keystoneToken === null) {
+                this
+                    .props
+                    .dispatch(getToken())
+            } else {
+                this
+                    .props
+                    .dispatch(establishSession(this.props.initialUtility.keystoneToken))
+            }
+        }
 
-     }
+    }
 
     render() {
         return (
@@ -103,18 +109,18 @@ const mapStateToProps = state => {
                 <HeaderComponent location={this.props.location.pathname}/>
                 <TopRow>
                     <Col xs={2}></Col>
-                    
-                    {this.props.contact.contactData.length ? 
-                    <TopCol>
-                            <ContactH1>
-                    {this.props.contact.contactData[0].h1}
-                            </ContactH1>
-                            <ContactH2>
-                    {this.props.contact.contactData[0].h2}
-                            </ContactH2>
-                            <ContactLine></ContactLine>
-                    </TopCol>
-                    : null }
+
+                    {this.props.contact.contactData.length
+                        ? <TopCol>
+                                <ContactH1>
+                                    {this.props.contact.contactData[0].h1}
+                                </ContactH1>
+                                <ContactH2>
+                                    {this.props.contact.contactData[0].h2}
+                                </ContactH2>
+                                <ContactLine></ContactLine>
+                            </TopCol>
+                        : null}
                     <Col xs={2}></Col>
                 </TopRow>
                 <Row>
@@ -129,12 +135,11 @@ const mapStateToProps = state => {
                 <Row>
                     <Col xs={2}></Col>
                     <ContactFooter xs={8}>
-                        <Footer location={this.props.location.pathname}  />
+                        <Footer location={this.props.location.pathname}/>
                     </ContactFooter>
                     <Col xs={2}></Col>
                 </Row>
-                
-                
+
             </BaseLayer>
 
         )

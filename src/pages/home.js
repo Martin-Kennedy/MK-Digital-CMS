@@ -272,8 +272,6 @@ class Home extends Component {
 
     }
 
-   
-
     componentDidUpdate(prevProps) {
 
         if (this.props.initialUtility.session === true) {
@@ -322,35 +320,34 @@ class Home extends Component {
                                     <Col xs={10} sm={7}>
                                         <SectionOne>
                                             <Col>
-                                            <Line></Line>
-                                            <H2>{pageData.sectionOneTitle}</H2>
-                                            <SectionOneBlurbOne>{pageData.sectionOneBlurbOne}</SectionOneBlurbOne>
-                                            <Line belowText></Line>
-                                            <SectionLink
-                                                to={pageData.sectionOneLink}
-                                                replace
-                                                color={pageData.sectionOneLinkColor}
-                                                className={this.state.mouseLeft === true
+                                                <Line></Line>
+                                                <H2>{pageData.sectionOneTitle}</H2>
+                                                <SectionOneBlurbOne>{pageData.sectionOneBlurbOne}</SectionOneBlurbOne>
+                                                <Line belowText></Line>
+                                                <SectionLink
+                                                    to={pageData.sectionOneLink}
+                                                    replace
+                                                    color={pageData.sectionOneLinkColor}
+                                                    className={this.state.mouseLeft === true
                                                     ? 'projectSiteLinkHoverOut'
                                                     : this.state.mouseLeft === false
                                                         ? 'projectSiteLinkHoverIn'
                                                         : null}
-                                                onMouseEnter={() => this.setState({ mouseLeft: false })}
-                                                onMouseLeave={() => this.setState({ mouseLeft: true })}>{pageData.sectionOneLinkLabel}</SectionLink>
+                                                    onMouseEnter={() => this.setState({mouseLeft: false})}
+                                                    onMouseLeave={() => this.setState({mouseLeft: true})}>{pageData.sectionOneLinkLabel}</SectionLink>
                                             </Col>
-                                            
 
                                         </SectionOne>
                                         <SectionTwo>
                                             <Col>
-                                            <H3>{pageData.sectionTwoTitle}</H3>
-                                            <Col xs={12}>
-                                                <SectionTwoBlurbOne>{pageData.sectionTwoBlurbOne}</SectionTwoBlurbOne>
-                                            </Col>
-                                            <Col xs={12}>
-                                                <SectionTwoBlurbTwo>{pageData.sectionTwoBlurbTwo}</SectionTwoBlurbTwo>
-                                            </Col>
-                                            <Line belowText></Line>
+                                                <H3>{pageData.sectionTwoTitle}</H3>
+                                                <Col xs={12}>
+                                                    <SectionTwoBlurbOne>{pageData.sectionTwoBlurbOne}</SectionTwoBlurbOne>
+                                                </Col>
+                                                <Col xs={12}>
+                                                    <SectionTwoBlurbTwo>{pageData.sectionTwoBlurbTwo}</SectionTwoBlurbTwo>
+                                                </Col>
+                                                <Line belowText></Line>
                                             </Col>
                                         </SectionTwo>
                                     </Col>
@@ -453,7 +450,7 @@ class Home extends Component {
 
                                     <Col xs={1} sm={3}></Col>
                                     <Col xs={10} sm={7}>
-                                    <Footer location={this.props.location.pathname} />
+                                        <Footer location={this.props.location.pathname}/>
                                     </Col>
                                     <Col xs={1} sm={2}></Col>
                                 </HomeFooterRow>

@@ -15,8 +15,7 @@ import {connect} from 'react-redux';
 import {getAbout} from '../actions/about.actions';
 import {getToken, establishSession} from '../actions/initialUtility.actions';
 import DOMPurify from 'dompurify';
-import MediaQuery  from 'react-responsive';
-
+import MediaQuery from 'react-responsive';
 
 const BaseLayer = styled.div `
     background-color: #1d1e22;
@@ -346,10 +345,12 @@ class About extends Component {
                                         <AboutPageHero/>
                                     </FadeInWhenVisibleOpacity>
                                     <Col xs={1} sm={2}></Col>
-                                    <Col  xs={10} sm={8}>
+                                    <Col xs={10} sm={8}>
 
                                         <Row>
-                                        <MediaQuery minWidth={575}> <Col sm={6}></Col></MediaQuery>
+                                            <MediaQuery minWidth={575}>
+                                                <Col sm={6}></Col>
+                                            </MediaQuery>
                                             <Col xs={12} sm={6}>
 
                                                 <FadeInWhenVisibleScale>
@@ -378,25 +379,25 @@ class About extends Component {
 
                                 </IntroSection>
                             </Sticky>
-                        <MediaQuery minWidth={960}>
-                            <Sticky >
-                                <ImgSection >
-                                    <VideoContainer>
-                                        <div></div>
-                                        <video
-                                            height="auto"
-                                            width="100%"
-                                            autoPlay={true}
-                                            loop={true}
-                                            muted={true}
-                                            controls={false}>
-                                            <source src={item.parallaxVideoEmbed}/>
-                                            <p className="warning">Your browser does not support HTML5 video.</p>
-                                        </video>
-                                    </VideoContainer>
-                                </ImgSection>
-                            </Sticky>
-                        </MediaQuery>
+                            <MediaQuery minWidth={960}>
+                                <Sticky >
+                                    <ImgSection >
+                                        <VideoContainer>
+                                            <div></div>
+                                            <video
+                                                height="auto"
+                                                width="100%"
+                                                autoPlay={true}
+                                                loop={true}
+                                                muted={true}
+                                                controls={false}>
+                                                <source src={item.parallaxVideoEmbed}/>
+                                                <p className="warning">Your browser does not support HTML5 video.</p>
+                                            </video>
+                                        </VideoContainer>
+                                    </ImgSection>
+                                </Sticky>
+                            </MediaQuery>
                             <Waypoint
                                 onEnter={() => {
                                 this
@@ -446,9 +447,9 @@ class About extends Component {
                                                     </Col>
                                                 </Section>
                                                 <ScrollComponentContainer>
-                                                    <XaxisScrollComponent text={item.dragComponentText} />
-                                                </ScrollComponentContainer> 
-                                                
+                                                    <XaxisScrollComponent text={item.dragComponentText}/>
+                                                </ScrollComponentContainer>
+
                                             </AboutMain>
                                         </FadeInWhenVisibleScale>
                                     </Col>
@@ -473,20 +474,20 @@ class About extends Component {
                                                         <span>{item.serviceOneName}</span>
                                                         <Line white></Line>
                                                     </Col>
-                                                <MediaQuery minWidth={575}>
-                                                    <Col  sm={1}></Col>
-                                                    <Col>
-                                                        <span>{item.serviceOneValue}</span>
-                                                        <Line white></Line>
-                                                    </Col>
+                                                    <MediaQuery minWidth={575}>
+                                                        <Col sm={1}></Col>
+                                                        <Col>
+                                                            <span>{item.serviceOneValue}</span>
+                                                            <Line white></Line>
+                                                        </Col>
                                                     </MediaQuery>
                                                 </ServicesMain>
                                                 <ServicesMain>
-                                                <MediaQuery minWidth={960}>
-                                                    <Col></Col>
-                                                    <Col sm={1}></Col>
-                                                </MediaQuery>
-                                                    
+                                                    <MediaQuery minWidth={960}>
+                                                        <Col></Col>
+                                                        <Col sm={1}></Col>
+                                                    </MediaQuery>
+
                                                     <Col>
                                                         <MediumText>
                                                             {item.serviceOneDescription}
@@ -510,19 +511,19 @@ class About extends Component {
                                                         <span>{item.serviceTwoName}</span>
                                                         <Line white></Line>
                                                     </Col>
-                                                <MediaQuery minWidth={960}>
-                                                    <Col sm={1}></Col>
-                                                    <Col>
-                                                        <span>{item.serviceTwoValue}</span>
-                                                        <Line white></Line>
-                                                    </Col>
+                                                    <MediaQuery minWidth={960}>
+                                                        <Col sm={1}></Col>
+                                                        <Col>
+                                                            <span>{item.serviceTwoValue}</span>
+                                                            <Line white></Line>
+                                                        </Col>
                                                     </MediaQuery>
                                                 </ServicesMain>
 
                                                 <ServicesMain>
                                                     <MediaQuery minWidth={575}>
-                                                    <Col></Col>
-                                                    <Col sm={1}></Col>
+                                                        <Col></Col>
+                                                        <Col sm={1}></Col>
                                                     </MediaQuery>
                                                     <Col>
                                                         <MediumText>
@@ -551,7 +552,7 @@ class About extends Component {
                                     <AboutFooterRow>
                                         <Col xs={1} sm={2}></Col>
                                         <Col xs={10} sm={8}>
-                                        <Footer location={this.props.location.pathname} />
+                                            <Footer location={this.props.location.pathname}/>
                                         </Col>
                                         <Col xs={1} sm={2}></Col>
                                     </AboutFooterRow>

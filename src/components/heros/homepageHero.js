@@ -86,9 +86,10 @@ const AnimatedTextContainer = styled.div`
         text-transform: uppercase;
         white-space: nowrap;
         letter-spacing: 1.5rem;
+        overflow: hidden;
         @media(max-width: ${variables.small}){
-                font-size: 10vh;
-                letter-spacing: 1.5vw;
+                font-size: 6vh;
+                letter-spacing: .5vw;
                 top: calc(78vh - 3vh + 10px);
                 font-weight: 500;
         }
@@ -106,8 +107,11 @@ const mapStateToProps = state => {
 }
 
 const getCarouselText = (orderedSlides, currentSlide) => {
-    const currentText = orderedSlides[currentSlide].textTranslation;
-    return currentText;
+    if(orderedSlides.length){
+        const currentText = orderedSlides[currentSlide].textTranslation;
+        return currentText;
+    }
+    
 }
 
 const getSlides = (currentSlide, previousSlide) => {
@@ -146,8 +150,8 @@ class HomepageHero extends Component {
                     </TopLine>
                     <AnimatedTextContainer>
                         <TextTranslation 
-                        duration={20} 
-                            text={getCarouselText(this.props.orderedSlides, this.props.currentSlide)}
+                        duration={window.innerWidth > 768 ? 20 : 10} 
+                        text={getCarouselText(this.props.orderedSlides, this.props.currentSlide)}
                         screenWidth={this.state.width}
                         />
                     </AnimatedTextContainer>

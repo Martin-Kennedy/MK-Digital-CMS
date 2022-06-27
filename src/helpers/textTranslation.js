@@ -119,7 +119,6 @@ export const TextTranslation = (props) => {
     const marquee3rd = <Marquee3rd >
         <Track 
             ref={widthRef}
-            black={props.black}
             duration={props.duration}
             key={props.text}
             variants={marqueeVariants}

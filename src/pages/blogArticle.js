@@ -233,7 +233,11 @@ class BlogPage extends Component {
 
         render() {
             let item = this.props.blogs.blogItem[0];
-            let urlSegments = this.props.location.pathname.split('/');
+            let urlSegments = this
+                .props
+                .location
+                .pathname
+                .split('/');
             return (
                 <div>
                     {this.props.blogs.blogItem.length
@@ -260,36 +264,39 @@ class BlogPage extends Component {
                                                     <SmallAndThinText>{this.restructureDate(item)}</SmallAndThinText>
                                                 </FadeInWhenVisibleScale>
                                             </Col>
-                                           <MediaQuery minWidth={Number(variables.mediumNum)}>  <Col md={10}>
-                                            <TopLine><LineAnimationR2L/></TopLine>
-                                        </Col></MediaQuery>
+                                            <MediaQuery minWidth={Number(variables.mediumNum)}>
+                                                <Col md={10}>
+                                                    <TopLine><LineAnimationR2L/></TopLine>
+                                                </Col>
+                                            </MediaQuery>
                                         </Row>
                                         <Row>
-                                        <BlogMain
+                                            <BlogMain
                                                 dangerouslySetInnerHTML={{
                                                 __html: this.sanitizeHTML(item.article)
                                             }}></BlogMain>
                                         </Row>
-                                      
 
-                                            <NextArticle>
-                                        <MediaQuery minWidth={Number(variables.mediumNum)}><BottomLine><LineAnimationL2R /></BottomLine></MediaQuery>
-                                                <Link
-                                                    to={this.props.blogs.nextBlogItemPathname}
-                                                    className="btn-flip"
-                                                    data-back={this.props.blogs.nextBlogItem}
-                                                    data-front="NEXT ARTICLE"></Link>
-                                            </NextArticle>
+                                        <NextArticle>
+                                            <MediaQuery minWidth={Number(variables.mediumNum)}>
+                                                <BottomLine><LineAnimationL2R/></BottomLine>
+                                            </MediaQuery>
+                                            <Link
+                                                to={this.props.blogs.nextBlogItemPathname}
+                                                className="btn-flip"
+                                                data-back={this.props.blogs.nextBlogItem}
+                                                data-front="NEXT ARTICLE"></Link>
+                                        </NextArticle>
                                     </Col>
                                     <Col xs={2}></Col>
                                 </IntroSection>
 
                                 <BlogArticleFooter>
-                                <Col xs={1} sm={2}></Col>
-                                <Col xs={10} sm={8}>
-                                    <Footer location={this.getFirstPathSegment(this.props.location.pathname)} />
-                                </Col>
-                                <Col xs={1} sm={2}></Col>
+                                    <Col xs={1} sm={2}></Col>
+                                    <Col xs={10} sm={8}>
+                                        <Footer location={this.getFirstPathSegment(this.props.location.pathname)}/>
+                                    </Col>
+                                    <Col xs={1} sm={2}></Col>
                                 </BlogArticleFooter>
 
                             </BaseLayer>

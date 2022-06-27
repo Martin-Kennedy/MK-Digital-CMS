@@ -1,7 +1,7 @@
-import { GET_ABOUT } from '../helpers/types'
+import {GET_ABOUT} from '../helpers/types'
 
 const INITIAL_STATE = {
-    aboutData: [],
+    aboutData: []
 }
 
 const aboutReducer = (state = INITIAL_STATE, action) => {
@@ -17,4 +17,3 @@ const aboutReducer = (state = INITIAL_STATE, action) => {
 }
 
 export default aboutReducer;
-
