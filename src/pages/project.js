@@ -184,7 +184,7 @@ const FiftyVWImg = styled.div `
     -ms-flex-align: center;
     align-items: center;
     height: 50vh;
-    padding: 50vh 33%;
+    padding: 50vh 25%;
     @media(max-width: ${variables.medium}){
         height: 90vh;
         padding: 10vh 10%;
@@ -665,6 +665,7 @@ class ProjectPage extends Component {
                             </Sticky>
                             <Sticky>
                                 <AssetSection1>
+                                {item.videoHolderImage ?
                                     <Section>
                                         <Col xs={1} sm={2}>\</Col>
                                         <Col>
@@ -687,7 +688,7 @@ class ProjectPage extends Component {
                                             </FadeInWhenVisibleScale>
                                         </Col>
                                         <Col xs={1} sm={2}></Col>
-                                    </Section>
+                                    </Section> : null}
                                     <Section>
                                         <Col xs={1} sm={2}></Col>
                                         <Col >
@@ -719,10 +720,14 @@ class ProjectPage extends Component {
                                     </FiftyVW>
                                 </Section100VW>
                             </Sticky>
+                       
                             <ResultsSection>
+                           
                                 <Col sm={2}></Col>
                                 <Col sm={8}>
+                                {item.resultMetric1Description ?
                                     <FadeInWhenVisibleScale>
+                                        
                                         <ResultsMetricType>
                                             <MediaQuery maxWidth={smallNum}>
                                                 <Col xs={1}></Col>
@@ -740,6 +745,8 @@ class ProjectPage extends Component {
                                             </MediaQuery>
                                         </ResultsMetricType>
                                     </FadeInWhenVisibleScale>
+                                    : null}
+                                {item.resultMetric1Description ?
                                     <Row>
                                         <MediaQuery minWidth={mediumNum}>
                                             <Col sm={5}>
@@ -762,6 +769,8 @@ class ProjectPage extends Component {
                                             </MediaQuery>
                                         </MediaQuery>
                                     </Row>
+                                    : null}
+                                {item.resultMetric1Description ?
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricData>
                                             <MediaQuery maxWidth={smallNum}>
@@ -780,6 +789,8 @@ class ProjectPage extends Component {
                                             </MediaQuery>
                                         </ResultsMetricData>
                                     </FadeInWhenVisibleScale>
+                                    : null}
+                                {item.resultMetric1Description ?
                                     <FadeInWhenVisibleScale>
                                         <ResultsMetricType>
                                             <MediaQuery maxWidth={mediumNum}>
@@ -795,6 +806,8 @@ class ProjectPage extends Component {
                                             </MediaQuery>
                                         </ResultsMetricType>
                                     </FadeInWhenVisibleScale>
+                                    : null}
+                                {item.resultMetric1Description ?
                                     <Row>
                                         <MediaQuery minWidth={mediumNum}>
                                             <Col sm={5}>
@@ -817,6 +830,8 @@ class ProjectPage extends Component {
                                             </MediaQuery>
                                         </MediaQuery>
                                     </Row>
+                                    : null}
+                                {item.resultMetric1Description ?
                                     <MediaQuery maxWidth={mediumNum}>
                                         <FadeInWhenVisibleScale>
                                             <ResultsMetricData>
@@ -832,6 +847,8 @@ class ProjectPage extends Component {
                                             </ResultsMetricData>
                                         </FadeInWhenVisibleScale>
                                     </MediaQuery>
+                                    : null}
+                                {item.resultFullText ?
                                     <FadeInWhenVisibleScale>
                                         <ResultsBlurb>
 
@@ -886,9 +903,11 @@ class ProjectPage extends Component {
                                             </MediaQuery>
                                         </ResultsBlurb>
                                     </FadeInWhenVisibleScale>
+                                    : null}
                                 </Col>
                                 <Col sm={2}></Col>
                             </ResultsSection>
+                            
                             <Waypoint
                                 onEnter={() => {
                                 this

@@ -251,7 +251,9 @@ const ProjectPageHero = props => {
                     <HeroImage heroImg={props.item.heroImage.publicUrl}>
                         </HeroImage>
                     </HeromImageContainer>
+                {props.item.externalLink ?
                 <WebsiteLink href={props.item.externalLink} target="_blank" color={props.item.buttonColor} className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ?'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)}>Visit Site</WebsiteLink>
+                : null}
                 </Col>
                 <Col xs={2}></Col>
             </StyledProjectPageHero>
