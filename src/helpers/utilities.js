@@ -69,11 +69,11 @@ export const processAsync = (n) => {
 
 
 export const formatAMPM = (date) => {
-    var hours = date.getHours();
-    var ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    var strTime = hours + ampm;
+    let hours = date.getHours();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    let hours2 = hours % 12;
+    let hours3 = hours2 ? hours2 : 12; // the hour '0' should be '12'
+    const strTime = hours3 + ampm;
     return strTime;
 }
 

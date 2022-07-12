@@ -252,10 +252,7 @@ export const getTideStations = (latLon) => {
                     state: station.state
                 })
 
-
-
                 resolve(stationsArr);
-
             })
 
         }).catch(error => {
@@ -500,6 +497,9 @@ export const getSwellForecast = (data) => {
         })
     };
 }
+
+
+// Determines number of feet of forecast chart interval spacing for wave height by getting max wave height in the forecast period then equally dividing number of feet for intervals.
 
 export const getMaxWaveHeight = (data) => {
     let maxWaveHeightArr = [];

@@ -1090,8 +1090,9 @@ class SurfGUILanding extends Component {
                                             </CurrentConditionBackdrop>
                                             <DataDashBoardRow>
                                                 <TideBackDrop100vw>
+                                                    {console.log(this.props.surf.tideForecast.predictions)}
                                                     {!Array.isArray(this.props.surf.tideForecast)
-                                                        ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions}/>
+                                                        ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} />
                                                         : null}
                                                 </TideBackDrop100vw>
                                             </DataDashBoardRow>

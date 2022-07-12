@@ -143,6 +143,7 @@ export default class CurrentTideDataComponent extends PureComponent {
             const aTime = new Date(a.t).getHours() * 60 * 60;
             const bTime = new Date(b.t).getHours() * 60 * 60;
             return (Math.abs(aTime - timeToSec) < Math.abs(bTime - timeToSec) ? a : b);
+            
         });
         return (
             <Fragment>

@@ -125,7 +125,7 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                         const dt = new Date(strDate).getTime();
                         return dt / 1000;
                     }
-                    const formatedTime = formatAMPM(new Date(item.t));
+                    const formatedTime = formatAMPM(new Date(item.t.replace(/-/g, "/")));
                     item.time = formatedTime;
                 });
                 return {
