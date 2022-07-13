@@ -134,8 +134,13 @@ const TideInfoTooltip = ({ active, payload }) => {
 export default class CurrentTideDataComponent extends PureComponent {
 
     render() {
-        const hours = new Date().getHours();
-        const minutes = new Date().getMinutes();
+        const date = new Date().toLocaleString('en-US', {
+            timeZone: this.props.activeLocation.timeZone
+        });
+
+        const localTime = new Date(date);
+        const hours = localTime.getHours();
+        const minutes = localTime.getMinutes();
         const conHrsToSec = Math.floor(hours * 60 * 60);
         const conMinsToSec = Math.floor(minutes * 60);
         const timeToSec = conHrsToSec + conMinsToSec;

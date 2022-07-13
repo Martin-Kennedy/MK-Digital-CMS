@@ -995,8 +995,8 @@ class SurfGUILanding extends Component {
                                                         : null}
                                                 </CurrentConditionBackdrop>
                                                 <CurrentConditionBackdrop>
-                                                    {!Array.isArray(this.props.surf.tideForecast)
-                                                        ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions}/>
+                                                    {!Array.isArray(this.props.surf.tideForecast) && (this.props.surf.activeLocation != null)
+                                                        ? <CurrentTideDataComponent activeLocation={this.props.surf.activeLocation} tide={this.props.surf.tideForecast.predictions} />
                                                         : null}
                                                 </CurrentConditionBackdrop>
                                             </CurrentConditionRowBottom>
@@ -1090,9 +1090,9 @@ class SurfGUILanding extends Component {
                                             </CurrentConditionBackdrop>
                                             <DataDashBoardRow>
                                                 <TideBackDrop100vw>
-                                                    {console.log(this.props.surf.tideForecast.predictions)}
-                                                    {!Array.isArray(this.props.surf.tideForecast)
-                                                        ? <CurrentTideDataComponent tide={this.props.surf.tideForecast.predictions} />
+                                                    
+                                                    {!Array.isArray(this.props.surf.tideForecast) && (this.props.surf.activeLocation != null)
+                                                        ? <CurrentTideDataComponent activeLocation={this.props.surf.activeLocation} tide={this.props.surf.tideForecast.predictions} />
                                                         : null}
                                                 </TideBackDrop100vw>
                                             </DataDashBoardRow>

@@ -467,6 +467,7 @@ const mapStateToProps = state => {
 let degree = String.fromCodePoint(176);
 
 const SurfMapAndConditionsDesktop = (props) => {
+    
 
     const times = SunCalc.getTimes(new Date(), props.coords.lat, props.coords.lng);
 
@@ -474,7 +475,9 @@ const SurfMapAndConditionsDesktop = (props) => {
         const date = new Date();
         date.setHours(time.split(':')[0]);
         date.setMinutes(time.split(':')[1])
-        const dateStr = date.toString();
+        const dateStr = date.toLocaleString('en-US', {
+            timeZone: props.surf.activeLocation ? props.surf.activeLocation.timeZone : props.surf.closestSurfSpot ? props.surf.closestSurfSpot.timeZone : null
+        });
         const timeStamp = new Date(dateStr).getTime();
         const formatted = formatAMPMwMins(new Date(timeStamp));
         return formatted;
@@ -486,9 +489,6 @@ const SurfMapAndConditionsDesktop = (props) => {
     }
 
     // format sunrise time from the Date object
-
-    const nightEndTimeStamp = new Date(times.nightEnd).getTime();
-    const sunriseTimeStamp = new Date(times.sunrise).getTime();
 
     const midPointTimeCalc = (a, b) => {
         const aTime = new Date(a).getTime();
@@ -509,8 +509,11 @@ const SurfMapAndConditionsDesktop = (props) => {
     const sunriseTime = formatTime(times.sunrise.getHours() + ':' + times.sunrise.getMinutes());
     const sunriseToGoldenMidPoint = formatTime(new Date(midPointTimeCalc(times.goldenHourEnd, times.sunrise)).getHours() + ':' + new Date(midPointTimeCalc(times.goldenHourEnd, times.sunrise)).getMinutes());
     const goldenHourEndTime = formatTime(times.goldenHourEnd.getHours() + ':' + times.goldenHourEnd.getMinutes());
+    const goldenHourAmtoNoonMidPoint = formatTime(new Date(midPointTimeCalc(times.solarNoon, times.goldenHourEnd)).getHours() + ':' + new Date(midPointTimeCalc(times.solarNoon, times.goldenHourEnd)).getMinutes());
     const solarNoonTime = formatTime(times.solarNoon.getHours() + ':' + times.solarNoon.getMinutes());
+    const goldenHourNoontoPMMidPoint = formatTime(new Date(midPointTimeCalc(times.goldenHour, times.solarNoon)).getHours() + ':' + new Date(midPointTimeCalc(times.goldenHour, times.solarNoon)).getMinutes());
     const goldenHourTime = formatTime(times.goldenHour.getHours() + ':' + times.goldenHour.getMinutes());
+    const goldenHourtoSunsetMidPoint = formatTime(new Date(midPointTimeCalc(times.sunset, times.goldenHour)).getHours() + ':' + new Date(midPointTimeCalc(times.sunset, times.goldenHour)).getMinutes());
     const sunsetTime = formatTime(times.sunset.getHours() + ':' + times.sunset.getMinutes());
     const duskTime = formatTime(times.dusk.getHours() + ':' + times.dusk.getMinutes());
     const nightTime = formatTime(times.night.getHours() + ':' + times.night.getMinutes());
@@ -532,7 +535,7 @@ const SurfMapAndConditionsDesktop = (props) => {
                 timeTick: convertToSec(times.nightEnd.getHours()),
                 position: nightEndPos.altitude
             }, {
-                event: 'Night to Sunrise Midpoint',
+                event: 'Night to Sunrise',
                 time: nightToSunriseMidPoint,
                 timeTick: convertToSec(new Date(midPointTimeCalc(times.sunrise, times.nightEnd)).getHours()),
                 position: midPointAltitudeCalc(sunrisePos.altitude, nightEndPos.altitude)
@@ -542,7 +545,7 @@ const SurfMapAndConditionsDesktop = (props) => {
                 timeTick: convertToSec(times.sunrise.getHours()),
                 position: sunrisePos.altitude
             }, {
-                event: 'Sunrise - Goldenhour midpoint',
+                event: 'Sunrise to Goldenhour',
                 time: sunriseToGoldenMidPoint,
                 timeTick: convertToSec(new Date(midPointTimeCalc(times.goldenHourEnd, times.sunrise)).getHours()),
                 position: midPointAltitudeCalc(goldenHourEndPos.altitude, sunrisePos.altitude)
@@ -552,15 +555,30 @@ const SurfMapAndConditionsDesktop = (props) => {
                 timeTick: convertToSec(times.goldenHourEnd.getHours()),
                 position: goldenHourEndPos.altitude
             }, {
+                event: 'Mid Morning',
+                time: goldenHourAmtoNoonMidPoint,
+                timeTick: convertToSec(new Date(midPointTimeCalc(times.solarNoon, times.goldenHourEnd)).getHours()),
+                position: midPointAltitudeCalc(solarNoonPos.altitude, goldenHourEndPos.altitude)
+            }, {
                 event: 'Solar Noon',
                 time: solarNoonTime,
                 timeTick: convertToSec(times.solarNoon.getHours()),
                 position: solarNoonPos.altitude
             }, {
+                event: 'Mid Afternoon',
+                time: goldenHourNoontoPMMidPoint,
+                timeTick: convertToSec(new Date(midPointTimeCalc(times.goldenHour, times.solarNoon)).getHours()),
+                position: midPointAltitudeCalc(goldenHourPos.altitude, solarNoonPos.altitude)
+            }, {
                 event: 'Golden Hour',
                 time: goldenHourTime,
                 timeTick: convertToSec(times.goldenHour.getHours()),
                 position: goldenHourPos.altitude
+            }, {
+                event: 'Golden Hour to Sunset',
+                time: goldenHourtoSunsetMidPoint,
+                timeTick: convertToSec(new Date(midPointTimeCalc(times.sunset, times.goldenHour)).getHours()),
+                position: midPointAltitudeCalc(sunsetPos.altitude, goldenHourPos.altitude)
             }, {
                 event: 'Sunset',
                 time: sunsetTime,
@@ -763,7 +781,9 @@ const SunPositionMobile = (props) => {
         const date = new Date();
         date.setHours(time.split(':')[0]);
         date.setMinutes(time.split(':')[1])
-        const dateStr = date.toString();
+        const dateStr = date.toLocaleString('en-US', {
+            timeZone: props.surf.activeLocation ? props.surf.activeLocation.timeZone : props.surf.closestSurfSpot ? props.surf.closestSurfSpot.timeZone : null
+        });
         const timeStamp = new Date(dateStr).getTime();
         const formatted = formatAMPMwMins(new Date(timeStamp));
         return formatted;
@@ -776,11 +796,30 @@ const SunPositionMobile = (props) => {
 
     // format sunrise time from the Date object
 
+    const midPointTimeCalc = (a, b) => {
+        const aTime = new Date(a).getTime();
+        const bTime = new Date(b).getTime();
+        const difVal = ((aTime - bTime) / 2);
+        const midPointTimeStamp = aTime - difVal;
+        return midPointTimeStamp;
+    }
+
+    const midPointAltitudeCalc = (a, b) => {
+        const difVal = ((a - b) / 2);
+        const midPointAltitude = a - difVal;
+        return midPointAltitude;
+    }
+
     const nightEndTime = formatTime(times.nightEnd.getHours() + ':' + times.nightEnd.getMinutes());
+    const nightToSunriseMidPoint = formatTime(new Date(midPointTimeCalc(times.sunrise, times.nightEnd)).getHours() + ':' + new Date(midPointTimeCalc(times.sunrise, times.nightEnd)).getMinutes());
     const sunriseTime = formatTime(times.sunrise.getHours() + ':' + times.sunrise.getMinutes());
+    const sunriseToGoldenMidPoint = formatTime(new Date(midPointTimeCalc(times.goldenHourEnd, times.sunrise)).getHours() + ':' + new Date(midPointTimeCalc(times.goldenHourEnd, times.sunrise)).getMinutes());
     const goldenHourEndTime = formatTime(times.goldenHourEnd.getHours() + ':' + times.goldenHourEnd.getMinutes());
+    const goldenHourAmtoNoonMidPoint = formatTime(new Date(midPointTimeCalc(times.solarNoon, times.goldenHourEnd)).getHours() + ':' + new Date(midPointTimeCalc(times.solarNoon, times.goldenHourEnd)).getMinutes());
     const solarNoonTime = formatTime(times.solarNoon.getHours() + ':' + times.solarNoon.getMinutes());
+    const goldenHourNoontoPMMidPoint = formatTime(new Date(midPointTimeCalc(times.goldenHour, times.solarNoon)).getHours() + ':' + new Date(midPointTimeCalc(times.goldenHour, times.solarNoon)).getMinutes());
     const goldenHourTime = formatTime(times.goldenHour.getHours() + ':' + times.goldenHour.getMinutes());
+    const goldenHourtoSunsetMidPoint = formatTime(new Date(midPointTimeCalc(times.sunset, times.goldenHour)).getHours() + ':' + new Date(midPointTimeCalc(times.sunset, times.goldenHour)).getMinutes());
     const sunsetTime = formatTime(times.sunset.getHours() + ':' + times.sunset.getMinutes());
     const duskTime = formatTime(times.dusk.getHours() + ':' + times.dusk.getMinutes());
     const nightTime = formatTime(times.night.getHours() + ':' + times.night.getMinutes());
@@ -802,25 +841,50 @@ const SunPositionMobile = (props) => {
                 timeTick: convertToSec(times.nightEnd.getHours()),
                 position: nightEndPos.altitude
             }, {
+                event: 'Night to Sunrise',
+                time: nightToSunriseMidPoint,
+                timeTick: convertToSec(new Date(midPointTimeCalc(times.sunrise, times.nightEnd)).getHours()),
+                position: midPointAltitudeCalc(sunrisePos.altitude, nightEndPos.altitude)
+            }, {
                 event: 'Sunrise',
                 time: sunriseTime,
                 timeTick: convertToSec(times.sunrise.getHours()),
                 position: sunrisePos.altitude
+            }, {
+                event: 'Sunrise to Goldenhour',
+                time: sunriseToGoldenMidPoint,
+                timeTick: convertToSec(new Date(midPointTimeCalc(times.goldenHourEnd, times.sunrise)).getHours()),
+                position: midPointAltitudeCalc(goldenHourEndPos.altitude, sunrisePos.altitude)
             }, {
                 event: 'Golden Hour End',
                 time: goldenHourEndTime,
                 timeTick: convertToSec(times.goldenHourEnd.getHours()),
                 position: goldenHourEndPos.altitude
             }, {
+                event: 'Mid Morning',
+                time: goldenHourAmtoNoonMidPoint,
+                timeTick: convertToSec(new Date(midPointTimeCalc(times.solarNoon, times.goldenHourEnd)).getHours()),
+                position: midPointAltitudeCalc(solarNoonPos.altitude, goldenHourEndPos.altitude)
+            }, {
                 event: 'Solar Noon',
                 time: solarNoonTime,
                 timeTick: convertToSec(times.solarNoon.getHours()),
                 position: solarNoonPos.altitude
             }, {
+                event: 'Mid Afternoon',
+                time: goldenHourNoontoPMMidPoint,
+                timeTick: convertToSec(new Date(midPointTimeCalc(times.goldenHour, times.solarNoon)).getHours()),
+                position: midPointAltitudeCalc(goldenHourPos.altitude, solarNoonPos.altitude)
+            }, {
                 event: 'Golden Hour',
                 time: goldenHourTime,
                 timeTick: convertToSec(times.goldenHour.getHours()),
                 position: goldenHourPos.altitude
+            }, {
+                event: 'Golden Hour to Sunset',
+                time: goldenHourtoSunsetMidPoint,
+                timeTick: convertToSec(new Date(midPointTimeCalc(times.sunset, times.goldenHour)).getHours()),
+                position: midPointAltitudeCalc(sunsetPos.altitude, goldenHourPos.altitude)
             }, {
                 event: 'Sunset',
                 time: sunsetTime,
