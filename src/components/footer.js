@@ -115,7 +115,7 @@ const Footer = (props) => {
                     onMouseLeave={() => setHover(false)}
                     to={location => ({
                     ...location,
-                    pathname: "/charge-and-bless"
+                    pathname: "/swell"
                     })}>Surf Forecast
                     <WaveLink isHovered={isHovered}></WaveLink>
                     </StyledLink>
