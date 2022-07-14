@@ -235,7 +235,7 @@ export const NavOffCanvasLeft = (props) => {
                             <div>
                                 <WaveWrapper
                                     animate={{
-                                    x: window.innerWidth * .75
+                                    x: window.innerWidth * -.25
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -285,7 +285,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper>
                                 <WaveWrapper2
                                     animate={{
-                                        x: window.innerWidth * .75
+                                        x: window.innerWidth * -.25
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -335,7 +335,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper2>
                                 <WaveWrapper3
                                     animate={{
-                                        x: window.innerWidth * .75
+                                        x: window.innerWidth * -.25
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -385,7 +385,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper3>
                                 <WaveWrapper4
                                     animate={{
-                                        x: window.innerWidth * .75
+                                        x: window.innerWidth * -.25
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -435,7 +435,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper4>
                                 <WaveWrapper5
                                     animate={{
-                                        x: window.innerWidth * .75
+                                        x: window.innerWidth * -.25
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -485,7 +485,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper5>
                                 <WaveWrapper6
                                     animate={{
-                                        x: window.innerWidth * .75
+                                        x: window.innerWidth * -.25
                                 }}
                                     transition={{
                                     ease: 'linear',
@@ -535,7 +535,7 @@ export const NavOffCanvasLeft = (props) => {
                                 </WaveWrapper6>
                                 <WaveWrapper7
                                     animate={{
-                                        x: window.innerWidth * .75
+                                        x: window.innerWidth * -.25
                                 }}
                                     transition={{
                                     ease: 'linear',
