@@ -23,6 +23,7 @@ import {
     getCurrentSwell,
     searchOpenState,
     closeSpotsOpenState,
+    loadMultiSpotView,
     getActiveLocation
 } from '../actions/surfApp.actions';
 import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
@@ -788,6 +789,7 @@ const mapDispatchToProps = dispatch => ({
     getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast)),
     searchOpenState: openState => dispatch(searchOpenState(openState)),
     closeSpotsOpenState: openState => dispatch(closeSpotsOpenState(openState)),
+    loadMultiSpotView: openState => dispatch(loadMultiSpotView(openState)),
     getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation))
 });
 
@@ -818,6 +820,7 @@ class SurfGUILanding extends Component {
         const {searchOpenState} = this.props;
         const {closeSpotsOpenState} = this.props;
         const {getActiveLocation} = this.props;
+        const {loadMultiSpotView} = this.props;
         if (window.innerWidth > Number(variables.largeNum)) {
             document.body.style.overflow = "hidden";
 
@@ -947,6 +950,12 @@ class SurfGUILanding extends Component {
                                             onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
                                             <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <SpotSearchSVGPath/>
+                                            </SpotSearchIcon>
+                                        </SpotSearchContainer>
+                                        <SpotSearchContainer
+                                            onClick={() => this.props.loadMultiSpotView(this.props.surf.isMultispotView)}>
+                                            <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                <SpotSearchSVGPath />
                                             </SpotSearchIcon>
                                         </SpotSearchContainer>
                                     </MenuNavBkg>

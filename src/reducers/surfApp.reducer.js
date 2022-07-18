@@ -3,6 +3,7 @@ import {
     GEO_LOCATION_ERROR,
     SEARCH_OPEN_STATE,
     CLOSE_SPOTS_OPEN_STATE,
+    LOAD_MULTISPOT_VIEW,
     GET_LOCATION_OBJECT,
     GET_CLOSE_SURFSPOTS,
     GET_SPOT_FORECAST,
@@ -171,6 +172,11 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isCloseSpotsOpen: !action.payload
+            }
+        case LOAD_MULTISPOT_VIEW:
+            return {
+                ...state,
+                isMultispotView: !action.payload
             }
         case GET_ACTIVE_LOCATION:
             return {

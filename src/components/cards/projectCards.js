@@ -138,7 +138,7 @@ class FilteredCards extends Component {
                         let clientSlug = projectEntry.client;
                         clientSlug = clientSlug
                             .replace(/\s+/g, '-');
-                        const card = <MasonryBlogCard key={projectEntry.id} className="grid-item">
+                        const card = projectEntry.status === "PUBLISHED" ? <MasonryBlogCard key={projectEntry.id} className="grid-item">
                             <Link to={`project/${clientSlug}`}>
                                 <FadeInWhenVisibleOpacity>
                                     <ContainerDiv>
@@ -152,8 +152,8 @@ class FilteredCards extends Component {
                                     </CardTextRow>
                                 </FadeInWhenVisibleOpacity>
                             </Link>
-                        </MasonryBlogCard>
-
+                        </MasonryBlogCard> : null;
+                        
                         return card;
 
                     })}
@@ -229,7 +229,7 @@ class UnfilteredCards extends Component {
                         let clientSlug = projectEntry.client;
                         clientSlug = clientSlug
                             .replace(/\s+/g, '-');
-                        const card = <MasonryBlogCard key={projectEntry.id}  className="grid-item">
+                        const card = projectEntry.status === "PUBLISHED" ? <MasonryBlogCard key={projectEntry.id}  className="grid-item">
                             <Link to={`project/${clientSlug}`}>
                                 <FadeInWhenVisibleOpacity>
                                     <ContainerDiv>
@@ -243,7 +243,7 @@ class UnfilteredCards extends Component {
                                     </CardTextRow>
                                 </FadeInWhenVisibleOpacity>
                             </Link>
-                        </MasonryBlogCard>
+                        </MasonryBlogCard> : null;
 
                         return card;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Row, Col, Nav} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {motion, AnimatePresence} from "framer-motion";
@@ -158,8 +158,37 @@ transition: 150ms ease-in;
     opacity: 1;
 }
 `
+const WebsiteLink = styled(Link)`
+    background-color: ${props => props.color ? props.color : 'var(--white)'};
+    width: fit-content;
+    position: absolute;
+    color: #155e95;
+    font-size: 1.5vw;
+    font-weight: 500;
+    margin-top: 10vh;
+    padding: 15px;
+    z-index: 999;
+    &:hover, &:active {
+        color: #155e95;
+        cursor: pointer;
+    }
+    @media (max-width: ${variables.medium}) {
+    width: 8vh;
+    height: 8vh;
+    line-height: 2vh;
+    line-height: 2.25vh;
+    font-size: 3vw;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 85vh;
+}
+`
 
 export const NavOffCanvasLeft = (props) => {
+
+    const [mouseLeft, setMouseLeft] = useState(null);
+
     const d = [
         "m-17.8273,111.16671c20.66565,-0.55532 37.66464,-38.11063 62.99696,-38.66596c28.3" +
                 "335,0.22223 43.33368,37.77777 67.00051,37.66666c25.77793,-0.33334 39.22252,-15.9" +
@@ -221,6 +250,15 @@ export const NavOffCanvasLeft = (props) => {
                                     A Surf-centric Application Built for Wave-riders.
                                 </SurfAppLink>
                             </Link>
+                        </Col>
+                        <MediaQuery minWidth={Number(variables.mediumNum)}><Col xs={1}></Col></MediaQuery>
+                    </Row>
+                    <Row>
+                        <Col xs={1}></Col>
+                        <Col>
+                            <WebsiteLink className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ? 'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)} to='/swell'>
+                                How is the surf near you?
+                            </WebsiteLink>
                         </Col>
                         <MediaQuery minWidth={Number(variables.mediumNum)}><Col xs={1}></Col></MediaQuery>
                     </Row>

@@ -68,6 +68,7 @@ const initalState = {
         currentSwell: [],
         isSearchOpen: false,
         isCloseSpotsOpen: false,
+        isMultispotView: false,
         activeLocation: null
     },
 

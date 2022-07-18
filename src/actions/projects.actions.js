@@ -12,6 +12,7 @@ export const getProjects = (token) => {
             query: `query {
                 allProjects(sortBy: id_ASC) {
                     id,
+                    status,
                     client,
                     title,
                     cardImage {
@@ -27,6 +28,7 @@ export const getProjects = (token) => {
         }
         return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
+                console.log(response.data);
             return response.data
         })
             .then(data => {
@@ -55,6 +57,7 @@ export const getProjectItem = (client, token) => {
             allProjects (where: {client_contains: "${client}"}) {
                 id,
                 client,
+                status,
                 title,
                 cardImage {
                     publicUrl
