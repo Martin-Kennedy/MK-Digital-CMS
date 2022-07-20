@@ -3,7 +3,7 @@ import {
     GEO_LOCATION_ERROR,
     SEARCH_OPEN_STATE,
     CLOSE_SPOTS_OPEN_STATE,
-    LOAD_MULTISPOT_VIEW,
+    LOAD_VIEW,
     GET_LOCATION_OBJECT,
     GET_CLOSE_SURFSPOTS,
     GET_SPOT_FORECAST,
@@ -17,7 +17,8 @@ import {
     GET_NDBC_STATIONS,
     GET_WEATHER,
     GET_WEATHER_FORECAST,
-    GET_CURRENT_SWELL
+    GET_CURRENT_SWELL,
+    GET_MULTI_VIEW_FORECAST
 } from '../helpers/types';
 import {formatAMPM} from '../helpers/utilities';
 
@@ -173,15 +174,21 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 isCloseSpotsOpen: !action.payload
             }
-        case LOAD_MULTISPOT_VIEW:
+        case LOAD_VIEW:
+            console.log(action);
             return {
                 ...state,
-                isMultispotView: !action.payload
+                isView: action.payload
             }
         case GET_ACTIVE_LOCATION:
             return {
                 ...state,
                 activeLocation: action.payload
+            }
+        case GET_MULTI_VIEW_FORECAST:
+            return {
+                ...state,
+                multiViewForecast: action.payload
             }
 
         default:

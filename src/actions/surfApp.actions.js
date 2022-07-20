@@ -1,4 +1,4 @@
-import { GET_ACTIVE_LOCATION, LOAD_MULTISPOT_VIEW, SEARCH_OPEN_STATE, CLOSE_SPOTS_OPEN_STATE, GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL, GET_SEARCH_CLOSE_SURFSPOTS, GEO_LOCATION_ERROR } from '../helpers/types'
+import { GET_ACTIVE_LOCATION, GET_MULTI_VIEW_FORECAST, LOAD_VIEW, SEARCH_OPEN_STATE, CLOSE_SPOTS_OPEN_STATE, GET_LOCATION_OBJECT, GET_SPOT_FORECAST, GET_CLOSE_SURFSPOTS, GET_MAX_WAVE_HEIGHT, GET_SWELL_FORECAST, GET_WIND_FORECAST, GET_TIDE_FORECAST, GET_WATER_TEMP, GET_NDBC_STATIONS, GET_TIDE_STATIONS, GET_WEATHER_STATIONS, GET_WEATHER, GET_WEATHER_FORECAST, GET_CURRENT_SWELL, GET_SEARCH_CLOSE_SURFSPOTS, GEO_LOCATION_ERROR } from '../helpers/types'
 import { formatAMPM } from '../helpers/utilities'
 import { getDistanceFromLatLonInKm, getBoundingBox } from '../helpers/utilities'
 import axios from 'axios';
@@ -30,9 +30,9 @@ export const closeSpotsOpenState = (data) => {
     };
 };
 
-export const loadMultiSpotView = (data) => {
+export const loadView = (data) => {
     return {
-        type: LOAD_MULTISPOT_VIEW,
+        type: LOAD_VIEW,
         payload: data,
     };
 };
@@ -120,6 +120,8 @@ const getCloseSurfSpotsArr = (locationsAndCoords) => {
 
     const currentLat = locationsAndCoords.coords.latitude;
     const currentLng = locationsAndCoords.coords.longitude;
+    const defaultLat = 39.5316467;
+    const defaultLng = -74.2620961;
     const _obj = locationsAndCoords.locations;
 
     return new Promise((resolve) => {
@@ -130,9 +132,22 @@ const getCloseSurfSpotsArr = (locationsAndCoords) => {
             if (country) {
                 return _obj[country].map((item) => {
                     const distanceFromLocation = getDistanceFromLatLonInKm(currentLat, currentLng, item.lat, item.lng);
+                    const distanceDefaultLocation = getDistanceFromLatLonInKm(defaultLat, defaultLng, item.lat, item.lng);
                     if (distanceFromLocation < 100) {
                         item.countryOrState = country;
                         item.distanceFromLocation = distanceFromLocation;
+                        return item;
+                    } else if (distanceFromLocation < 500) {
+                        item.countryOrState = country;
+                        item.distanceFromLocation = distanceFromLocation;
+                        return item;
+                    } else if (distanceFromLocation < 1000) {
+                        item.countryOrState = country;
+                        item.distanceFromLocation = distanceFromLocation;
+                        return item;
+                    } else {
+                        item.countryOrState = country;
+                        item.distanceFromLocation = distanceDefaultLocation;
                         return item;
                     }
                 })
@@ -180,6 +195,22 @@ export const getSurfForecast = (spotId) => {
             });
     }
 };
+
+export const getMultiViewSurfForecast = (data) => {
+    return (dispatch) => {
+         data.map((item) => {
+             return axios.get(msUrl + item.spotId)
+                .then(response => {
+                    return response.data
+                }).then(data => {
+                    dispatch({ type: GET_MULTI_VIEW_FORECAST, payload: data, country: item.countryOrState, town: item.town });
+                })
+                .catch(error => {
+                    throw (error);
+                });
+        })
+    }
+    };
 
 
 export const getCloseSurfSpots = () => {

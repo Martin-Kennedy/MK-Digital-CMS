@@ -1,4 +1,5 @@
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware} from 'redux';
+import {MULTI_VIEW, SINGLE_VIEW} from '../helpers/types';
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers/root.reducer'
 
@@ -68,7 +69,8 @@ const initalState = {
         currentSwell: [],
         isSearchOpen: false,
         isCloseSpotsOpen: false,
-        isMultispotView: false,
+        multiViewForecast: [],
+        isView: MULTI_VIEW,
         activeLocation: null
     },
 

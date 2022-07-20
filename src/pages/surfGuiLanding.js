@@ -6,6 +6,7 @@ import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
+import { MULTI_VIEW, SINGLE_VIEW } from '../helpers/types';
 import {
     getLocationsObject,
     getSurfForecast,
@@ -23,8 +24,9 @@ import {
     getCurrentSwell,
     searchOpenState,
     closeSpotsOpenState,
-    loadMultiSpotView,
-    getActiveLocation
+    loadView,
+    getActiveLocation,
+    getMultiViewSurfForecast
 } from '../actions/surfApp.actions';
 import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
 import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
@@ -41,8 +43,10 @@ import {
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
 import {SpotSearchSVGPath} from '../components/designElementComponents/spotSearchSVGPath';
 import {CloseSpotsSVGPath} from '../components/designElementComponents/closeSpotsSVGPath';
+import {MultiSpotsSVGPath } from '../components/designElementComponents/multiSpotsSVGPath';
 import {HomeIconSVGPath} from '../components/designElementComponents/homeIconSVGPath';
 import {CloseButtonSVGPath} from '../components/designElementComponents/closeButtonSVGPath';
+import SurfGUIMultiSpotViewContainer from '../pages/surfGuiMultiSpotView';
 import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
 import {Link} from 'react-router-dom';
@@ -579,6 +583,9 @@ margin-left: 72%;
 margin-right: 7%;
 `
 
+const CloseSpotIconContainerDesktop = styled(SpotSearchContainer)`
+`
+
 const SpotSearchIcon = styled.svg `
 width: 2.5vw;
 height: 2.5vw;
@@ -766,8 +773,9 @@ const mapStateToProps = state => {
             currentSwell: state.surf.currentSwell,
             isSearchOpen: state.surf.isSearchOpen,
             isCloseSpotsOpen: state.surf.isCloseSpotsOpen,
-            activeLocation: state.surf.activeLocation
-
+            activeLocation: state.surf.activeLocation,
+            isView: state.surf.isView,
+            multiViewForecast: state.surf.multiViewForecast
         }
     }
 }
@@ -789,8 +797,9 @@ const mapDispatchToProps = dispatch => ({
     getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast)),
     searchOpenState: openState => dispatch(searchOpenState(openState)),
     closeSpotsOpenState: openState => dispatch(closeSpotsOpenState(openState)),
-    loadMultiSpotView: openState => dispatch(loadMultiSpotView(openState)),
-    getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation))
+    loadView: openState => dispatch(loadView(openState)),
+    getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation)),
+    getMultiViewSurfForecast: forecast => dispatch(getMultiViewSurfForecast(forecast))
 });
 
 const convertMilesToKM = (km) => {
@@ -820,7 +829,7 @@ class SurfGUILanding extends Component {
         const {searchOpenState} = this.props;
         const {closeSpotsOpenState} = this.props;
         const {getActiveLocation} = this.props;
-        const {loadMultiSpotView} = this.props;
+        const {loadView} = this.props;
         if (window.innerWidth > Number(variables.largeNum)) {
             document.body.style.overflow = "hidden";
 
@@ -841,6 +850,7 @@ class SurfGUILanding extends Component {
             const {getWeather} = this.props;
             const {getWeatherForecast} = this.props;
             const {getNdbcStations} = this.props;
+            const { getMultiViewSurfForecast } = this.props;
             this
                 .props
                 .getActiveLocation(this.props.surf.closeSurfSpots[0]);
@@ -853,6 +863,7 @@ class SurfGUILanding extends Component {
             getWeatherStations(this.props.surf.closeSurfSpots[0]);
             getWeather(this.props.surf.closeSurfSpots[0]);
             getWeatherForecast(this.props.surf.closeSurfSpots[0]);
+            getMultiViewSurfForecast(this.props.surf.closeSurfSpots);
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
             const {getMaxWaveHeight} = this.props;
@@ -953,11 +964,17 @@ class SurfGUILanding extends Component {
                                             </SpotSearchIcon>
                                         </SpotSearchContainer>
                                         <SpotSearchContainer
-                                            onClick={() => this.props.loadMultiSpotView(this.props.surf.isMultispotView)}>
+                                            onClick={() => this.props.loadView(MULTI_VIEW)}>
                                             <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                <SpotSearchSVGPath />
+                                                <MultiSpotsSVGPath />
                                             </SpotSearchIcon>
                                         </SpotSearchContainer>
+                                        <CloseSpotIconContainerDesktop
+                                            onClick={() => this.props.loadView(SINGLE_VIEW)}>
+                                            <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                <CloseSpotsSVGPath />
+                                            </CloseSpotIcon>
+                                        </CloseSpotIconContainerDesktop>
                                     </MenuNavBkg>
                                 </Col>
                             </MediaQuery>
@@ -971,11 +988,20 @@ class SurfGUILanding extends Component {
                                     this.setState({geoLocationModalClosed: true})
                                 }}>Close</CloseButton>
                             </ErrorAlertBar>
+                            {this.props.surf.isView === MULTI_VIEW ? <SurfGUIMultiSpotViewContainer /> :
                             <CustomCol md={12} lg={9}>
-
+                                
                                 <DataDashBoardRow>
+                                    
                                     <MediaQuery minWidth={variables.large}>
+
+
+                                        
+
+
+
                                         <StyledCol35 >
+                                            {console.log(this.props.surf.multiViewForecast)}
                                             <CurrentConditionRow>
                                                 <CurrentConditionBackdrop>
                                                     {!Array.isArray(this.props.surf.currentConditions)
@@ -1140,7 +1166,9 @@ class SurfGUILanding extends Component {
                                         </BackDrop>
                                     </WindChartContainer>
                                 </DataDashBoardRow>
+                            
                             </CustomCol>
+                            }
                             <MediaQuery minWidth={variables.large}>
                                 <Col sm={2}>
                                     <RightNavBkg >
