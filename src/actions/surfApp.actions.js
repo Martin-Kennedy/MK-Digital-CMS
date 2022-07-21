@@ -137,18 +137,6 @@ const getCloseSurfSpotsArr = (locationsAndCoords) => {
                         item.countryOrState = country;
                         item.distanceFromLocation = distanceFromLocation;
                         return item;
-                    } else if (distanceFromLocation < 500) {
-                        item.countryOrState = country;
-                        item.distanceFromLocation = distanceFromLocation;
-                        return item;
-                    } else if (distanceFromLocation < 1000) {
-                        item.countryOrState = country;
-                        item.distanceFromLocation = distanceFromLocation;
-                        return item;
-                    } else {
-                        item.countryOrState = country;
-                        item.distanceFromLocation = distanceDefaultLocation;
-                        return item;
                     }
                 })
             }
@@ -197,19 +185,47 @@ export const getSurfForecast = (spotId) => {
 };
 
 export const getMultiViewSurfForecast = (data) => {
+   
+        
+        const request = new Promise((res) => {
+            let multiViewArr = [];
+            data.map((item) => {
+                axios.get(msUrl + item.spotId + '&fields=timestamp, wind.direction, wind.gust, wind.speed, swell.minBreakingHeight, swell.maxBreakingHeight,condition.temperature, condition.fadedRating, condition.solidRating, condition.weather')
+                    .then(response => {
+                        return response.data
+                    }).then(data => {
+                        multiViewArr.push({
+                            country: item.countryOrState,
+                            town: item.town,
+                            distanceFromLocation: item.distanceFromLocation,
+                            lat: item.lat,
+                            lng: item.lng,
+                            spotId: item.spotId,
+                            timeZone: item.timeZone,
+                            forecast: data,
+                        })
+                    })
+                    .catch(error => {
+                        throw (error);
+                    });
+                res(multiViewArr);
+            });
+            
+        });
     return (dispatch) => {
-         data.map((item) => {
-             return axios.get(msUrl + item.spotId)
-                .then(response => {
-                    return response.data
-                }).then(data => {
-                    dispatch({ type: GET_MULTI_VIEW_FORECAST, payload: data, country: item.countryOrState, town: item.town });
-                })
-                .catch(error => {
-                    throw (error);
-                });
+        function onSuccess(data) {
+            dispatch({ type: GET_MULTI_VIEW_FORECAST, payload: data });
+            return data;
+        };
+
+        request.then(data => {
+            onSuccess(data)
+        }).catch((error) => {
+            console.log(error);
         })
-    }
+    };
+    
+         
     };
 
 

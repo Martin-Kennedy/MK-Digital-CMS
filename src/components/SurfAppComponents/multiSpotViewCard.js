@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import {Row, Col} from 'react-bootstrap'
-import { WaveConditionsSVGPath } from '../designElementComponents/waveConditionsSVGPath';
+import {WaveConditionsSVGPath} from '../designElementComponents/waveConditionsSVGPath';
 import variables from '../../variables.module.scss';
 import MediaQuery from 'react-responsive';
 
@@ -23,6 +23,33 @@ top: -3vh;
 }
 `
 
+const BackDrop = styled.div `
+border-radius: 5px;
+background: rgba(255, 255, 255, 0.04);
+border: 1px solid rgba(255, 255, 255, 0.15);
+border-right-color: rgba(255, 255, 255, 0.07);
+border-bottom-color: rgba(255, 255, 255, 0.07);
+box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
+position: relative;
+height:  ${props => props.dynamicHeight > 8
+    ? props.dynamicHeight / 6 + 22
+    : 22}vh;
+width: 100%;
+padding: 4vh 0 0 0;
+`
+
+const CurrentConditionBackdrop = styled(BackDrop)`
+width: calc(25% - 1.35vw);
+height: calc(20vh - 2vh - (10vh/5));
+margin:0 0.5vw 2vh 0.5vw;
+display: inline-block;
+@media(max-width: ${variables.large}){
+    width: calc(50% - 1.5vw);
+    height: calc(50vw - 1.5vw);
+    margin: 0 1vw 1vw .5vw 
+}
+`
+
 const TitleIconRow = styled(Row)`
 width: 100%;
 display: flex;
@@ -38,7 +65,7 @@ padding: 0;
 }
 `
 
-const Title = styled.p`
+const Title = styled.p `
 text-transform: uppercase;
 color: rgba(255, 255, 255, 0.6);
 margin-left: 0;
@@ -56,7 +83,7 @@ line-height: .65vw;
 }
 `
 
-const WaveIcon = styled.svg`
+const WaveIcon = styled.svg `
 width: 2.25vh;
 height: 2.25vh;
 position: relative;
@@ -122,7 +149,7 @@ color: var(--white);
     line-height: 6vw;
 }
 `
-const PeriodAndDirection = styled.div`
+const PeriodAndDirection = styled.div `
 color: var(--white);
 opacity: 0.8;
 line-height: 2.5vw;
@@ -137,12 +164,13 @@ width: fit-content;
 flex: inherit;
 margin-left: 1.5vw;
 `
-const ConditionContainer = styled.div`
+const ConditionContainer = styled.div `
 border-radius: 4px;
 background: ${props => (props.rating[0] >= 2 || props.maxBreakingHeight >= 6) && props.rating[1] < 1
-? 'rgba(229, 135,41, 0.8)' : props.rating[0] < 1 || props.maxBreakingHeight <= 2 || props.rating[1] >= 2
-    ? 'rgba(183, 32,32, 0.8)'
-    : 'rgba(60, 214,82, 0.8)'};
+    ? 'rgba(229, 135,41, 0.8)'
+    : props.rating[0] < 1 || props.maxBreakingHeight <= 2 || props.rating[1] >= 2
+        ? 'rgba(183, 32,32, 0.8)'
+        : 'rgba(60, 214,82, 0.8)'};
 
 z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
@@ -162,7 +190,7 @@ letter-spacing: .2vw;
 }
 `
 
-const Location = styled.div`
+const Location = styled.div `
 color: var(--white);
 font-weight: 500;
 display: block;
@@ -182,7 +210,7 @@ width: fit-content;
 margin-left: 0;
 }
 `
-const Distance = styled.div`
+const Distance = styled.div `
 color: var(--white);
 margin: 0.5vh auto;
 font-weight: 500;
@@ -204,64 +232,70 @@ const MobileRow = styled(Row)`
 margin-top: 2.5vw;
 `
 
-
 export const MultiSpotViewCard = (props) => {
 
     const convertMilesToKM = (km) => {
-       const miles = props.surfSpot.distanceFromLocation / 1.609;
-       return parseInt(miles);
+        const miles = km / 1.609;
+        return parseInt(miles);
     }
 
-    return <WaveConditionBackdrop>
-            <TitleIconRow>
-                <Title>Conditions</Title>
-                <WaveIcon x="0px" y="0px" viewBox="0 0 100 100">
-                    <WaveConditionsSVGPath />
-                </WaveIcon>
-            </TitleIconRow>
-            <WaveHeight>
-            <MediaQuery minWidth={Number(variables.largeNum)}>
-            <Location>{props.surfSpot.town}, {props.surfSpot.countryOrState}</Location>
-            <Distance>{convertMilesToKM(props.surfSpot.distanceFromLocation)} miles away</Distance>
-            <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
-            <span>ft</span>
-            </MediaQuery>
-            <MediaQuery maxWidth={Number(variables.largeNum)}>
-                <MobileRow>
-                <Col xs={6}>
-                <Row>
-                    <WaveHeightCol>
-                    <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
-                    <span>ft</span>
-                    </WaveHeightCol>
-                    <WaveHeightCol>
-                    <PeriodAndDirection>At {props.waveData.components.combined.period} seconds</PeriodAndDirection>
-                    <PeriodAndDirection>from the {props.waveData.components.combined.compassDirection}</PeriodAndDirection>
-                    </WaveHeightCol>
-                        </Row>
-                </Col>
-                <Col xs={6}>
+    return props
+        .multiViewForecast
+        .map((spot) => {
+            return <CurrentConditionBackdrop>
+                <WaveConditionBackdrop>
+                    <TitleIconRow>
+                        <Title>Conditions</Title>
+                        <WaveIcon x="0px" y="0px" viewBox="0 0 100 100">
+                            <WaveConditionsSVGPath/>
+                        </WaveIcon>
+                    </TitleIconRow>
+                    <WaveHeight>
+                        <MediaQuery minWidth={Number(variables.largeNum)}>
+                            <Location>{spot.town}, {spot.countryOrState}</Location>
+                            <Distance>{convertMilesToKM(spot.distanceFromLocation)}
+                                miles away</Distance>
+                            {/* <p>{`${spot.forecast.swell.minBreakingHeight} - ${spot.forecast.swell.maxBreakingHeight}`}</p> */}
+                            <span>ft</span>
+                        </MediaQuery>
+                        {/* <MediaQuery maxWidth={Number(variables.largeNum)}>
+                    <MobileRow>
+                        <Col xs={6}>
+                            <Row>
+                                <WaveHeightCol>
+                                    <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
+                                    <span>ft</span>
+                                </WaveHeightCol>
+                                <WaveHeightCol>
+                                    <PeriodAndDirection>At {props.waveData.components.combined.period} seconds</PeriodAndDirection>
+                                    <PeriodAndDirection>from the {props.waveData.components.combined.compassDirection}</PeriodAndDirection>
+                                </WaveHeightCol>
+                            </Row>
+                        </Col>
+                        <Col xs={6}>
+                            <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
+                                <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
+                                    ? 'Good'
+                                    : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
+                                        ? 'Poor'
+                                        : 'Fair'}
+                                </RatingText>
+                            </ConditionContainer>
+                        </Col>
+                    </MobileRow>
+                </MediaQuery> */}
+                    </WaveHeight>
+                    {/* <MediaQuery minWidth={Number(variables.largeNum)}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
                     <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
                         ? 'Good'
                         : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
                             ? 'Poor'
-                            : 'Fair'}
-                    </RatingText>
+                            : 'Fair'}</RatingText>
                 </ConditionContainer>
-                </Col>
-                </MobileRow>
-            </MediaQuery>
-        </WaveHeight>
-        <MediaQuery minWidth={Number(variables.largeNum)}>
-        <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
-            <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
-                    ? 'Good'
-                : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
-                        ? 'Poor'
-                        : 'Fair'}</RatingText>
-        </ConditionContainer>
-        </MediaQuery>
-    </WaveConditionBackdrop>
+            </MediaQuery> */}
+                </WaveConditionBackdrop>
+            </CurrentConditionBackdrop>
+        })
 
 };

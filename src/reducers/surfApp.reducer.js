@@ -175,7 +175,6 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 isCloseSpotsOpen: !action.payload
             }
         case LOAD_VIEW:
-            console.log(action);
             return {
                 ...state,
                 isView: action.payload

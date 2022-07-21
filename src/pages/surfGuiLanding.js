@@ -297,6 +297,7 @@ text-transform: uppercase;
 `
 
 const GlassContainerBkg = styled(Row)`
+flex-wrap: nowrap; 
 `
 
 const RightNavBkg = styled.div `
@@ -988,7 +989,7 @@ class SurfGUILanding extends Component {
                                     this.setState({geoLocationModalClosed: true})
                                 }}>Close</CloseButton>
                             </ErrorAlertBar>
-                            {this.props.surf.isView === MULTI_VIEW ? <SurfGUIMultiSpotViewContainer /> :
+                            {this.props.surf.isView === MULTI_VIEW ? <SurfGUIMultiSpotViewContainer  /> :
                             <CustomCol md={12} lg={9}>
                                 
                                 <DataDashBoardRow>
@@ -1001,7 +1002,7 @@ class SurfGUILanding extends Component {
 
 
                                         <StyledCol35 >
-                                            {console.log(this.props.surf.multiViewForecast)}
+                                            
                                             <CurrentConditionRow>
                                                 <CurrentConditionBackdrop>
                                                     {!Array.isArray(this.props.surf.currentConditions)
