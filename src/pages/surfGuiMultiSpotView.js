@@ -7,24 +7,8 @@ import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
 import {
-    getLocationsObject,
-    getSurfForecast,
-    getCloseSurfSpots,
-    getSwellForecast,
-    getWindForecast,
-    getMaxWaveHeight,
-    getTideForecast,
-    getTideStations,
-    getNdbcStations,
-    getWeatherStations,
-    getWaterTemp,
     getWeather,
     getWeatherForecast,
-    getCurrentSwell,
-    searchOpenState,
-    closeSpotsOpenState,
-    getActiveLocation,
-    getMultiViewSurfForecast
 } from '../actions/surfApp.actions';
 import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
 import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
@@ -54,17 +38,13 @@ margin: 5vh 0;
 const mapStateToProps = state => {
     return {
         surf: {
-
-            multiViewForecast: state.surf.multiViewForecast
+            multiViewForecast: state.surf.multiViewForecast,
+            multiViewSwellForecast: state.surf.multiViewSwellForecast
 
         }
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-
-    getMultiViewSurfForecast: forecast => dispatch(getMultiViewSurfForecast(forecast))
-});
 
 const convertMilesToKM = (km) => {
     const miles = km / 1.609;
@@ -83,11 +63,9 @@ class SurfGUIMultiSpotView extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots) {
 
-            const { getMultiViewSurfForecast } = this.props;
 
             getWeather(this.props.surf.closeSurfSpots[0]);
             getWeatherForecast(this.props.surf.closeSurfSpots[0]);
-            getMultiViewSurfForecast(this.props.surf.closeSurfSpots);
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
             const {getMaxWaveHeight} = this.props;
@@ -124,13 +102,14 @@ class SurfGUIMultiSpotView extends Component {
 
         return (
             <SurfGUIMultiSpotViewContainer>
-
-               
+                {this.props.surf.getMultiViewSurfForecast ? 
+                <Fragment>
                 <Col md={11}>
                 <MultiSpotViewCard multiViewForecast={this.props.surf.multiViewForecast} />
                 </Col>
                 <Col md={1}></Col>
-                
+                </Fragment> : null
+    }
 
             </SurfGUIMultiSpotViewContainer>
 
@@ -138,4 +117,4 @@ class SurfGUIMultiSpotView extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SurfGUIMultiSpotView);
+export default connect(mapStateToProps)(SurfGUIMultiSpotView);

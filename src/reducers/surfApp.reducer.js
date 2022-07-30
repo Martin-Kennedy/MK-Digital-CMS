@@ -18,7 +18,8 @@ import {
     GET_WEATHER,
     GET_WEATHER_FORECAST,
     GET_CURRENT_SWELL,
-    GET_MULTI_VIEW_FORECAST
+    GET_MULTI_VIEW_FORECAST,
+    GET_MULTI_VIEW_SWELL_FORECAST
 } from '../helpers/types';
 import {formatAMPM} from '../helpers/utilities';
 
@@ -185,9 +186,16 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 activeLocation: action.payload
             }
         case GET_MULTI_VIEW_FORECAST:
+            console.log(action);
             return {
                 ...state,
                 multiViewForecast: action.payload
+            }
+        case GET_MULTI_VIEW_SWELL_FORECAST:
+            console.log(action);
+            return {
+                ...state,
+                multiViewSwellForecast: action.payload
             }
 
         default:

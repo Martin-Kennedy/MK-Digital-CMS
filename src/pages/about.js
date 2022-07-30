@@ -527,7 +527,7 @@ class About extends Component {
                                                     </MediaQuery>
                                                     <Col>
                                                         <MediumText>
-                                                            {item.serviceOneDescription}
+                                                            {item.serviceTwoDescription}
                                                         </MediumText>
                                                         <DigitalServicesList>
                                                             <Col

@@ -26,7 +26,8 @@ import {
     closeSpotsOpenState,
     loadView,
     getActiveLocation,
-    getMultiViewSurfForecast
+    getMultiViewForecast,
+    getMultiViewSwellForecast,
 } from '../actions/surfApp.actions';
 import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
 import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
@@ -776,7 +777,8 @@ const mapStateToProps = state => {
             isCloseSpotsOpen: state.surf.isCloseSpotsOpen,
             activeLocation: state.surf.activeLocation,
             isView: state.surf.isView,
-            multiViewForecast: state.surf.multiViewForecast
+            multiViewForecast: state.surf.multiViewForecast,
+            multiViewSwellForecast: state.surf.multiViewSwellForecast
         }
     }
 }
@@ -800,7 +802,8 @@ const mapDispatchToProps = dispatch => ({
     closeSpotsOpenState: openState => dispatch(closeSpotsOpenState(openState)),
     loadView: openState => dispatch(loadView(openState)),
     getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation)),
-    getMultiViewSurfForecast: forecast => dispatch(getMultiViewSurfForecast(forecast))
+    getMultiViewForecast: forecast => dispatch(getMultiViewForecast(forecast)),
+    getMultiViewSwellForecast: forecast => dispatch(getMultiViewSwellForecast(forecast)),
 });
 
 const convertMilesToKM = (km) => {
@@ -851,7 +854,8 @@ class SurfGUILanding extends Component {
             const {getWeather} = this.props;
             const {getWeatherForecast} = this.props;
             const {getNdbcStations} = this.props;
-            const { getMultiViewSurfForecast } = this.props;
+            const { getMultiViewForecast } = this.props;
+            
             this
                 .props
                 .getActiveLocation(this.props.surf.closeSurfSpots[0]);
@@ -864,7 +868,9 @@ class SurfGUILanding extends Component {
             getWeatherStations(this.props.surf.closeSurfSpots[0]);
             getWeather(this.props.surf.closeSurfSpots[0]);
             getWeatherForecast(this.props.surf.closeSurfSpots[0]);
-            getMultiViewSurfForecast(this.props.surf.closeSurfSpots);
+            getMultiViewForecast(this.props.surf.closeSurfSpots);
+            
+            
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
             const {getMaxWaveHeight} = this.props;
@@ -873,6 +879,11 @@ class SurfGUILanding extends Component {
             getMaxWaveHeight(this.props.surf.hourlyForecast);
             getSwellForecast(this.props.surf.hourlyForecast);
             getWindForecast(this.props.surf.hourlyForecast);
+        }
+        if (prevProps.surf.multiViewForecast != this.props.surf.multiViewForecast) {
+            console.log(this.props.surf.multiViewForecast);
+            const { getMultiViewSwellForecast } = this.props;
+            getMultiViewSwellForecast(this.props.surf.multiViewForecast);
         }
         if (prevProps.surf.tideStations != this.props.surf.tideStations) {
             const {getTideForecast} = this.props;

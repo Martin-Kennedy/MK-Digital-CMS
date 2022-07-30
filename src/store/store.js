@@ -70,6 +70,7 @@ const initalState = {
         isSearchOpen: false,
         isCloseSpotsOpen: false,
         multiViewForecast: [],
+        multiViewSwellForecast: [],
         isView: MULTI_VIEW,
         activeLocation: null
     },

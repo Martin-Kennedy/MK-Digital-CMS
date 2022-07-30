@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {Row, Col} from 'react-bootstrap'
 import {WaveConditionsSVGPath} from '../designElementComponents/waveConditionsSVGPath';
 import variables from '../../variables.module.scss';
+import SwellBarChartMultiView from './swellForecastBarChartMultiView';
 import MediaQuery from 'react-responsive';
 
 const WaveConditionBackdrop = styled.div `
@@ -198,7 +199,7 @@ margin: 0.5vh auto;
 text-transform: uppercase;
 font-size: 0.75vw;
 line-height: 0.85vw;
-width: 90%;
+width: 33%;
 letter-spacing: .1vw;
 opacity: 0.9;
 @media(max-width: ${variables.large}){
@@ -245,19 +246,17 @@ export const MultiSpotViewCard = (props) => {
             return <CurrentConditionBackdrop>
                 <WaveConditionBackdrop>
                     <TitleIconRow>
-                        <Title>Conditions</Title>
+                        <Location>{spot.town}, {spot.countryOrState}</Location>
+                        <Distance>{convertMilesToKM(spot.distanceFromLocation)}
+                            miles away</Distance>
+                        {/* <p>{`${spot.forecast.swell.minBreakingHeight} - ${spot.forecast.swell.maxBreakingHeight}`}</p> */}
+                        <span>ft</span>
                         <WaveIcon x="0px" y="0px" viewBox="0 0 100 100">
                             <WaveConditionsSVGPath/>
                         </WaveIcon>
                     </TitleIconRow>
                     <WaveHeight>
-                        <MediaQuery minWidth={Number(variables.largeNum)}>
-                            <Location>{spot.town}, {spot.countryOrState}</Location>
-                            <Distance>{convertMilesToKM(spot.distanceFromLocation)}
-                                miles away</Distance>
-                            {/* <p>{`${spot.forecast.swell.minBreakingHeight} - ${spot.forecast.swell.maxBreakingHeight}`}</p> */}
-                            <span>ft</span>
-                        </MediaQuery>
+                        
                         {/* <MediaQuery maxWidth={Number(variables.largeNum)}>
                     <MobileRow>
                         <Col xs={6}>
@@ -284,6 +283,9 @@ export const MultiSpotViewCard = (props) => {
                         </Col>
                     </MobileRow>
                 </MediaQuery> */}
+                        <SwellBarChartMultiView
+                            // maxWaveHeight={spot.forecast.swell.maxWaveHeight}
+                            forecast={spot.forecast} />
                     </WaveHeight>
                     {/* <MediaQuery minWidth={Number(variables.largeNum)}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
