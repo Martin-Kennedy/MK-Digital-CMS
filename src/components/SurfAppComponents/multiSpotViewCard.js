@@ -104,6 +104,7 @@ path {
 
 const WaveHeight = styled.div `
 opacity: .8;
+height: 5vh;
 p {
 color: var(--white);
 font-size: min(2.5vw,40px);
@@ -240,16 +241,36 @@ export const MultiSpotViewCard = (props) => {
         return parseInt(miles);
     }
 
+    
     return props
-        .multiViewForecast
+        .swellForecast
         .map((spot) => {
+            const getCurrentConditions = (data) => {
+                const now = Date.now() / 1000 | 0;
+                return data
+                    .filter((d) => {
+                        return (d.localTime / 1000) < now;
+                    })
+            }
+            const getFutureConditions = (data) => {
+
+                return data.filter((d) => {
+                    const forecastDateObj = new Date(d.localTime).getTime();
+                    const fullDateToday = Math.floor(Date.now() / 1000) * 1000;
+                    return forecastDateObj >= fullDateToday;
+                })
+            }
+
+            let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
+
             return <CurrentConditionBackdrop>
                 <WaveConditionBackdrop>
                     <TitleIconRow>
-                        <Location>{spot.town}, {spot.countryOrState}</Location>
+                        <Location>{spot.town}, {spot.country}</Location>
                         <Distance>{convertMilesToKM(spot.distanceFromLocation)}
                             miles away</Distance>
-                        {/* <p>{`${spot.forecast.swell.minBreakingHeight} - ${spot.forecast.swell.maxBreakingHeight}`}</p> */}
+                        {console.log(currentMultiViewConditions)}
+                        <p>{`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}</p>
                         <span>ft</span>
                         <WaveIcon x="0px" y="0px" viewBox="0 0 100 100">
                             <WaveConditionsSVGPath/>
@@ -285,7 +306,7 @@ export const MultiSpotViewCard = (props) => {
                 </MediaQuery> */}
                         <SwellBarChartMultiView
                             // maxWaveHeight={spot.forecast.swell.maxWaveHeight}
-                            forecast={spot.forecast} />
+                            forecast={getFutureConditions(spot.swellForecast)} />
                     </WaveHeight>
                     {/* <MediaQuery minWidth={Number(variables.largeNum)}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>

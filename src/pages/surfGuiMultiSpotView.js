@@ -102,10 +102,11 @@ class SurfGUIMultiSpotView extends Component {
 
         return (
             <SurfGUIMultiSpotViewContainer>
-                {this.props.surf.getMultiViewSurfForecast ? 
+                {console.log(this.props.surf.multiViewSwellForecast)}
+                {this.props.surf.multiViewSwellForecast ? 
                 <Fragment>
                 <Col md={11}>
-                <MultiSpotViewCard multiViewForecast={this.props.surf.multiViewForecast} />
+                            <MultiSpotViewCard swellForecast={this.props.surf.multiViewSwellForecast} multiViewForecast={this.props.surf.multiViewForecast} />
                 </Col>
                 <Col md={1}></Col>
                 </Fragment> : null

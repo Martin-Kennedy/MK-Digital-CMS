@@ -186,13 +186,11 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 activeLocation: action.payload
             }
         case GET_MULTI_VIEW_FORECAST:
-            console.log(action);
             return {
                 ...state,
                 multiViewForecast: action.payload
             }
         case GET_MULTI_VIEW_SWELL_FORECAST:
-            console.log(action);
             return {
                 ...state,
                 multiViewSwellForecast: action.payload

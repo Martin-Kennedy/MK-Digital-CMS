@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
     BarChart,
     Bar,
@@ -14,12 +14,12 @@ import styled from 'styled-components';
 import MediaQuery from 'react-responsive';
 import variables from '../../variables.module.scss';
 
-const MonthText = styled.text `
+const MonthText = styled.text`
 color: #fff !important;
 fill: #666;
 `
 
-const SwellChartToolTip = styled.div `
+const SwellChartToolTip = styled.div`
 
 `
 
@@ -40,7 +40,7 @@ const toolTipGlassMorphism = {
     zIndex: '4'
 }
 
-const SwellChartDateTime = styled.p `
+const SwellChartDateTime = styled.p`
 width: 100%;
 display: block;
 margin: .2vh 0 1.75vh 0;
@@ -50,7 +50,7 @@ margin: .2vh 0 1.75vh 0;
     color: rgba(255,255,255, 0.8);
 `
 
-const SwellChartWaveHeight = styled.p `
+const SwellChartWaveHeight = styled.p`
 width: 100%;
 display: block;
 margin: .2vh 0 1vh 0;
@@ -64,7 +64,7 @@ color: rgba(255,255,255, 0.7);
     }
 `
 
-const SwellChartPrimary = styled.p `
+const SwellChartPrimary = styled.p`
 width: 100%;
 display: block;
 margin: .2vh 0 1vh 0;
@@ -110,11 +110,11 @@ const renderDateTick = (tickProps) => {
     return null;
 };
 
-const SwellInfoTooltip = ({active, payload, data}) => {
+const SwellInfoTooltip = ({ active, payload, data }) => {
     if (active && payload && payload.length) {
         return (
             <SwellChartToolTip>
-                {/* <SwellChartDateTime>{payload[0].payload.dayOfWeek}, {payload[0].payload.date} - {payload[0].payload.time}</SwellChartDateTime>
+                <SwellChartDateTime>{payload[0].payload.dayOfWeek}, {payload[0].payload.date} - {payload[0].payload.time}</SwellChartDateTime>
                 <SwellChartWaveHeight>Wave Height:
                     <span> {payload[0].payload.minBreakingHeight} - {payload[0].payload.maxBreakingHeight}ft</span>
                 </SwellChartWaveHeight>
@@ -122,7 +122,7 @@ const SwellInfoTooltip = ({active, payload, data}) => {
                 <SwellChartPrimary>
                     <div>Primary:
                         <span> {payload[0].payload.primaryHeight}ft </span>
-                        at 
+                        at
                         <span> {payload[0].payload.primaryPeriod}s </span>
                         <span> {payload[0].payload.primarySwellDirection} </span>
                     </div>
@@ -135,8 +135,8 @@ const SwellInfoTooltip = ({active, payload, data}) => {
                         <span> {payload[0].payload.secondaryPeriod}s </span>
                         <span> {payload[0].payload.secondarySwellDirection} </span>
                     </div>
-                    
-                </SwellChartSecondary> : null} */}
+
+                </SwellChartSecondary> : null}
             </SwellChartToolTip>
         );
     }
@@ -144,7 +144,7 @@ const SwellInfoTooltip = ({active, payload, data}) => {
     return null;
 };
 
-export default class SwellBarChart extends PureComponent {
+export default class SwellBarChartMultiView extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -160,66 +160,8 @@ export default class SwellBarChart extends PureComponent {
             <Fragment>
                 <MediaQuery maxWidth={Number(variables.largeNum)}>
                     <ResponsiveContainer className="swellForecastContainer" width="100%" height="90%">
-            
 
-                <BarChart
-                    width={500}
-                    height={300}
-                    data={this.props.forecast}
-                    margin={{
-                    top: 8,
-                    right: 25,
-                    left: -25,
-                    bottom: 10
-                }}
-                    onMouseMove={(state) => {
-                    if (state.isTooltipActive) {
-                        this.setState({focusBar: state.activeTooltipIndex, mouseLeave: false});
-                    } else {
-                        this.setState({focusBar: null, mouseLeave: true})
-                    }
-                }}>
-                    <XAxis dataKey="time"/>
-                    <XAxis
-                        dataKey="localTime"
-                        axisLine={false}
-                        tickLine={false}
-                        interval={0}
-                        tick={renderDateTick}
-                        height={1}
-                        scale="band"
-                        xAxisId="Date"/>
-                    <YAxis
-                        type="number"
-                        domain={[0, this.props.maxWaveHeight]}
-                        margin={{
-                        top: 5,
-                        right: 10,
-                        left: 0,
-                        bottom: 5
-                    }}/>
-                    <Tooltip
-                        wrapperStyle={toolTipGlassMorphism}
-                        content={< SwellInfoTooltip />}
-                        cursor={false}/>
-                    <Bar dataKey="maxBreakingHeight" fill="#7ecaed">
-                        {this
-                            .props
-                            .forecast
-                            .map((entry, index) => {
-                                return <Cell key={`cell-${index}`}
-                                    fill={this.state.focusBar === index
-                                    ? "#40bcf0"
-                                    : this.state.mouseLeave
-                                        ? "rgba(64, 188, 240, 0.8)"
-                                        : "rgba(64, 188, 240, 0.35)"}/>
-                            })}
-                    </Bar>
-                </BarChart>
-            </ResponsiveContainer>
-            </MediaQuery>
-                <MediaQuery minWidth={Number(variables.largeNum)}>
-                <ResponsiveContainer width="100%" height="90%">
+
                         <BarChart
                             width={500}
                             height={300}
@@ -249,7 +191,7 @@ export default class SwellBarChart extends PureComponent {
                                 xAxisId="Date" />
                             <YAxis
                                 type="number"
-                                domain={[0, 12]}
+                                domain={[0, this.props.maxWaveHeight]}
                                 margin={{
                                     top: 5,
                                     right: 10,
@@ -275,8 +217,66 @@ export default class SwellBarChart extends PureComponent {
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
-                    </MediaQuery>
-                    </Fragment>
+                </MediaQuery>
+                <MediaQuery minWidth={Number(variables.largeNum)}>
+                    <ResponsiveContainer width="100%" height="90%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={this.props.forecast}
+                            margin={{
+                                top: 8,
+                                right: 25,
+                                left: -25,
+                                bottom: 10
+                            }}
+                            onMouseMove={(state) => {
+                                if (state.isTooltipActive) {
+                                    this.setState({ focusBar: state.activeTooltipIndex, mouseLeave: false });
+                                } else {
+                                    this.setState({ focusBar: null, mouseLeave: true })
+                                }
+                            }}>
+                            <XAxis dataKey="time" />
+                            <XAxis
+                                dataKey="localTime"
+                                axisLine={false}
+                                tickLine={false}
+                                interval={0}
+                                tick={renderDateTick}
+                                height={1}
+                                scale="band"
+                                xAxisId="Date" />
+                            <YAxis
+                                type="number"
+                                domain={[0, this.props.maxWaveHeight]}
+                                margin={{
+                                    top: 5,
+                                    right: 10,
+                                    left: 0,
+                                    bottom: 5
+                                }} />
+                            <Tooltip
+                                wrapperStyle={toolTipGlassMorphism}
+                                content={< SwellInfoTooltip />}
+                                cursor={false} />
+                            <Bar dataKey="maxBreakingHeight" fill="#7ecaed">
+                                {this
+                                    .props
+                                    .forecast
+                                    .map((entry, index) => {
+                                        return <Cell key={`cell-${index}`}
+                                            fill={this.state.focusBar === index
+                                                ? "#40bcf0"
+                                                : this.state.mouseLeave
+                                                    ? "rgba(64, 188, 240, 0.8)"
+                                                    : "rgba(64, 188, 240, 0.35)"} />
+                                    })}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </MediaQuery>
+            </Fragment>
         );
     }
 }

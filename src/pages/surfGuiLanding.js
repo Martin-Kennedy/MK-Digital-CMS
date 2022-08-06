@@ -881,7 +881,7 @@ class SurfGUILanding extends Component {
             getWindForecast(this.props.surf.hourlyForecast);
         }
         if (prevProps.surf.multiViewForecast != this.props.surf.multiViewForecast) {
-            console.log(this.props.surf.multiViewForecast);
+            console.log(this.props.surf.multiViewSwellForecast);
             const { getMultiViewSwellForecast } = this.props;
             getMultiViewSwellForecast(this.props.surf.multiViewForecast);
         }

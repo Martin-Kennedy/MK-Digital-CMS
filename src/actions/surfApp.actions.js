@@ -199,7 +199,7 @@ export const getSurfForecast = (spotId) => {
 export const getMultiViewForecast = (data) => {
 
     const arr = [];
-    const map1 = new Promise((res) => {
+    new Promise((res) => {
         data.map((item) => {
             arr.push({
                 country: item.countryOrState,
@@ -215,34 +215,28 @@ export const getMultiViewForecast = (data) => {
         res(arr);
     });
 
-
-            
     function getAllData() {
         const array = data.map((item, index) => {
 
             const axiosDataPromise = new Promise((resolve) => {
-                resolve(item.forecast = axios
-                    .get(msUrl + item.spotId)
-                    .then(res => {
-                        return res.data
-                    })
-                    .then((data) => {
-                        return arr[index].forecast = data;
-                    })
-                )
+                resolve(item.forecast = axios.get(msUrl + item.spotId).then(res => {
+                    return res.data
+                }).then((data) => {
+                    return arr[index].forecast = data;
+                }))
 
             })
             return axiosDataPromise;
 
         })
-       return  Promise.all(array)
+        return Promise.all(array)
     }
     return (dispatch) => {
         function onSuccess(data) {
-            dispatch({ type: GET_MULTI_VIEW_FORECAST, payload: data });
+            dispatch({type: GET_MULTI_VIEW_FORECAST, payload: data});
             return data;
         }
-    getAllData().then((res) => {
+        getAllData().then((res) => {
             const arr = [];
             const finalArray = new Promise((resolve) => {
                 data.map((item, i) => {
@@ -255,19 +249,17 @@ export const getMultiViewForecast = (data) => {
                         spotId: item.spotId,
                         timeZone: item.timeZone,
                         forecast: res[i]
-
                     });
                 })
                 resolve(arr);
             });
 
             return finalArray;
-        }
-    ).then(data => onSuccess(data))
-        .catch((error) => {
-            console.log(error);
         })
-           
+            .then(data => onSuccess(data))
+            .catch((error) => {
+                console.log(error);
+            })
 
     };
 
@@ -275,13 +267,12 @@ export const getMultiViewForecast = (data) => {
 
 export const getMultiViewSwellForecast = (data) => {
     const request = new Promise((res) => {
-        let arr = [];
 
-        data.map((item) => {
-            console.log(item.forecast);
-            item
-                .forecast
-                .map((hourlyForecast) => {
+       
+            const results = Promise.all(data.map((item) => {
+            let arr = [];
+            const hourlySwellForecast = new Promise((resolve) => {
+                item.forecast.map((hourlyForecast) => {
                     let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
                     let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
                     let day = new Date(dateObj).toLocaleString('default', {weekday: 'long'});
@@ -304,11 +295,29 @@ export const getMultiViewSwellForecast = (data) => {
                         secondaryPeriod: hourlyForecast.swell.components.secondary
                             ? hourlyForecast.swell.components.secondary.period
                             : ''
-                    });
+                    })
+                    resolve(arr);
+                    
                 })
-            console.log(arr);
-            res(arr);
-        })
+            });
+            return hourlySwellForecast.then((data) => {
+                
+                const spotSwellForecast = {
+                    country: item.country,
+                    town: item.town,
+                    distanceFromLocation: item.distanceFromLocation,
+                    lat: item.lat,
+                    lng: item.lng,
+                    spotId: item.spotId,
+                    timeZone: item.timeZone,
+                    swellForecast: data
+
+                }
+                
+                return spotSwellForecast;
+            })
+        }))
+        res(results);
     })
 
     return (dispatch) => {
@@ -324,8 +333,7 @@ export const getMultiViewSwellForecast = (data) => {
                 console.log(error);
             })
 
-    };
-}
+    };}
 
 export const getCloseSurfSpots = () => {
 
