@@ -14,6 +14,7 @@ import {
     getSwellForecast,
     getWindForecast,
     getMaxWaveHeight,
+    getMaxWaveHeightMultiView,
     getTideForecast,
     getTideStations,
     getNdbcStations,
@@ -804,6 +805,7 @@ const mapDispatchToProps = dispatch => ({
     getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation)),
     getMultiViewForecast: forecast => dispatch(getMultiViewForecast(forecast)),
     getMultiViewSwellForecast: forecast => dispatch(getMultiViewSwellForecast(forecast)),
+    getMaxWaveHeightMultiView: waveHeight => dispatch(getMaxWaveHeightMultiView(waveHeight))
 });
 
 const convertMilesToKM = (km) => {
@@ -881,9 +883,12 @@ class SurfGUILanding extends Component {
             getWindForecast(this.props.surf.hourlyForecast);
         }
         if (prevProps.surf.multiViewForecast != this.props.surf.multiViewForecast) {
-            console.log(this.props.surf.multiViewSwellForecast);
             const { getMultiViewSwellForecast } = this.props;
             getMultiViewSwellForecast(this.props.surf.multiViewForecast);
+        }
+        if(prevProps.surf.multiViewSwellForecast != this.props.surf.multiViewSwellForecast){
+            const { getMaxWaveHeightMultiView } = this.props;
+            getMaxWaveHeightMultiView(this.props.surf.multiViewSwellForecast);
         }
         if (prevProps.surf.tideStations != this.props.surf.tideStations) {
             const {getTideForecast} = this.props;

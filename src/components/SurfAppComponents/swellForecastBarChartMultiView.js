@@ -5,7 +5,6 @@ import {
     Cell,
     XAxis,
     YAxis,
-    CartesianGrid,
     Tooltip,
     Legend,
     ResponsiveContainer
@@ -16,7 +15,7 @@ import variables from '../../variables.module.scss';
 
 const MonthText = styled.text`
 color: #fff !important;
-fill: #666;
+fill: #fff;
 `
 
 const SwellChartToolTip = styled.div`
@@ -158,6 +157,7 @@ export default class SwellBarChartMultiView extends PureComponent {
 
         return (
             <Fragment>
+                {console.log(this.props.maxWaveHeight)}
                 <MediaQuery maxWidth={Number(variables.largeNum)}>
                     <ResponsiveContainer className="swellForecastContainer" width="100%" height="90%">
 
@@ -167,10 +167,10 @@ export default class SwellBarChartMultiView extends PureComponent {
                             height={300}
                             data={this.props.forecast}
                             margin={{
-                                top: 8,
+                                top: 0,
                                 right: 25,
                                 left: -25,
-                                bottom: 10
+                                bottom: 0
                             }}
                             onMouseMove={(state) => {
                                 if (state.isTooltipActive) {
@@ -180,7 +180,7 @@ export default class SwellBarChartMultiView extends PureComponent {
                                 }
                             }}>
                             <XAxis dataKey="time" />
-                            <XAxis
+                            {/* <XAxis
                                 dataKey="localTime"
                                 axisLine={false}
                                 tickLine={false}
@@ -188,7 +188,7 @@ export default class SwellBarChartMultiView extends PureComponent {
                                 tick={renderDateTick}
                                 height={1}
                                 scale="band"
-                                xAxisId="Date" />
+                                xAxisId="Date" /> */}
                             <YAxis
                                 type="number"
                                 domain={[0, this.props.maxWaveHeight]}
@@ -225,10 +225,10 @@ export default class SwellBarChartMultiView extends PureComponent {
                             height={300}
                             data={this.props.forecast}
                             margin={{
-                                top: 8,
+                                top: 2,
                                 right: 25,
-                                left: -25,
-                                bottom: 10
+                                left: -35,
+                                bottom: -15
                             }}
                             onMouseMove={(state) => {
                                 if (state.isTooltipActive) {
@@ -238,7 +238,7 @@ export default class SwellBarChartMultiView extends PureComponent {
                                 }
                             }}>
                             <XAxis dataKey="time" />
-                            <XAxis
+                            {/* <XAxis
                                 dataKey="localTime"
                                 axisLine={false}
                                 tickLine={false}
@@ -246,7 +246,7 @@ export default class SwellBarChartMultiView extends PureComponent {
                                 tick={renderDateTick}
                                 height={1}
                                 scale="band"
-                                xAxisId="Date" />
+                                xAxisId="Date" /> */}
                             <YAxis
                                 type="number"
                                 domain={[0, this.props.maxWaveHeight]}

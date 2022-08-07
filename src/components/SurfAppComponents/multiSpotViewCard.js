@@ -6,24 +6,6 @@ import variables from '../../variables.module.scss';
 import SwellBarChartMultiView from './swellForecastBarChartMultiView';
 import MediaQuery from 'react-responsive';
 
-const WaveConditionBackdrop = styled.div `
-width: 100%;
-height: 14vh;
-z-index: 5;
-margin: 0 auto;
-text-align: center;
-position: relative;
-top: -3vh;
-@media(max-width: ${variables.large}){
-    width: calc(100% - 3vw);
-    height: 100%;
-    z-index: 5;
-    text-align: left;
-    margin: 0 1vw 0 2vw;
-    position: unset;
-}
-`
-
 const BackDrop = styled.div `
 border-radius: 5px;
 background: rgba(255, 255, 255, 0.04);
@@ -36,7 +18,7 @@ height:  ${props => props.dynamicHeight > 8
     ? props.dynamicHeight / 6 + 22
     : 22}vh;
 width: 100%;
-padding: 4vh 0 0 0;
+padding: .5vh;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
@@ -57,6 +39,8 @@ display: flex;
 justify-content: space-between;
 margin: 0;
 padding: 0;
+height: 4vh;
+margin-bottom: .5vh;
 
 @media(max-width: ${variables.large}){
     position: unset;
@@ -65,6 +49,30 @@ padding: 0;
     width: calc(100% - 1vw);
 }
 `
+const TitleCol = styled(Col)``;
+
+const WaveDataCol = styled(Col)`
+color: rgba(255, 255, 255, 0.8);
+p {
+margin-left: 0;
+margin-top: 0;
+display: inline-block;
+margin-bottom: 1vh;
+width: auto;
+font-size: 1.75vw;
+font-weight: 600;
+height: fit-content;
+line-height: .65vw;
+@media(max-width:${variables.large}){
+    font-size: 2vw;
+    line-height: 2vw;
+    padding: 0;
+    }
+}
+span {
+    display: inline-block;
+    margin-left: .5vw;
+}`;
 
 const Title = styled.p `
 text-transform: uppercase;
@@ -102,9 +110,12 @@ path {
 }
 `
 
-const WaveHeight = styled.div `
+const SwellChartContainer = styled(Row)`
 opacity: .8;
-height: 5vh;
+height: 7vh;
+width: 50%;
+position: relative;
+margin: 0;
 p {
 color: var(--white);
 font-size: min(2.5vw,40px);
@@ -121,7 +132,7 @@ line-height: max(1.8vw,35px);
 }
 }
 span {
-width: 100%;
+
 text-align: center;
 font-size: 1vw;
 font-weight: 200;
@@ -196,20 +207,21 @@ const Location = styled.div `
 color: var(--white);
 font-weight: 500;
 display: block;
-margin: 0.5vh auto;
+margin: 0.5vh 0;
 text-transform: uppercase;
 font-size: 0.75vw;
 line-height: 0.85vw;
-width: 33%;
+width: 100%;
 letter-spacing: .1vw;
 opacity: 0.9;
+margin-left: 1.5vh;
 @media(max-width: ${variables.large}){
 font-size: 2.25vw;
 line-height: 2.25vw;
 letter-spacing: .25vw;
 display: block;
 width: fit-content;
-margin-left: 0;
+
 }
 `
 const Distance = styled.div `
@@ -221,6 +233,7 @@ font-size: 0.5vw;
 text-transform: uppercase;
 letter-spacing: .1vw;
 opacity: 0.8;
+margin-left: 1.5vh;
 @media(max-width: ${variables.large}){
     font-size: 1.5vw;
     line-height: 2vw;
@@ -241,74 +254,51 @@ export const MultiSpotViewCard = (props) => {
         return parseInt(miles);
     }
 
-    
     return props
         .swellForecast
         .map((spot) => {
             const getCurrentConditions = (data) => {
                 const now = Date.now() / 1000 | 0;
-                return data
-                    .filter((d) => {
-                        return (d.localTime / 1000) < now;
-                    })
+                return data.filter((d) => {
+                    return (d.localTime / 1000) < now;
+                })
             }
             const getFutureConditions = (data) => {
+
+                function addHours(numOfHours, date = new Date()) {
+                    date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
+                    return date;
+                }
 
                 return data.filter((d) => {
                     const forecastDateObj = new Date(d.localTime).getTime();
                     const fullDateToday = Math.floor(Date.now() / 1000) * 1000;
-                    return forecastDateObj >= fullDateToday;
+                    const parsedDate = new Date(fullDateToday)
+                    const endTime = addHours(27, parsedDate);
+                    return forecastDateObj >= fullDateToday && forecastDateObj <= endTime;
                 })
             }
 
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
 
             return <CurrentConditionBackdrop>
-                <WaveConditionBackdrop>
-                    <TitleIconRow>
+                <TitleIconRow>
+                    <TitleCol xs={7}>
                         <Location>{spot.town}, {spot.country}</Location>
                         <Distance>{convertMilesToKM(spot.distanceFromLocation)}
                             miles away</Distance>
-                        {console.log(currentMultiViewConditions)}
+                    </TitleCol>
+                    <WaveDataCol xs={4}>
                         <p>{`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}</p>
                         <span>ft</span>
-                        <WaveIcon x="0px" y="0px" viewBox="0 0 100 100">
-                            <WaveConditionsSVGPath/>
-                        </WaveIcon>
-                    </TitleIconRow>
-                    <WaveHeight>
-                        
-                        {/* <MediaQuery maxWidth={Number(variables.largeNum)}>
-                    <MobileRow>
-                        <Col xs={6}>
-                            <Row>
-                                <WaveHeightCol>
-                                    <p>{`${props.waveData.minBreakingHeight} - ${props.waveData.maxBreakingHeight}`}</p>
-                                    <span>ft</span>
-                                </WaveHeightCol>
-                                <WaveHeightCol>
-                                    <PeriodAndDirection>At {props.waveData.components.combined.period} seconds</PeriodAndDirection>
-                                    <PeriodAndDirection>from the {props.waveData.components.combined.compassDirection}</PeriodAndDirection>
-                                </WaveHeightCol>
-                            </Row>
-                        </Col>
-                        <Col xs={6}>
-                            <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
-                                <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
-                                    ? 'Good'
-                                    : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
-                                        ? 'Poor'
-                                        : 'Fair'}
-                                </RatingText>
-                            </ConditionContainer>
-                        </Col>
-                    </MobileRow>
-                </MediaQuery> */}
-                        <SwellBarChartMultiView
-                            // maxWaveHeight={spot.forecast.swell.maxWaveHeight}
-                            forecast={getFutureConditions(spot.swellForecast)} />
-                    </WaveHeight>
-                    {/* <MediaQuery minWidth={Number(variables.largeNum)}>
+                    </WaveDataCol>
+                </TitleIconRow>
+                <SwellChartContainer>
+
+                    <SwellBarChartMultiView maxWaveHeight={props.maxWaveHeight}
+                    forecast={getFutureConditions(spot.swellForecast)}/>
+                </SwellChartContainer>
+                {/* <MediaQuery minWidth={Number(variables.largeNum)}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
                     <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
                         ? 'Good'
@@ -317,7 +307,6 @@ export const MultiSpotViewCard = (props) => {
                             : 'Fair'}</RatingText>
                 </ConditionContainer>
             </MediaQuery> */}
-                </WaveConditionBackdrop>
             </CurrentConditionBackdrop>
         })
 

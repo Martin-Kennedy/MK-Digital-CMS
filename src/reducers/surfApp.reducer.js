@@ -19,7 +19,8 @@ import {
     GET_WEATHER_FORECAST,
     GET_CURRENT_SWELL,
     GET_MULTI_VIEW_FORECAST,
-    GET_MULTI_VIEW_SWELL_FORECAST
+    GET_MULTI_VIEW_SWELL_FORECAST,
+    GET_MAX_WAVE_HEIGHT_MULTI_VIEW
 } from '../helpers/types';
 import {formatAMPM} from '../helpers/utilities';
 
@@ -194,6 +195,16 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 multiViewSwellForecast: action.payload
+            }
+
+        case GET_MAX_WAVE_HEIGHT_MULTI_VIEW: 
+            let maxMultiViewWaveHeight = action.payload;
+            if (maxMultiViewWaveHeight < 8) {
+                maxMultiViewWaveHeight = 8;
+            }
+            return {
+                ...state,
+                maxMultiViewWaveHeight: maxMultiViewWaveHeight
             }
 
         default:

@@ -507,6 +507,31 @@ body {
     }
 }
 
+.surf-app-multi-view .recharts-cartesian-axis-ticks {
+    font-size: 0.45vw;
+    stroke: var(--white);
+    opacity: 0.5;
+
+    line {
+        font-size: 0.65vw;
+        stroke: var(--white);
+        opacity: 0.6;
+    }
+
+    text {
+        font-size: 0.6vw;
+        stroke: var(--white);
+        opacity: 1;
+    }
+
+    path {
+        height: 0.4vh;
+        transform: translateY(2.5vh);
+        stroke: 1px solid #fff;
+        opacity: 0.6;
+    }
+}
+
 .sunGraph .recharts-cartesian-axis-ticks {
     font-size: 0.45vw;
     stroke: var(--white);

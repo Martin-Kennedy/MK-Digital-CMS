@@ -58,6 +58,7 @@ const initalState = {
         windForecast: [],
         currentConditions: [],
         maxWaveHeight: [],
+        maxMultiViewWaveHeight: [],
         tideStations: [],
         ndbcStations: [],
         weatherStations: [],

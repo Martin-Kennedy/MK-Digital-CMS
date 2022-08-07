@@ -19,7 +19,8 @@ import {
     GET_WEATHER_FORECAST,
     GET_CURRENT_SWELL,
     GEO_LOCATION_ERROR,
-    GET_MULTI_VIEW_SWELL_FORECAST
+    GET_MULTI_VIEW_SWELL_FORECAST,
+    GET_MAX_WAVE_HEIGHT_MULTI_VIEW
 } from '../helpers/types'
 import {formatAMPM} from '../helpers/utilities'
 import {getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
@@ -280,6 +281,8 @@ export const getMultiViewSwellForecast = (data) => {
                         date: fullDate,
                         dayOfWeek: day,
                         time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+                        fadedRating: hourlyForecast.fadedRating,
+                        solidRating: hourlyForecast.solidRating,
                         localTime: hourlyForecast.localTimestamp * 1000,
                         minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
                         maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
@@ -323,7 +326,6 @@ export const getMultiViewSwellForecast = (data) => {
     return (dispatch) => {
 
         function onSuccess(data) {
-            console.log(data);
             dispatch({type: GET_MULTI_VIEW_SWELL_FORECAST, payload: data});
             return data;
         }
@@ -706,6 +708,39 @@ export const getMaxWaveHeight = (data) => {
                 if (a > b) 
                     return 1;
                 if (a < b) 
+                    return -1;
+                return 0;
+            });
+            onSuccess(sortedArr[sortedArr.length - 1])
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    };
+}
+
+export const getMaxWaveHeightMultiView = (data) => {
+    let maxWaveHeightArr = [];
+    const request = new Promise((resolve) => {
+        data.map((item) => {
+            item.swellForecast.map((forecast) => {
+                maxWaveHeightArr.push(forecast.maxBreakingHeight);
+            })
+            
+        })
+        resolve(maxWaveHeightArr)
+    })
+    return (dispatch) => {
+        function onSuccess(data) {
+            dispatch({ type: GET_MAX_WAVE_HEIGHT_MULTI_VIEW, payload: data });
+            return data;
+        }
+
+        request.then(data => {
+            const sortedArr = data.sort((a, b) => {
+                if (a > b)
+                    return 1;
+                if (a < b)
                     return -1;
                 return 0;
             });

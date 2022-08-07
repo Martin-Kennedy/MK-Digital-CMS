@@ -9,6 +9,7 @@ import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
 import {
     getWeather,
     getWeatherForecast,
+    getMaxWaveHeightMultiView
 } from '../actions/surfApp.actions';
 import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
 import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
@@ -39,7 +40,8 @@ const mapStateToProps = state => {
     return {
         surf: {
             multiViewForecast: state.surf.multiViewForecast,
-            multiViewSwellForecast: state.surf.multiViewSwellForecast
+            multiViewSwellForecast: state.surf.multiViewSwellForecast,
+            maxMultiViewWaveHeight: state.surf.maxMultiViewWaveHeight
 
         }
     }
@@ -58,6 +60,13 @@ class SurfGUIMultiSpotView extends Component {
 
     }
 
+    componentDidMount(){
+        document
+            .body
+            .classList
+            .add('surf-app-multi-view');
+    }
+
 
 
     componentDidUpdate(prevProps) {
@@ -68,10 +77,10 @@ class SurfGUIMultiSpotView extends Component {
             getWeatherForecast(this.props.surf.closeSurfSpots[0]);
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
-            const {getMaxWaveHeight} = this.props;
+            const { getMaxWaveHeightMultiView } = this.props;
             const {getSwellForecast} = this.props;
             const {getWindForecast} = this.props;
-            getMaxWaveHeight(this.props.surf.hourlyForecast);
+            getMaxWaveHeightMultiView(this.props.surf.multiViewSwellForecast);
             getSwellForecast(this.props.surf.hourlyForecast);
             getWindForecast(this.props.surf.hourlyForecast);
         }
@@ -102,11 +111,10 @@ class SurfGUIMultiSpotView extends Component {
 
         return (
             <SurfGUIMultiSpotViewContainer>
-                {console.log(this.props.surf.multiViewSwellForecast)}
                 {this.props.surf.multiViewSwellForecast ? 
                 <Fragment>
                 <Col md={11}>
-                            <MultiSpotViewCard swellForecast={this.props.surf.multiViewSwellForecast} multiViewForecast={this.props.surf.multiViewForecast} />
+                            <MultiSpotViewCard maxWaveHeight={this.props.surf.maxMultiViewWaveHeight} swellForecast={this.props.surf.multiViewSwellForecast} multiViewForecast={this.props.surf.multiViewForecast} />
                 </Col>
                 <Col md={1}></Col>
                 </Fragment> : null
