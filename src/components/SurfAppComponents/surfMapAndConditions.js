@@ -25,14 +25,23 @@ box-shadow:
 0 12.5px 10px rgba(0, 0, 0, 0.06),
 0 22.3px 17.9px rgba(0, 0, 0, 0.072),
 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-0 50px 40px rgba(0, 0, 0, 0.062);
+0 25px 20px rgba(0, 0, 0, 0.062);
 width: 100%;
 height: 25vh;
 background-size: cover;
 background-repeat: no-repeat;    
 background-position: center;
+mix-blend-mode: multiply;
 background-image: ${props => props.coords
-    ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=12&size=800x250&style=feature:water|element:all|color:0x55a8e5&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)`
+    ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}` +
+    '&zoom=12&size=800x250&style=feature:water|element:all|color:0x0A2A4A' +
+    '&style=feature:landscape|element:all|color:0x4A6075' +
+    '&style=feature:poi|element:geometry.fill|color:0x6F7E8C' +
+    '&style=feature:all|element:labels.icon|visibility:off' +
+    '&style=feature:all|element:labels.text.fill|color:0xdedede' +
+    '&style=feature:all|element:labels.text.stroke|visibility:off' +
+    '&style=feature:road|element:geometry|color:0x909AA6|visibility:on' +
+    '&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)'
     : null};
 `
 
@@ -40,7 +49,7 @@ const StyledMapImgMobile = styled(StyledMapImg)`
 height: 35vh;
 
 background-image: ${props => props.coords
-        ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=12&size=640x400&style=feature:water|element:all|color:0x55a8e5&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)`
+    ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=12&size=640x400&style=feature:water|element:all|color:0x0f2a46&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)`
         : null};
 
 `

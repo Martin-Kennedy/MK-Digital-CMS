@@ -228,7 +228,7 @@ export default class SwellBarChartMultiView extends PureComponent {
                                 top: 2,
                                 right: 25,
                                 left: -35,
-                                bottom: -15
+                                bottom: -10
                             }}
                             onMouseMove={(state) => {
                                 if (state.isTooltipActive) {

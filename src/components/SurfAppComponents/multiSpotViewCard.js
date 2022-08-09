@@ -22,10 +22,11 @@ padding: .5vh;
 `
 
 const CurrentConditionBackdrop = styled(BackDrop)`
-width: calc(25% - 1.35vw);
-height: calc(20vh - 2vh - (10vh/5));
+width: calc(33% - 1.35vw);
+height: calc(25vh - 2vh - (10vh/5));
 margin:0 0.5vw 2vh 0.5vw;
-display: inline-block;
+display: inline-flex;
+flex-direction: column;
 @media(max-width: ${variables.large}){
     width: calc(50% - 1.5vw);
     height: calc(50vw - 1.5vw);
@@ -112,10 +113,11 @@ path {
 
 const SwellChartContainer = styled(Row)`
 opacity: .8;
-height: 7vh;
+height: 9vh;
 width: 50%;
-position: relative;
+position: absolute;
 margin: 0;
+bottom: 0;
 p {
 color: var(--white);
 font-size: min(2.5vw,40px);
