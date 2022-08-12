@@ -198,7 +198,7 @@ export const getSurfForecast = (spotId) => {
 };
 
 export const getMultiViewForecast = (data) => {
-   data = data.slice(0, 12);
+    data = data.slice(0, 12);
     const arr = [];
     new Promise((res) => {
         data.map((item) => {

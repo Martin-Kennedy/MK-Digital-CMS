@@ -6,6 +6,7 @@ import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
+import {SwellRadialChart} from '../components/SurfAppComponents/swellRadialChart';
 import { MULTI_VIEW, SINGLE_VIEW } from '../helpers/types';
 import {
     getLocationsObject,
@@ -1011,7 +1012,7 @@ class SurfGUILanding extends Component {
                                 <DataDashBoardRow>
                                     
                                     <MediaQuery minWidth={variables.large}>
-
+                                            {console.log(this.props.surf.currentConditions)}
 
                                         
 

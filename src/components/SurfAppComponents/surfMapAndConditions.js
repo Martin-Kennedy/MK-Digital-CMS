@@ -8,6 +8,8 @@ import {WaterTempSVGPath} from '../designElementComponents/waterTempSVGPath';
 import {UvIconSVGPath} from '../designElementComponents/uvIconSVGPath';
 import {SunPositionSVGPath} from '../designElementComponents/sunPositionSVGPath';
 import {formatAMPMwMins} from '../../helpers/utilities';
+import { SwellSpectraCompassSVGPath } from '../designElementComponents/swellSpectraCompass';
+import { SwellRadialChart } from '../SurfAppComponents/swellRadialChart';
 import variables from '../../variables.module.scss';
 
 var SunCalc = require('suncalc');
@@ -38,9 +40,9 @@ background-image: ${props => props.coords
     '&style=feature:landscape|element:all|color:0x4A6075' +
     '&style=feature:poi|element:geometry.fill|color:0x6F7E8C' +
     '&style=feature:all|element:labels.icon|visibility:off' +
-    '&style=feature:all|element:labels.text.fill|color:0xdedede' +
+    '&style=feature:all|element:labels.text.fill|color:0xffffff' +
     '&style=feature:all|element:labels.text.stroke|visibility:off' +
-    '&style=feature:road|element:geometry|color:0x909AA6|visibility:on' +
+    '&style=feature:road|element:geometry|color:0x8193A3|visibility:on' +
     '&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)'
     : null};
 `
@@ -52,6 +54,33 @@ background-image: ${props => props.coords
     ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=12&size=640x400&style=feature:water|element:all|color:0x0f2a46&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)`
         : null};
 
+`
+
+const StyledCompassBase = styled.svg`
+width: 100%;
+height: 20vh;
+left: 0;
+top: 2.5vh;
+z-index: 2; 
+position: absolute; 
+opacity: 1;
+filter: drop-shadow(2px 0 1px #000000);
+
+
+path {
+    fill: var(--white);
+    stroke: 2px solid var(--white); 
+}
+polygon {
+    fill: var(--white);
+    stroke: 2px solid var(--white); 
+}
+@media(max-width:${variables.large}){
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+}
 `
 
 const WaterTemp = styled(Col)`
@@ -610,7 +639,19 @@ const SurfMapAndConditionsDesktop = (props) => {
     }
     return (
         <Fragment>
-            <StyledMapImg coords={props.coords}></StyledMapImg>
+            <StyledMapImg coords={props.coords}>
+                <StyledCompassBase
+                    version="1.1"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    viewBox="0 0 2000 2000">
+                    <SwellSpectraCompassSVGPath/>
+                    
+                    </StyledCompassBase>
+                <SwellRadialChart />
+            </StyledMapImg>
             <ConditionsContainer>
                 <Weather>
                     {!Array.isArray(props.surf.weather)
