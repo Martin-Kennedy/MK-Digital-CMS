@@ -1,197 +1,278 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { Radar, RadarChart, PolarGrid, Legend, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import { scaleLog } from 'd3-scale';
+
 import styled from 'styled-components';
 import MediaQuery from 'react-responsive';
 import variables from '../../variables.module.scss';
 
-export const SwellRadialChart = () => {
+const CustomResponsiveContainer = styled(ResponsiveContainer)`
+margin: auto;
+`
+
+export const SwellRadialChart = (props) => {
     
-    const data = [
+    const swellTemplateArray = [
+        
         {
-            subject: 'NStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            subject: 'N',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
-        },
-        {
+        }, {
             subject: 'NEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
-            subject: 'NNEStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            subject: 'NNE',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
-        },
-        {
+        }, {
             subject: 'NNEEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'NEStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
+            subject: 'NE',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
             subject: 'NEEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'ENEStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
+            subject: 'ENE',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
             subject: 'ENEEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'EStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
-            subject: 'EEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            subject: 'E',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         }, {
-            subject: 'ESEStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            subject: 'EEnd',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
+        {
+            subject: 'ESE',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, 
         {
             subject: 'ESEEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'SSEStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
+            subject: 'SE',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
+            subject: 'SEEnd',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        },
+        {
+            subject: 'SSE',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
             subject: 'SSEEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'SStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
+            subject: 'S',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
             subject: 'SEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'SSWStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
+            subject: 'SSW',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
             subject: 'SSWEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'WSWStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
-            subject: 'WSWEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            subject: 'SW',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         }, {
-            subject: 'WStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            subject: 'SWEnd',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
+        {
+            subject: 'WSW',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
+            subject: 'WSWEnd',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        },
+        {
+            subject: 'W',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, 
         {
             subject: 'WEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'WNWStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
+            subject: 'WNW',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
             subject: 'WNWEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
-            fullMark: 25,
-        }, {
-            subject: 'NNWStart',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
         },
         {
-            subject: 'NNWEnd',
-            Primary: 5,
-            Secondary: 0,
-            Tertiary: 0,
+            subject: 'NW',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
             fullMark: 25,
-        },
+        }, {
+            subject: 'NWEnd',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
+            subject: 'NNW',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }, {
+            subject: 'NNWEnd',
+            primary: 0,
+            secondary: 0,
+            tertiary: 0,
+            fullMark: 25,
+        }
     ];
 
-    console.log(data);
+    const swellArray = [];
 
+    const scale = scaleLog().base(Math.E);
+        // const swellDataArray = new Promise((resolve) => {
+            if (props.swell) {
+            swellTemplateArray.map((swellDirection, index) => {
+            const swellData = props.swell; 
+                if (swellData.swell.components.tertiary) {
+                    swellArray.push({
+                        subject: swellDirection.subject,
+                        primary: swellDirection.subject === swellData.swell.components.primary.compassDirection ? swellDirection.primary = swellData.swell.components.primary.height : swellDirection.subject === swellData.swell.components.primary.compassDirection.concat('End') ? swellDirection.primary = swellData.swell.components.primary.height : swellDirection.primary = 0,
+                        secondary: swellDirection.subject === swellData.swell.components.secondary.compassDirection ? swellDirection.secondary = swellData.swell.components.secondary.height : swellDirection.subject === swellData.swell.components.secondary.compassDirection.concat('End') ? swellDirection.secondary = swellData.swell.components.secondary.height : swellDirection.secondary = 0,
+                        tertiary: swellDirection.subject === swellData.swell.components.tertiary.compassDirection ? swellDirection.tertiary = swellData.swell.components.tertiary.height : swellDirection.subject === swellData.swell.components.tertiary.compassDirection.concat('End') ? swellDirection.tertiary = swellData.swell.components.tertiary.height : swellDirection.tertiary = 0,
+                        fullMark: swellDirection.fullMark,
+                    });
+                } 
+                else if (swellData.swell.components.secondary) {
+                    swellArray.push({
+                        subject: swellDirection.subject,
+                        primary: swellDirection.subject === swellData.swell.components.primary.compassDirection ? swellDirection.primary = swellData.swell.components.primary.height : swellDirection.subject === swellData.swell.components.primary.compassDirection.concat('End') ? swellDirection.primary = swellData.swell.components.primary.height : swellDirection.primary = 0,
+                        secondary: swellDirection.subject === swellData.swell.components.secondary.compassDirection ? swellDirection.secondary = swellData.swell.components.secondary.height : swellDirection.subject === swellData.swell.components.secondary.compassDirection.concat('End') ? swellDirection.secondary = swellData.swell.components.secondary.height : swellDirection.secondary = 0,
+                        fullMark: swellDirection.fullMark,
+                    });
+                } else if (swellData.swell.components.primary) {
+                    swellArray.push({
+                        subject: swellDirection.subject,
+                        primary: swellDirection.subject === swellData.swell.components.primary.compassDirection ? swellDirection.primary = swellData.swell.components.primary.height : swellDirection.subject === swellData.swell.components.primary.compassDirection.concat('End') ? swellDirection.primary = swellData.swell.components.primary.height : swellDirection.primary = 0,
+                        fullMark: swellDirection.fullMark,
+                    });
+                } else {
+                    console.log('no swell data');
+                }
+           
+        })
+                
+     }
+    
         return (
-            <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+            <CustomResponsiveContainer width="100%" height="100%">
+                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={swellArray}>
                     <PolarGrid gridType="circle" />
-                    <PolarAngleAxis axisLine={false} dataKey="subject" />
-                    <PolarRadiusAxis axisLine={false} angle={30} domain={[0, 25]} />
-                <Radar name="Primary" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                <Radar name="Secondary" dataKey="B" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
+                    <PolarAngleAxis  allowDuplicatedCategory={false}  dataKey="subject" />
+                    <PolarRadiusAxis orientation="middle" tickCount={4} scale="sqrt" domain={[0, 15]} />
+                    <Radar name="Primary" dataKey="primary" stroke="transparent" fill="#8884d8" fillOpacity={0.6} />
+                    <Radar name="Secondary" dataKey="secondary" stroke="transparent" fill="#82ca9d" fillOpacity={0.6} />
+                    <Radar name="Tertiary" dataKey="tertiary" stroke="transparent" fill="red" fillOpacity={0.6} />
                 <Legend />
             </RadarChart>
-            </ResponsiveContainer>
+            </CustomResponsiveContainer>
         );
     }

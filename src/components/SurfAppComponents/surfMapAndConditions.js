@@ -648,9 +648,8 @@ const SurfMapAndConditionsDesktop = (props) => {
                     y="0px"
                     viewBox="0 0 2000 2000">
                     <SwellSpectraCompassSVGPath/>
-                    
                     </StyledCompassBase>
-                <SwellRadialChart />
+                <SwellRadialChart swell={props.surf.currentConditions} />
             </StyledMapImg>
             <ConditionsContainer>
                 <Weather>

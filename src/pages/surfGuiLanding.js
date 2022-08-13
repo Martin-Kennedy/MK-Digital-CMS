@@ -1012,11 +1012,6 @@ class SurfGUILanding extends Component {
                                 <DataDashBoardRow>
                                     
                                     <MediaQuery minWidth={variables.large}>
-                                            {console.log(this.props.surf.currentConditions)}
-
-                                        
-
-
 
                                         <StyledCol35 >
                                             

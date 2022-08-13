@@ -651,3 +651,24 @@ select.minimal {
 .closedModal {
     display: none !important;
 }
+
+
+.recharts-polar-grid-angle {
+    opacity: 0.5;
+}
+
+.recharts-polar-grid-concentric {
+    opacity: 0.5;
+}
+
+.recharts-polar-angle-axis {
+    opacity: 0;
+}
+
+.recharts-polar-radius-axis{
+    opacity: 1;
+}
+
+.recharts-polar-radius-axis-tick {
+    opacity: 0;
+}
