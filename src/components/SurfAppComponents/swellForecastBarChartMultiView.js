@@ -23,62 +23,75 @@ const SwellChartToolTip = styled.div`
 `
 
 const toolTipGlassMorphism = {
-    width: '23vh',
-    height: '20.5vh',
+    width: '17vw',
+    height: '10vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(4px)',
+    backdropFilter: 'blur(6px)',
     border: '1px solid rgba(255, 255, 255, 0.15)',
     borderRightColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
     boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
-    padding: '15px',
+    padding: '6px',
     position: 'relative',
-    top: '-20vh',
+    top: '-10vh',
+    left: '-2vh',
     color: 'white',
-    zIndex: '4'
+    zIndex: '12'
 }
 
 const SwellChartDateTime = styled.p`
 width: 100%;
-display: block;
-margin: .2vh 0 1.75vh 0;
-    font-size: 1.7vh;
-    font-weight: 300;
-    letter-spacing: .1vw;
-    color: rgba(255,255,255, 0.8);
+display: block !important;
+margin:  0 0 1vh 0 !important;
+font-size: 1.7vh!important;
+height: 2.5vh;
+font-weight: 500 !important;
+letter-spacing: .1vw;
+color: rgba(255,255,255, 1) !important;
+position: relative;
+top: -2vh;
 `
 
 const SwellChartWaveHeight = styled.p`
 width: 100%;
-display: block;
-margin: .2vh 0 1vh 0;
-font-size: 1.7vh;
-font-weight: 200;
-letter-spacing: .1vw;
-color: rgba(255,255,255, 0.7);
+height:  2.5vh;
+display: block !important;
+margin:  0 !important;
+font-size: 1.7vh !important;
+font-weight: 400 !important;
+letter-spacing: .1vw !important;
+position: relative;
+top: -2vh;
+
     span {
-    color: rgba(255,255,255, 0.9);
-    font-weight: 400;
+    color: rgba(255,255,255, 1)  !important;
+    font-weight: 500 !important;
+    font-size: 1.7vh !important;
     }
 `
 
 const SwellChartPrimary = styled.p`
 width: 100%;
-display: block;
-margin: .2vh 0 1vh 0;
-     font-size: 1.7vh;
-    font-weight: 200;
-    letter-spacing: .1vw;
-    color: rgba(255,255,255, 0.7);
-     div {
-        width: 100%;
-        display: block;
-        margin-bottom: .5vh; 
-        span {
-        color: rgba(255,255,255, 0.9);
-        font-weight: 400;
-    }
+height:  2.5vh;
+display: block !important;
+margin: .2vh 0 .2vh 0 !important;
+font-size: 1.7vh !important;
+font-weight: 400 !important;
+letter-spacing: .1vw;
+
+position: relative;
+top: -2vh;
+div {
+    width: 100%;
+    display: block;
+    margin-bottom: .2vh; 
+    font-size: 1.7vh !important;
+    color: rgba(255,255,255, 0.9) !important;
+    span {
+    color: rgba(255,255,255, 1)  !important;
+    font-weight: 500 !important;
+}
 `;
 
 const SwellChartSecondary = styled(SwellChartPrimary)`
@@ -119,23 +132,13 @@ const SwellInfoTooltip = ({ active, payload, data }) => {
                 </SwellChartWaveHeight>
 
                 <SwellChartPrimary>
-                    <div>Primary:
-                        <span> {payload[0].payload.primaryHeight}ft </span>
+                    <div>Combined Swell:
+                        <span> {payload[0].payload.combinedHeight}ft </span>
                         at
-                        <span> {payload[0].payload.primaryPeriod}s </span>
-                        <span> {payload[0].payload.primarySwellDirection} </span>
+                        <span> {payload[0].payload.combinedPeriod}s </span>
+                        <span> {payload[0].payload.combinedSwellDirection} </span>
                     </div>
                 </SwellChartPrimary>
-
-                {payload[0].payload.secondaryHeight ? <SwellChartSecondary>
-                    <div>Secondary:
-                        <span> {payload[0].payload.secondaryHeight}ft </span>
-                        at
-                        <span> {payload[0].payload.secondaryPeriod}s </span>
-                        <span> {payload[0].payload.secondarySwellDirection} </span>
-                    </div>
-
-                </SwellChartSecondary> : null}
             </SwellChartToolTip>
         );
     }
@@ -157,10 +160,9 @@ export default class SwellBarChartMultiView extends PureComponent {
 
         return (
             <Fragment>
-                {console.log(this.props.maxWaveHeight)}
                 <MediaQuery maxWidth={Number(variables.largeNum)}>
                     <ResponsiveContainer className="swellForecastContainer" width="100%" height="90%">
-
+                        
 
                         <BarChart
                             width={500}

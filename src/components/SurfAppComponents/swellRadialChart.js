@@ -263,14 +263,14 @@ export const SwellRadialChart = (props) => {
      }
     
         return (
-            <CustomResponsiveContainer width="100%" height="100%">
+            <CustomResponsiveContainer className="swellRadialChart" width="100%" height="100%">
                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={swellArray}>
                     <PolarGrid gridType="circle" />
                     <PolarAngleAxis  allowDuplicatedCategory={false}  dataKey="subject" />
-                    <PolarRadiusAxis orientation="middle" tickCount={4} scale="sqrt" domain={[0, 15]} />
-                    <Radar name="Primary" dataKey="primary" stroke="transparent" fill="#8884d8" fillOpacity={0.6} />
-                    <Radar name="Secondary" dataKey="secondary" stroke="transparent" fill="#82ca9d" fillOpacity={0.6} />
-                    <Radar name="Tertiary" dataKey="tertiary" stroke="transparent" fill="red" fillOpacity={0.6} />
+                    <PolarRadiusAxis orientation="middle" tickCount={4} scale="sqrt" domain={[0, 20]} />
+                    <Radar className="primaryRadar" name="Primary Swell" dataKey="primary" stroke="#40BCF0" fill="#40BCF0" fillOpacity={1} />
+                    <Radar className="secondaryRadar" name="Secondary Swell" dataKey="secondary" stroke="#307AD9" fill="#307AD9" fillOpacity={0.85} />
+                    <Radar className="tertiaryRadar" name="Tertiary Swell" dataKey="tertiary" stroke="#3758F8" fill="#3758F8" fillOpacity={0.7} />
                 <Legend />
             </RadarChart>
             </CustomResponsiveContainer>

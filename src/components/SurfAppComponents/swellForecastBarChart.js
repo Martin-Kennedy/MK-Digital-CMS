@@ -24,7 +24,7 @@ const SwellChartToolTip = styled.div `
 `
 
 const toolTipGlassMorphism = {
-    width: '23vh',
+    width: '13vw',
     height: '20.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',

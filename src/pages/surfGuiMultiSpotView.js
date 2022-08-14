@@ -113,6 +113,7 @@ class SurfGUIMultiSpotView extends Component {
             <SurfGUIMultiSpotViewContainer>
                 {this.props.surf.multiViewSwellForecast ? 
                 <Fragment>
+                    
                 <Col md={11}>
                             <MultiSpotViewCard maxWaveHeight={this.props.surf.maxMultiViewWaveHeight} swellForecast={this.props.surf.multiViewSwellForecast} multiViewForecast={this.props.surf.multiViewForecast} />
                 </Col>
