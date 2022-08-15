@@ -201,6 +201,8 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             let maxMultiViewWaveHeight = action.payload;
             if (maxMultiViewWaveHeight < 8) {
                 maxMultiViewWaveHeight = 8;
+            } else {
+                maxMultiViewWaveHeight = maxMultiViewWaveHeight + 6;
             }
             return {
                 ...state,

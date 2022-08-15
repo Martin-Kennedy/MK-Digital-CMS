@@ -197,6 +197,7 @@ export default class WindBarChart extends PureComponent {
                         xAxisId="Date" />
                     <YAxis
                         type="number"
+                                domain={[0, 'dataMax + 10']}
                         margin={{
                             top: 5,
                             right: 10,

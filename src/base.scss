@@ -699,3 +699,18 @@ select.minimal {
         }
 }
 
+.multiViewSwellChart {
+   .recharts-label-list {
+    text{ 
+        font-size: .7vw;
+        tspan {
+            font-size: .65vw;
+            opacity: .7;
+            margin-left: 1px;
+            margin-top: 2px; 
+        }
+    }
+
+   }
+}
+

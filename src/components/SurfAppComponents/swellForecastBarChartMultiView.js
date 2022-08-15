@@ -7,6 +7,8 @@ import {
     YAxis,
     Tooltip,
     Legend,
+    LabelList,
+    Label,
     ResponsiveContainer
 } from 'recharts';
 import styled from 'styled-components';
@@ -98,6 +100,11 @@ const SwellChartSecondary = styled(SwellChartPrimary)`
 
 `;
 
+const SwellHeight = styled.div`
+color: #efefef;
+font-size: 1.5vw;
+`
+
 const renderDateTick = (tickProps) => {
     const { x, y, payload } = tickProps;
     const { value, offset } = payload;
@@ -120,6 +127,18 @@ const renderDateTick = (tickProps) => {
     }
 
     return null;
+};
+
+const renderCustomizedLabel = (props) => {
+    const { x, y, width, height, value } = props;
+
+    return (
+        <g>
+            <text x={x + width / 2} y={y - 6} fill="rgba(255,255,255,0.85)" textAnchor="middle" dominantBaseline="middle">
+                {value} <tspan>ft</tspan>
+            </text>
+        </g>
+    );
 };
 
 const SwellInfoTooltip = ({ active, payload, data }) => {
@@ -215,13 +234,15 @@ export default class SwellBarChartMultiView extends PureComponent {
                                                 : this.state.mouseLeave
                                                     ? "rgba(64, 188, 240, 0.8)"
                                                     : "rgba(64, 188, 240, 0.35)"} />
+                                            
                                     })}
+                                <LabelList dataKey="maxBreakingHeight" position="top" />
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
                 </MediaQuery>
                 <MediaQuery minWidth={Number(variables.largeNum)}>
-                    <ResponsiveContainer width="100%" height="90%">
+                    <ResponsiveContainer className="multiViewSwellChart" width="100%" height="90%">
                         <BarChart
                             width={500}
                             height={300}
@@ -232,13 +253,7 @@ export default class SwellBarChartMultiView extends PureComponent {
                                 left: -35,
                                 bottom: -10
                             }}
-                            onMouseMove={(state) => {
-                                if (state.isTooltipActive) {
-                                    this.setState({ focusBar: state.activeTooltipIndex, mouseLeave: false });
-                                } else {
-                                    this.setState({ focusBar: null, mouseLeave: true })
-                                }
-                            }}>
+                           >
                             <XAxis dataKey="time" />
                             {/* <XAxis
                                 dataKey="localTime"
@@ -258,10 +273,6 @@ export default class SwellBarChartMultiView extends PureComponent {
                                     left: 0,
                                     bottom: 5
                                 }} />
-                            <Tooltip
-                                wrapperStyle={toolTipGlassMorphism}
-                                content={< SwellInfoTooltip />}
-                                cursor={false} />
                             <Bar dataKey="maxBreakingHeight" fill="#7ecaed">
                                 {this
                                     .props
@@ -273,7 +284,9 @@ export default class SwellBarChartMultiView extends PureComponent {
                                                 : this.state.mouseLeave
                                                     ? "rgba(64, 188, 240, 0.8)"
                                                     : "rgba(64, 188, 240, 0.35)"} />
+                                            
                                     })}
+                                <LabelList content={renderCustomizedLabel} dataKey="maxBreakingHeight" position="top" />
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>

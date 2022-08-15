@@ -257,8 +257,8 @@ export const MultiSpotViewCard = (props) => {
     }
 
     return props
-        .swellForecast
-        .map((spot) => {
+        .multiVieSwellForecast
+        .map((spot, i) => {
             const getCurrentConditions = (data) => {
                 const now = Date.now() / 1000 | 0;
                 return data.filter((d) => {
@@ -283,7 +283,7 @@ export const MultiSpotViewCard = (props) => {
 
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
 
-            return <CurrentConditionBackdrop>
+            return <CurrentConditionBackdrop key={i}>
                 <TitleIconRow>
                     <TitleCol xs={7}>
                         <Location>{spot.town}, {spot.country}</Location>
