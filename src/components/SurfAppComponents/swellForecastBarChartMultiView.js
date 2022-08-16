@@ -100,10 +100,7 @@ const SwellChartSecondary = styled(SwellChartPrimary)`
 
 `;
 
-const SwellHeight = styled.div`
-color: #efefef;
-font-size: 1.5vw;
-`
+
 
 const renderDateTick = (tickProps) => {
     const { x, y, payload } = tickProps;

@@ -507,6 +507,56 @@ body {
     }
 }
 
+.surf-app-multi-view {
+    .swellRadialChart {
+            .recharts-polar-grid-angle {
+                opacity: 0.3;
+            }
+    
+            .recharts-polar-grid-concentric {
+                opacity: 0.3;
+            }
+    
+            .recharts-polar-angle-axis {
+                opacity: 0;
+            }
+    
+            .recharts-polar-radius-axis {
+                transform: rotate(-45deg);
+                transform-origin: center;
+    
+                line {
+                    opacity: 0;
+                }
+    
+                text {
+                    fill: #ccc;
+                    transform: inherit;
+                    font-size: 8px;
+                }
+    
+            }
+    
+    
+            .recharts-legend-wrapper {
+                width: 50% !important;
+                margin-left: 50%;
+                display: flex;
+                justify-content: flex-end;
+    
+                .recharts-legend-item {
+                    width: fit-content;
+                }
+    
+                .recharts-legend-item-text {
+                    color: #fff !important;
+                    opacity: .7;
+                    font-size: .75vw;
+                }
+            }
+        }
+}
+
 .surf-app-multi-view .recharts-cartesian-axis-ticks {
     font-size: 0.45vw;
     stroke: var(--white);
@@ -699,12 +749,20 @@ select.minimal {
         }
 }
 
+.multiViewMap {
+.recharts-legend-wrapper {
+        display: none !important;
+    }
+}
+
+
 .multiViewSwellChart {
    .recharts-label-list {
     text{ 
         font-size: .7vw;
         tspan {
             font-size: .65vw;
+            font-weight: 500;
             opacity: .7;
             margin-left: 1px;
             margin-top: 2px; 

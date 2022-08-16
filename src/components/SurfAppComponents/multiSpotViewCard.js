@@ -4,6 +4,7 @@ import {Row, Col} from 'react-bootstrap'
 import {WaveConditionsSVGPath} from '../designElementComponents/waveConditionsSVGPath';
 import variables from '../../variables.module.scss';
 import SwellBarChartMultiView from './swellForecastBarChartMultiView';
+import { SurfMapMultiView } from '../SurfAppComponents/surfMapAndConditions';
 import MediaQuery from 'react-responsive';
 
 const BackDrop = styled.div `
@@ -23,7 +24,7 @@ padding: .5vh;
 
 const CurrentConditionBackdrop = styled(BackDrop)`
 width: calc(33% - 1.35vw);
-height: calc(25vh - 2vh - (10vh/5));
+height: calc(33vh - 2vh - (10vh/5));
 margin:0 0.5vw 2vh 0.5vw;
 display: inline-flex;
 flex-direction: column;
@@ -40,7 +41,7 @@ display: flex;
 justify-content: space-between;
 margin: 0;
 padding: 0;
-height: 4vh;
+height: 50%;
 margin-bottom: .5vh;
 
 @media(max-width: ${variables.large}){
@@ -51,6 +52,47 @@ margin-bottom: .5vh;
 }
 `
 const TitleCol = styled(Col)``;
+
+
+const WaveHeightWrapper = styled.div`
+
+width: calc(50% - 1.5vh);
+padding-right: calc(var(--bs-gutter-x) * .5);
+padding-left: calc(var(--bs-gutter-x) * .5);
+margin: 1.5vh 0 0.5vh 1.5vh;
+color: rgba(255, 255, 255, 0.8);
+display:inline-block;
+
+p {
+margin-left: 0;
+margin-top: 0;
+display: inline-block;
+margin-bottom: 1vh;
+width: auto;
+font-size: 1.75vw;
+font-weight: 600;
+height: fit-content;
+line-height: .65vw;
+@media(max-width:${variables.large}){
+    font-size: 2vw;
+    line-height: 2vw;
+    padding: 0;
+    }
+}
+span {
+    display: inline-block;
+    margin-left: .5vw;
+    
+}
+`
+
+const ConditionsWrapper = styled.div`
+width: calc(50% - 1.5vh);
+display:inline-block;
+padding-right: calc(var(--bs-gutter-x) * .5);
+padding-left: calc(var(--bs-gutter-x) * .5);
+margin: 0 0 0.5vh 1.5vh;
+`
 
 const WaveDataCol = styled(Col)`
 color: rgba(255, 255, 255, 0.8);
@@ -113,9 +155,10 @@ path {
 
 const SwellChartContainer = styled(Row)`
 opacity: .8;
-height: 9vh;
+height: 50%;
 width: 50%;
 position: absolute;
+padding-top: 1.5vh;
 margin: 0;
 bottom: 0;
 p {
@@ -189,16 +232,10 @@ background: ${props => (props.rating[0] >= 2 || props.maxBreakingHeight >= 6) &&
 
 z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
-width: 10vw;
-height: 4vh;
-margin: 0 auto;
-position: absolute;
-bottom: -25%;
-left: calc(50% - 5vw);
 @media(max-width: ${variables.large}){
-position: unset;
-width: calc(100% - 1vw);
-height: 6vw;
+position: absolute;
+width: calc(50% - 1.5vh);
+height: fit-content;
 font-size: 3vw;
 line-height: 6vw;
 letter-spacing: .2vw;
@@ -282,17 +319,41 @@ export const MultiSpotViewCard = (props) => {
             }
 
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
-
+            const rating = [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating];
+            
             return <CurrentConditionBackdrop key={i}>
                 <TitleIconRow>
-                    <TitleCol xs={7}>
-                        <Location>{spot.town}, {spot.country}</Location>
-                        <Distance>{convertMilesToKM(spot.distanceFromLocation)}
-                            miles away</Distance>
+                    {console.log(spot)}
+                    <TitleCol xs={6}>
+                        <Row>
+                            <Location>{spot.town}, {spot.country}</Location>
+                            <Distance>{convertMilesToKM(spot.distanceFromLocation)}
+                                miles away</Distance>
+                        </Row>
+                        <Row>
+                            <WaveHeightWrapper>
+                                <p>{`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}</p>
+                                <span>ft</span>
+                            </WaveHeightWrapper>
+                            <ConditionsWrapper>
+                                <ConditionContainer maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight} rating={rating}>
+                                    <RatingText>{(rating[0] >= 2 || currentMultiViewConditions.maxBreakingHeight >= 6) && rating[1] < 1
+                                        ? 'Good'
+                                        : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
+                                            ? 'Poor'
+                                            : 'Fair'}
+                                    </RatingText>
+                                </ConditionContainer>
+                            </ConditionsWrapper>
+                        
+                        </Row>
                     </TitleCol>
-                    <WaveDataCol xs={4}>
-                        <p>{`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}</p>
-                        <span>ft</span>
+                    <WaveDataCol xs={6}>
+                        <SurfMapMultiView
+                            coords={{
+                                lat: spot.lat,
+                                lng: spot.lng
+                            }} />
                     </WaveDataCol>
                 </TitleIconRow>
                 <SwellChartContainer>

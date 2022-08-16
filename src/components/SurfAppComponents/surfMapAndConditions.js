@@ -56,6 +56,22 @@ background-image: ${props => props.coords
 
 `
 
+const StyledMapImgMulti = styled(StyledMapImg)`
+height: 50%;
+width: calc(40% - 1.5vh);
+position: absolute;
+top: 0;
+right: 0;
+box-shadow:
+0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+0 6.5px 5px rgba(0, 0, 0, 0.06),
+0 7.3px 17.9px rgba(0, 0, 0, 0.072),
+0 5.8px 13.4px rgba(0, 0, 0, 0.086),
+0 9px 10px rgba(0, 0, 0, 0.062);
+
+`
+
 const StyledCompassBase = styled.svg`
 width: 100%;
 height: 20vh;
@@ -63,7 +79,7 @@ left: 0;
 top: 2.5vh;
 z-index: 2; 
 position: absolute; 
-opacity: 1;
+opacity: 0.6;
 filter: drop-shadow(2px 0 1px #000000);
 
 
@@ -81,6 +97,12 @@ polygon {
     left: 10%;
     top: 10%;
 }
+`
+
+const StyledCompassBaseMultiView = styled(StyledCompassBase)`
+height: 85%;
+top: 8%;
+
 `
 
 const WaterTemp = styled(Col)`
@@ -745,13 +767,42 @@ const SurfMapAndConditionsDesktop = (props) => {
 };
 
 
+const SurfMapMultiViewComponent = (props) => {
 
+
+    return (
+        <StyledMapImgMulti className="multiViewMap" coords={props.coords}>
+            <StyledCompassBaseMultiView 
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                viewBox="0 0 2000 2000">
+                <SwellSpectraCompassSVGPath />
+            </StyledCompassBaseMultiView>
+            <SwellRadialChart swell={props.surf.currentConditions} />
+        </StyledMapImgMulti>
+
+    )
+};
 
 const SurfMapMobile = (props) => {
 
 
     return (
-        <StyledMapImgMobile coords={props.coords}></StyledMapImgMobile>
+        <StyledMapImg coords={props.coords}>
+            <StyledCompassBase
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                viewBox="0 0 2000 2000">
+                <SwellSpectraCompassSVGPath />
+            </StyledCompassBase>
+            <SwellRadialChart swell={props.surf.currentConditions} />
+        </StyledMapImg>
 
     )
 };
@@ -1007,6 +1058,7 @@ const UVIndexMobile = (props) => {
 
 export const SurfMapAndConditions = connect(mapStateToProps)(SurfMapAndConditionsDesktop);
 export const SurfMap = connect(mapStateToProps)(SurfMapMobile);
+export const SurfMapMultiView = connect(mapStateToProps)(SurfMapMultiViewComponent);
 export const WeatherComponent = connect(mapStateToProps)(WeatherMobile);
 export const WaterTempComponent = connect(mapStateToProps)(WaterTempMobile)
 export const SunPositionComponent = connect(mapStateToProps)(SunPositionMobile)
