@@ -216,7 +216,7 @@ export const getMultiViewForecast = (data) => {
         res(arr);
     });
 
-    function getAllData() {
+    function getDataLoopOne() {
         const array = data.map((item, index) => {
 
             const axiosDataPromise = new Promise((resolve) => {
@@ -232,12 +232,29 @@ export const getMultiViewForecast = (data) => {
         })
         return Promise.all(array)
     }
+    function getDataLoopTwo(results) {
+        const array = results.map((item, index) => {
+            const openWeatherApiKey = 'bc487a6d87516d1d2546ceb1c78a6fa4';
+            const weatherForecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${item.lat}&lon=${item.lng}&exclude=minutely,alerts&units=imperial&appid=${openWeatherApiKey}`
+            const axiosDataPromise = new Promise((resolve) => {
+                resolve(item.currentWeather = axios.get(weatherForecastApiUrl).then(res => {
+                    return res.data
+                }).then((data) => {
+                    return arr[index].currentWeather = data;
+                }))
+
+            })
+            return axiosDataPromise;
+
+        })
+        return Promise.all(array)
+    }
     return (dispatch) => {
         function onSuccess(data) {
             dispatch({type: GET_MULTI_VIEW_FORECAST, payload: data});
             return data;
         }
-        getAllData().then((res) => {
+        getDataLoopOne().then((res) => {
             const arr = [];
             const finalArray = new Promise((resolve) => {
                 data.map((item, i) => {
@@ -256,11 +273,34 @@ export const getMultiViewForecast = (data) => {
             });
 
             return finalArray;
-        })
-            .then(data => onSuccess(data))
-            .catch((error) => {
-                console.log(error);
-            })
+        }).then((results) => {
+            getDataLoopTwo(results).then((res) => {
+                const arr = [];
+                const finalArray = new Promise((resolve) => {
+                    results.map((item, i) => {
+                        arr.push({
+                            country: item.countryOrState,
+                            town: item.town,
+                            distanceFromLocation: item.distanceFromLocation,
+                            lat: item.lat,
+                            lng: item.lng,
+                            spotId: item.spotId,
+                            timeZone: item.timeZone,
+                            forecast: item.forecast,
+                            currentWeather: res[i]
+                        });
+                    })
+                    resolve(arr);
+                });
+                return finalArray;
+            }).then(data => onSuccess(data))
+                .catch((error) => {
+                    console.log(error);
+                })
+        });
+
+
+       
 
     };
 
@@ -268,8 +308,6 @@ export const getMultiViewForecast = (data) => {
 
 export const getMultiViewSwellForecast = (data) => {
     const request = new Promise((res) => {
-
-       
             const results = Promise.all(data.map((item) => {
             let arr = [];
             const hourlySwellForecast = new Promise((resolve) => {
@@ -307,7 +345,6 @@ export const getMultiViewSwellForecast = (data) => {
                 })
             });
             return hourlySwellForecast.then((data) => {
-                
                 const spotSwellForecast = {
                     country: item.country,
                     town: item.town,
@@ -316,6 +353,7 @@ export const getMultiViewSwellForecast = (data) => {
                     lng: item.lng,
                     spotId: item.spotId,
                     timeZone: item.timeZone,
+                    currentWeather: item.currentWeather,
                     swellForecast: data
 
                 }

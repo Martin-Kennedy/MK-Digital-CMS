@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import {Row, Col} from 'react-bootstrap'
 import {WaveConditionsSVGPath} from '../designElementComponents/waveConditionsSVGPath';
+import { CurrWindDataComponentMulti } from '../SurfAppComponents/currentWind';
 import variables from '../../variables.module.scss';
 import SwellBarChartMultiView from './swellForecastBarChartMultiView';
 import { SurfMapMultiView } from '../SurfAppComponents/surfMapAndConditions';
@@ -41,7 +42,7 @@ display: flex;
 justify-content: space-between;
 margin: 0;
 padding: 0;
-height: 50%;
+height: 60%;
 margin-bottom: .5vh;
 
 @media(max-width: ${variables.large}){
@@ -56,41 +57,39 @@ const TitleCol = styled(Col)``;
 
 const WaveHeightWrapper = styled.div`
 
-width: calc(50% - 1.5vh);
-padding-right: calc(var(--bs-gutter-x) * .5);
-padding-left: calc(var(--bs-gutter-x) * .5);
+width: calc(100% - 1.5vh);
 margin: 1.5vh 0 0.5vh 1.5vh;
 color: rgba(255, 255, 255, 0.8);
-display:inline-block;
 
 p {
 margin-left: 0;
 margin-top: 0;
-display: inline-block;
 margin-bottom: 1vh;
 width: auto;
 font-size: 1.75vw;
 font-weight: 600;
 height: fit-content;
 line-height: .65vw;
+span {
+    margin-left: .5vw;
+    font-size: 0.75vw;
+    font-weight: 400;
+}
 @media(max-width:${variables.large}){
     font-size: 2vw;
     line-height: 2vw;
     padding: 0;
     }
 }
-span {
-    display: inline-block;
-    margin-left: .5vw;
-    
-}
+`
+
+const WindWrapper = styled.div`
+width: 100%;
+margin: 0 0 0.5vh 1.5vh;
 `
 
 const ConditionsWrapper = styled.div`
-width: calc(50% - 1.5vh);
-display:inline-block;
-padding-right: calc(var(--bs-gutter-x) * .5);
-padding-left: calc(var(--bs-gutter-x) * .5);
+width: calc(100% - 1.5vh);
 margin: 0 0 0.5vh 1.5vh;
 `
 
@@ -99,7 +98,6 @@ color: rgba(255, 255, 255, 0.8);
 p {
 margin-left: 0;
 margin-top: 0;
-display: inline-block;
 margin-bottom: 1vh;
 width: auto;
 font-size: 1.75vw;
@@ -113,49 +111,13 @@ line-height: .65vw;
     }
 }
 span {
-    display: inline-block;
     margin-left: .5vw;
 }`;
 
-const Title = styled.p `
-text-transform: uppercase;
-color: rgba(255, 255, 255, 0.6);
-margin-left: 0;
-margin-top: 0;
-display: block;
-margin-bottom: 1vh;
-width: auto;
-font-size: .75vw;
-height: fit-content;
-line-height: .65vw;
-@media(max-width:${variables.large}){
-   font-size: 2vw;
-   line-height: 2vw;
-   padding: 0;
-}
-`
-
-const WaveIcon = styled.svg `
-width: 2.25vh;
-height: 2.25vh;
-position: relative;
-top: -2px;
-right: 0.5vw;
-padding: 0;
-path {
-    fill: rgba(255,255,255, 0.4);
-}
-
-@media(max-width: ${variables.large}){
-    height: 3vw;
-    width: 3vw;
-    position: unset;
-}
-`
 
 const SwellChartContainer = styled(Row)`
 opacity: .8;
-height: 50%;
+height: 40%;
 width: 50%;
 position: absolute;
 padding-top: 1.5vh;
@@ -207,21 +169,7 @@ color: var(--white);
     line-height: 6vw;
 }
 `
-const PeriodAndDirection = styled.div `
-color: var(--white);
-opacity: 0.8;
-line-height: 2.5vw;
-text-transform: uppercase;
-font-size: 2vw;
-font-weight: 500;
-letter-spacing: 0.125vw;
-`
-const WaveHeightCol = styled(Col)`
-padding: 0 1vw;
-width: fit-content;
-flex: inherit;
-margin-left: 1.5vw;
-`
+
 const ConditionContainer = styled.div `
 border-radius: 4px;
 background: ${props => (props.rating[0] >= 2 || props.maxBreakingHeight >= 6) && props.rating[1] < 1
@@ -286,6 +234,10 @@ const MobileRow = styled(Row)`
 margin-top: 2.5vw;
 `
 
+const CurrWindDataComponentMultiContainer = styled.div`
+width: 10vh;
+height: 10vh;
+`
 export const MultiSpotViewCard = (props) => {
 
     const convertMilesToKM = (km) => {
@@ -313,7 +265,7 @@ export const MultiSpotViewCard = (props) => {
                     const forecastDateObj = new Date(d.localTime).getTime();
                     const fullDateToday = Math.floor(Date.now() / 1000) * 1000;
                     const parsedDate = new Date(fullDateToday)
-                    const endTime = addHours(27, parsedDate);
+                    const endTime = addHours(16, parsedDate);
                     return forecastDateObj >= fullDateToday && forecastDateObj <= endTime;
                 })
             }
@@ -323,29 +275,44 @@ export const MultiSpotViewCard = (props) => {
             
             return <CurrentConditionBackdrop key={i}>
                 <TitleIconRow>
-                    {console.log(spot)}
                     <TitleCol xs={6}>
+                        
                         <Row>
                             <Location>{spot.town}, {spot.country}</Location>
                             <Distance>{convertMilesToKM(spot.distanceFromLocation)}
                                 miles away</Distance>
                         </Row>
                         <Row>
+                        <Col xs={6}>
                             <WaveHeightWrapper>
-                                <p>{`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}</p>
-                                <span>ft</span>
+                                <p>
+                                    {`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}
+                                        <span>ft</span>
+                                </p>
+                                
+                                
                             </WaveHeightWrapper>
+                           
                             <ConditionsWrapper>
-                                <ConditionContainer maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight} rating={rating}>
-                                    <RatingText>{(rating[0] >= 2 || currentMultiViewConditions.maxBreakingHeight >= 6) && rating[1] < 1
-                                        ? 'Good'
-                                        : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
-                                            ? 'Poor'
-                                            : 'Fair'}
-                                    </RatingText>
-                                </ConditionContainer>
+                            <ConditionContainer maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight} rating={rating}>
+                                <RatingText>{(rating[0] >= 2 || currentMultiViewConditions.maxBreakingHeight >= 6) && rating[1] < 1
+                                    ? 'Good'
+                                    : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
+                                        ? 'Poor'
+                                        : 'Fair'}
+                                </RatingText>
+                            </ConditionContainer>
                             </ConditionsWrapper>
-                        
+                        </Col>
+
+                        <Col xs={6}>
+                            <WindWrapper>
+                                <CurrWindDataComponentMultiContainer>
+                                    <CurrWindDataComponentMulti weatherForecast={spot.currentWeather} />
+                                </CurrWindDataComponentMultiContainer>
+
+                            </WindWrapper>
+                        </Col>
                         </Row>
                     </TitleCol>
                     <WaveDataCol xs={6}>
