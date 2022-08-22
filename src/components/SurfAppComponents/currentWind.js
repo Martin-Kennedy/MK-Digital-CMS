@@ -176,35 +176,38 @@ span {
 
 
 const WindSpeedMultiView = styled.div`
-position: absolute; 
-    opacity: 0.8;
-    text-align: center;
-    padding: 0;
-    z-index: 4;
-    width: 80%;
-    height: 80%;
-    color: var(--white);
-    text-transform: uppercase;
+position: relative;
+opacity: 0.8;
+text-align: center;
+padding: 0;
+z-index: 4;
+display: flex;
+flex-flow: wrap;
+width: 100%;
+height: 100%;
+align-items: center;
+justify-content: center;
+align-content: center;
+color: var(--white);
+text-transform: uppercase;
 p {
-font-size: 1.5vh;
+font-size: 1.75vh;
     font-weight: 700;
     width: 100%;
     margin:0;
     letter-spacing: .3vh;
-    line-height: 1.5vh;
-    top: 4px;
-    position: relative;    
+    line-height: 1.75vh;
+    position: inherit;    
     @media(max-width:${variables.large}){
     position: unset;
 }
 }
 span {
-    font-size: .55vh;
+    font-size: .65vh;
     font-weight: 500;
     width: 100%;
     line-height: .55vh;
-    top: -4px;
-    position: relative;
+    position: inherit;
      @media(max-width:${variables.large}){
     position: unset;
 }

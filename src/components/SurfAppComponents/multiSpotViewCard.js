@@ -2,11 +2,13 @@ import React from 'react';
 import styled from 'styled-components'
 import {Row, Col} from 'react-bootstrap'
 import {WaveConditionsSVGPath} from '../designElementComponents/waveConditionsSVGPath';
-import { CurrWindDataComponentMulti } from '../SurfAppComponents/currentWind';
+import {CurrWindDataComponentMulti} from '../SurfAppComponents/currentWind';
 import variables from '../../variables.module.scss';
 import SwellBarChartMultiView from './swellForecastBarChartMultiView';
-import { SurfMapMultiView } from '../SurfAppComponents/surfMapAndConditions';
+import {SurfMapMultiView} from '../SurfAppComponents/surfMapAndConditions';
 import MediaQuery from 'react-responsive';
+import { SwellSVGPath } from '../designElementComponents/swellSVGPath';
+import { WindIconSVGPath } from '../designElementComponents/windIconSVGPath';
 
 const BackDrop = styled.div `
 border-radius: 5px;
@@ -22,9 +24,146 @@ height:  ${props => props.dynamicHeight > 8
 width: 100%;
 padding: .5vh;
 `
+const Cell = styled(BackDrop)`
+display: flex;
+height: fit-content;
+mix-blend-mode:  multiply;
+background: rgba(255, 255, 255, 0.04);
+&:first-child {
+        margin-bottom: .5vh;
+}
+`
+const SwellIcon = styled.svg`
+    width: 1.75;
+    height: 1.75vh;
+    position: relative;
+    top: -2px;
+    left: 0;
+    padding: 0px;
+    margin: 0 3px 1px 0;
+    path {
+        fill: rgba(255,255,255, 0.4);
+    }
+    @media(max-width: ${variables.large}){
+        height: 3vw;
+        width: 3vw;
+        position: unset;
+    }
+`
+
+const WindIcon = styled.svg`
+    width: 2.25vh;
+    height: 2.25vh;
+    position: relative;
+    top: -2px;
+    right: 0;
+    padding: 0;
+    path {
+        fill: rgba(255,255,255, 0.25);
+    }
+    @media(max-width: ${variables.large}){
+    height: 3vw;
+    width: 3vw;
+    position: unset;
+}
+`
+const Title = styled.p`
+text-transform: uppercase;
+color: rgba(255, 255, 255, 0.6);
+margin-left: 0;
+margin-top: 0;
+display: block;
+margin-bottom: 1vh;
+width: auto;
+font-size: .65vw;
+height: fit-content;
+line-height: .65vw;
+@media(max-width:${variables.large}){
+   font-size: 2vw;
+   line-height: 2vw;
+   padding: 0 0 0 0.8vw;
+}
+`
+
+const SwellKeyColor = styled.svg`
+    width: 1vh;
+    height:  1vh;
+    margin-right: .5vw;
+    margin-bottom: .5vh;
+`
+const SwellKeyRow = styled(Row)`
+width: 100%;
+`
+const PrimarySwell = styled.div`
+height: fit-content;
+width: 100%;
+height: fit-content;
+margin-bottom: .5vh;
+margin-top: 2vh;
+color: rgba(255,255,255, 0.7);
+font-size: 1.25vh;
+letter-spacing: .1vh;
+line-height: 1.5vh;
+margin-left: .15vw;
+${SwellKeyColor} {
+    rect {
+        fill: #40BCF0;
+    }
+}
+`
+
+const SecondarySwell = styled(PrimarySwell)`
+margin-top: 0;
+${SwellKeyColor}  {
+    rect {
+        fill: #307AD9;
+    }
+}
+`
+
+const SwellKey = styled.div`
+width: 100%;
+display: flex;
+position: absolute;
+font-size: 1vh;
+line-height: 1vh;
+color: rgba(255,255,255,0.8);
+margin-left: .15vw;
+div {
+    width: fit-content;
+    margin-right: .25vw;
+}
+${SwellKeyColor}{
+    width: .75vh;
+    height:  .75vh;
+    margin-right: .25vw;
+}
+${SwellKeyColor}:first-child  {
+    rect {
+        fill: #40BCF0;
+    }
+}
+${SwellKeyColor}  {
+    rect {
+        fill: #307AD9;
+    }
+}
+`
+
+const CellCol = styled(Col)`
+display: inline-block;
+
+`
+
+const MultiViewCardColumn = styled(Col)`
+padding: 0 0 0 .5vw;
+&:first-child {
+        padding-left: calc(var(--bs-gutter-x) * .5);
+}
+`
 
 const CurrentConditionBackdrop = styled(BackDrop)`
-width: calc(33% - 1.35vw);
+width: calc(33% - 1.25vw);
 height: calc(33vh - 2vh - (10vh/5));
 margin:0 0.5vw 2vh 0.5vw;
 display: inline-flex;
@@ -36,14 +175,26 @@ flex-direction: column;
 }
 `
 
-const TitleIconRow = styled(Row)`
+const ChartRow= styled(Row)`
 width: 100%;
 display: flex;
-justify-content: space-between;
+--bs-gutter-x: 1vw;
+
+@media(max-width: ${variables.large}){
+    position: unset;
+    margin: 1vw 0 1vw 0.5vw;
+    height: 2vw;
+    width: calc(100% - 1vw);
+}
+`
+
+const TitleIconRow = styled.div`
+width: 100%;
+display: flex;
+position: absolute;
+top: 0.5vh;
+height: 1.5vh;
 margin: 0;
-padding: 0;
-height: 60%;
-margin-bottom: .5vh;
 
 @media(max-width: ${variables.large}){
     position: unset;
@@ -54,8 +205,7 @@ margin-bottom: .5vh;
 `
 const TitleCol = styled(Col)``;
 
-
-const WaveHeightWrapper = styled.div`
+const WaveHeightWrapper = styled.div `
 
 width: calc(100% - 1.5vh);
 margin: 1.5vh 0 0.5vh 1.5vh;
@@ -83,14 +233,21 @@ span {
 }
 `
 
-const WindWrapper = styled.div`
+const WindWrapper = styled.div `
 width: 100%;
 margin: 0 0 0.5vh 1.5vh;
+border-radius: 5px;
+background: rgba(255, 255, 255, 0.04);
+border: 1px solid rgba(255, 255, 255, 0.15);
+border-right-color: rgba(255, 255, 255, 0.07);
+border-bottom-color: rgba(255, 255, 255, 0.07);
+box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
 `
 
-const ConditionsWrapper = styled.div`
+const ConditionsWrapper = styled.div `
 width: calc(100% - 1.5vh);
 margin: 0 0 0.5vh 1.5vh;
+
 `
 
 const WaveDataCol = styled(Col)`
@@ -113,7 +270,6 @@ line-height: .65vw;
 span {
     margin-left: .5vw;
 }`;
-
 
 const SwellChartContainer = styled(Row)`
 opacity: .8;
@@ -234,9 +390,9 @@ const MobileRow = styled(Row)`
 margin-top: 2.5vw;
 `
 
-const CurrWindDataComponentMultiContainer = styled.div`
-width: 10vh;
-height: 10vh;
+const CurrDataComponentMultiContainer = styled.div `
+width: 7.5vh;
+height: 7.5vh;
 `
 export const MultiSpotViewCard = (props) => {
 
@@ -272,61 +428,102 @@ export const MultiSpotViewCard = (props) => {
 
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
             const rating = [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating];
-            
+
             return <CurrentConditionBackdrop key={i}>
-                <TitleIconRow>
-                    <TitleCol xs={6}>
-                        
-                        <Row>
-                            <Location>{spot.town}, {spot.country}</Location>
-                            <Distance>{convertMilesToKM(spot.distanceFromLocation)}
-                                miles away</Distance>
-                        </Row>
-                        <Row>
-                        <Col xs={6}>
-                            <WaveHeightWrapper>
-                                <p>
-                                    {`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}
-                                        <span>ft</span>
-                                </p>
-                                
-                                
-                            </WaveHeightWrapper>
-                           
-                            <ConditionsWrapper>
-                            <ConditionContainer maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight} rating={rating}>
-                                <RatingText>{(rating[0] >= 2 || currentMultiViewConditions.maxBreakingHeight >= 6) && rating[1] < 1
-                                    ? 'Good'
-                                    : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
-                                        ? 'Poor'
-                                        : 'Fair'}
-                                </RatingText>
-                            </ConditionContainer>
-                            </ConditionsWrapper>
-                        </Col>
+                <ChartRow>
+                    <TitleCol xs={12}>
 
-                        <Col xs={6}>
-                            <WindWrapper>
-                                <CurrWindDataComponentMultiContainer>
-                                    <CurrWindDataComponentMulti weatherForecast={spot.currentWeather} />
-                                </CurrWindDataComponentMultiContainer>
+                        <Row>
+                            <MultiViewCardColumn xs={6}>
+                                <Location>{spot.town}, {spot.country}</Location>
+                                <Distance>{convertMilesToKM(spot.distanceFromLocation)}
+                                    miles away</Distance>
+                                    <WaveHeightWrapper>
+                                        <p>
+                                            {`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}
+                                            <span>ft</span>
+                                        </p>
+                                    </WaveHeightWrapper>
+                                    <ConditionsWrapper>
+                                        <ConditionContainer
+                                            maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight}
+                                            rating={rating}>
+                                            <RatingText>{(rating[0] >= 2 || currentMultiViewConditions.maxBreakingHeight >= 6) && rating[1] < 1
+                                                    ? 'Good'
+                                                    : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
+                                                        ? 'Poor'
+                                                        : 'Fair'}
+                                            </RatingText>
+                                        </ConditionContainer>
+                                    </ConditionsWrapper>
+                            </MultiViewCardColumn>
 
-                            </WindWrapper>
-                        </Col>
+                            <MultiViewCardColumn xs={6}>
+                                <Cell>
+                                   
+                                    <CellCol xs={8}>
+                                        <TitleIconRow>
+                                            <SwellIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                <SwellSVGPath />
+                                            </SwellIcon>
+                                            <Title>Swell</Title>
+                                            
+                                        </TitleIconRow>
+                                        <PrimarySwell>
+                                            <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor>{`${currentMultiViewConditions.primaryHeight}ft at ${currentMultiViewConditions.primaryPeriod} from the ${currentMultiViewConditions.primarySwellDirection}`}</PrimarySwell>
+                                        <SecondarySwell>
+                                            <SwellKeyColor><rect width="100%" height="100%"/></SwellKeyColor>{`${currentMultiViewConditions.secondaryHeight}ft at ${currentMultiViewConditions.secondaryPeriod} from the ${currentMultiViewConditions.secondarySwellDirection}`}</SecondarySwell>
+                                        <SwellKey>
+                                            <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Primary</div>
+                                            <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Secondary</div>
+                                        </SwellKey>
+                                    </CellCol>
+                                    <CellCol xs={4}>
+                                     <CurrDataComponentMultiContainer>
+                                   
+                                        
+                                            <SurfMapMultiView
+                                                coords={{
+                                                    lat: spot.lat,
+                                                    lng: spot.lng
+                                                }} />
+                                        
+                                    
+                                    </CurrDataComponentMultiContainer>
+                                    </CellCol>
+                                </Cell>
+                                    <Cell>
+                                    <CellCol xs={8}>
+                                        <TitleIconRow>
+                                            <Title>Wind</Title>
+                                            <WindIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                <WindIconSVGPath />
+                                            </WindIcon>
+                                        </TitleIconRow>
+                                    </CellCol>
+                                    <CellCol xs={4}>
+                                    <CurrDataComponentMultiContainer>
+                                            
+                                            
+
+                                            <CurrWindDataComponentMulti weatherForecast={spot.currentWeather} />
+                                            
+                                    </CurrDataComponentMultiContainer>
+                                    </CellCol>
+                                    </Cell>
+                                
+                                {console.log(spot.currentWeather)}
+                            </MultiViewCardColumn>
                         </Row>
                     </TitleCol>
-                    <WaveDataCol xs={6}>
-                        <SurfMapMultiView
-                            coords={{
-                                lat: spot.lat,
-                                lng: spot.lng
-                            }} />
-                    </WaveDataCol>
-                </TitleIconRow>
+                    
+                </ChartRow>
+                <ChartRow>
                 <SwellChartContainer>
 
-                    <SwellBarChartMultiView maxWaveHeight={props.maxWaveHeight}
-                    forecast={getFutureConditions(spot.swellForecast)}/>
+                    <SwellBarChartMultiView
+                        maxWaveHeight={props.maxWaveHeight}
+                        forecast={getFutureConditions(spot.swellForecast)}/>
                 </SwellChartContainer>
                 {/* <MediaQuery minWidth={Number(variables.largeNum)}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
@@ -337,6 +534,7 @@ export const MultiSpotViewCard = (props) => {
                             : 'Fair'}</RatingText>
                 </ConditionContainer>
             </MediaQuery> */}
+                </ChartRow>
             </CurrentConditionBackdrop>
         })
 
