@@ -140,8 +140,6 @@ export const ContactForm = () => {
         });
     };
 
-    const onChange = (value) => {
-    }
 
     const handleChange = (e) => {
         setToSend({
@@ -204,12 +202,12 @@ export const ContactForm = () => {
                         sitekey={process.env.RECAPTCHA}
                         onSubmit={onSubmit}
                         name="g-recaptcha-response"/>
-                    <ContactFormButton 
-                    className="btn-flip"
-                    data-back='Submit'
-                    data-front='Submit'
-                    type='submit' 
-                    value='Submit'></ContactFormButton>
+                        <ContactFormButton 
+                        className="btn-flip"
+                        data-back='Submit'
+                        data-front='Submit'
+                        type='submit' 
+                        value='Submit'></ContactFormButton>
                     </FormRow>
                 </form>
             </Col>

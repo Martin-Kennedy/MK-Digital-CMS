@@ -1187,7 +1187,6 @@ class SurfGUILanding extends Component {
                                     <RightNavBkg >
                                         <Title>
                                             <p>Surf Spots Near You</p>
-                                            <span>within a 100km radius</span>
                                         </Title>
                                         <Row>
                                             <ul>

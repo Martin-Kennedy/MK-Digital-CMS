@@ -147,11 +147,11 @@ const getCloseSurfSpotsArr = (locationsAndCoords) => {
                 return _obj[country].map((item) => {
                     const distanceFromLocation = getDistanceFromLatLonInKm(currentLat, currentLng, item.lat, item.lng);
                     const distanceDefaultLocation = getDistanceFromLatLonInKm(defaultLat, defaultLng, item.lat, item.lng);
-                    if (distanceFromLocation < 100) {
+                    
                         item.countryOrState = country;
                         item.distanceFromLocation = distanceFromLocation;
                         return item;
-                    }
+                    
                 })
             }
         })
@@ -159,6 +159,7 @@ const getCloseSurfSpotsArr = (locationsAndCoords) => {
     })
 
 }
+
 const closeSurfSpotArrayFiltering = (closeLocations) => {
     return new Promise((resolve) => {
         resolve(closeLocations.map((location) => {
@@ -171,9 +172,9 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
     })).then((data) => {
         const flatArr = data.flat();
         const sortedArr = flatArr.sort((a, b) => {
-            if (a.distanceFromLocation > b.distanceFromLocation) 
+            if (a.distanceFromLocation > b.distanceFromLocation)
                 return 1;
-            if (a.distanceFromLocation < b.distanceFromLocation) 
+            if (a.distanceFromLocation < b.distanceFromLocation)
                 return -1;
             return 0;
         });
@@ -201,6 +202,7 @@ export const getMultiViewForecast = (data) => {
     data = data.slice(0, 9);
     const arr = [];
     new Promise((res) => {
+        
         data.map((item) => {
             arr.push({
                 country: item.countryOrState,
@@ -233,6 +235,7 @@ export const getMultiViewForecast = (data) => {
         return Promise.all(array)
     }
     function getDataLoopTwo(results) {
+        results = results.slice(0,9);
         const array = results.map((item, index) => {
             const openWeatherApiKey = 'bc487a6d87516d1d2546ceb1c78a6fa4';
             const weatherForecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${item.lat}&lon=${item.lng}&exclude=minutely,alerts&units=imperial&appid=${openWeatherApiKey}`
@@ -258,6 +261,7 @@ export const getMultiViewForecast = (data) => {
             const arr = [];
             const finalArray = new Promise((resolve) => {
                 data.map((item, i) => {
+                    
                     arr.push({
                         country: item.countryOrState,
                         town: item.town,
@@ -278,8 +282,9 @@ export const getMultiViewForecast = (data) => {
                 const arr = [];
                 const finalArray = new Promise((resolve) => {
                     results.map((item, i) => {
+                        
                         arr.push({
-                            country: item.countryOrState,
+                            country: item.country,
                             town: item.town,
                             distanceFromLocation: item.distanceFromLocation,
                             lat: item.lat,
@@ -319,6 +324,11 @@ export const getMultiViewSwellForecast = (data) => {
                         date: fullDate,
                         dayOfWeek: day,
                         time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+                        windDirection: hourlyForecast.wind.direction,
+                        windCompassDirection: hourlyForecast.wind.compassDirection,
+                        windGusts: hourlyForecast.wind.gusts,
+                        windSpeed: hourlyForecast.wind.speed,
+                        windUnit: hourlyForecast.wind.unit,
                         fadedRating: hourlyForecast.fadedRating,
                         solidRating: hourlyForecast.solidRating,
                         localTime: hourlyForecast.localTimestamp * 1000,
@@ -344,6 +354,7 @@ export const getMultiViewSwellForecast = (data) => {
                     
                 })
             });
+                
             return hourlySwellForecast.then((data) => {
                 const spotSwellForecast = {
                     country: item.country,
@@ -894,7 +905,7 @@ export const getWeatherForecast = (data) => {
                 dispatch({type: GET_WEATHER_FORECAST, payload: data})
             })
             .catch(error => {
-                throw(error);
+                console.log(error);
             });
     }
 }

@@ -41,7 +41,8 @@ const mapStateToProps = state => {
         surf: {
             multiViewForecast: state.surf.multiViewForecast,
             multiViewSwellForecast: state.surf.multiViewSwellForecast,
-            maxMultiViewWaveHeight: state.surf.maxMultiViewWaveHeight
+            maxMultiViewWaveHeight: state.surf.maxMultiViewWaveHeight,
+            
 
         }
     }
@@ -71,7 +72,6 @@ class SurfGUIMultiSpotView extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots) {
-
 
             getWeather(this.props.surf.closeSurfSpots[0]);
             getWeatherForecast(this.props.surf.closeSurfSpots[0]);

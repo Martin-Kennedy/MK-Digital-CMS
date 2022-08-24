@@ -404,6 +404,7 @@ export const MultiSpotViewCard = (props) => {
     return props
         .multiVieSwellForecast
         .map((spot, i) => {
+            
             const getCurrentConditions = (data) => {
                 const now = Date.now() / 1000 | 0;
                 return data.filter((d) => {
@@ -425,14 +426,12 @@ export const MultiSpotViewCard = (props) => {
                     return forecastDateObj >= fullDateToday && forecastDateObj <= endTime;
                 })
             }
-
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
             const rating = [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating];
 
             return <CurrentConditionBackdrop key={i}>
                 <ChartRow>
                     <TitleCol xs={12}>
-
                         <Row>
                             <MultiViewCardColumn xs={6}>
                                 <Location>{spot.town}, {spot.country}</Location>
@@ -506,13 +505,11 @@ export const MultiSpotViewCard = (props) => {
                                             
                                             
 
-                                            <CurrWindDataComponentMulti weatherForecast={spot.currentWeather} />
+                                            <CurrWindDataComponentMulti msWindForeacst={currentMultiViewConditions} weatherForecast={spot.currentWeather} />
                                             
                                     </CurrDataComponentMultiContainer>
                                     </CellCol>
                                     </Cell>
-                                
-                                {console.log(spot.currentWeather)}
                             </MultiViewCardColumn>
                         </Row>
                     </TitleCol>
