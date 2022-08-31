@@ -509,6 +509,9 @@ body {
 
 .surf-app-multi-view {
     .swellRadialChart {
+        .recharts-polar-grid {
+            opacity: 0;
+        }
             .recharts-polar-grid-angle {
                 opacity: 0.3;
             }

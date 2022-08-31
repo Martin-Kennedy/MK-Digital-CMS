@@ -4,9 +4,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {motion} from "framer-motion";
 import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
-import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
-import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
-import {SwellRadialChart} from '../components/SurfAppComponents/swellRadialChart';
+
 import { MULTI_VIEW, SINGLE_VIEW } from '../helpers/types';
 import {
     getLocationsObject,
@@ -31,18 +29,7 @@ import {
     getMultiViewForecast,
     getMultiViewSwellForecast,
 } from '../actions/surfApp.actions';
-import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
-import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
-import {CurrSwellDataComponent} from '../components/SurfAppComponents/currentSwell';
-import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
-import {
-    SurfMapAndConditions,
-    SurfMap,
-    WeatherComponent,
-    WaterTempComponent,
-    SunPositionComponent,
-    UVIndexComponent
-} from '../components/SurfAppComponents/surfMapAndConditions';
+
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
 import {SpotSearchSVGPath} from '../components/designElementComponents/spotSearchSVGPath';
 import {CloseSpotsSVGPath} from '../components/designElementComponents/closeSpotsSVGPath';
@@ -50,6 +37,7 @@ import {MultiSpotsSVGPath } from '../components/designElementComponents/multiSpo
 import {HomeIconSVGPath} from '../components/designElementComponents/homeIconSVGPath';
 import {CloseButtonSVGPath} from '../components/designElementComponents/closeButtonSVGPath';
 import SurfGUIMultiSpotViewContainer from '../pages/surfGuiMultiSpotView';
+import SurfGUISingleSpotView from '../pages/singleSpotView';
 import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
 import {Link} from 'react-router-dom';
@@ -914,7 +902,7 @@ class SurfGUILanding extends Component {
     }
 
     render() {
-        const rating = [this.props.surf.currentConditions.solidRating, this.props.surf.currentConditions.fadedRating];
+        
         const d = [
             "m-17.8273,111.16671c20.66565,-0.55532 37.66464,-38.11063 62.99696,-38.66596c28.3" +
                     "335,0.22223 43.33368,37.77777 67.00051,37.66666c25.77793,-0.33334 39.22252,-15.9" +
@@ -1007,180 +995,7 @@ class SurfGUILanding extends Component {
                                 }}>Close</CloseButton>
                             </ErrorAlertBar>
                             {this.props.surf.isView === MULTI_VIEW ? <SurfGUIMultiSpotViewContainer  /> :
-                            <CustomCol md={12} lg={9}>
-                                
-                                <DataDashBoardRow>
-                                    
-                                    <MediaQuery minWidth={variables.large}>
-
-                                        <StyledCol35 >
-                                            
-                                            <CurrentConditionRow>
-                                                <CurrentConditionBackdrop>
-                                                    {!Array.isArray(this.props.surf.currentConditions)
-                                                        ? <CurrWaveDataComponent
-                                                                surfSpot={this.props.surf.activeLocation != null
-                                                                ? this.props.surf.activeLocation
-                                                                : this.props.surf.closestSurfSpot}
-                                                                rating={rating}
-                                                                ndbcData={this.props.surf.currentSwell}
-                                                                waveData={this.props.surf.currentConditions.swell}/>
-                                                        : null}
-                                                </CurrentConditionBackdrop>
-                                                <CurrentConditionBackdrop>
-                                                    {!Array.isArray(this.props.surf.weatherForecast)
-                                                        ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast}/>
-                                                        : null}
-                                                </CurrentConditionBackdrop>
-
-                                            </CurrentConditionRow>
-                                            <CurrentConditionRowBottom>
-                                                <CurrentConditionBackdrop>
-                                                    {!Array.isArray(this.props.surf.currentConditions) && !Array.isArray(this.props.surf.currentSwell)
-                                                        ? <CurrSwellDataComponent
-                                                                ndbcData={this.props.surf.currentSwell}
-                                                                waveData={this.props.surf.currentConditions.swell}/>
-                                                        : null}
-                                                </CurrentConditionBackdrop>
-                                                <CurrentConditionBackdrop>
-                                                    {!Array.isArray(this.props.surf.tideForecast) && (this.props.surf.activeLocation != null)
-                                                        ? <CurrentTideDataComponent activeLocation={this.props.surf.activeLocation} tide={this.props.surf.tideForecast.predictions} />
-                                                        : null}
-                                                </CurrentConditionBackdrop>
-                                            </CurrentConditionRowBottom>
-                                        </StyledCol35>
-                                    </MediaQuery>
-                                    <MediaQuery minWidth={variables.large}>
-                                        <StyledCol65>
-                                            <SurfMapBackDrop>
-                                                {this.state.lng && this.state.lat
-                                                    ? <SurfMapAndConditions
-                                                            coords={{
-                                                            lat: this.state.lat,
-                                                            lng: this.state.lng
-                                                        }}/>
-                                                    : null}
-                                            </SurfMapBackDrop>
-                                        </StyledCol65>
-                                    </MediaQuery>
-                                    <MediaQuery maxWidth={variables.large}>
-                                        <DataDashboardRowMenuMobile>
-                                            <MenuNavBkgMobile >
-                                                <HomeIconContainer to={`/`}>
-                                                    <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                        <HomeIconSVGPath/>
-
-                                                    </HomeIcon>
-                                                </HomeIconContainer>
-                                                <CloseSpotIconContainer
-                                                    onClick={() => this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen)}>
-                                                    <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                        <CloseSpotsSVGPath/>
-                                                    </CloseSpotIcon>
-                                                </CloseSpotIconContainer>
-                                                <SpotSearchContainer
-                                                    onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
-                                                    <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                        <SpotSearchSVGPath/>
-                                                    </SpotSearchIcon>
-                                                </SpotSearchContainer>
-
-                                            </MenuNavBkgMobile>
-                                        </DataDashboardRowMenuMobile>
-                                        <DataDashboardRowMap>
-                                            <SurfMapBackDrop>
-                                                {this.state.lng && this.state.lat
-                                                    ? <SurfMap
-                                                            coords={{
-                                                            lat: this.state.lat,
-                                                            lng: this.state.lng
-                                                        }}/>
-                                                    : null}
-                                            </SurfMapBackDrop>
-                                        </DataDashboardRowMap>
-                                        <DataDashBoardRow>
-                                            <LocationBackDropTablet100vw>
-                                                {!Array.isArray(this.props.surf.currentConditions)
-                                                    ? <Fragment>
-                                                            <LocationContainer>
-                                                                <Location>{this.props.surf.activeLocation != null
-                                                                        ? `${this.props.surf.activeLocation.town}, ${this.props.surf.activeLocation.countryOrState}`
-                                                                        : `${this.props.surf.closestSurfSpot.town}, ${this.props.surf.closestSurfSpot.countryOrState}`}</Location>
-                                                                <Distance>{convertMilesToKM(this.props.surf.closestSurfSpot.distanceFromLocation)}
-                                                                    miles away</Distance>
-                                                            </LocationContainer>
-                                                        </Fragment>
-                                                    : null}
-                                            </LocationBackDropTablet100vw>
-                                            <CurrentConditionsBackDropTablet100vw>
-                                                {!Array.isArray(this.props.surf.currentConditions)
-                                                    ? <CurrWaveDataComponent
-                                                            rating={rating}
-                                                            ndbcData={this.props.surf.currentSwell}
-                                                            surfSpot={this.props.surf.closestSurfSpot}
-                                                            waveData={this.props.surf.currentConditions.swell}/>
-                                                    : null}
-                                            </CurrentConditionsBackDropTablet100vw>
-                                        </DataDashBoardRow>
-
-                                        <DataDashBoardRow>
-                                            <CurrentConditionBackdrop>
-                                                {!Array.isArray(this.props.surf.weatherForecast)
-                                                    ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast}/>
-                                                    : null}
-                                            </CurrentConditionBackdrop>
-                                            <CurrentConditionBackdrop>
-                                                {!Array.isArray(this.props.surf.currentConditions) && !Array.isArray(this.props.surf.currentSwell)
-                                                    ? <CurrSwellDataComponent
-                                                            ndbcData={this.props.surf.currentSwell}
-                                                            waveData={this.props.surf.currentConditions.swell}/>
-                                                    : null}
-                                            </CurrentConditionBackdrop>
-                                            <DataDashBoardRow>
-                                                <TideBackDrop100vw>
-                                                    
-                                                    {!Array.isArray(this.props.surf.tideForecast) && (this.props.surf.activeLocation != null)
-                                                        ? <CurrentTideDataComponent activeLocation={this.props.surf.activeLocation} tide={this.props.surf.tideForecast.predictions} />
-                                                        : null}
-                                                </TideBackDrop100vw>
-                                            </DataDashBoardRow>
-
-                                            <DataDashBoardRow>
-                                                <WeatherComponent/>
-                                                <WaterTempComponent/>
-                                            </DataDashBoardRow>
-                                            <DataDashBoardRow>
-                                                <SunPositionComponent
-                                                    coords={{
-                                                    lat: this.state.lat,
-                                                    lng: this.state.lng
-                                                }}/>
-                                                <UVIndexComponent/>
-                                            </DataDashBoardRow>
-                                        </DataDashBoardRow>
-
-                                    </MediaQuery>
-                                </DataDashBoardRow>
-                                <DataDashBoardRow>
-                                    <SwellChartContainer >
-                                        <BackDrop dynamicHeight={this.props.surf.maxWaveHeight}>
-                                            <SwellChartLabel>SURF HEIGHT (ft)</SwellChartLabel>
-                                            <SwellBarChart
-                                                maxWaveHeight={this.props.surf.maxWaveHeight}
-                                                forecast={this.props.surf.swellForecast}/>
-                                        </BackDrop>
-                                    </SwellChartContainer>
-                                </DataDashBoardRow>
-                                <DataDashBoardRow>
-                                    <WindChartContainer>
-                                        <BackDrop>
-                                            <WindChartLabel>WIND SPEED / DIRECTION (mph)</WindChartLabel>
-                                            <WindBarChart forecast={this.props.surf.windForecast}/>
-                                        </BackDrop>
-                                    </WindChartContainer>
-                                </DataDashBoardRow>
-                            
-                            </CustomCol>
+                                <SurfGUISingleSpotView coords={{lat: this.state.lat, lng: this.state.lng}} />
                             }
                             <MediaQuery minWidth={variables.large}>
                                 <Col sm={2}>

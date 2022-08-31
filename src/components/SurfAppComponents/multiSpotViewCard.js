@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components'
 import {Row, Col} from 'react-bootstrap'
 import {WaveConditionsSVGPath} from '../designElementComponents/waveConditionsSVGPath';
 import {CurrWindDataComponentMulti} from '../SurfAppComponents/currentWind';
 import variables from '../../variables.module.scss';
 import SwellBarChartMultiView from './swellForecastBarChartMultiView';
+import WindBarChartMultiView from './windForecastBarChartMultiView';
 import {SurfMapMultiView} from '../SurfAppComponents/surfMapAndConditions';
 import MediaQuery from 'react-responsive';
 import { SwellSVGPath } from '../designElementComponents/swellSVGPath';
@@ -51,22 +52,9 @@ const SwellIcon = styled.svg`
     }
 `
 
-const WindIcon = styled.svg`
-    width: 2.25vh;
-    height: 2.25vh;
-    position: relative;
-    top: -2px;
-    right: 0;
-    padding: 0;
-    path {
-        fill: rgba(255,255,255, 0.25);
-    }
-    @media(max-width: ${variables.large}){
-    height: 3vw;
-    width: 3vw;
-    position: unset;
-}
-`
+const WindIcon = styled(SwellIcon)``;
+
+
 const Title = styled.p`
 text-transform: uppercase;
 color: rgba(255, 255, 255, 0.6);
@@ -109,6 +97,16 @@ ${SwellKeyColor} {
     rect {
         fill: #40BCF0;
     }
+}
+`
+
+const WindData = styled(PrimarySwell)`
+margin-top: 3vh;
+font-size: 1.5vh;
+font-weight: 400;
+span {
+font-size: 1.2vh;
+font-weight: 200;
 }
 `
 
@@ -274,11 +272,12 @@ span {
 const SwellChartContainer = styled(Row)`
 opacity: .8;
 height: 40%;
-width: 50%;
+width: 100%;
 position: absolute;
 padding-top: 1.5vh;
 margin: 0;
 bottom: 0;
+flex-wrap: nowrap;
 p {
 color: var(--white);
 font-size: min(2.5vw,40px);
@@ -400,9 +399,31 @@ export const MultiSpotViewCard = (props) => {
         const miles = km / 1.609;
         return parseInt(miles);
     }
+    const degToCompass =(num) => {
+        const val = Math.floor((num / 22.5) + 0.5);
+        const arr = [
+            "N",
+            "NNE",
+            "NE",
+            "ENE",
+            "E",
+            "ESE",
+            "SE",
+            "SSE",
+            "S",
+            "SSW",
+            "SW",
+            "WSW",
+            "W",
+            "WNW",
+            "NW",
+            "NNW"
+        ];
+        return arr[(val % 16)];
+    }
 
     return props
-        .multiVieSwellForecast
+        .multiViewSwellForecast
         .map((spot, i) => {
             
             const getCurrentConditions = (data) => {
@@ -426,10 +447,17 @@ export const MultiSpotViewCard = (props) => {
                     return forecastDateObj >= fullDateToday && forecastDateObj <= endTime;
                 })
             }
+            
+
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
             const rating = [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating];
 
+            const finalDeg = spot.currentWeather ? spot.currentWeather.current.wind_deg : currentMultiViewConditions.windDirection + 180;
+            const windSpeed = spot.currentWeather ? parseInt(spot.currentWeather.current.wind_speed) : parseInt(currentMultiViewConditions.windSpeed);
+            const compassDirection = degToCompass(finalDeg);
+
             return <CurrentConditionBackdrop key={i}>
+                {console.log(compassDirection, finalDeg)}
                 <ChartRow>
                     <TitleCol xs={12}>
                         <Row>
@@ -470,11 +498,12 @@ export const MultiSpotViewCard = (props) => {
                                         </TitleIconRow>
                                         <PrimarySwell>
                                             <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor>{`${currentMultiViewConditions.primaryHeight}ft at ${currentMultiViewConditions.primaryPeriod} from the ${currentMultiViewConditions.primarySwellDirection}`}</PrimarySwell>
+                                        {currentMultiViewConditions.secondaryHeight ? 
                                         <SecondarySwell>
-                                            <SwellKeyColor><rect width="100%" height="100%"/></SwellKeyColor>{`${currentMultiViewConditions.secondaryHeight}ft at ${currentMultiViewConditions.secondaryPeriod} from the ${currentMultiViewConditions.secondarySwellDirection}`}</SecondarySwell>
+                                            <SwellKeyColor><rect width="100%" height="100%"/></SwellKeyColor>{`${currentMultiViewConditions.secondaryHeight}ft at ${currentMultiViewConditions.secondaryPeriod} from the ${currentMultiViewConditions.secondarySwellDirection}`}</SecondarySwell> : null }
                                         <SwellKey>
                                             <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Primary</div>
-                                            <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Secondary</div>
+                                            {currentMultiViewConditions.secondaryHeight ? <Fragment><SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Secondary</div></Fragment> : null }
                                         </SwellKey>
                                     </CellCol>
                                     <CellCol xs={4}>
@@ -494,18 +523,22 @@ export const MultiSpotViewCard = (props) => {
                                     <Cell>
                                     <CellCol xs={8}>
                                         <TitleIconRow>
-                                            <Title>Wind</Title>
+                                            
                                             <WindIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <WindIconSVGPath />
                                             </WindIcon>
+                                            <Title>Wind</Title>
                                         </TitleIconRow>
+                                        <WindData>
+                                            {currentMultiViewConditions.windSpeed} {currentMultiViewConditions.windUnit} <span> with gusts of</span> <br></br>{currentMultiViewConditions.windGusts}{currentMultiViewConditions.windUnit} <span>out of the </span>{compassDirection}</WindData>
+                                
                                     </CellCol>
                                     <CellCol xs={4}>
                                     <CurrDataComponentMultiContainer>
                                             
                                             
 
-                                            <CurrWindDataComponentMulti msWindForeacst={currentMultiViewConditions} weatherForecast={spot.currentWeather} />
+                                            <CurrWindDataComponentMulti msWindForecast={currentMultiViewConditions} weatherForecast={spot.currentWeather} />
                                             
                                     </CurrDataComponentMultiContainer>
                                     </CellCol>
@@ -517,10 +550,16 @@ export const MultiSpotViewCard = (props) => {
                 </ChartRow>
                 <ChartRow>
                 <SwellChartContainer>
-
-                    <SwellBarChartMultiView
-                        maxWaveHeight={props.maxWaveHeight}
-                        forecast={getFutureConditions(spot.swellForecast)}/>
+                     <Col xs={6}>
+                            <SwellBarChartMultiView
+                                maxWaveHeight={props.maxWaveHeight}
+                                forecast={getFutureConditions(spot.swellForecast)} />
+                        </Col>                                   
+                                            <Col xs={6}>
+                            <WindBarChartMultiView
+                                forecast={getFutureConditions(spot.swellForecast)} />
+                                            </Col>
+                        
                 </SwellChartContainer>
                 {/* <MediaQuery minWidth={Number(variables.largeNum)}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>

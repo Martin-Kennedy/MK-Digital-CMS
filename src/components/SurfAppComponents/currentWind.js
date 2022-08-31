@@ -457,8 +457,8 @@ export const CurrWindDataComponent = (props) => {
 
 export const CurrWindDataComponentMulti = (props) => {
     
-    const finalDeg = props.weatherForecast ? props.weatherForecast.current.wind_deg + 180 : props.msWindForeacast.windDirection;
-    const windSpeed = props.weatherForecast ? parseInt(props.weatherForecast.current.wind_speed) : parseInt(props.msWindForeacast.windSpeed);
+    const finalDeg = props.weatherForecast ? props.weatherForecast.current.wind_deg - 180 : props.msWindForecast.windDirection;
+    const windSpeed = props.weatherForecast ? parseInt(props.weatherForecast.current.wind_speed) : parseInt(props.msWindForecast.windSpeed);
     const rotationArr = [
         -40,
         -90,
@@ -469,7 +469,6 @@ export const CurrWindDataComponentMulti = (props) => {
     ];
 
     return <WindConditionBackdropMultiView>
-
         <StyledCompassBaseMulti
             version="1.1"
             id="Layer_1"

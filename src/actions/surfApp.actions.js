@@ -163,7 +163,7 @@ const getCloseSurfSpotsArr = (locationsAndCoords) => {
 const closeSurfSpotArrayFiltering = (closeLocations) => {
     return new Promise((resolve) => {
         resolve(closeLocations.map((location) => {
-            return location.filter(Boolean)
+            return location
         }))
     }).then((item) => item.filter((location) => {
         if (location.length > 0) {
@@ -171,14 +171,25 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
         }
     })).then((data) => {
         const flatArr = data.flat();
-        const sortedArr = flatArr.sort((a, b) => {
-            if (a.distanceFromLocation > b.distanceFromLocation)
-                return 1;
-            if (a.distanceFromLocation < b.distanceFromLocation)
-                return -1;
-            return 0;
-        });
-        return sortedArr.slice(0, 20);
+        const distanceLimitedArr = [];
+        const closeSpotArr = new Promise((resolve) => {
+            flatArr.map((item) => {
+                if (item.distanceFromLocation < 2000) {
+                    distanceLimitedArr.push(item);
+                }
+                resolve(distanceLimitedArr);
+            })
+        })
+        return closeSpotArr.then((data) => {
+            const sortedArr = data.sort((a, b) => {
+                return a.distanceFromLocation - b.distanceFromLocation;
+            });
+            return sortedArr.slice(0, 20);
+        })
+        
+        
+       
+       
     })
 }
 
@@ -244,7 +255,11 @@ export const getMultiViewForecast = (data) => {
                     return res.data
                 }).then((data) => {
                     return arr[index].currentWeather = data;
-                }))
+                }).catch((error) => {
+                    console.log(error);
+                    return arr[index].currentWeather = null;
+                })
+                )
 
             })
             return axiosDataPromise;
@@ -337,18 +352,18 @@ export const getMultiViewSwellForecast = (data) => {
                         combinedSwellDirection: hourlyForecast.swell.components.combined.compassDirection,
                         combinedHeight: hourlyForecast.swell.components.combined.height,
                         combinedPeriod: hourlyForecast.swell.components.combined.period,
-                        primarySwellDirection: hourlyForecast.swell.components.primary.compassDirection,
-                        primaryHeight: hourlyForecast.swell.components.primary.height,
-                        primaryPeriod: hourlyForecast.swell.components.primary.period,
-                        secondarySwellDirection: hourlyForecast.swell.components.secondary
+                        primarySwellDirection: hourlyForecast.swell.components.primary ? hourlyForecast.swell.components.primary.compassDirection : null,
+                        primaryHeight: hourlyForecast.swell.components.primary ? hourlyForecast.swell.components.primary.height : null,
+                        primaryPeriod: hourlyForecast.swell.components.primary ? hourlyForecast.swell.components.primary.period : null,
+                        secondarySwellDirection: hourlyForecast.swell.components.secondary 
                             ? hourlyForecast.swell.components.secondary.compassDirection
-                            : '',
-                        secondaryHeight: hourlyForecast.swell.components.secondary
+                            : null,
+                        secondaryHeight: hourlyForecast.swell.components.secondary 
                             ? hourlyForecast.swell.components.secondary.height
-                            : '',
-                        secondaryPeriod: hourlyForecast.swell.components.secondary
+                            : null,
+                        secondaryPeriod: hourlyForecast.swell.components.secondary 
                             ? hourlyForecast.swell.components.secondary.period
-                            : ''
+                            : null,
                     })
                     resolve(arr);
                     
@@ -422,7 +437,7 @@ export const getCloseSurfSpots = () => {
 }
 
 export const searchActionCloseSurfSpots = (value) => {
-
+    
     return (dispatch) => {
         function onSuccess(data) {
             dispatch({type: GET_CLOSE_SURFSPOTS, payload: data});
@@ -439,6 +454,7 @@ export const searchActionCloseSurfSpots = (value) => {
                 return {locations: response.data, coords: coords}
             })
             .then((locationsAndCoords) => {
+                
                 return getCloseSurfSpotsArr(locationsAndCoords)
             })
             .then((closeSurfSpotsRaw) => {
@@ -508,9 +524,10 @@ export const getTideForecast = (data) => {
     const tideApiUrlMlw = `${tidesAndCurrentsUrl}date=today&station=${data[0].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
     const tideApiUrlMlw2 = `${tidesAndCurrentsUrl}date=today&station=${data[1].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
 
+    const headers = { 'X-Requested-With': 'XMLHttpReques' }
     return (dispatch) => {
         axios
-            .get(tideApiUrlMlw)
+            .get(tideApiUrlMlw, headers)
             .then(response => {
                 return response.data
             })

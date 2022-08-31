@@ -67,7 +67,12 @@ class SurfGUIMultiSpotView extends Component {
             .classList
             .add('surf-app-multi-view');
     }
-
+    componentWillUnmount() {
+        document
+        .body
+            .classList
+            .remove('surf-app-multi-view');
+    }
 
 
     componentDidUpdate(prevProps) {
@@ -115,7 +120,7 @@ class SurfGUIMultiSpotView extends Component {
                 <Fragment>
                     
                 <Col md={11}>
-                            <MultiSpotViewCard maxWaveHeight={this.props.surf.maxMultiViewWaveHeight} multiVieSwellForecast={this.props.surf.multiViewSwellForecast} multiViewForecast={this.props.surf.multiViewForecast} />
+                            <MultiSpotViewCard maxWaveHeight={this.props.surf.maxMultiViewWaveHeight} multiViewSwellForecast={this.props.surf.multiViewSwellForecast} multiViewForecast={this.props.surf.multiViewForecast} />
                 </Col>
                 <Col md={1}></Col>
                 </Fragment> : null

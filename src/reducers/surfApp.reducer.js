@@ -121,21 +121,25 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             }
         case GET_TIDE_FORECAST:
             // time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
-            action
-                .payload
-                .predictions
-                .map((item, index) => {
-                    const toTimestamp = (strDate) => {
-                        const dt = new Date(strDate).getTime();
-                        return dt / 1000;
-                    }
-                    const formatedTime = formatAMPM(new Date(item.t.replace(/-/g, "/")));
-                    item.time = formatedTime;
-                });
+
+            if (action.payload.predictions) {
+                action
+                    .payload
+                    .predictions
+                    .map((item, index) => {
+                        const toTimestamp = (strDate) => {
+                            const dt = new Date(strDate).getTime();
+                            return dt / 1000;
+                        }
+                        const formatedTime = formatAMPM(new Date(item.t.replace(/-/g, "/")));
+                        item.time = formatedTime;
+                    });
                 return {
                     ...state,
                     tideForecast: action.payload
                 }
+            }
+          
         case GET_WATER_TEMP:
 
             const waterTempF = (action.payload * 9) / 5 + 32;

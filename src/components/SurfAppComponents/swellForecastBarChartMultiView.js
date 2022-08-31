@@ -100,6 +100,18 @@ const SwellChartSecondary = styled(SwellChartPrimary)`
 
 `;
 
+const ContainerLabel = styled.div`
+position: absolute;
+    padding-right: calc(var(--bs-gutter-x) * 1.2);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    width: 50%;
+text-align:right;
+font-size: 1.2vh;
+color: var(--white);
+opacity: 0.55;
+text-transform: uppercase;
+`
+
 
 
 const renderDateTick = (tickProps) => {
@@ -185,10 +197,10 @@ export default class SwellBarChartMultiView extends PureComponent {
                             height={300}
                             data={this.props.forecast}
                             margin={{
-                                top: 0,
-                                right: 25,
-                                left: -25,
-                                bottom: 0
+                                top: 10,
+                                right: 5,
+                                left: -35,
+                                bottom: -20
                             }}
                             onMouseMove={(state) => {
                                 if (state.isTooltipActive) {
@@ -239,16 +251,18 @@ export default class SwellBarChartMultiView extends PureComponent {
                     </ResponsiveContainer>
                 </MediaQuery>
                 <MediaQuery minWidth={Number(variables.largeNum)}>
+                    <ContainerLabel>Swell Forecast</ContainerLabel>
                     <ResponsiveContainer className="multiViewSwellChart" width="100%" height="90%">
+                        
                         <BarChart
                             width={500}
                             height={300}
                             data={this.props.forecast}
                             margin={{
-                                top: 2,
+                                top: 8,
                                 right: 25,
-                                left: -35,
-                                bottom: -10
+                                left: -45,
+                                bottom: -15
                             }}
                            >
                             <XAxis dataKey="time" />
