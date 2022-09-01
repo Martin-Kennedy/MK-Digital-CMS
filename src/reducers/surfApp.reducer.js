@@ -20,7 +20,10 @@ import {
     GET_CURRENT_SWELL,
     GET_MULTI_VIEW_FORECAST,
     GET_MULTI_VIEW_SWELL_FORECAST,
-    GET_MAX_WAVE_HEIGHT_MULTI_VIEW
+    GET_MAX_WAVE_HEIGHT_MULTI_VIEW,
+    GET_ACTIVE_SURF_SPOT,
+    GET_LAT,
+    GET_LNG
 } from '../helpers/types';
 import {formatAMPM} from '../helpers/utilities';
 
@@ -40,6 +43,7 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 locations: action.payload
             }
+            
         case GEO_LOCATION_ERROR:
 
             return {
@@ -211,6 +215,21 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 maxMultiViewWaveHeight: maxMultiViewWaveHeight
+            }
+        case GET_ACTIVE_SURF_SPOT:
+            return {
+                ...state,
+                activeSurfSpot: action.payload
+            }
+        case GET_LAT:
+            return {
+                ...state,
+                lat: action.payload
+            }
+        case GET_LNG:
+            return {
+                ...state,
+                lng: action.payload
             }
 
         default:

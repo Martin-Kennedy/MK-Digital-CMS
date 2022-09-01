@@ -73,7 +73,10 @@ const initalState = {
         multiViewForecast: [],
         multiViewSwellForecast: [],
         isView: MULTI_VIEW,
-        activeLocation: null
+        activeLocation: null,
+        activeSurfSpot: null,
+        lat: null,
+        lng: null
     },
 
     pages: {

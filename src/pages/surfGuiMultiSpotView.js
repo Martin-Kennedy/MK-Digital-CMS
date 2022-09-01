@@ -15,7 +15,7 @@ import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWave
 import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
 import {CurrSwellDataComponent} from '../components/SurfAppComponents/currentSwell';
 import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
-import { MultiSpotViewCard } from '../components/SurfAppComponents/multiSpotViewCard';
+import  MultiSpotViewCard  from '../components/SurfAppComponents/multiSpotViewCard';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
 import {SpotSearchSVGPath} from '../components/designElementComponents/spotSearchSVGPath';
 import {CloseSpotsSVGPath} from '../components/designElementComponents/closeSpotsSVGPath';

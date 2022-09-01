@@ -701,6 +701,7 @@ const SurfMapAndConditionsDesktop = (props) => {
                             </Fragment>
                         : null}
                 </Weather>
+                {!Number.isNaN(parseInt(props.surf.waterTemp)) ?
                 <WaterTemp>
                     <TitleIconRow>
                         <Title>Water Temp</Title>
@@ -717,7 +718,7 @@ const SurfMapAndConditionsDesktop = (props) => {
                             </WaterTempData>
                         </WaterTempContainer>
                     </Row>
-                </WaterTemp>
+                </WaterTemp> : null}
                 <SunPosition>
                     <TitleIconRow>
                         <Title>Sun Position</Title>

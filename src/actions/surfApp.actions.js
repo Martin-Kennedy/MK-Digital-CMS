@@ -20,7 +20,11 @@ import {
     GET_CURRENT_SWELL,
     GEO_LOCATION_ERROR,
     GET_MULTI_VIEW_SWELL_FORECAST,
-    GET_MAX_WAVE_HEIGHT_MULTI_VIEW
+    GET_MAX_WAVE_HEIGHT_MULTI_VIEW,
+    GET_LAT,
+    GET_LNG,
+    GET_ACTIVE_SURF_SPOT
+
 } from '../helpers/types'
 import {formatAMPM} from '../helpers/utilities'
 import {getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
@@ -56,6 +60,18 @@ export const loadView = (data) => {
 
 export const getActiveLocation = (data) => {
     return {type: GET_ACTIVE_LOCATION, payload: data}
+}
+
+export const getActiveSurfSpot = (data) => {
+    return { type: GET_ACTIVE_SURF_SPOT, payload: data }
+}
+
+export const getLat = (data) => {
+    return { type: GET_LAT, payload: data }
+}
+
+export const getLng = (data) => {
+    return { type: GET_LNG, payload: data }
 }
 
 export const getLocationsObject = () => {
@@ -586,7 +602,9 @@ export const getWaterTemp = (data) => {
 
             })
             .then((data) => {
+                
                 const parsedData = JSON.parse(data);
+                console.log(parsedData[2].WTMP);
                 parsedData[1].WTMP != "MM"
                     ? dispatch({type: GET_WATER_TEMP, payload: parsedData[1].WTMP})
                     : parsedData[2].WTMP != "MM"

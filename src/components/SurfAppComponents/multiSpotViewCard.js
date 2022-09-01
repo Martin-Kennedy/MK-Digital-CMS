@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components'
 import {Row, Col} from 'react-bootstrap'
 import {WaveConditionsSVGPath} from '../designElementComponents/waveConditionsSVGPath';
@@ -10,6 +11,35 @@ import {SurfMapMultiView} from '../SurfAppComponents/surfMapAndConditions';
 import MediaQuery from 'react-responsive';
 import { SwellSVGPath } from '../designElementComponents/swellSVGPath';
 import { WindIconSVGPath } from '../designElementComponents/windIconSVGPath';
+import { MULTI_VIEW, SINGLE_VIEW } from '../../helpers/types';
+import {
+    getLocationsObject,
+    getSurfForecast,
+    getCloseSurfSpots,
+    getSwellForecast,
+    getWindForecast,
+    getMaxWaveHeight,
+    getMaxWaveHeightMultiView,
+    getTideForecast,
+    getTideStations,
+    getNdbcStations,
+    getWeatherStations,
+    getWaterTemp,
+    getWeather,
+    getWeatherForecast,
+    getCurrentSwell,
+    searchOpenState,
+    closeSpotsOpenState,
+    loadView,
+    getActiveLocation,
+    getMultiViewForecast,
+    getMultiViewSwellForecast,
+    getActiveSurfSpot,
+    getLat,
+    getLng
+} from '../../actions/surfApp.actions';
+
+
 
 const BackDrop = styled.div `
 border-radius: 5px;
@@ -166,6 +196,11 @@ height: calc(33vh - 2vh - (10vh/5));
 margin:0 0.5vw 2vh 0.5vw;
 display: inline-flex;
 flex-direction: column;
+transition: .25s ease-in;
+&:hover, &:active {
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.5);
+}
 @media(max-width: ${variables.large}){
     width: calc(50% - 1.5vw);
     height: calc(50vw - 1.5vw);
@@ -393,39 +428,185 @@ const CurrDataComponentMultiContainer = styled.div `
 width: 7.5vh;
 height: 7.5vh;
 `
-export const MultiSpotViewCard = (props) => {
+const convertMilesToKM = (km) => {
+    const miles = km / 1.609;
+    return parseInt(miles);
+}
+const degToCompass = (num) => {
+    const val = Math.floor((num / 22.5) + 0.5);
+    const arr = [
+        "N",
+        "NNE",
+        "NE",
+        "ENE",
+        "E",
+        "ESE",
+        "SE",
+        "SSE",
+        "S",
+        "SSW",
+        "SW",
+        "WSW",
+        "W",
+        "WNW",
+        "NW",
+        "NNW"
+    ];
+    return arr[(val % 16)];
+}
 
-    const convertMilesToKM = (km) => {
-        const miles = km / 1.609;
-        return parseInt(miles);
+
+
+const mapStateToProps = state => {
+    return {
+        surf: {
+            locations: state.surf.locations,
+            geoLocationError: state.surf.geoLocationError,
+            closeSurfSpots: state.surf.closeSurfSpots,
+            closestSurfSpot: state.surf.closestSurfSpot,
+            hourlyForecast: state.surf.hourlyForecast,
+            maxWaveHeight: state.surf.maxWaveHeight,
+            currentConditions: state.surf.currentConditions,
+            swellForecast: state.surf.swellForecast,
+            windForecast: state.surf.windForecast,
+            tideStations: state.surf.tideStations,
+            ndbcStations: state.surf.ndbcStations,
+            weatherStations: state.surf.weatherStations,
+            tideForecast: state.surf.tideForecast,
+            waterTemp: state.surf.waterTemp,
+            weather: state.surf.weather,
+            weatherForecast: state.surf.weatherForecast,
+            currentSwell: state.surf.currentSwell,
+            isSearchOpen: state.surf.isSearchOpen,
+            isCloseSpotsOpen: state.surf.isCloseSpotsOpen,
+            activeLocation: state.surf.activeLocation,
+            isView: state.surf.isView,
+            multiViewForecast: state.surf.multiViewForecast,
+            multiViewSwellForecast: state.surf.multiViewSwellForecast,
+            activeSurfSpot: state.surf.activeSurfSpot,
+            lat: state.surf.lat,
+            lng: state.surf.lng
+        }
     }
-    const degToCompass =(num) => {
-        const val = Math.floor((num / 22.5) + 0.5);
-        const arr = [
-            "N",
-            "NNE",
-            "NE",
-            "ENE",
-            "E",
-            "ESE",
-            "SE",
-            "SSE",
-            "S",
-            "SSW",
-            "SW",
-            "WSW",
-            "W",
-            "WNW",
-            "NW",
-            "NNW"
-        ];
-        return arr[(val % 16)];
+}
+
+const mapDispatchToProps = dispatch => ({
+    getLocationsObject: locations => dispatch(getLocationsObject(locations)),
+    getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
+    getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast)),
+    getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast)),
+    getWindForecast: windForecast => dispatch(getWindForecast(windForecast)),
+    getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight)),
+    getTideStations: tideStations => dispatch(getTideStations(tideStations)),
+    getTideForecast: tideForecast => dispatch(getTideForecast(tideForecast)),
+    getNdbcStations: ndbcStations => dispatch(getNdbcStations(ndbcStations)),
+    getWaterTemp: waterTemp => dispatch(getWaterTemp(waterTemp)),
+    getCurrentSwell: currentSwell => dispatch(getCurrentSwell(currentSwell)),
+    getWeatherStations: weatherStations => dispatch(getWeatherStations(weatherStations)),
+    getWeather: weather => dispatch(getWeather(weather)),
+    getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast)),
+    searchOpenState: openState => dispatch(searchOpenState(openState)),
+    closeSpotsOpenState: openState => dispatch(closeSpotsOpenState(openState)),
+    loadView: openState => dispatch(loadView(openState)),
+    getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation)),
+    getMultiViewForecast: forecast => dispatch(getMultiViewForecast(forecast)),
+    getMultiViewSwellForecast: forecast => dispatch(getMultiViewSwellForecast(forecast)),
+    getMaxWaveHeightMultiView: waveHeight => dispatch(getMaxWaveHeightMultiView(waveHeight)),
+    getActiveSurfSpot: surfSpot => dispatch(getActiveSurfSpot(surfSpot)),
+    getLat: lat => dispatch(getLat(lat)),
+    getLng: lng => dispatch(getLng(lng))
+});
+
+class MultiSpotViewCard extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeSurfSpot: null,
+            lat: null,
+            lng: null,
+            geoLocationModalClosed: false
+        };
+    }
+    componentDidMount() {
+        console.log(this.props)
+        const { getCloseSurfSpots } = this.props;
+        getCloseSurfSpots();
+        const { getLocationsObject } = this.props;
+        getLocationsObject();
+        const { searchOpenState } = this.props;
+        const { closeSpotsOpenState } = this.props;
+        const { getActiveLocation } = this.props;
+        const { loadView } = this.props;
     }
 
-    return props
+
+    componentDidUpdate(prevProps) {
+        if ((prevProps.surf.closeSurfSpots.length > 1) && (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots)) {
+            const { getSurfForecast } = this.props;
+            const { getTideStations } = this.props;
+            const { getWeatherStations } = this.props;
+            const { getWeather } = this.props;
+            const { getWeatherForecast } = this.props;
+            const { getNdbcStations } = this.props;
+            const { getMultiViewForecast } = this.props;
+            const { getActiveSurfSpot } = this.props;
+            const { getLat } = this.props;
+            const { getLng } = this.props;
+
+            this
+                .props
+                .getActiveLocation(this.props.surf.closeSurfSpots[0]);
+            this.props.getActiveSurfSpot(this.props.surf.closeSurfSpots[0].spotId);
+            this.props.getLat(this.props.surf.closeSurfSpots[0].lat);
+            this.props.getLng(this.props.surf.closeSurfSpots[0].lng);
+            getSurfForecast(this.props.surf.closeSurfSpots[0].spotId);
+            getTideStations(this.props.surf.closeSurfSpots[0]);
+            getNdbcStations(this.props.surf.closeSurfSpots[0]);
+            getWeatherStations(this.props.surf.closeSurfSpots[0]);
+            getWeather(this.props.surf.closeSurfSpots[0]);
+            getWeatherForecast(this.props.surf.closeSurfSpots[0]);
+            getMultiViewForecast(this.props.surf.closeSurfSpots);
+
+
+        }
+        if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
+            const { getMaxWaveHeight } = this.props;
+            const { getSwellForecast } = this.props;
+            const { getWindForecast } = this.props;
+            getMaxWaveHeight(this.props.surf.hourlyForecast);
+            getSwellForecast(this.props.surf.hourlyForecast);
+            getWindForecast(this.props.surf.hourlyForecast);
+        }
+        if (prevProps.surf.multiViewForecast != this.props.surf.multiViewForecast) {
+            const { getMultiViewSwellForecast } = this.props;
+            getMultiViewSwellForecast(this.props.surf.multiViewForecast);
+        }
+        if (prevProps.surf.multiViewSwellForecast != this.props.surf.multiViewSwellForecast) {
+            const { getMaxWaveHeightMultiView } = this.props;
+            getMaxWaveHeightMultiView(this.props.surf.multiViewSwellForecast);
+        }
+        if (prevProps.surf.tideStations != this.props.surf.tideStations) {
+            const { getTideForecast } = this.props;
+            getTideForecast([this.props.surf.tideStations[0], this.props.surf.tideStations[1]]);
+
+        }
+
+        if (prevProps.surf.ndbcStations != this.props.surf.ndbcStations) {
+            const { getWaterTemp } = this.props;
+            const { getCurrentSwell } = this.props;
+            getWaterTemp(this.props.surf.ndbcStations[0]);
+            getCurrentSwell(this.props.surf.ndbcStations[0]);
+        }
+   
+
+    }
+   
+render(){
+    return this.props
         .multiViewSwellForecast
         .map((spot, i) => {
-            
+
             const getCurrentConditions = (data) => {
                 const now = Date.now() / 1000 | 0;
                 return data.filter((d) => {
@@ -447,7 +628,7 @@ export const MultiSpotViewCard = (props) => {
                     return forecastDateObj >= fullDateToday && forecastDateObj <= endTime;
                 })
             }
-            
+
 
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
             const rating = [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating];
@@ -456,8 +637,32 @@ export const MultiSpotViewCard = (props) => {
             const windSpeed = spot.currentWeather ? parseInt(spot.currentWeather.current.wind_speed) : parseInt(currentMultiViewConditions.windSpeed);
             const compassDirection = degToCompass(finalDeg);
 
-            return <CurrentConditionBackdrop key={i}>
-                {console.log(compassDirection, finalDeg)}
+            return <CurrentConditionBackdrop key={i}
+                onClick={() => {
+                    this.props.getActiveSurfSpot(spot.spotId);
+                    this
+                        .props
+                        .getActiveLocation(spot);
+                    this
+                        .props
+                        .getSurfForecast(spot.spotId);
+                    this
+                        .props
+                        .getWeather(spot);
+                    this
+                        .props
+                        .getWeatherForecast(spot);
+                    this
+                        .props
+                        .getTideStations(spot);
+                    this.props.getLat(spot.lat);
+                    this.props.getLng(spot.lng);
+                    this
+                        .props
+                        .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
+                    this.props.loadView(SINGLE_VIEW);
+                }}
+            >
                 <ChartRow>
                     <TitleCol xs={12}>
                         <Row>
@@ -465,65 +670,65 @@ export const MultiSpotViewCard = (props) => {
                                 <Location>{spot.town}, {spot.country}</Location>
                                 <Distance>{convertMilesToKM(spot.distanceFromLocation)}
                                     miles away</Distance>
-                                    <WaveHeightWrapper>
-                                        <p>
-                                            {`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}
-                                            <span>ft</span>
-                                        </p>
-                                    </WaveHeightWrapper>
-                                    <ConditionsWrapper>
-                                        <ConditionContainer
-                                            maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight}
-                                            rating={rating}>
-                                            <RatingText>{(rating[0] >= 2 || currentMultiViewConditions.maxBreakingHeight >= 6) && rating[1] < 1
-                                                    ? 'Good'
-                                                    : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
-                                                        ? 'Poor'
-                                                        : 'Fair'}
-                                            </RatingText>
-                                        </ConditionContainer>
-                                    </ConditionsWrapper>
+                                <WaveHeightWrapper>
+                                    <p>
+                                        {`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}
+                                        <span>ft</span>
+                                    </p>
+                                </WaveHeightWrapper>
+                                <ConditionsWrapper>
+                                    <ConditionContainer
+                                        maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight}
+                                        rating={rating}>
+                                        <RatingText>{(rating[0] >= 2 || currentMultiViewConditions.maxBreakingHeight >= 6) && rating[1] < 1
+                                            ? 'Good'
+                                            : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
+                                                ? 'Poor'
+                                                : 'Fair'}
+                                        </RatingText>
+                                    </ConditionContainer>
+                                </ConditionsWrapper>
                             </MultiViewCardColumn>
 
                             <MultiViewCardColumn xs={6}>
                                 <Cell>
-                                   
+
                                     <CellCol xs={8}>
                                         <TitleIconRow>
                                             <SwellIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <SwellSVGPath />
                                             </SwellIcon>
                                             <Title>Swell</Title>
-                                            
+
                                         </TitleIconRow>
                                         <PrimarySwell>
                                             <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor>{`${currentMultiViewConditions.primaryHeight}ft at ${currentMultiViewConditions.primaryPeriod} from the ${currentMultiViewConditions.primarySwellDirection}`}</PrimarySwell>
-                                        {currentMultiViewConditions.secondaryHeight ? 
-                                        <SecondarySwell>
-                                            <SwellKeyColor><rect width="100%" height="100%"/></SwellKeyColor>{`${currentMultiViewConditions.secondaryHeight}ft at ${currentMultiViewConditions.secondaryPeriod} from the ${currentMultiViewConditions.secondarySwellDirection}`}</SecondarySwell> : null }
+                                        {currentMultiViewConditions.secondaryHeight ?
+                                            <SecondarySwell>
+                                                <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor>{`${currentMultiViewConditions.secondaryHeight}ft at ${currentMultiViewConditions.secondaryPeriod} from the ${currentMultiViewConditions.secondarySwellDirection}`}</SecondarySwell> : null}
                                         <SwellKey>
                                             <SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Primary</div>
-                                            {currentMultiViewConditions.secondaryHeight ? <Fragment><SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Secondary</div></Fragment> : null }
+                                            {currentMultiViewConditions.secondaryHeight ? <Fragment><SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Secondary</div></Fragment> : null}
                                         </SwellKey>
                                     </CellCol>
                                     <CellCol xs={4}>
-                                     <CurrDataComponentMultiContainer>
-                                   
-                                        
+                                        <CurrDataComponentMultiContainer>
+
+
                                             <SurfMapMultiView
                                                 coords={{
                                                     lat: spot.lat,
                                                     lng: spot.lng
                                                 }} />
-                                        
-                                    
-                                    </CurrDataComponentMultiContainer>
+
+
+                                        </CurrDataComponentMultiContainer>
                                     </CellCol>
                                 </Cell>
-                                    <Cell>
+                                <Cell>
                                     <CellCol xs={8}>
                                         <TitleIconRow>
-                                            
+
                                             <WindIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <WindIconSVGPath />
                                             </WindIcon>
@@ -531,37 +736,37 @@ export const MultiSpotViewCard = (props) => {
                                         </TitleIconRow>
                                         <WindData>
                                             {currentMultiViewConditions.windSpeed} {currentMultiViewConditions.windUnit} <span> with gusts of</span> <br></br>{currentMultiViewConditions.windGusts}{currentMultiViewConditions.windUnit} <span>out of the </span>{compassDirection}</WindData>
-                                
+
                                     </CellCol>
                                     <CellCol xs={4}>
-                                    <CurrDataComponentMultiContainer>
-                                            
-                                            
+                                        <CurrDataComponentMultiContainer>
+
+
 
                                             <CurrWindDataComponentMulti msWindForecast={currentMultiViewConditions} weatherForecast={spot.currentWeather} />
-                                            
-                                    </CurrDataComponentMultiContainer>
+
+                                        </CurrDataComponentMultiContainer>
                                     </CellCol>
-                                    </Cell>
+                                </Cell>
                             </MultiViewCardColumn>
                         </Row>
                     </TitleCol>
-                    
+
                 </ChartRow>
                 <ChartRow>
-                <SwellChartContainer>
-                     <Col xs={6}>
+                    <SwellChartContainer>
+                        <Col xs={6}>
                             <SwellBarChartMultiView
-                                maxWaveHeight={props.maxWaveHeight}
+                                maxWaveHeight={this.props.maxWaveHeight}
                                 forecast={getFutureConditions(spot.swellForecast)} />
-                        </Col>                                   
-                                            <Col xs={6}>
+                        </Col>
+                        <Col xs={6}>
                             <WindBarChartMultiView
                                 forecast={getFutureConditions(spot.swellForecast)} />
-                                            </Col>
-                        
-                </SwellChartContainer>
-                {/* <MediaQuery minWidth={Number(variables.largeNum)}>
+                        </Col>
+
+                    </SwellChartContainer>
+                    {/* <MediaQuery minWidth={Number(variables.largeNum)}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
                     <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
                         ? 'Good'
@@ -573,5 +778,10 @@ export const MultiSpotViewCard = (props) => {
                 </ChartRow>
             </CurrentConditionBackdrop>
         })
+    }
+    
 
 };
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MultiSpotViewCard);

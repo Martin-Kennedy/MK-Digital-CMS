@@ -875,7 +875,6 @@ class SurfGUISingleSpotView extends Component {
                                         ndbcData={this.props.surf.currentSwell}
                                         waveData={this.props.surf.currentConditions.swell} />
                                     : null}
-                                {console.log(this.props.surf.tideForecast)}
                             </CurrentConditionBackdrop>
                             <CurrentConditionBackdrop>
                                 {!Array.isArray(this.props.surf.tideForecast) && (this.props.surf.activeLocation != null)

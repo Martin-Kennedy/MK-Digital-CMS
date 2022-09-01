@@ -28,6 +28,9 @@ import {
     getActiveLocation,
     getMultiViewForecast,
     getMultiViewSwellForecast,
+    getActiveSurfSpot,
+    getLat,
+    getLng
 } from '../actions/surfApp.actions';
 
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
@@ -768,7 +771,10 @@ const mapStateToProps = state => {
             activeLocation: state.surf.activeLocation,
             isView: state.surf.isView,
             multiViewForecast: state.surf.multiViewForecast,
-            multiViewSwellForecast: state.surf.multiViewSwellForecast
+            multiViewSwellForecast: state.surf.multiViewSwellForecast,
+            activeSurfSpot: state.surf.activeSurfSpot,
+            lat: state.surf.lat,
+            lng: state.surf.lng
         }
     }
 }
@@ -794,7 +800,10 @@ const mapDispatchToProps = dispatch => ({
     getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation)),
     getMultiViewForecast: forecast => dispatch(getMultiViewForecast(forecast)),
     getMultiViewSwellForecast: forecast => dispatch(getMultiViewSwellForecast(forecast)),
-    getMaxWaveHeightMultiView: waveHeight => dispatch(getMaxWaveHeightMultiView(waveHeight))
+    getMaxWaveHeightMultiView: waveHeight => dispatch(getMaxWaveHeightMultiView(waveHeight)),
+    getActiveSurfSpot: surfSpot => dispatch(getActiveSurfSpot(surfSpot)),
+    getLat: lat => dispatch(getLat(lat)),
+    getLng: lng => dispatch(getLng(lng))
 });
 
 const convertMilesToKM = (km) => {
@@ -807,11 +816,9 @@ class SurfGUILanding extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeLocation: null,
             activeSurfSpot: null,
             lat: null,
             lng: null,
-            isOpen: false,
             geoLocationModalClosed: false
         };
     }
@@ -846,13 +853,16 @@ class SurfGUILanding extends Component {
             const {getWeatherForecast} = this.props;
             const {getNdbcStations} = this.props;
             const { getMultiViewForecast } = this.props;
+            const { getActiveSurfSpot } = this.props;
+            const { getLat } = this.props;
+            const { getLng } = this.props;
             
             this
                 .props
                 .getActiveLocation(this.props.surf.closeSurfSpots[0]);
-            this.setState({activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId});
-            this.setState({lat: this.props.surf.closeSurfSpots[0].lat});
-            this.setState({lng: this.props.surf.closeSurfSpots[0].lng});
+            this.props.getActiveSurfSpot(this.props.surf.closeSurfSpots[0].spotId);
+            this.props.getLat(this.props.surf.closeSurfSpots[0].lat);
+            this.props.getLng(this.props.surf.closeSurfSpots[0].lng);
             getSurfForecast(this.props.surf.closeSurfSpots[0].spotId);
             getTideStations(this.props.surf.closeSurfSpots[0]);
             getNdbcStations(this.props.surf.closeSurfSpots[0]);
@@ -995,7 +1005,7 @@ class SurfGUILanding extends Component {
                                 }}>Close</CloseButton>
                             </ErrorAlertBar>
                             {this.props.surf.isView === MULTI_VIEW ? <SurfGUIMultiSpotViewContainer  /> :
-                                <SurfGUISingleSpotView coords={{lat: this.state.lat, lng: this.state.lng}} />
+                                <SurfGUISingleSpotView coords={{lat: this.props.surf.lat, lng: this.props.surf.lng}} />
                             }
                             <MediaQuery minWidth={variables.large}>
                                 <Col sm={2}>
@@ -1012,11 +1022,11 @@ class SurfGUILanding extends Component {
                                                     .map((surfSpot, index) => {
                                                         return <SurfSpot
                                                             key={index}
-                                                            active={() => this.state.activeSurfSpot === surfSpot.spotId
+                                                            active={() => this.props.surf.activeSurfSpot === surfSpot.spotId
                                                             ? '.8'
                                                             : '.3'}
                                                             onClick={() => {
-                                                            this.setState({activeSurfSpot: surfSpot.spotId});
+                                                            this.props.getActiveSurfSpot(surfSpot.spotId);
                                                             this
                                                                 .props
                                                                 .getActiveLocation(surfSpot);
@@ -1032,8 +1042,9 @@ class SurfGUILanding extends Component {
                                                             this
                                                                 .props
                                                                 .getTideStations(surfSpot);
-                                                            this.setState({lat: surfSpot.lat});
-                                                            this.setState({lng: surfSpot.lng});
+                                                                this.props.getNdbcStations(surfSpot);
+                                                            this.props.getLat(surfSpot.lat);
+                                                            this.props.getLng(surfSpot.lng);
                                                         }}>{surfSpot.town}</SurfSpot>
                                                     })}
                                             </ul>
@@ -1056,7 +1067,6 @@ class SurfGUILanding extends Component {
                                     <RightNavMobileContent>
                                         <Title>
                                             <p>Surf Spots Near You</p>
-                                            <span>within a 100km radius</span>
                                         </Title>
                                         <Row>
                                             <ul>
@@ -1067,11 +1077,11 @@ class SurfGUILanding extends Component {
                                                     .map((surfSpot, index) => {
                                                         return <SurfSpot
                                                             key={`${index}-mobile`}
-                                                            active={() => this.state.activeSurfSpot === surfSpot.spotId
+                                                            active={() => this.props.surf.activeSurfSpot === surfSpot.spotId
                                                             ? '.8'
                                                             : '.3'}
                                                             onClick={() => {
-                                                            this.setState({activeSurfSpot: surfSpot.spotId});
+                                                            this.props.getActiveSurfSpot(surfSpot.spotId);
                                                             this
                                                                 .props
                                                                 .getActiveLocation(surfSpot);
@@ -1087,8 +1097,8 @@ class SurfGUILanding extends Component {
                                                             this
                                                                 .props
                                                                 .getTideStations(surfSpot);
-                                                            this.setState({lat: surfSpot.lat});
-                                                            this.setState({lng: surfSpot.lng});
+                                                            this.props.getLat(surfSpot.lat);
+                                                            this.props.getLng(surfSpot.lng);
                                                             this
                                                                 .props
                                                                 .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
