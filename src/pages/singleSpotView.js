@@ -819,19 +819,19 @@ class SurfGUISingleSpotView extends Component {
             const { getNdbcStations } = this.props;
             const { getMultiViewForecast } = this.props;
 
-            getActiveLocation(this.props.surf.closeSurfSpots[0]);
-            getTideStations(this.props.surf.closeSurfSpots[0]);
-            getNdbcStations(this.props.surf.closeSurfSpots[0]);
-            getWeatherStations(this.props.surf.closeSurfSpots[0]);
-            getWeather(this.props.surf.closeSurfSpots[0]);
-            getWeatherForecast(this.props.surf.closeSurfSpots[0]);
-            getMultiViewForecast(this.props.surf.closeSurfSpots);
+            this.props.getActiveLocation(this.props.surf.closeSurfSpots[0]);
+            this.props.getTideStations(this.props.surf.closeSurfSpots[0]);
+            this.props.getNdbcStations(this.props.surf.closeSurfSpots[0]);
+            this.props.getWeatherStations(this.props.surf.closeSurfSpots[0]);
+            this.props.getWeather(this.props.surf.closeSurfSpots[0]);
+            this.props.getWeatherForecast(this.props.surf.closeSurfSpots[0]);
+            this.props.getMultiViewForecast(this.props.surf.closeSurfSpots);
 
 
         }
         if (prevProps.surf.tideStations != this.props.surf.tideStations) {
             const { getTideForecast } = this.props;
-            getTideForecast([this.props.surf.tideStations[0], this.props.surf.tideStations[1]]);
+            this.props.getTideForecast([this.props.surf.tideStations[0], this.props.surf.tideStations[1]]);
 
         }
 
@@ -862,8 +862,9 @@ class SurfGUISingleSpotView extends Component {
                                     : null}
                             </CurrentConditionBackdrop>
                             <CurrentConditionBackdrop>
+                                {console.log(this.props)}
                                 {!Array.isArray(this.props.surf.weatherForecast)
-                                    ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} />
+                                    ? <CurrWindDataComponent msWindForecast={this.props.surf.currentConditions} weatherForecast={this.props.surf.weatherForecast} />
                                     : null}
                             </CurrentConditionBackdrop>
 
@@ -877,7 +878,7 @@ class SurfGUISingleSpotView extends Component {
                                     : null}
                             </CurrentConditionBackdrop>
                             <CurrentConditionBackdrop>
-                                {!Array.isArray(this.props.surf.tideForecast) && (this.props.surf.activeLocation != null)
+                                {!Array.isArray(this.props.surf.tideForecast) 
 
                                     ? <CurrentTideDataComponent activeLocation={this.props.surf.activeLocation} tide={this.props.surf.tideForecast.predictions} />
                                     : null}

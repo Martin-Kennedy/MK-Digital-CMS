@@ -558,6 +558,10 @@ body {
                 }
             }
         }
+
+        .waveFormBottom {
+            display: none;
+        }
 }
 
 .surf-app-multi-view .recharts-cartesian-axis-ticks {
@@ -759,7 +763,14 @@ select.minimal {
 }
 
 
-.multiViewSwellChart {
+.multiViewSwellChart, .windForecastContainer {
+    &:hover, &:active {
+        svg {
+            cursor: pointer;
+        }
+        
+    }
+    
    .recharts-label-list {
     text{ 
         font-size: .7vw;

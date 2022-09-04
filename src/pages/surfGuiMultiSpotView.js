@@ -42,8 +42,6 @@ const mapStateToProps = state => {
             multiViewForecast: state.surf.multiViewForecast,
             multiViewSwellForecast: state.surf.multiViewSwellForecast,
             maxMultiViewWaveHeight: state.surf.maxMultiViewWaveHeight,
-            
-
         }
     }
 }

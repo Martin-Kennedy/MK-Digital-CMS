@@ -196,7 +196,7 @@ height: calc(33vh - 2vh - (10vh/5));
 margin:0 0.5vw 2vh 0.5vw;
 display: inline-flex;
 flex-direction: column;
-transition: .25s ease-in;
+transition: .15s ease-in;
 &:hover, &:active {
     cursor: pointer;
     border: 1px solid rgba(255,255,255,0.5);
@@ -278,8 +278,8 @@ box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
 `
 
 const ConditionsWrapper = styled.div `
-width: calc(100% - 1.5vh);
-margin: 0 0 0.5vh 1.5vh;
+width: calc(60% - 1.5vh);
+margin: 2vh 0 0.5vh 1.5vh;
 
 `
 
@@ -305,11 +305,11 @@ span {
 }`;
 
 const SwellChartContainer = styled(Row)`
-opacity: .8;
-height: 40%;
+height: 35%;
 width: 100%;
 position: absolute;
 padding-top: 1.5vh;
+padding-right: 0.5vh;
 margin: 0;
 bottom: 0;
 flex-wrap: nowrap;
@@ -419,6 +419,14 @@ margin-left: 1.5vh;
     margin: 0;
 }
 `
+
+const ChartCol = styled(Col)`
+padding-left: 0;
+padding-right: 1.5vh;
+&:last-child{
+    padding-right:0;
+}
+`;
 
 const MobileRow = styled(Row)`
 margin-top: 2.5vw;
@@ -755,15 +763,15 @@ render(){
                 </ChartRow>
                 <ChartRow>
                     <SwellChartContainer>
-                        <Col xs={6}>
+                        <ChartCol xs={6}>
                             <SwellBarChartMultiView
                                 maxWaveHeight={this.props.maxWaveHeight}
                                 forecast={getFutureConditions(spot.swellForecast)} />
-                        </Col>
-                        <Col xs={6}>
+                        </ChartCol>
+                        <ChartCol xs={6}>
                             <WindBarChartMultiView
                                 forecast={getFutureConditions(spot.swellForecast)} />
-                        </Col>
+                        </ChartCol>
 
                     </SwellChartContainer>
                     {/* <MediaQuery minWidth={Number(variables.largeNum)}>

@@ -84,7 +84,7 @@ margin: .2vh 0 1vh 0;
 
 const ContainerLabel = styled.div`
 position: absolute;
-     padding-right: calc(var(--bs-gutter-x) * 1.2);
+     padding-right: 1.5vh;
     padding-left: calc(var(--bs-gutter-x) * .5);
     width: 50%;
 text-align:right;
@@ -187,8 +187,8 @@ export default class WindBarChartMultiView extends PureComponent {
                             data={this.props.forecast}
                             margin={{
                                 top: 5,
-                                right: 0,
-                                left: -35,
+                                right: -5,
+                                left: -42,
                                 bottom: -15
                             }}
                           >

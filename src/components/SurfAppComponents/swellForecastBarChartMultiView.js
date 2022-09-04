@@ -102,7 +102,7 @@ const SwellChartSecondary = styled(SwellChartPrimary)`
 
 const ContainerLabel = styled.div`
 position: absolute;
-    padding-right: calc(var(--bs-gutter-x) * 1.2);
+    padding-right: 2.5vh;
     padding-left: calc(var(--bs-gutter-x) * .5);
     width: 50%;
 text-align:right;
@@ -199,7 +199,7 @@ export default class SwellBarChartMultiView extends PureComponent {
                             margin={{
                                 top: 10,
                                 right: 5,
-                                left: -35,
+                                left: -32,
                                 bottom: -20
                             }}
                             onMouseMove={(state) => {
@@ -260,8 +260,8 @@ export default class SwellBarChartMultiView extends PureComponent {
                             data={this.props.forecast}
                             margin={{
                                 top: 8,
-                                right: 25,
-                                left: -45,
+                                right: -5,
+                                left: -42,
                                 bottom: -15
                             }}
                            >

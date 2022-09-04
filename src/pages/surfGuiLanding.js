@@ -830,8 +830,13 @@ class SurfGUILanding extends Component {
         getLocationsObject();
         const {searchOpenState} = this.props;
         const {closeSpotsOpenState} = this.props;
-        const {getActiveLocation} = this.props;
+      
         const {loadView} = this.props;
+        const { getActiveSurfSpot } = this.props;
+        const { getLat } = this.props;
+        const { getLng } = this.props;
+
+      
         if (window.innerWidth > Number(variables.largeNum)) {
             document.body.style.overflow = "hidden";
 
@@ -845,62 +850,7 @@ class SurfGUILanding extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots) {
-            const {getSurfForecast} = this.props;
-            const {getTideStations} = this.props;
-            const {getWeatherStations} = this.props;
-            const {getWeather} = this.props;
-            const {getWeatherForecast} = this.props;
-            const {getNdbcStations} = this.props;
-            const { getMultiViewForecast } = this.props;
-            const { getActiveSurfSpot } = this.props;
-            const { getLat } = this.props;
-            const { getLng } = this.props;
-            
-            this
-                .props
-                .getActiveLocation(this.props.surf.closeSurfSpots[0]);
-            this.props.getActiveSurfSpot(this.props.surf.closeSurfSpots[0].spotId);
-            this.props.getLat(this.props.surf.closeSurfSpots[0].lat);
-            this.props.getLng(this.props.surf.closeSurfSpots[0].lng);
-            getSurfForecast(this.props.surf.closeSurfSpots[0].spotId);
-            getTideStations(this.props.surf.closeSurfSpots[0]);
-            getNdbcStations(this.props.surf.closeSurfSpots[0]);
-            getWeatherStations(this.props.surf.closeSurfSpots[0]);
-            getWeather(this.props.surf.closeSurfSpots[0]);
-            getWeatherForecast(this.props.surf.closeSurfSpots[0]);
-            getMultiViewForecast(this.props.surf.closeSurfSpots);
-            
-            
-        }
-        if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
-            const {getMaxWaveHeight} = this.props;
-            const {getSwellForecast} = this.props;
-            const {getWindForecast} = this.props;
-            getMaxWaveHeight(this.props.surf.hourlyForecast);
-            getSwellForecast(this.props.surf.hourlyForecast);
-            getWindForecast(this.props.surf.hourlyForecast);
-        }
-        if (prevProps.surf.multiViewForecast != this.props.surf.multiViewForecast) {
-            const { getMultiViewSwellForecast } = this.props;
-            getMultiViewSwellForecast(this.props.surf.multiViewForecast);
-        }
-        if(prevProps.surf.multiViewSwellForecast != this.props.surf.multiViewSwellForecast){
-            const { getMaxWaveHeightMultiView } = this.props;
-            getMaxWaveHeightMultiView(this.props.surf.multiViewSwellForecast);
-        }
-        if (prevProps.surf.tideStations != this.props.surf.tideStations) {
-            const {getTideForecast} = this.props;
-            getTideForecast([this.props.surf.tideStations[0], this.props.surf.tideStations[1]]);
-
-        }
-
-        if (prevProps.surf.ndbcStations != this.props.surf.ndbcStations) {
-            const {getWaterTemp} = this.props;
-            const {getCurrentSwell} = this.props;
-            getWaterTemp(this.props.surf.ndbcStations[0]);
-            getCurrentSwell(this.props.surf.ndbcStations[0]);
-        }
+     
         if (window.innerWidth < Number(variables.largeNum)) {
             if (this.props.surf.isSearchOpen || this.props.surf.isCloseSpotsOpen) {
                 document.body.style.overflow = "hidden";
@@ -1114,7 +1064,7 @@ class SurfGUILanding extends Component {
                     </Col>
                 </DataContainer>
                 <MediaQuery minWidth={variables.large}>
-                    <WaveFormBottom>
+                    <WaveFormBottom className="waveFormBottom">
 
                         <FadeInWhenVisibleOpacity duration={1.75}>
 

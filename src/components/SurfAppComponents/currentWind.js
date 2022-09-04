@@ -325,7 +325,10 @@ function degToCompass(num) {
 }
 
 export const CurrWindDataComponent = (props) => {
-    const finalDeg = props.weatherForecast.current.wind_deg + 180;
+     const finalDeg = props.weatherForecast ? props.weatherForecast.current.wind_deg - 180 : props.msWindForecast.wind.direction;
+    const windSpeed = props.weatherForecast ? parseInt(props.weatherForecast.current.wind_speed) : parseInt(props.msWindForecast.wind.speed);
+    const windGust = props.weatherForecast ? parseInt(props.weatherForecast.current.wind_gust) : parseInt(props.msWindForecast.wind.gusts);
+    const direction = props.weatherForecast ? props.weatherForecast.current.wind_deg : props.msWindForecast.wind.direction;
     const rotationArr = [
         -40,
         -90,
@@ -437,16 +440,16 @@ export const CurrWindDataComponent = (props) => {
             </g>
         </StyledCompassArrow>
         <WindSpeed>
-            <p>{parseInt(props.weatherForecast.current.wind_speed)}</p>
+            <p>{windSpeed}</p>
             <span>MPH</span>
         </WindSpeed>
         <BottomRow>
             <p>
-                <span>{degToCompass(props.weatherForecast.current.wind_deg)}</span>
+                <span>{degToCompass(direction)}</span>
             </p>
-            {!isNaN(props.weatherForecast.current.wind_gust)
+            {!isNaN(windGust)
                 ? <p>Gusts:
-                        <span>{parseInt(props.weatherForecast.current.wind_gust)}</span>
+                    <span>{parseInt(windGust)}</span>
                     </p>
                 : null}
         </BottomRow>
