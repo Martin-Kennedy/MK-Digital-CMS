@@ -30,8 +30,7 @@ import {formatAMPM} from '../helpers/utilities'
 import {getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
 import axios from 'axios';
 
-const surfSpotsApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655572169/MK-Digital-Surf-App' +
-        '/surfSpots_yhjhfc.json';
+const surfSpotsApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1662312612/MK-Digital-Surf-App/surfSpots_nkv1pc.json';
 const tideStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134141/MK-Digital-Surf-App' +
         '/tideStations_vxlwrw.json';
 const NDBCStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134357/MK-Digital-Surf-App' +
@@ -217,10 +216,11 @@ export const getSurfForecast = (spotId) => {
                 return response.data
             })
             .then(data => {
+                console.log(data);
                 dispatch({type: GET_SPOT_FORECAST, payload: data})
             })
             .catch(error => {
-                throw(error);
+                console.log(error);
             });
     }
 };
@@ -347,6 +347,7 @@ export const getMultiViewSwellForecast = (data) => {
             const results = Promise.all(data.map((item) => {
             let arr = [];
             const hourlySwellForecast = new Promise((resolve) => {
+                console.log(item.forecast);
                 item.forecast.map((hourlyForecast) => {
                     let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
                     let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
@@ -355,6 +356,7 @@ export const getMultiViewSwellForecast = (data) => {
                         date: fullDate,
                         dayOfWeek: day,
                         time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+                        timeZone: item.timeZone,
                         windDirection: hourlyForecast.wind.direction,
                         windCompassDirection: hourlyForecast.wind.compassDirection,
                         windGusts: hourlyForecast.wind.gusts,
@@ -387,6 +389,7 @@ export const getMultiViewSwellForecast = (data) => {
             });
                 
             return hourlySwellForecast.then((data) => {
+
                 const spotSwellForecast = {
                     country: item.country,
                     town: item.town,
@@ -612,7 +615,7 @@ export const getWaterTemp = (data) => {
                         : dispatch({type: GET_WATER_TEMP, payload: parsedData[3].WTMP})
             })
             .catch(error => {
-                throw(error);
+                console.log(error);
             });
 
     }
@@ -721,7 +724,7 @@ export const getCurrentSwell = (data) => {
 
             })
             .catch(error => {
-                throw(error);
+                console.log(error);
             });
 
     }

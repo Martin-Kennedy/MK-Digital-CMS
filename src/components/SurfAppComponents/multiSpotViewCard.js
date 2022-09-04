@@ -615,8 +615,17 @@ render(){
         .map((spot, i) => {
 
             const getCurrentConditions = (data) => {
-                const now = Date.now() / 1000 | 0;
+                console.log(data[0].timeZone);
+                const str = new Date().toLocaleString('en-US', { timeZone: data[0].timeZone });
+                console.log(str);
+
+                // **** fix error related to no available time in forecast because aus is over international date line ***
+                
+                const now = Date.now(str) / 1000 | 0;
+                
                 return data.filter((d) => {
+                    console.log(now);
+                    console.log(d.localTime / 1000);
                     return (d.localTime / 1000) < now;
                 })
             }
@@ -638,10 +647,10 @@ render(){
 
 
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
-            const rating = [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating];
 
-            const finalDeg = spot.currentWeather ? spot.currentWeather.current.wind_deg : currentMultiViewConditions.windDirection + 180;
-            const windSpeed = spot.currentWeather ? parseInt(spot.currentWeather.current.wind_speed) : parseInt(currentMultiViewConditions.windSpeed);
+            const rating = currentMultiViewConditions ? [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating] : null;
+            const finalDeg = spot.currentWeather ? spot.currentWeather.current.wind_deg : currentMultiViewConditions ? currentMultiViewConditions.windDirection + 180 : null;
+            const windSpeed = spot.currentWeather ? parseInt(spot.currentWeather.current.wind_speed) : currentMultiViewConditions ? parseInt(currentMultiViewConditions.windSpeed) :null;
             const compassDirection = degToCompass(finalDeg);
 
             return <CurrentConditionBackdrop key={i}
@@ -783,7 +792,7 @@ render(){
                 </ConditionContainer>
             </MediaQuery> */}
                 </ChartRow>
-            </CurrentConditionBackdrop>
+            </CurrentConditionBackdrop>;
         })
     }
     
