@@ -537,9 +537,8 @@ class MultiSpotViewCard extends Component {
         };
     }
     componentDidMount() {
-        console.log(this.props)
         const { getCloseSurfSpots } = this.props;
-        getCloseSurfSpots();
+
         const { getLocationsObject } = this.props;
         getLocationsObject();
         const { searchOpenState } = this.props;

@@ -325,10 +325,10 @@ function degToCompass(num) {
 }
 
 export const CurrWindDataComponent = (props) => {
-     const finalDeg = props.weatherForecast ? props.weatherForecast.current.wind_deg - 180 : props.msWindForecast.wind.direction;
-    const windSpeed = props.weatherForecast ? parseInt(props.weatherForecast.current.wind_speed) : parseInt(props.msWindForecast.wind.speed);
-    const windGust = props.weatherForecast ? parseInt(props.weatherForecast.current.wind_gust) : parseInt(props.msWindForecast.wind.gusts);
-    const direction = props.weatherForecast ? props.weatherForecast.current.wind_deg : props.msWindForecast.wind.direction;
+     const finalDeg = props.weatherForecast.length ? props.weatherForecast.current.wind_deg - 180 : props.msWindForecast.wind.direction;
+    const windSpeed = props.weatherForecast.length ? parseInt(props.weatherForecast.current.wind_speed) : parseInt(props.msWindForecast.wind.speed);
+    const windGust = props.weatherForecast.length ? parseInt(props.weatherForecast.current.wind_gust) : parseInt(props.msWindForecast.wind.gusts);
+    const direction = props.weatherForecast.length ? props.weatherForecast.current.wind_deg : props.msWindForecast.wind.direction - 180;
     const rotationArr = [
         -40,
         -90,
@@ -337,7 +337,7 @@ export const CurrWindDataComponent = (props) => {
         90,
         finalDeg
     ];
-
+    console.log(props);
     return <WaveConditionBackdrop>
 
         <TitleIconRow>

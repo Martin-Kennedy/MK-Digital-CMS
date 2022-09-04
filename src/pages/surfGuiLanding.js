@@ -1028,8 +1028,8 @@ class SurfGUILanding extends Component {
                                                             : null}
                                                     </CurrentConditionBackdrop>
                                                     <CurrentConditionBackdrop>
-                                                        {!Array.isArray(this.props.surf.weatherForecast)
-                                                            ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} />
+                                                        {!Array.isArray(this.props.surf.weatherForecast) || this.props.surf.currentConditions
+                                                            ? <CurrWindDataComponent msWindForecast={this.props.surf.currentConditions} weatherForecast={this.props.surf.weatherForecast} />
                                                             : null}
                                                     </CurrentConditionBackdrop>
 
