@@ -1,10 +1,12 @@
-import React, {Component, Fragment} from 'react';
-import {Row, Col} from 'react-bootstrap';
-import {connect} from 'react-redux';
+import React, { Component, Fragment } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
-import {motion} from "framer-motion";
-import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
-
+import { motion } from "framer-motion";
+import { FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
+import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
+import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
+import { SwellRadialChart } from '../components/SurfAppComponents/swellRadialChart';
 import { MULTI_VIEW, SINGLE_VIEW } from '../helpers/types';
 import {
     getLocationsObject,
@@ -28,22 +30,29 @@ import {
     getActiveLocation,
     getMultiViewForecast,
     getMultiViewSwellForecast,
-    getActiveSurfSpot,
-    getLat,
-    getLng
 } from '../actions/surfApp.actions';
-
+import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
+import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
+import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
+import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
+import {
+    SurfMapAndConditions,
+    SurfMap,
+    WeatherComponent,
+    WaterTempComponent,
+    SunPositionComponent,
+    UVIndexComponent
+} from '../components/SurfAppComponents/surfMapAndConditions';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
-import {SpotSearchSVGPath} from '../components/designElementComponents/spotSearchSVGPath';
-import {CloseSpotsSVGPath} from '../components/designElementComponents/closeSpotsSVGPath';
-import {MultiSpotsSVGPath } from '../components/designElementComponents/multiSpotsSVGPath';
-import {HomeIconSVGPath} from '../components/designElementComponents/homeIconSVGPath';
-import {CloseButtonSVGPath} from '../components/designElementComponents/closeButtonSVGPath';
+import { SpotSearchSVGPath } from '../components/designElementComponents/spotSearchSVGPath';
+import { CloseSpotsSVGPath } from '../components/designElementComponents/closeSpotsSVGPath';
+import { MultiSpotsSVGPath } from '../components/designElementComponents/multiSpotsSVGPath';
+import { HomeIconSVGPath } from '../components/designElementComponents/homeIconSVGPath';
+import { CloseButtonSVGPath } from '../components/designElementComponents/closeButtonSVGPath';
 import SurfGUIMultiSpotViewContainer from '../pages/surfGuiMultiSpotView';
-import SurfGUISingleSpotView from '../pages/singleSpotView';
 import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
@@ -101,7 +110,7 @@ const CurrentConditionRowBottom = styled(CurrentConditionRow)`
     }
 `
 
-const StyledCol35 = styled.div `
+const StyledCol35 = styled.div`
 width: 35%;
 margin: 0;
 padding:0;
@@ -119,7 +128,7 @@ padding: 0 0 0 0.5vw;
 margin:0;
 `
 
-const BackDrop = styled.div `
+const BackDrop = styled.div`
 border-radius: 5px;
 background: rgba(255, 255, 255, 0.04);
 border: 1px solid rgba(255, 255, 255, 0.15);
@@ -128,8 +137,8 @@ border-bottom-color: rgba(255, 255, 255, 0.07);
 box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
 position: relative;
 height:  ${props => props.dynamicHeight > 8
-    ? props.dynamicHeight / 6 + 22
-    : 22}vh;
+        ? props.dynamicHeight / 6 + 22
+        : 22}vh;
 width: 100%;
 padding: 4vh 0 0 0;
 `
@@ -162,7 +171,7 @@ z-index: 12;
         padding: 2vw;
     }
 `
-const SwellChartContainer = styled.div `
+const SwellChartContainer = styled.div`
 margin-left: 0;
 padding-right: 0;
 padding-left: 0;
@@ -222,7 +231,7 @@ const TideBackDrop100vw = styled(CurrentConditionsBackDropTablet100vw)`
 height: calc(100vw / 5);
 `
 
-const LocationBackDropTablet100vw = styled.div `
+const LocationBackDropTablet100vw = styled.div`
 @media(max-width: ${variables.large}){
     width: calc(100% - 1.5vw);
     height: calc(100vw / 9);
@@ -230,7 +239,7 @@ const LocationBackDropTablet100vw = styled.div `
     padding: 0;
 }
 `
-const SwellChartLabel = styled.p `
+const SwellChartLabel = styled.p`
 color: var(--white);
 opacity: .7;
 font-size: 1vw;
@@ -294,7 +303,7 @@ const GlassContainerBkg = styled(Row)`
 flex-wrap: nowrap; 
 `
 
-const RightNavBkg = styled.div `
+const RightNavBkg = styled.div`
   margin: 5vh 0;
   height: 90vh;
   border-radius: 5px;
@@ -348,7 +357,7 @@ position: fixed;
   }
 }
 `
-const RightNavMobileContent = styled.div `
+const RightNavMobileContent = styled.div`
 margin-top: 8vh;
 `
 const MenuNavBkg = styled(RightNavBkg)`
@@ -462,7 +471,7 @@ span {
 }
 `
 
-const SurfSpot = styled.li `
+const SurfSpot = styled.li`
 color: var(--white);
 opacity: ${props => props.active};
 letter-spacing: 1.25px;
@@ -476,7 +485,7 @@ margin-top: 3px;
 }
 `
 
-const CloseButtonContainer = styled.div `
+const CloseButtonContainer = styled.div`
 width: fit-content;
 padding: 0;
 margin-bottom: 2vh;
@@ -535,7 +544,7 @@ svg {
 }
 `
 
-const CloseButtonIcon = styled.svg `
+const CloseButtonIcon = styled.svg`
 width: 1.5vw;
 height: 1.5vw;
 padding: 0;
@@ -545,7 +554,7 @@ padding: 0;
 }
 `
 
-const SpotSearchContainer = styled.div `
+const SpotSearchContainer = styled.div`
 width: 2.5vw;
 height: 2.5vw;
 position: relative;
@@ -581,7 +590,7 @@ margin-right: 7%;
 const CloseSpotIconContainerDesktop = styled(SpotSearchContainer)`
 `
 
-const SpotSearchIcon = styled.svg `
+const SpotSearchIcon = styled.svg`
 width: 2.5vw;
 height: 2.5vw;
 position: relative;
@@ -606,7 +615,7 @@ const HomeIcon = styled(SpotSearchIcon)``;
 
 const CloseSpotIcon = styled(SpotSearchIcon)``;
 
-const WaveFormBottom = styled.div `
+const WaveFormBottom = styled.div`
 position: absolute;
 bottom: 40vh;
 height: 0;
@@ -654,7 +663,7 @@ const StyledPath = styled(motion.path)`
     stroke: #fff;
 `
 
-const Location = styled.div `
+const Location = styled.div`
 color: var(--white);
 margin: 10px 0 0 15px;
 font-weight: 500;
@@ -682,7 +691,7 @@ margin-left: 0;
     text-align: center;
 }
 `
-const Distance = styled.div `
+const Distance = styled.div`
 color: var(--white);
 margin: 10px 0 0 15px;
 font-weight: 500;
@@ -710,13 +719,13 @@ opacity: 0.8;
 }
 `
 
-const LocationContainer = styled.div `
+const LocationContainer = styled.div`
 display: block;
 width: fit-content;
 margin: 2vw auto;
 `
 
-const CloseButton = styled.div `
+const CloseButton = styled.div`
 display: flex;
 align-content: center;
 justify-content: center;
@@ -771,10 +780,7 @@ const mapStateToProps = state => {
             activeLocation: state.surf.activeLocation,
             isView: state.surf.isView,
             multiViewForecast: state.surf.multiViewForecast,
-            multiViewSwellForecast: state.surf.multiViewSwellForecast,
-            activeSurfSpot: state.surf.activeSurfSpot,
-            lat: state.surf.lat,
-            lng: state.surf.lng
+            multiViewSwellForecast: state.surf.multiViewSwellForecast
         }
     }
 }
@@ -800,10 +806,7 @@ const mapDispatchToProps = dispatch => ({
     getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation)),
     getMultiViewForecast: forecast => dispatch(getMultiViewForecast(forecast)),
     getMultiViewSwellForecast: forecast => dispatch(getMultiViewSwellForecast(forecast)),
-    getMaxWaveHeightMultiView: waveHeight => dispatch(getMaxWaveHeightMultiView(waveHeight)),
-    getActiveSurfSpot: surfSpot => dispatch(getActiveSurfSpot(surfSpot)),
-    getLat: lat => dispatch(getLat(lat)),
-    getLng: lng => dispatch(getLng(lng))
+    getMaxWaveHeightMultiView: waveHeight => dispatch(getMaxWaveHeightMultiView(waveHeight))
 });
 
 const convertMilesToKM = (km) => {
@@ -816,27 +819,24 @@ class SurfGUILanding extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            activeLocation: null,
             activeSurfSpot: null,
             lat: null,
             lng: null,
+            isOpen: false,
             geoLocationModalClosed: false
         };
     }
 
     componentDidMount() {
-        const {getCloseSurfSpots} = this.props;
+        const { getCloseSurfSpots } = this.props;
         getCloseSurfSpots();
-        const {getLocationsObject} = this.props;
+        const { getLocationsObject } = this.props;
         getLocationsObject();
-        const {searchOpenState} = this.props;
-        const {closeSpotsOpenState} = this.props;
-      
-        const {loadView} = this.props;
-        const { getActiveSurfSpot } = this.props;
-        const { getLat } = this.props;
-        const { getLng } = this.props;
-
-      
+        const { searchOpenState } = this.props;
+        const { closeSpotsOpenState } = this.props;
+        const { getActiveLocation } = this.props;
+        const { loadView } = this.props;
         if (window.innerWidth > Number(variables.largeNum)) {
             document.body.style.overflow = "hidden";
 
@@ -850,7 +850,59 @@ class SurfGUILanding extends Component {
     }
 
     componentDidUpdate(prevProps) {
-     
+        if (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots) {
+            const { getSurfForecast } = this.props;
+            const { getTideStations } = this.props;
+            const { getWeatherStations } = this.props;
+            const { getWeather } = this.props;
+            const { getWeatherForecast } = this.props;
+            const { getNdbcStations } = this.props;
+            const { getMultiViewForecast } = this.props;
+
+            this
+                .props
+                .getActiveLocation(this.props.surf.closeSurfSpots[0]);
+            this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId });
+            this.setState({ lat: this.props.surf.closeSurfSpots[0].lat });
+            this.setState({ lng: this.props.surf.closeSurfSpots[0].lng });
+            getSurfForecast(this.props.surf.closeSurfSpots[0].spotId);
+            getTideStations(this.props.surf.closeSurfSpots[0]);
+            getNdbcStations(this.props.surf.closeSurfSpots[0]);
+            getWeatherStations(this.props.surf.closeSurfSpots[0]);
+            getWeather(this.props.surf.closeSurfSpots[0]);
+            getWeatherForecast(this.props.surf.closeSurfSpots[0]);
+            getMultiViewForecast(this.props.surf.closeSurfSpots);
+
+
+        }
+        if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
+            const { getMaxWaveHeight } = this.props;
+            const { getSwellForecast } = this.props;
+            const { getWindForecast } = this.props;
+            getMaxWaveHeight(this.props.surf.hourlyForecast);
+            getSwellForecast(this.props.surf.hourlyForecast);
+            getWindForecast(this.props.surf.hourlyForecast);
+        }
+        if (prevProps.surf.multiViewForecast != this.props.surf.multiViewForecast) {
+            const { getMultiViewSwellForecast } = this.props;
+            getMultiViewSwellForecast(this.props.surf.multiViewForecast);
+        }
+        if (prevProps.surf.multiViewSwellForecast != this.props.surf.multiViewSwellForecast) {
+            const { getMaxWaveHeightMultiView } = this.props;
+            getMaxWaveHeightMultiView(this.props.surf.multiViewSwellForecast);
+        }
+        if (prevProps.surf.tideStations != this.props.surf.tideStations) {
+            const { getTideForecast } = this.props;
+            getTideForecast([this.props.surf.tideStations[0], this.props.surf.tideStations[1]]);
+
+        }
+
+        if (prevProps.surf.ndbcStations != this.props.surf.ndbcStations) {
+            const { getWaterTemp } = this.props;
+            const { getCurrentSwell } = this.props;
+            getWaterTemp(this.props.surf.ndbcStations[0]);
+            getCurrentSwell(this.props.surf.ndbcStations[0]);
+        }
         if (window.innerWidth < Number(variables.largeNum)) {
             if (this.props.surf.isSearchOpen || this.props.surf.isCloseSpotsOpen) {
                 document.body.style.overflow = "hidden";
@@ -862,38 +914,38 @@ class SurfGUILanding extends Component {
     }
 
     render() {
-        
+        const rating = [this.props.surf.currentConditions.solidRating, this.props.surf.currentConditions.fadedRating];
         const d = [
             "m-17.8273,111.16671c20.66565,-0.55532 37.66464,-38.11063 62.99696,-38.66596c28.3" +
-                    "335,0.22223 43.33368,37.77777 67.00051,37.66666c25.77793,-0.33334 39.22252,-15.9" +
-                    "9997 68.33378,-16.99997c26.22238,0.33334 43.44477,16.66663 67.66716,16.99997c30." +
-                    "1113,-0.33334 50.88927,-37.99998 81.33391,-37.99999c33.22242,0.00001 59.1115,37." +
-                    "33332 87.66726,37.99999c33.11131,-0.22223 46.8893,-14.77774 78.00061,-15.3333c32" +
-                    ".77794,0.77776 55.22254,14.22218 77.66715,14.66662c29.55574,-0.66667 52.11147,-3" +
-                    "9.33331 87.66721,-39.99998c30.55573,0.88889 50.11149,38.77776 75.66723,39.66665c" +
-                    "26.00018,0 41.16712,-16.66663 74.83396,-17.3333c29.22238,0.11111 52.27802,16.555" +
-                    "52 74.16707,17.3333c23.38901,-0.72228 36.27808,-37.94437 59.66709,-38.16666c21.6" +
-                    "1114,0.22228 42.72229,38.44437 62.33344,39.16665",
+            "335,0.22223 43.33368,37.77777 67.00051,37.66666c25.77793,-0.33334 39.22252,-15.9" +
+            "9997 68.33378,-16.99997c26.22238,0.33334 43.44477,16.66663 67.66716,16.99997c30." +
+            "1113,-0.33334 50.88927,-37.99998 81.33391,-37.99999c33.22242,0.00001 59.1115,37." +
+            "33332 87.66726,37.99999c33.11131,-0.22223 46.8893,-14.77774 78.00061,-15.3333c32" +
+            ".77794,0.77776 55.22254,14.22218 77.66715,14.66662c29.55574,-0.66667 52.11147,-3" +
+            "9.33331 87.66721,-39.99998c30.55573,0.88889 50.11149,38.77776 75.66723,39.66665c" +
+            "26.00018,0 41.16712,-16.66663 74.83396,-17.3333c29.22238,0.11111 52.27802,16.555" +
+            "52 74.16707,17.3333c23.38901,-0.72228 36.27808,-37.94437 59.66709,-38.16666c21.6" +
+            "1114,0.22228 42.72229,38.44437 62.33344,39.16665",
             "m-17.8273,111.16671c20.66565,-0.55532 37.66464,-38.11063 62.99696,-38.66596c28.3" +
-                    "335,0.22223 41.33368,23.77776 65.00051,23.66665c25.77793,-0.33334 39.22252,-21.9" +
-                    "9998 68.33378,-22.99998c26.22238,0.33334 43.44477,26.66664 67.66716,26.99998c30." +
-                    "1113,-0.33334 52.88927,-27.99997 83.33391,-27.99998c33.22242,0.00001 58.1115,17." +
-                    "3333 86.66726,17.99997c33.11131,-0.22223 46.8893,-20.77775 78.00061,-21.33331c32" +
-                    ".77794,0.77776 57.22254,36.2222 79.66715,36.66664c29.55574,-0.66667 51.11147,-35" +
-                    ".3333 86.66721,-35.99997c30.55573,0.88889 46.11149,26.77775 71.66723,27.66664c26" +
-                    ".00018,0 41.16712,-26.66664 74.83396,-27.33331c29.22238,0.11111 56.27803,22.5555" +
-                    "3 78.16708,23.33331c23.38901,-0.72228 36.27808,-21.94436 59.66709,-22.16665c21.6" +
-                    "1114,0.22228 42.72229,38.44437 62.33344,39.16665",
+            "335,0.22223 41.33368,23.77776 65.00051,23.66665c25.77793,-0.33334 39.22252,-21.9" +
+            "9998 68.33378,-22.99998c26.22238,0.33334 43.44477,26.66664 67.66716,26.99998c30." +
+            "1113,-0.33334 52.88927,-27.99997 83.33391,-27.99998c33.22242,0.00001 58.1115,17." +
+            "3333 86.66726,17.99997c33.11131,-0.22223 46.8893,-20.77775 78.00061,-21.33331c32" +
+            ".77794,0.77776 57.22254,36.2222 79.66715,36.66664c29.55574,-0.66667 51.11147,-35" +
+            ".3333 86.66721,-35.99997c30.55573,0.88889 46.11149,26.77775 71.66723,27.66664c26" +
+            ".00018,0 41.16712,-26.66664 74.83396,-27.33331c29.22238,0.11111 56.27803,22.5555" +
+            "3 78.16708,23.33331c23.38901,-0.72228 36.27808,-21.94436 59.66709,-22.16665c21.6" +
+            "1114,0.22228 42.72229,38.44437 62.33344,39.16665",
             "m-17.8273,111.16671c20.66565,-0.55532 38.66464,-28.11062 63.99696,-28.66595c28.3" +
-                    "335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.9" +
-                    "9998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30." +
-                    "1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27." +
-                    "33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c3" +
-                    "2.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-" +
-                    "28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c" +
-                    "26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55" +
-                    "553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21" +
-                    ".61114,0.22228 42.72229,29.44437 62.33344,30.16664"
+            "335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.9" +
+            "9998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30." +
+            "1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27." +
+            "33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c3" +
+            "2.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-" +
+            "28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c" +
+            "26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55" +
+            "553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21" +
+            ".61114,0.22228 42.72229,29.44437 62.33344,30.16664"
         ]
 
         return (
@@ -903,30 +955,30 @@ class SurfGUILanding extends Component {
                         <GlassContainerBkg>
                             <SearchMenu
                                 className={this.props.surf.isSearchOpen
-                                ? 'slideInFromLeftSurfSPA'
-                                : null}>
+                                    ? 'slideInFromLeftSurfSPA'
+                                    : null}>
 
                                 <CloseButtonContainer
                                     onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
                                     <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                        <CloseButtonSVGPath/>
+                                        <CloseButtonSVGPath />
                                     </CloseButtonIcon>
                                     <p>close</p>
                                 </CloseButtonContainer>
-                                <SurfSpotsSearchFilter/>
+                                <SurfSpotsSearchFilter />
                             </SearchMenu>
                             <MediaQuery minWidth={variables.large}>
                                 <Col md={1}>
                                     <MenuNavBkg >
                                         <HomeIconContainer to={`/`}>
                                             <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                <HomeIconSVGPath/>
+                                                <HomeIconSVGPath />
                                             </HomeIcon>
                                         </HomeIconContainer>
                                         <SpotSearchContainer
                                             onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
                                             <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                <SpotSearchSVGPath/>
+                                                <SpotSearchSVGPath />
                                             </SpotSearchIcon>
                                         </SpotSearchContainer>
                                         <SpotSearchContainer
@@ -946,22 +998,196 @@ class SurfGUILanding extends Component {
                             </MediaQuery>
                             <ErrorAlertBar
                                 className={this.state.geoLocationModalClosed === true || Array.isArray(this.props.surf.geoLocationError)
-                                ? "closedModal"
-                                : null}>
+                                    ? "closedModal"
+                                    : null}>
                                 <span>For full functionality turn on location settings in your browser.</span>
                                 <CloseButton
                                     onClick={() => {
-                                    this.setState({geoLocationModalClosed: true})
-                                }}>Close</CloseButton>
+                                        this.setState({ geoLocationModalClosed: true })
+                                    }}>Close</CloseButton>
                             </ErrorAlertBar>
-                            {this.props.surf.isView === MULTI_VIEW ? <SurfGUIMultiSpotViewContainer  /> :
-                                <SurfGUISingleSpotView coords={{lat: this.props.surf.lat, lng: this.props.surf.lng}} />
+                            {this.props.surf.isView === MULTI_VIEW ? <SurfGUIMultiSpotViewContainer /> :
+                                <CustomCol md={12} lg={9}>
+
+                                    <DataDashBoardRow>
+
+                                        <MediaQuery minWidth={variables.large}>
+
+                                            <StyledCol35 >
+
+                                                <CurrentConditionRow>
+                                                    <CurrentConditionBackdrop>
+                                                        {!Array.isArray(this.props.surf.currentConditions)
+                                                            ? <CurrWaveDataComponent
+                                                                surfSpot={this.props.surf.activeLocation != null
+                                                                    ? this.props.surf.activeLocation
+                                                                    : this.props.surf.closestSurfSpot}
+                                                                rating={rating}
+                                                                ndbcData={this.props.surf.currentSwell}
+                                                                waveData={this.props.surf.currentConditions.swell} />
+                                                            : null}
+                                                    </CurrentConditionBackdrop>
+                                                    <CurrentConditionBackdrop>
+                                                        {!Array.isArray(this.props.surf.weatherForecast)
+                                                            ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} />
+                                                            : null}
+                                                    </CurrentConditionBackdrop>
+
+                                                </CurrentConditionRow>
+                                                <CurrentConditionRowBottom>
+                                                    <CurrentConditionBackdrop>
+                                                        {!Array.isArray(this.props.surf.currentConditions) && !Array.isArray(this.props.surf.currentSwell)
+                                                            ? <CurrSwellDataComponent
+                                                                ndbcData={this.props.surf.currentSwell}
+                                                                waveData={this.props.surf.currentConditions.swell} />
+                                                            : null}
+                                                    </CurrentConditionBackdrop>
+                                                    <CurrentConditionBackdrop>
+                                                        {!Array.isArray(this.props.surf.tideForecast) && (this.props.surf.activeLocation != null)
+                                                            ? <CurrentTideDataComponent activeLocation={this.props.surf.activeLocation} tide={this.props.surf.tideForecast.predictions} />
+                                                            : null}
+                                                    </CurrentConditionBackdrop>
+                                                </CurrentConditionRowBottom>
+                                            </StyledCol35>
+                                        </MediaQuery>
+                                        <MediaQuery minWidth={variables.large}>
+                                            <StyledCol65>
+                                                <SurfMapBackDrop>
+                                                    {this.state.lng && this.state.lat
+                                                        ? <SurfMapAndConditions
+                                                            coords={{
+                                                                lat: this.state.lat,
+                                                                lng: this.state.lng
+                                                            }} />
+                                                        : null}
+                                                </SurfMapBackDrop>
+                                            </StyledCol65>
+                                        </MediaQuery>
+                                        <MediaQuery maxWidth={variables.large}>
+                                            <DataDashboardRowMenuMobile>
+                                                <MenuNavBkgMobile >
+                                                    <HomeIconContainer to={`/`}>
+                                                        <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                            <HomeIconSVGPath />
+
+                                                        </HomeIcon>
+                                                    </HomeIconContainer>
+                                                    <CloseSpotIconContainer
+                                                        onClick={() => this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen)}>
+                                                        <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                            <CloseSpotsSVGPath />
+                                                        </CloseSpotIcon>
+                                                    </CloseSpotIconContainer>
+                                                    <SpotSearchContainer
+                                                        onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
+                                                        <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                            <SpotSearchSVGPath />
+                                                        </SpotSearchIcon>
+                                                    </SpotSearchContainer>
+
+                                                </MenuNavBkgMobile>
+                                            </DataDashboardRowMenuMobile>
+                                            <DataDashboardRowMap>
+                                                <SurfMapBackDrop>
+                                                    {this.state.lng && this.state.lat
+                                                        ? <SurfMap
+                                                            coords={{
+                                                                lat: this.state.lat,
+                                                                lng: this.state.lng
+                                                            }} />
+                                                        : null}
+                                                </SurfMapBackDrop>
+                                            </DataDashboardRowMap>
+                                            <DataDashBoardRow>
+                                                <LocationBackDropTablet100vw>
+                                                    {!Array.isArray(this.props.surf.currentConditions)
+                                                        ? <Fragment>
+                                                            <LocationContainer>
+                                                                <Location>{this.props.surf.activeLocation != null
+                                                                    ? `${this.props.surf.activeLocation.town}, ${this.props.surf.activeLocation.countryOrState}`
+                                                                    : `${this.props.surf.closestSurfSpot.town}, ${this.props.surf.closestSurfSpot.countryOrState}`}</Location>
+                                                                <Distance>{convertMilesToKM(this.props.surf.closestSurfSpot.distanceFromLocation)}
+                                                                    miles away</Distance>
+                                                            </LocationContainer>
+                                                        </Fragment>
+                                                        : null}
+                                                </LocationBackDropTablet100vw>
+                                                <CurrentConditionsBackDropTablet100vw>
+                                                    {!Array.isArray(this.props.surf.currentConditions)
+                                                        ? <CurrWaveDataComponent
+                                                            rating={rating}
+                                                            ndbcData={this.props.surf.currentSwell}
+                                                            surfSpot={this.props.surf.closestSurfSpot}
+                                                            waveData={this.props.surf.currentConditions.swell} />
+                                                        : null}
+                                                </CurrentConditionsBackDropTablet100vw>
+                                            </DataDashBoardRow>
+
+                                            <DataDashBoardRow>
+                                                <CurrentConditionBackdrop>
+                                                    {!Array.isArray(this.props.surf.weatherForecast)
+                                                        ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} />
+                                                        : null}
+                                                </CurrentConditionBackdrop>
+                                                <CurrentConditionBackdrop>
+                                                    {!Array.isArray(this.props.surf.currentConditions) && !Array.isArray(this.props.surf.currentSwell)
+                                                        ? <CurrSwellDataComponent
+                                                            ndbcData={this.props.surf.currentSwell}
+                                                            waveData={this.props.surf.currentConditions.swell} />
+                                                        : null}
+                                                </CurrentConditionBackdrop>
+                                                <DataDashBoardRow>
+                                                    <TideBackDrop100vw>
+
+                                                        {!Array.isArray(this.props.surf.tideForecast) && (this.props.surf.activeLocation != null)
+                                                            ? <CurrentTideDataComponent activeLocation={this.props.surf.activeLocation} tide={this.props.surf.tideForecast.predictions} />
+                                                            : null}
+                                                    </TideBackDrop100vw>
+                                                </DataDashBoardRow>
+
+                                                <DataDashBoardRow>
+                                                    <WeatherComponent />
+                                                    <WaterTempComponent />
+                                                </DataDashBoardRow>
+                                                <DataDashBoardRow>
+                                                    <SunPositionComponent
+                                                        coords={{
+                                                            lat: this.state.lat,
+                                                            lng: this.state.lng
+                                                        }} />
+                                                    <UVIndexComponent />
+                                                </DataDashBoardRow>
+                                            </DataDashBoardRow>
+
+                                        </MediaQuery>
+                                    </DataDashBoardRow>
+                                    <DataDashBoardRow>
+                                        <SwellChartContainer >
+                                            <BackDrop dynamicHeight={this.props.surf.maxWaveHeight}>
+                                                <SwellChartLabel>SURF HEIGHT (ft)</SwellChartLabel>
+                                                <SwellBarChart
+                                                    maxWaveHeight={this.props.surf.maxWaveHeight}
+                                                    forecast={this.props.surf.swellForecast} />
+                                            </BackDrop>
+                                        </SwellChartContainer>
+                                    </DataDashBoardRow>
+                                    <DataDashBoardRow>
+                                        <WindChartContainer>
+                                            <BackDrop>
+                                                <WindChartLabel>WIND SPEED / DIRECTION (mph)</WindChartLabel>
+                                                <WindBarChart forecast={this.props.surf.windForecast} />
+                                            </BackDrop>
+                                        </WindChartContainer>
+                                    </DataDashBoardRow>
+
+                                </CustomCol>
                             }
                             <MediaQuery minWidth={variables.large}>
                                 <Col sm={2}>
                                     <RightNavBkg >
                                         <Title>
                                             <p>Surf Spots Near You</p>
+                                            <span>within a 100km radius</span>
                                         </Title>
                                         <Row>
                                             <ul>
@@ -972,30 +1198,29 @@ class SurfGUILanding extends Component {
                                                     .map((surfSpot, index) => {
                                                         return <SurfSpot
                                                             key={index}
-                                                            active={() => this.props.surf.activeSurfSpot === surfSpot.spotId
-                                                            ? '.8'
-                                                            : '.3'}
+                                                            active={() => this.state.activeSurfSpot === surfSpot.spotId
+                                                                ? '.8'
+                                                                : '.3'}
                                                             onClick={() => {
-                                                            this.props.getActiveSurfSpot(surfSpot.spotId);
-                                                            this
-                                                                .props
-                                                                .getActiveLocation(surfSpot);
-                                                            this
-                                                                .props
-                                                                .getSurfForecast(surfSpot.spotId);
-                                                            this
-                                                                .props
-                                                                .getWeather(surfSpot);
-                                                            this
-                                                                .props
-                                                                .getWeatherForecast(surfSpot);
-                                                            this
-                                                                .props
-                                                                .getTideStations(surfSpot);
-                                                                this.props.getNdbcStations(surfSpot);
-                                                            this.props.getLat(surfSpot.lat);
-                                                            this.props.getLng(surfSpot.lng);
-                                                        }}>{surfSpot.town}</SurfSpot>
+                                                                this.setState({ activeSurfSpot: surfSpot.spotId });
+                                                                this
+                                                                    .props
+                                                                    .getActiveLocation(surfSpot);
+                                                                this
+                                                                    .props
+                                                                    .getSurfForecast(surfSpot.spotId);
+                                                                this
+                                                                    .props
+                                                                    .getWeather(surfSpot);
+                                                                this
+                                                                    .props
+                                                                    .getWeatherForecast(surfSpot);
+                                                                this
+                                                                    .props
+                                                                    .getTideStations(surfSpot);
+                                                                this.setState({ lat: surfSpot.lat });
+                                                                this.setState({ lng: surfSpot.lng });
+                                                            }}>{surfSpot.town}</SurfSpot>
                                                     })}
                                             </ul>
                                         </Row>
@@ -1005,18 +1230,19 @@ class SurfGUILanding extends Component {
                             <MediaQuery maxWidth={variables.large}>
                                 <RightNavBkgMobile
                                     className={this.props.surf.isCloseSpotsOpen
-                                    ? 'slideInFromTopSurfSPACloseSpots'
-                                    : null}>
+                                        ? 'slideInFromTopSurfSPACloseSpots'
+                                        : null}>
                                     <CloseButtonContainer
                                         onClick={() => this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen)}>
                                         <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                            <CloseButtonSVGPath/>
+                                            <CloseButtonSVGPath />
                                         </CloseButtonIcon>
                                         <p>close</p>
                                     </CloseButtonContainer>
                                     <RightNavMobileContent>
                                         <Title>
                                             <p>Surf Spots Near You</p>
+                                            <span>within a 100km radius</span>
                                         </Title>
                                         <Row>
                                             <ul>
@@ -1027,32 +1253,32 @@ class SurfGUILanding extends Component {
                                                     .map((surfSpot, index) => {
                                                         return <SurfSpot
                                                             key={`${index}-mobile`}
-                                                            active={() => this.props.surf.activeSurfSpot === surfSpot.spotId
-                                                            ? '.8'
-                                                            : '.3'}
+                                                            active={() => this.state.activeSurfSpot === surfSpot.spotId
+                                                                ? '.8'
+                                                                : '.3'}
                                                             onClick={() => {
-                                                            this.props.getActiveSurfSpot(surfSpot.spotId);
-                                                            this
-                                                                .props
-                                                                .getActiveLocation(surfSpot);
-                                                            this
-                                                                .props
-                                                                .getSurfForecast(surfSpot.spotId);
-                                                            this
-                                                                .props
-                                                                .getWeather(surfSpot);
-                                                            this
-                                                                .props
-                                                                .getWeatherForecast(surfSpot);
-                                                            this
-                                                                .props
-                                                                .getTideStations(surfSpot);
-                                                            this.props.getLat(surfSpot.lat);
-                                                            this.props.getLng(surfSpot.lng);
-                                                            this
-                                                                .props
-                                                                .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
-                                                        }}>{surfSpot.town}</SurfSpot>
+                                                                this.setState({ activeSurfSpot: surfSpot.spotId });
+                                                                this
+                                                                    .props
+                                                                    .getActiveLocation(surfSpot);
+                                                                this
+                                                                    .props
+                                                                    .getSurfForecast(surfSpot.spotId);
+                                                                this
+                                                                    .props
+                                                                    .getWeather(surfSpot);
+                                                                this
+                                                                    .props
+                                                                    .getWeatherForecast(surfSpot);
+                                                                this
+                                                                    .props
+                                                                    .getTideStations(surfSpot);
+                                                                this.setState({ lat: surfSpot.lat });
+                                                                this.setState({ lng: surfSpot.lng });
+                                                                this
+                                                                    .props
+                                                                    .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
+                                                            }}>{surfSpot.town}</SurfSpot>
                                                     })}
                                             </ul>
                                         </Row>
@@ -1064,30 +1290,30 @@ class SurfGUILanding extends Component {
                     </Col>
                 </DataContainer>
                 <MediaQuery minWidth={variables.large}>
-                    <WaveFormBottom className="waveFormBottom">
+                    <WaveFormBottom>
 
                         <FadeInWhenVisibleOpacity duration={1.75}>
 
                             <div>
                                 <WaveWrapper
                                     animate={{
-                                    x: 1000
-                                }}
+                                        x: 1000
+                                    }}
                                     transition={{
-                                    ease: 'linear',
-                                    duration: 20,
-                                    times: [
-                                        0,
-                                        0.32,
-                                        0.48,
-                                        0.64,
-                                        .8,
-                                        1
-                                    ],
-                                    delay: 1,
-                                    repeat: Infinity,
-                                    repeatType: "reverse"
-                                }}>
+                                        ease: 'linear',
+                                        duration: 20,
+                                        times: [
+                                            0,
+                                            0.32,
+                                            0.48,
+                                            0.64,
+                                            .8,
+                                            1
+                                        ],
+                                        delay: 1,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}>
                                     <svg
                                         x="0px"
                                         y="0px"
@@ -1097,47 +1323,47 @@ class SurfGUILanding extends Component {
                                         viewBox="0 0 1000 200">
                                         <StyledPath
                                             animate={{
-                                            d: d
-                                        }}
+                                                d: d
+                                            }}
                                             d="m-17.8273,111.16671c20.66565,-0.55532 38.66464,-28.11062 63.99696,-28.66595c28.3335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.99998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30.1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27.33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c32.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21.61114,0.22228 42.72229,29.44437 62.33344,30.16664"
                                             transition={{
-                                            ease: [
-                                                .57, .21, .69, 1.25
-                                            ],
-                                            duration: 3,
-                                            times: [
-                                                0,
-                                                0.32,
-                                                0.48,
-                                                0.64,
-                                                .8,
-                                                1
-                                            ],
-                                            delay: 1,
-                                            repeat: Infinity,
-                                            repeatType: "reverse"
-                                        }}></StyledPath>
+                                                ease: [
+                                                    .57, .21, .69, 1.25
+                                                ],
+                                                duration: 3,
+                                                times: [
+                                                    0,
+                                                    0.32,
+                                                    0.48,
+                                                    0.64,
+                                                    .8,
+                                                    1
+                                                ],
+                                                delay: 1,
+                                                repeat: Infinity,
+                                                repeatType: "reverse"
+                                            }}></StyledPath>
                                     </svg>
                                 </WaveWrapper>
                                 <WaveWrapper2
                                     animate={{
-                                    x: 1000
-                                }}
+                                        x: 1000
+                                    }}
                                     transition={{
-                                    ease: 'linear',
-                                    duration: 20,
-                                    times: [
-                                        0,
-                                        0.32,
-                                        0.48,
-                                        0.64,
-                                        .8,
-                                        1
-                                    ],
-                                    delay: 2,
-                                    repeat: Infinity,
-                                    repeatType: "reverse"
-                                }}>
+                                        ease: 'linear',
+                                        duration: 20,
+                                        times: [
+                                            0,
+                                            0.32,
+                                            0.48,
+                                            0.64,
+                                            .8,
+                                            1
+                                        ],
+                                        delay: 2,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}>
                                     <svg
                                         x="0px"
                                         y="0px"
@@ -1147,47 +1373,47 @@ class SurfGUILanding extends Component {
                                         viewBox="0 0 1000 200">
                                         <StyledPath
                                             animate={{
-                                            d: d
-                                        }}
+                                                d: d
+                                            }}
                                             d="m-17.8273,111.16671c20.66565,-0.55532 38.66464,-28.11062 63.99696,-28.66595c28.3335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.99998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30.1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27.33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c32.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21.61114,0.22228 42.72229,29.44437 62.33344,30.16664"
                                             transition={{
-                                            ease: [
-                                                .57, .21, .69, 1.25
-                                            ],
-                                            duration: 3,
-                                            times: [
-                                                0,
-                                                0.32,
-                                                0.48,
-                                                0.64,
-                                                .8,
-                                                1
-                                            ],
-                                            delay: 2.25,
-                                            repeat: Infinity,
-                                            repeatType: "reverse"
-                                        }}></StyledPath>
+                                                ease: [
+                                                    .57, .21, .69, 1.25
+                                                ],
+                                                duration: 3,
+                                                times: [
+                                                    0,
+                                                    0.32,
+                                                    0.48,
+                                                    0.64,
+                                                    .8,
+                                                    1
+                                                ],
+                                                delay: 2.25,
+                                                repeat: Infinity,
+                                                repeatType: "reverse"
+                                            }}></StyledPath>
                                     </svg>
                                 </WaveWrapper2>
                                 <WaveWrapper3
                                     animate={{
-                                    x: 1000
-                                }}
+                                        x: 1000
+                                    }}
                                     transition={{
-                                    ease: 'linear',
-                                    duration: 20,
-                                    times: [
-                                        0,
-                                        0.32,
-                                        0.48,
-                                        0.64,
-                                        .8,
-                                        1
-                                    ],
-                                    delay: 2,
-                                    repeat: Infinity,
-                                    repeatType: "reverse"
-                                }}>
+                                        ease: 'linear',
+                                        duration: 20,
+                                        times: [
+                                            0,
+                                            0.32,
+                                            0.48,
+                                            0.64,
+                                            .8,
+                                            1
+                                        ],
+                                        delay: 2,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}>
                                     <svg
                                         x="0px"
                                         y="0px"
@@ -1197,47 +1423,47 @@ class SurfGUILanding extends Component {
                                         viewBox="0 0 1000 200">
                                         <StyledPath
                                             animate={{
-                                            d: d
-                                        }}
+                                                d: d
+                                            }}
                                             d="m-17.8273,111.16671c20.66565,-0.55532 38.66464,-28.11062 63.99696,-28.66595c28.3335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.99998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30.1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27.33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c32.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21.61114,0.22228 42.72229,29.44437 62.33344,30.16664"
                                             transition={{
-                                            ease: [
-                                                .57, .21, .69, 1.25
-                                            ],
-                                            duration: 3,
-                                            times: [
-                                                0,
-                                                0.32,
-                                                0.48,
-                                                0.64,
-                                                .8,
-                                                1
-                                            ],
-                                            delay: .5,
-                                            repeat: Infinity,
-                                            repeatType: "reverse"
-                                        }}></StyledPath>
+                                                ease: [
+                                                    .57, .21, .69, 1.25
+                                                ],
+                                                duration: 3,
+                                                times: [
+                                                    0,
+                                                    0.32,
+                                                    0.48,
+                                                    0.64,
+                                                    .8,
+                                                    1
+                                                ],
+                                                delay: .5,
+                                                repeat: Infinity,
+                                                repeatType: "reverse"
+                                            }}></StyledPath>
                                     </svg>
                                 </WaveWrapper3>
                                 <WaveWrapper4
                                     animate={{
-                                    x: 1000
-                                }}
+                                        x: 1000
+                                    }}
                                     transition={{
-                                    ease: 'linear',
-                                    duration: 20,
-                                    times: [
-                                        0,
-                                        0.32,
-                                        0.48,
-                                        0.64,
-                                        .8,
-                                        1
-                                    ],
-                                    delay: 1,
-                                    repeat: Infinity,
-                                    repeatType: "reverse"
-                                }}>
+                                        ease: 'linear',
+                                        duration: 20,
+                                        times: [
+                                            0,
+                                            0.32,
+                                            0.48,
+                                            0.64,
+                                            .8,
+                                            1
+                                        ],
+                                        delay: 1,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}>
                                     <svg
                                         x="0px"
                                         y="0px"
@@ -1247,47 +1473,47 @@ class SurfGUILanding extends Component {
                                         viewBox="0 0 1000 200">
                                         <StyledPath
                                             animate={{
-                                            d: d
-                                        }}
+                                                d: d
+                                            }}
                                             d="m-17.8273,111.16671c20.66565,-0.55532 38.66464,-28.11062 63.99696,-28.66595c28.3335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.99998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30.1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27.33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c32.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21.61114,0.22228 42.72229,29.44437 62.33344,30.16664"
                                             transition={{
-                                            ease: [
-                                                .57, .21, .69, 1.25
-                                            ],
-                                            duration: 3,
-                                            times: [
-                                                0,
-                                                0.32,
-                                                0.48,
-                                                0.64,
-                                                .8,
-                                                1
-                                            ],
-                                            delay: .75,
-                                            repeat: Infinity,
-                                            repeatType: "reverse"
-                                        }}></StyledPath>
+                                                ease: [
+                                                    .57, .21, .69, 1.25
+                                                ],
+                                                duration: 3,
+                                                times: [
+                                                    0,
+                                                    0.32,
+                                                    0.48,
+                                                    0.64,
+                                                    .8,
+                                                    1
+                                                ],
+                                                delay: .75,
+                                                repeat: Infinity,
+                                                repeatType: "reverse"
+                                            }}></StyledPath>
                                     </svg>
                                 </WaveWrapper4>
                                 <WaveWrapper5
                                     animate={{
-                                    x: 1000
-                                }}
+                                        x: 1000
+                                    }}
                                     transition={{
-                                    ease: 'linear',
-                                    duration: 20,
-                                    times: [
-                                        0,
-                                        0.32,
-                                        0.48,
-                                        0.64,
-                                        .8,
-                                        1
-                                    ],
-                                    delay: 1.25,
-                                    repeat: Infinity,
-                                    repeatType: "reverse"
-                                }}>
+                                        ease: 'linear',
+                                        duration: 20,
+                                        times: [
+                                            0,
+                                            0.32,
+                                            0.48,
+                                            0.64,
+                                            .8,
+                                            1
+                                        ],
+                                        delay: 1.25,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}>
                                     <svg
                                         x="0px"
                                         y="0px"
@@ -1297,47 +1523,47 @@ class SurfGUILanding extends Component {
                                         viewBox="0 0 1000 200">
                                         <StyledPath
                                             animate={{
-                                            d: d
-                                        }}
+                                                d: d
+                                            }}
                                             d="m-17.8273,111.16671c20.66565,-0.55532 38.66464,-28.11062 63.99696,-28.66595c28.3335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.99998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30.1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27.33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c32.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21.61114,0.22228 42.72229,29.44437 62.33344,30.16664"
                                             transition={{
-                                            ease: [
-                                                .57, .21, .69, 1.25
-                                            ],
-                                            duration: 3,
-                                            times: [
-                                                0,
-                                                0.32,
-                                                0.48,
-                                                0.64,
-                                                .8,
-                                                1
-                                            ],
-                                            delay: 1.75,
-                                            repeat: Infinity,
-                                            repeatType: "reverse"
-                                        }}></StyledPath>
+                                                ease: [
+                                                    .57, .21, .69, 1.25
+                                                ],
+                                                duration: 3,
+                                                times: [
+                                                    0,
+                                                    0.32,
+                                                    0.48,
+                                                    0.64,
+                                                    .8,
+                                                    1
+                                                ],
+                                                delay: 1.75,
+                                                repeat: Infinity,
+                                                repeatType: "reverse"
+                                            }}></StyledPath>
                                     </svg>
                                 </WaveWrapper5>
                                 <WaveWrapper6
                                     animate={{
-                                    x: 1000
-                                }}
+                                        x: 1000
+                                    }}
                                     transition={{
-                                    ease: 'linear',
-                                    duration: 20,
-                                    times: [
-                                        0,
-                                        0.32,
-                                        0.48,
-                                        0.64,
-                                        .8,
-                                        1
-                                    ],
-                                    delay: .5,
-                                    repeat: Infinity,
-                                    repeatType: "reverse"
-                                }}>
+                                        ease: 'linear',
+                                        duration: 20,
+                                        times: [
+                                            0,
+                                            0.32,
+                                            0.48,
+                                            0.64,
+                                            .8,
+                                            1
+                                        ],
+                                        delay: .5,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}>
                                     <svg
                                         x="0px"
                                         y="0px"
@@ -1347,47 +1573,47 @@ class SurfGUILanding extends Component {
                                         viewBox="0 0 1000 200">
                                         <StyledPath
                                             animate={{
-                                            d: d
-                                        }}
+                                                d: d
+                                            }}
                                             d="m-17.8273,111.16671c20.66565,-0.55532 38.66464,-28.11062 63.99696,-28.66595c28.3335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.99998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30.1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27.33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c32.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21.61114,0.22228 42.72229,29.44437 62.33344,30.16664"
                                             transition={{
-                                            ease: [
-                                                .57, .21, .69, 1.25
-                                            ],
-                                            duration: 3,
-                                            times: [
-                                                0,
-                                                0.32,
-                                                0.48,
-                                                0.64,
-                                                .8,
-                                                1
-                                            ],
-                                            delay: .35,
-                                            repeat: Infinity,
-                                            repeatType: "reverse"
-                                        }}></StyledPath>
+                                                ease: [
+                                                    .57, .21, .69, 1.25
+                                                ],
+                                                duration: 3,
+                                                times: [
+                                                    0,
+                                                    0.32,
+                                                    0.48,
+                                                    0.64,
+                                                    .8,
+                                                    1
+                                                ],
+                                                delay: .35,
+                                                repeat: Infinity,
+                                                repeatType: "reverse"
+                                            }}></StyledPath>
                                     </svg>
                                 </WaveWrapper6>
                                 <WaveWrapper7
                                     animate={{
-                                    x: 1000
-                                }}
+                                        x: 1000
+                                    }}
                                     transition={{
-                                    ease: 'linear',
-                                    duration: 20,
-                                    times: [
-                                        0,
-                                        0.32,
-                                        0.48,
-                                        0.64,
-                                        .8,
-                                        1
-                                    ],
-                                    delay: 2,
-                                    repeat: Infinity,
-                                    repeatType: "reverse"
-                                }}>
+                                        ease: 'linear',
+                                        duration: 20,
+                                        times: [
+                                            0,
+                                            0.32,
+                                            0.48,
+                                            0.64,
+                                            .8,
+                                            1
+                                        ],
+                                        delay: 2,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}>
                                     <svg
                                         x="0px"
                                         y="0px"
@@ -1397,26 +1623,26 @@ class SurfGUILanding extends Component {
                                         viewBox="0 0 1000 200">
                                         <StyledPath
                                             animate={{
-                                            d: d
-                                        }}
+                                                d: d
+                                            }}
                                             d="m-17.8273,111.16671c20.66565,-0.55532 38.66464,-28.11062 63.99696,-28.66595c28.3335,0.22223 42.33368,27.77776 66.00051,27.66665c25.77793,-0.33334 39.22252,-27.99998 68.33378,-28.99998c26.22238,0.33334 43.44477,28.66664 67.66716,28.99998c30.1113,-0.33334 51.88927,-27.99997 82.33391,-27.99998c33.22242,0.00001 58.1115,27.33331 86.66726,27.99998c33.11131,-0.22223 44.8893,-25.77775 76.00061,-26.33331c32.77794,0.77776 57.22254,25.22219 79.66715,25.66663c29.55574,-0.66667 57.11147,-28.3333 92.66721,-28.99997c30.55573,0.88889 45.11149,27.77775 70.66723,28.66664c26.00018,0 40.16712,-28.66664 73.83396,-29.33331c29.22238,0.11111 53.27802,28.55553 75.16707,29.33331c23.38901,-0.72228 36.27808,-28.94437 59.66709,-29.16665c21.61114,0.22228 42.72229,29.44437 62.33344,30.16664"
                                             transition={{
-                                            ease: [
-                                                .57, .21, .69, 1.25
-                                            ],
-                                            duration: 3,
-                                            times: [
-                                                0,
-                                                0.32,
-                                                0.48,
-                                                0.64,
-                                                .8,
-                                                1
-                                            ],
-                                            delay: 2,
-                                            repeat: Infinity,
-                                            repeatType: "reverse"
-                                        }}></StyledPath>
+                                                ease: [
+                                                    .57, .21, .69, 1.25
+                                                ],
+                                                duration: 3,
+                                                times: [
+                                                    0,
+                                                    0.32,
+                                                    0.48,
+                                                    0.64,
+                                                    .8,
+                                                    1
+                                                ],
+                                                delay: 2,
+                                                repeat: Infinity,
+                                                repeatType: "reverse"
+                                            }}></StyledPath>
                                     </svg>
                                 </WaveWrapper7>
 
