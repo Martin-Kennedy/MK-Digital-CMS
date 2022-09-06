@@ -25,6 +25,7 @@ import {
     GET_LAT,
     GET_LNG
 } from '../helpers/types';
+import moment from 'moment';
 import {formatAMPM} from '../helpers/utilities';
 
 const INITIAL_STATE = {
@@ -59,11 +60,11 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
         case GET_SPOT_FORECAST:
             const getCurrentConditions = () => {
 
-                const now = Date.now() / 1000 | 0;
+                const now = moment.utc().valueOf();
                 return action
                     .payload
                     .filter((d) => {
-                        return d.localTimestamp < now;
+                        return d.timestamp < now;
                     })
             }
             const getFutureConditions = () => {
@@ -71,7 +72,7 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 return action
                     .payload
                     .filter((d) => {
-                        const forecastDateObj = new Date(d.localTimestamp * 1000).getTime();
+                        const forecastDateObj = new Date(d.timestamp * 1000).getTime();
                         const fullDateToday = Math.floor(Date.now() / 1000) * 1000;
                         return forecastDateObj >= fullDateToday;
                     })

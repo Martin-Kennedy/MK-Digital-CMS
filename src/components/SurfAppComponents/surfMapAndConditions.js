@@ -524,7 +524,7 @@ let degree = String.fromCodePoint(176);
 
 const SurfMapAndConditionsDesktop = (props) => {
     
-
+    console.log(props);
     const times = SunCalc.getTimes(new Date(), props.coords.lat, props.coords.lng);
 
     const formatTime = (time) => {

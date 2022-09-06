@@ -211,7 +211,7 @@ export const CurrWaveDataComponent = (props) => {
        const miles = props.surfSpot.distanceFromLocation / 1.609;
        return parseInt(miles);
     }
-
+    console.log(props);
     return <WaveConditionBackdrop>
             <TitleIconRow>
                 <Title>Conditions</Title>

@@ -8,6 +8,7 @@ import variables from '../../variables.module.scss';
 import SwellBarChartMultiView from './swellForecastBarChartMultiView';
 import WindBarChartMultiView from './windForecastBarChartMultiView';
 import {SurfMapMultiView} from '../SurfAppComponents/surfMapAndConditions';
+import moment from 'moment';
 import MediaQuery from 'react-responsive';
 import { SwellSVGPath } from '../designElementComponents/swellSVGPath';
 import { WindIconSVGPath } from '../designElementComponents/windIconSVGPath';
@@ -615,19 +616,14 @@ render(){
         .map((spot, i) => {
 
             const getCurrentConditions = (data) => {
-                console.log(data[0].timeZone);
-                const str = new Date().toLocaleString('en-US', { timeZone: data[0].timeZone });
-                console.log(str);
 
-                // **** fix error related to no available time in forecast because aus is over international date line ***
+                const now = moment.utc().valueOf();
                 
-                const now = Date.now(str) / 1000 | 0;
-                
-                return data.filter((d) => {
-                    console.log(now);
-                    console.log(d.localTime / 1000);
-                    return (d.localTime / 1000) < now;
+                const currentData =  data.filter((d) => {
+                    return (d.timeUTC / 1000) < now;
                 })
+                console.log(currentData)
+                return currentData;
             }
             const getFutureConditions = (data) => {
 
@@ -636,26 +632,30 @@ render(){
                     return date;
                 }
 
-                return data.filter((d) => {
-                    const forecastDateObj = new Date(d.localTime).getTime();
+                const filteredArr = data.filter((d) => {
+                    const forecastDateObj = new Date(d.timeUTC).getTime();
                     const fullDateToday = Math.floor(Date.now() / 1000) * 1000;
                     const parsedDate = new Date(fullDateToday)
                     const endTime = addHours(16, parsedDate);
                     return forecastDateObj >= fullDateToday && forecastDateObj <= endTime;
-                })
+
+                   
+                });
+
+                return filteredArr
             }
 
 
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
-
+         
             const rating = currentMultiViewConditions ? [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating] : null;
-            const finalDeg = spot.currentWeather ? spot.currentWeather.current.wind_deg : currentMultiViewConditions ? currentMultiViewConditions.windDirection + 180 : null;
+            const finalDeg = spot.currentWeather ? spot.currentWeather.current.wind_deg : currentMultiViewConditions ? currentMultiViewConditions.windDirection + 90 : null;
             const windSpeed = spot.currentWeather ? parseInt(spot.currentWeather.current.wind_speed) : currentMultiViewConditions ? parseInt(currentMultiViewConditions.windSpeed) :null;
             const compassDirection = degToCompass(finalDeg);
 
             return <CurrentConditionBackdrop key={i}
+            
                 onClick={() => {
-                    this.props.getActiveSurfSpot(spot.spotId);
                     this
                         .props
                         .getActiveLocation(spot);
@@ -679,6 +679,7 @@ render(){
                     this.props.loadView(SINGLE_VIEW);
                 }}
             >
+                
                 <ChartRow>
                     <TitleCol xs={12}>
                         <Row>
@@ -687,6 +688,7 @@ render(){
                                 <Distance>{convertMilesToKM(spot.distanceFromLocation)}
                                     miles away</Distance>
                                 <WaveHeightWrapper>
+                                    {console.log(currentMultiViewConditions)}
                                     <p>
                                         {`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}
                                         <span>ft</span>

@@ -34,6 +34,7 @@
     "fs": "^0.0.1-security",
     "graphql": "^16.3.0",
     "live-server": "^1.2.0",
+    "moment": "^2.29.4",
     "ndbc-realtime-tojson": "^0.0.5",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "path-browserify": "^1.0.1",

@@ -216,7 +216,6 @@ export const getSurfForecast = (spotId) => {
                 return response.data
             })
             .then(data => {
-                console.log(data);
                 dispatch({type: GET_SPOT_FORECAST, payload: data})
             })
             .catch(error => {
@@ -347,7 +346,6 @@ export const getMultiViewSwellForecast = (data) => {
             const results = Promise.all(data.map((item) => {
             let arr = [];
             const hourlySwellForecast = new Promise((resolve) => {
-                console.log(item.forecast);
                 item.forecast.map((hourlyForecast) => {
                     let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
                     let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
@@ -365,6 +363,7 @@ export const getMultiViewSwellForecast = (data) => {
                         fadedRating: hourlyForecast.fadedRating,
                         solidRating: hourlyForecast.solidRating,
                         localTime: hourlyForecast.localTimestamp * 1000,
+                        timeUTC: hourlyForecast.timestamp * 1000,
                         minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
                         maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
                         combinedSwellDirection: hourlyForecast.swell.components.combined.compassDirection,
@@ -607,7 +606,6 @@ export const getWaterTemp = (data) => {
             .then((data) => {
                 
                 const parsedData = JSON.parse(data);
-                console.log(parsedData[2].WTMP);
                 parsedData[1].WTMP != "MM"
                     ? dispatch({type: GET_WATER_TEMP, payload: parsedData[1].WTMP})
                     : parsedData[2].WTMP != "MM"
