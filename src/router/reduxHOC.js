@@ -45,7 +45,6 @@ const mapStateToProps = state => {
         initialUtility: {
             keystoneToken: state.initialUtility.keystoneToken,
             session: state.initialUtility.session
-
         }
 
     }

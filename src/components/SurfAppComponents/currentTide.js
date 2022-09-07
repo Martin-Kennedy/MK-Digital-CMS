@@ -138,7 +138,6 @@ export default class CurrentTideDataComponent extends PureComponent {
             timeZone: this.props.activeLocation.timeZone
         });
 
-        console.log(this.props.activeLocation.timeZone, "timezone");
 
         const localTime = new Date(date);
         const hours = localTime.getHours();

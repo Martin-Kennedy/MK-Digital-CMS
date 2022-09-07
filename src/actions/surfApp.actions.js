@@ -1,4 +1,5 @@
 import {
+    GET_SURF_API_ENDPOINTS,
     GET_ACTIVE_LOCATION,
     GET_MULTI_VIEW_FORECAST,
     LOAD_VIEW,
@@ -72,6 +73,43 @@ export const getLat = (data) => {
 export const getLng = (data) => {
     return { type: GET_LNG, payload: data }
 }
+
+
+const apiUrl = "https://mk-digital-cms.herokuapp.com/admin/api";
+
+export const getSurfApiEndPoints = (token) => {
+    return (dispatch) => {
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
+            query: `query {
+                allSurfAppJsonUrls {
+                    surfSpotJson,
+                    ndbcBuoyData,
+                    tideAndCurrentsApiData
+
+                    }
+                }`
+        }
+        return axios.post(apiUrl, bodyParameters, config)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+
+                dispatch({
+                    type: GET_SURF_API_ENDPOINTS,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+
+
 
 export const getLocationsObject = () => {
 
@@ -261,8 +299,8 @@ export const getMultiViewForecast = (data) => {
         return Promise.all(array)
     }
     function getDataLoopTwo(results) {
-        results = results.slice(0,9);
-        const array = results.map((item, index) => {
+        const slicedResults = results.slice(0,9);
+        const array = slicedResults.map((item, index) => {
             const openWeatherApiKey = 'bc487a6d87516d1d2546ceb1c78a6fa4';
             const weatherForecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${item.lat}&lon=${item.lng}&exclude=minutely,alerts&units=imperial&appid=${openWeatherApiKey}`
             const axiosDataPromise = new Promise((resolve) => {

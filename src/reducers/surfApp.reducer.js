@@ -1,4 +1,5 @@
 import {
+    GET_SURF_API_ENDPOINTS,
     GET_ACTIVE_LOCATION,
     GEO_LOCATION_ERROR,
     SEARCH_OPEN_STATE,
@@ -38,6 +39,11 @@ const INITIAL_STATE = {
 
 const surfAppReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case GET_SURF_API_ENDPOINTS:
+            return {
+                ...state,
+                surfApiEndPoints: action.payload
+            }
         case GET_LOCATION_OBJECT:
 
             return {

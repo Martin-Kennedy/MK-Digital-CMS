@@ -49,6 +49,7 @@ const initalState = {
         contactData: []
     },
     surf: {
+        surfApiEndPoints: null,
         locations: [],
         geoLocationError: [],
         closeSurfSpots: [],
