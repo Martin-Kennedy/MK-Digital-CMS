@@ -139,7 +139,7 @@ margin-left: 1.5vw;
 `
 const ConditionContainer = styled.div`
 border-radius: 4px;
-background: ${props => (props.rating[0] >= 2 || props.maxBreakingHeight >= 6) && props.rating[1] < 1
+background: ${props => (props.maxBreakingHeight > 5) && (props.rating[1] < 1)
 ? 'rgba(229, 135,41, 0.8)' : props.rating[0] < 1 || props.maxBreakingHeight <= 2 || props.rating[1] >= 2
     ? 'rgba(183, 32,32, 0.8)'
     : 'rgba(60, 214,82, 0.8)'};
@@ -206,7 +206,7 @@ margin-top: 2.5vw;
 
 
 export const CurrWaveDataComponent = (props) => {
-
+    console.log(props);
     const convertMilesToKM = (km) => {
        const miles = props.surfSpot.distanceFromLocation / 1.609;
        return parseInt(miles);
@@ -241,7 +241,7 @@ export const CurrWaveDataComponent = (props) => {
                 </Col>
                 <Col xs={6}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
-                    <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
+                            <RatingText>{(props.waveData.maxBreakingHeight > 5) && (props.rating[1] < 1)
                         ? 'Good'
                         : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
                             ? 'Poor'
@@ -254,7 +254,7 @@ export const CurrWaveDataComponent = (props) => {
         </WaveHeight>
         <MediaQuery minWidth={Number(variables.largeNum)}>
         <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
-            <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
+                <RatingText>{( props.waveData.maxBreakingHeight > 5) && (props.rating[1] < 1)
                     ? 'Good'
                 : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
                         ? 'Poor'

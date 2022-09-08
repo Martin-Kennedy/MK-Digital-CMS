@@ -363,7 +363,7 @@ color: var(--white);
 
 const ConditionContainer = styled.div `
 border-radius: 4px;
-background: ${props => (props.rating[0] >= 2 || props.maxBreakingHeight >= 6) && props.rating[1] < 1
+background: ${props => (props.maxBreakingHeight > 5) && props.rating[1] < 1
     ? 'rgba(229, 135,41, 0.8)'
     : props.rating[0] < 1 || props.maxBreakingHeight <= 2 || props.rating[1] >= 2
         ? 'rgba(183, 32,32, 0.8)'
@@ -685,8 +685,7 @@ render(){
                         <Row>
                             <MultiViewCardColumn xs={6}>
                                 <Location>{spot.town}, {spot.country}</Location>
-                                <Distance>{convertMilesToKM(spot.distanceFromLocation)}
-                                    miles away</Distance>
+                                <Distance>{`${convertMilesToKM(spot.distanceFromLocation)} miles away`}</Distance>
                                 <WaveHeightWrapper>
                                     {console.log(currentMultiViewConditions)}
                                     <p>
@@ -698,7 +697,7 @@ render(){
                                     <ConditionContainer
                                         maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight}
                                         rating={rating}>
-                                        <RatingText>{(rating[0] >= 2 || currentMultiViewConditions.maxBreakingHeight >= 6) && rating[1] < 1
+                                        <RatingText>{(currentMultiViewConditions.maxBreakingHeight > 5) && (rating[1] < 1)
                                             ? 'Good'
                                             : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
                                                 ? 'Poor'

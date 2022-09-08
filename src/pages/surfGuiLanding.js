@@ -873,7 +873,7 @@ class SurfGUILanding extends Component {
             getMultiViewForecast(this.props.surf.closeSurfSpots);
 
         }
-        if (prevProps.surf.getActiveLocation != this.props.surf.getActiveLocation) {
+        if (prevProps.surf.activeLocation != this.props.surf.activeLocation) {
             const { getSurfForecast } = this.props;
             const { getTideStations } = this.props;
             const { getWeatherStations } = this.props;
@@ -889,6 +889,8 @@ class SurfGUILanding extends Component {
             getWeatherStations(this.props.surf.activeLocation);
             getWeather(this.props.surf.activeLocation);
             getWeatherForecast(this.props.surf.activeLocation);
+            getNdbcStations(this.props.surf.activeLocation);
+            
 
         }
         if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
@@ -1032,6 +1034,7 @@ class SurfGUILanding extends Component {
                                             <StyledCol35 >
 
                                                 <CurrentConditionRow>
+                                                     {console.log(this.props.surf.currentConditions)}
                                                     <CurrentConditionBackdrop>
                                                         {!Array.isArray(this.props.surf.currentConditions)
                                                             ? <CurrWaveDataComponent
@@ -1041,6 +1044,7 @@ class SurfGUILanding extends Component {
                                                                 rating={rating}
                                                                 ndbcData={this.props.surf.currentSwell}
                                                                 waveData={this.props.surf.currentConditions.swell} />
+                                                               
                                                             : null}
                                                     </CurrentConditionBackdrop>
                                                     <CurrentConditionBackdrop>
@@ -1233,8 +1237,6 @@ class SurfGUILanding extends Component {
                                                                 this
                                                                     .props
                                                                     .getTideStations(surfSpot);
-                                                                this.props.getLat(surfSpot.lat);
-                                                                this.props.getLng(surfSpot.lng);
                                                                 this
                                                                     .props
                                                                     .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
@@ -1290,8 +1292,6 @@ class SurfGUILanding extends Component {
                                                                 this
                                                                     .props
                                                                     .getTideStations(surfSpot);
-                                                                this.props.getLat(surfSpot.lat);
-                                                                this.props.getLng(surfSpot.lng);
                                                                 this
                                                                     .props
                                                                     .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);

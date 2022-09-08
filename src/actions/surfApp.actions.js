@@ -1020,6 +1020,7 @@ export const getNdbcStations = (latLon) => {
                 return 0;
             })
             const finalDataArr = sortedArr.slice(0, 20)
+            console.log(finalDataArr);
             dispatch({type: GET_NDBC_STATIONS, payload: finalDataArr})
         })
     }
