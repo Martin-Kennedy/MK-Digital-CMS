@@ -622,7 +622,6 @@ render(){
                 const currentData =  data.filter((d) => {
                     return (d.timeUTC / 1000) < now;
                 })
-                console.log(currentData)
                 return currentData;
             }
             const getFutureConditions = (data) => {
@@ -687,7 +686,6 @@ render(){
                                 <Location>{spot.town}, {spot.country}</Location>
                                 <Distance>{`${convertMilesToKM(spot.distanceFromLocation)} miles away`}</Distance>
                                 <WaveHeightWrapper>
-                                    {console.log(currentMultiViewConditions)}
                                     <p>
                                         {`${currentMultiViewConditions.minBreakingHeight} - ${currentMultiViewConditions.maxBreakingHeight}`}
                                         <span>ft</span>

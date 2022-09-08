@@ -8,6 +8,7 @@ import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
 import { SwellRadialChart } from '../components/SurfAppComponents/swellRadialChart';
 import { MULTI_VIEW, SINGLE_VIEW } from '../helpers/types';
+import { getToken, establishSession } from '../actions/initialUtility.actions';
 import {
     getLocationsObject,
     getSurfForecast,
@@ -29,6 +30,7 @@ import {
     loadView,
     getLat,
     getLng,
+    getSurfApiEndPoints,
     getActiveLocation,
     getMultiViewForecast,
     getMultiViewSwellForecast,
@@ -759,7 +761,12 @@ cursor: pointer;
 
 const mapStateToProps = state => {
     return {
+        initialUtility: {
+            session: state.initialUtility.session,
+            keystoneToken: state.initialUtility.keystoneToken
+        },
         surf: {
+            surfApiEndPoints: state.surf.surfApiEndPoints,
             locations: state.surf.locations,
             geoLocationError: state.surf.geoLocationError,
             closeSurfSpots: state.surf.closeSurfSpots,
@@ -788,6 +795,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
+    getToken: token => dispatch(getToken(token)),
+    establishSession: active => dispatch(establishSession(active)),
     getLocationsObject: locations => dispatch(getLocationsObject(locations)),
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
     getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast)),
@@ -808,7 +817,8 @@ const mapDispatchToProps = dispatch => ({
     getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation)),
     getMultiViewForecast: forecast => dispatch(getMultiViewForecast(forecast)),
     getMultiViewSwellForecast: forecast => dispatch(getMultiViewSwellForecast(forecast)),
-    getMaxWaveHeightMultiView: waveHeight => dispatch(getMaxWaveHeightMultiView(waveHeight))
+    getMaxWaveHeightMultiView: waveHeight => dispatch(getMaxWaveHeightMultiView(waveHeight)),
+    getSurfApiEndPoints: surfApiEndPoints => dispatch(getSurfApiEndPoints(surfApiEndPoints)),
 });
 
 const convertMilesToKM = (km) => {
@@ -845,6 +855,8 @@ class SurfGUILanding extends Component {
             document.getElementsByTagName('html')[0].style.overflow = "hidden";
         }
 
+        
+
         document
             .body
             .classList
@@ -852,6 +864,16 @@ class SurfGUILanding extends Component {
     }
 
     componentDidUpdate(prevProps) {
+
+        const { getSurfApiEndPoints } = this.props;
+        if (prevProps.initialUtility.keystoneToken !== this.props.initialUtility.keystoneToken) {
+            const { establishSession } = this.props;
+            establishSession(this.props.initialUtility.keystoneToken)
+        }
+        if (prevProps.initialUtility.session !== this.props.initialUtility.session) {
+            getSurfApiEndPoints(this.props.initialUtility.keystoneToken);
+        }
+
         if (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots) {
             const { getSurfForecast } = this.props;
             const { getTideStations } = this.props;
