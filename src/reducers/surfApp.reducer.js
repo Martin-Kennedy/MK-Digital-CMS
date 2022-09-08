@@ -42,7 +42,7 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
         case GET_SURF_API_ENDPOINTS:
             return {
                 ...state,
-                surfApiEndPoints: action.payload
+                surfApiEndPoints: action.payload.data.allSurfAppJsonUrls[0]
             }
         case GET_LOCATION_OBJECT:
 
