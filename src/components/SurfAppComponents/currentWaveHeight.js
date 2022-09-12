@@ -206,7 +206,6 @@ margin-top: 2.5vw;
 
 
 export const CurrWaveDataComponent = (props) => {
-    console.log(props);
     const convertMilesToKM = (km) => {
        const miles = props.surfSpot.distanceFromLocation / 1.609;
        return parseInt(miles);

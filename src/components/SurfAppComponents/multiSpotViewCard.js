@@ -469,6 +469,7 @@ const degToCompass = (num) => {
 const mapStateToProps = state => {
     return {
         surf: {
+            surfApiEndPoints: state.surf.surfApiEndPoints,
             locations: state.surf.locations,
             geoLocationError: state.surf.geoLocationError,
             closeSurfSpots: state.surf.closeSurfSpots,
@@ -537,78 +538,9 @@ class MultiSpotViewCard extends Component {
             geoLocationModalClosed: false
         };
     }
-    componentDidMount() {
-        const { getCloseSurfSpots } = this.props;
-
-        const { getLocationsObject } = this.props;
-        getLocationsObject();
-        const { searchOpenState } = this.props;
-        const { closeSpotsOpenState } = this.props;
-        const { getActiveLocation } = this.props;
-        const { loadView } = this.props;
-    }
 
 
-    componentDidUpdate(prevProps) {
-        if ((prevProps.surf.closeSurfSpots.length > 1) && (prevProps.surf.closeSurfSpots != this.props.surf.closeSurfSpots)) {
-            const { getSurfForecast } = this.props;
-            const { getTideStations } = this.props;
-            const { getWeatherStations } = this.props;
-            const { getWeather } = this.props;
-            const { getWeatherForecast } = this.props;
-            const { getNdbcStations } = this.props;
-            const { getMultiViewForecast } = this.props;
-            const { getActiveSurfSpot } = this.props;
-            const { getLat } = this.props;
-            const { getLng } = this.props;
 
-            this
-                .props
-                .getActiveLocation(this.props.surf.closeSurfSpots[0]);
-            this.props.getActiveSurfSpot(this.props.surf.closeSurfSpots[0].spotId);
-            this.props.getLat(this.props.surf.closeSurfSpots[0].lat);
-            this.props.getLng(this.props.surf.closeSurfSpots[0].lng);
-            getSurfForecast(this.props.surf.closeSurfSpots[0].spotId);
-            getTideStations(this.props.surf.closeSurfSpots[0]);
-            getNdbcStations(this.props.surf.closeSurfSpots[0]);
-            getWeatherStations(this.props.surf.closeSurfSpots[0]);
-            getWeather(this.props.surf.closeSurfSpots[0]);
-            getWeatherForecast(this.props.surf.closeSurfSpots[0]);
-            getMultiViewForecast(this.props.surf.closeSurfSpots);
-
-
-        }
-        if (prevProps.surf.hourlyForecast != this.props.surf.hourlyForecast) {
-            const { getMaxWaveHeight } = this.props;
-            const { getSwellForecast } = this.props;
-            const { getWindForecast } = this.props;
-            getMaxWaveHeight(this.props.surf.hourlyForecast);
-            getSwellForecast(this.props.surf.hourlyForecast);
-            getWindForecast(this.props.surf.hourlyForecast);
-        }
-        if (prevProps.surf.multiViewForecast != this.props.surf.multiViewForecast) {
-            const { getMultiViewSwellForecast } = this.props;
-            getMultiViewSwellForecast(this.props.surf.multiViewForecast);
-        }
-        if (prevProps.surf.multiViewSwellForecast != this.props.surf.multiViewSwellForecast) {
-            const { getMaxWaveHeightMultiView } = this.props;
-            getMaxWaveHeightMultiView(this.props.surf.multiViewSwellForecast);
-        }
-        if (prevProps.surf.tideStations != this.props.surf.tideStations) {
-            const { getTideForecast } = this.props;
-            getTideForecast([this.props.surf.tideStations[0], this.props.surf.tideStations[1]]);
-
-        }
-
-        if (prevProps.surf.ndbcStations != this.props.surf.ndbcStations) {
-            const { getWaterTemp } = this.props;
-            const { getCurrentSwell } = this.props;
-            getWaterTemp(this.props.surf.ndbcStations[0]);
-            getCurrentSwell(this.props.surf.ndbcStations[0]);
-        }
-   
-
-    }
    
 render(){
     return this.props
@@ -660,7 +592,7 @@ render(){
                         .getActiveLocation(spot);
                     this
                         .props
-                        .getSurfForecast(spot.spotId);
+                        .getSurfForecast({ surfSpot: spot.spotId, apiEndpoints: this.props.surf.surfApiEndPoints });
                     this
                         .props
                         .getWeather(spot);
@@ -669,7 +601,7 @@ render(){
                         .getWeatherForecast(spot);
                     this
                         .props
-                        .getTideStations(spot);
+                        .getTideStations({ surfSpot: spot, apiEndpoints: this.props.surf.surfApiEndPoints });
                     this.props.getLat(spot.lat);
                     this.props.getLng(spot.lng);
                     this

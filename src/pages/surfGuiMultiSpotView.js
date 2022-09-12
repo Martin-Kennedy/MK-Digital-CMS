@@ -87,11 +87,6 @@ class SurfGUIMultiSpotView extends Component {
             getSwellForecast(this.props.surf.hourlyForecast);
             getWindForecast(this.props.surf.hourlyForecast);
         }
-        if (prevProps.surf.tideStations != this.props.surf.tideStations) {
-            const {getTideForecast} = this.props;
-            getTideForecast([this.props.surf.tideStations[0], this.props.surf.tideStations[1]]);
-
-        }
 
         if (prevProps.surf.ndbcStations != this.props.surf.ndbcStations) {
             const {getWaterTemp} = this.props;

@@ -7,22 +7,6 @@ import {connect} from 'react-redux';
 import { searchActionCloseSurfSpots, getCloseSurfSpots, searchOpenState, getActiveLocation} from '../../actions/surfApp.actions';
 import variables from '../../variables.module.scss';
 
-// Imagine you have a list of languages that you'd like to autosuggest.
-
-const mapStateToProps = state => {
-    return {
-        locations: state.surf.locations,
-        isSearchOpen: state.surf.isSearchOpen,
-        activeLocation: state.surf.activeLocation
-    }
-}
-
-const mapDispatchToProps = dispatch => ({
-    searchActionCloseSurfSpots: closeSurfSpots => dispatch(searchActionCloseSurfSpots(closeSurfSpots)),
-    getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
-    searchOpenState: isOpen => dispatch(searchOpenState(isOpen)),
-    getActiveLocation: activeLocation => dispatch(activeLocation)
-})
 
 const StyledAutoSuggest = styled.div`
     input {
@@ -95,7 +79,22 @@ function escapeRegexCharacters(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// Use your imagination to render suggestions.
+const mapStateToProps = state => {
+    return {
+        locations: state.surf.locations,
+        isSearchOpen: state.surf.isSearchOpen,
+        activeLocation: state.surf.activeLocation,
+        surfApiEndPoints: state.surf.surfApiEndPoints
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    searchActionCloseSurfSpots: closeSurfSpots => dispatch(searchActionCloseSurfSpots(closeSurfSpots)),
+    getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
+    searchOpenState: isOpen => dispatch(searchOpenState(isOpen)),
+    getActiveLocation: activeLocation => dispatch(activeLocation)
+})
+
 function renderSuggestion(suggestion, {query}) {
     const suggestionText = `${suggestion.town}, ${suggestion.countryOrState}`;
     const matches = match(suggestionText, query);
@@ -138,7 +137,7 @@ class SurfSpotsSearchFilter extends React.Component {
         if (prevState.lat != this.state.lat){
             const { searchActionCloseSurfSpots } = this.props;
             
-            searchActionCloseSurfSpots({latitude: this.state.lat, longitude: this.state.lng});
+            searchActionCloseSurfSpots({ latitude: this.state.lat, longitude: this.state.lng, jsonUrl: this.props.surfApiEndPoints });
     }
 }
 

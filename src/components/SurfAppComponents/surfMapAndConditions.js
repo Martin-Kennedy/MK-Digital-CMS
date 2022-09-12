@@ -742,7 +742,7 @@ const SurfMapAndConditionsDesktop = (props) => {
                             </Fragment>
                         : null}
                 </SunPosition>
-                {!Array.isArray(props.surf.weatherForecast) && props.surf.weatherForecast.current.uvi != 0
+                {!Array.isArray(props.surf.weatherForecast)
                     ? <WaterTemp>
                             <TitleIconRow>
                                 <Title>UV Index</Title>

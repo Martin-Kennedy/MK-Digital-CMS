@@ -31,20 +31,6 @@ import {formatAMPM} from '../helpers/utilities'
 import {getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
 import axios from 'axios';
 
-const surfSpotsApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1662312612/MK-Digital-Surf-App/surfSpots_nkv1pc.json';
-const tideStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134141/MK-Digital-Surf-App' +
-        '/tideStations_vxlwrw.json';
-const NDBCStationApiUrl = 'https://res.cloudinary.com/mk-digital/raw/upload/v1655134357/MK-Digital-Surf-App' +
-        '/ndbcBuoys_nguiue.json';
-const msUrl = 'https://mk-digital-cors-bypass-proxy.herokuapp.com/https://magicseaweed.com/api/' +
-        '76b9f172c5acb310986adca80941a8bb/forecast/?spot_id=';
-const wunderGroundApiKey = `3a51c1f2c325423d91c1f2c325823d80`;
-
-// NOAA web services api token
-const ncdcWebServiceToken = 'OZvsDblbJDAGZxTVLIMzZjgWFgWeOPvc';
-const tidesAndCurrentsUrl = 'https://mk-digital-cors-bypass-proxy.herokuapp.com/https://api.tidesandcurrents.' +
-        'noaa.gov/api/prod/datagetter?';
-const apiUrl2 = 'https://jsonkeeper.com/b/1U1N';
 
 export const searchOpenState = (data) => {
     return {type: SEARCH_OPEN_STATE, payload: data};
@@ -87,13 +73,15 @@ export const getSurfApiEndPoints = (token) => {
                 allSurfAppJsonUrls {
                     surfSpotJson,
                     ndbcBuoyData,
-                    tideAndCurrentsApiData
+                    tideAndCurrentsApiData,
+                    tidesAndCurrentsUrl,
+                    surfSpotApi,
+                    urlProxy
                     }
                 }`
         }
         return axios.post(apiUrl, bodyParameters, config)
             .then(response => {
-                console.log(response.data);
                 return response.data
             })
             .then(data => {
@@ -111,44 +99,52 @@ export const getSurfApiEndPoints = (token) => {
 
 
 
-export const getLocationsObject = () => {
+export const getLocationsObject = (jsonUrl) => {
+    const fullURL = `${jsonUrl.urlProxy}/${jsonUrl.surfSpotJson}`;
 
-    let request = new Promise((resolve) => {
-        axios
-            .get(surfSpotsApiUrl)
-            .then(response => {
-                return response.data
-            })
-            .then(data => {
-
-                let countriesArr = []
-                const countries = Object.keys(data);
-                countries.map((country) => {
-                    if (country) {
-                        return data[country].map((item) => {
-                            item.countryOrState = country;
-                            item.fullLocation = `${item.town}, ${country}`
-                            countriesArr.push(item);
-                        })
+        let request = new Promise((resolve) => {
+            axios
+                .get(fullURL, {
+                    headers: {
+                        'Content-type': 'application/json'
                     }
                 })
-                resolve(countriesArr);
+                .then(response => {
+                    return response.data
+                })
+                .then(data => {
+
+                    let countriesArr = []
+                    const countries = Object.keys(data);
+                    countries.map((country) => {
+                        if (country) {
+                            return data[country].map((item) => {
+                                item.countryOrState = country;
+                                item.fullLocation = `${item.town}, ${country}`
+                                countriesArr.push(item);
+                            })
+                        }
+                    })
+                    resolve(countriesArr);
+                });
+        })
+        return (dispatch) => {
+            function onSuccess(data) {
+                dispatch({ type: GET_LOCATION_OBJECT, payload: data });
+                return data;
+            }
+            request.then(data => {
+                onSuccess(data);
+            }).catch(error => {
+                throw (error);
             });
-    })
-    return (dispatch) => {
-        function onSuccess(data) {
-            dispatch({type: GET_LOCATION_OBJECT, payload: data});
-            return data;
         }
-        request.then(data => {
-            onSuccess(data);
-        }).catch(error => {
-            throw(error);
-        });
-    }
+    
+    
+ 
 }
 
-const latLng = () => new Promise((res, rej) => {
+const latLng = (fullURL) => new Promise((res, rej) => {
     navigator
         .geolocation
         .getCurrentPosition(function (position) {
@@ -157,7 +153,8 @@ const latLng = () => new Promise((res, rej) => {
 
             const coords = {
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                jsonURL: fullURL
             }
 
             res(coords);
@@ -175,7 +172,7 @@ const latLng = () => new Promise((res, rej) => {
         })
 })
 const getLocations = (coords) => axios
-    .get(surfSpotsApiUrl)
+    .get(coords.jsonURL)
     .then(response => {
         return {locations: response.data, coords: coords}
     })
@@ -246,10 +243,11 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
     })
 }
 
-export const getSurfForecast = (spotId) => {
+export const getSurfForecast = (value) => {
+    const fullURL = `${value.apiEndpoints.urlProxy}/${value.apiEndpoints.surfSpotApi}`;
     return (dispatch) => {
         return axios
-            .get(msUrl + spotId)
+            .get(fullURL + value.surfSpot)
             .then(response => {
                 return response.data
             })
@@ -262,12 +260,13 @@ export const getSurfForecast = (spotId) => {
     }
 };
 
-export const getMultiViewForecast = (data) => {
-    data = data.slice(0, 9);
+export const getMultiViewForecast = (value) => {
+    const fullURL = `${value.apiEndpoints.urlProxy}/${value.apiEndpoints.surfSpotApi}`;
+    const surfSpotsSliced = value.surfSpots.slice(0, 9);
     const arr = [];
     new Promise((res) => {
         
-        data.map((item) => {
+        surfSpotsSliced.map((item) => {
             arr.push({
                 country: item.countryOrState,
                 town: item.town,
@@ -283,10 +282,10 @@ export const getMultiViewForecast = (data) => {
     });
 
     function getDataLoopOne() {
-        const array = data.map((item, index) => {
+        const array = surfSpotsSliced.map((item, index) => {
 
             const axiosDataPromise = new Promise((resolve) => {
-                resolve(item.forecast = axios.get(msUrl + item.spotId).then(res => {
+                resolve(item.forecast = axios.get(fullURL + item.spotId).then(res => {
                     return res.data
                 }).then((data) => {
                     return arr[index].forecast = data;
@@ -328,7 +327,7 @@ export const getMultiViewForecast = (data) => {
         getDataLoopOne().then((res) => {
             const arr = [];
             const finalArray = new Promise((resolve) => {
-                data.map((item, i) => {
+                surfSpotsSliced.map((item, i) => {
                     
                     arr.push({
                         country: item.countryOrState,
@@ -460,10 +459,11 @@ export const getMultiViewSwellForecast = (data) => {
 
     };}
 
-export const getCloseSurfSpots = () => {
-
+export const getCloseSurfSpots = (jsonUrl) => {
+    const fullURL = `${jsonUrl.urlProxy}/${jsonUrl.surfSpotJson}`;
+    
     const request = new Promise((res) => {
-        res(latLng())
+        res(latLng(fullURL))
     });
     return (dispatch) => {
         function onError(error) {
@@ -493,7 +493,7 @@ export const getCloseSurfSpots = () => {
 }
 
 export const searchActionCloseSurfSpots = (value) => {
-    
+    const fullURL = `${value.jsonUrl.urlProxy}/${value.jsonUrl.surfSpotJson}`;
     return (dispatch) => {
         function onSuccess(data) {
             dispatch({type: GET_CLOSE_SURFSPOTS, payload: data});
@@ -501,7 +501,7 @@ export const searchActionCloseSurfSpots = (value) => {
         }
 
         axios
-            .get(surfSpotsApiUrl)
+            .get(fullURL)
             .then(response => {
                 const coords = {
                     latitude: value.latitude,
@@ -525,10 +525,12 @@ export const searchActionCloseSurfSpots = (value) => {
     };
 }
 
-export const getTideStations = (latLon) => {
+export const getTideStations = (value) => {
+    const fullURL = `${value.apiEndpoints.urlProxy}/${value.apiEndpoints.tideAndCurrentsApiData}`;
+    
     let request = new Promise((resolve) => {
         axios
-            .get(tideStationApiUrl)
+            .get(fullURL)
             .then(response => {
                 return response.data
             })
@@ -537,7 +539,7 @@ export const getTideStations = (latLon) => {
                 data
                     .tideStations
                     .map((station) => {
-                        const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, station.lat, station.lng);
+                        const distanceFromLocation = getDistanceFromLatLonInKm(value.surfSpot.lat, value.surfSpot.lng, station.lat, station.lng);
                         stationsArr.push({
                             distanceFromLocation: distanceFromLocation,
                             lat: station.lat,
@@ -577,8 +579,10 @@ export const getTideStations = (latLon) => {
 }
 
 export const getTideForecast = (data) => {
-    const tideApiUrlMlw = `${tidesAndCurrentsUrl}date=today&station=${data[0].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
-    const tideApiUrlMlw2 = `${tidesAndCurrentsUrl}date=today&station=${data[1].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
+    console.log(data)
+    const fullURL = `${data.apiEndpoints.urlProxy}/${data.apiEndpoints.tidesAndCurrentsUrl}`;
+    const tideApiUrlMlw = `${fullURL}date=today&station=${data.tideStations[0].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
+    const tideApiUrlMlw2 = `${fullURL}date=today&station=${data.tideStations[1].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
 
     const headers = { 'X-Requested-With': 'XMLHttpReques' }
     return (dispatch) => {
@@ -608,9 +612,9 @@ export const getTideForecast = (data) => {
 export const getWaterTemp = (data) => {
 
     // ----------- function to break down columns of txt in ndbc txt file return
-    // ----------
 
-    const NdbcWaterTemp = `https://mk-digital-cors-bypass-proxy.herokuapp.com/https://www.ndbc.noaa.gov/data/realtime2/${data.buoyId}.txt`;
+
+    const NdbcWaterTemp = `${data.apiEndpoints.urlProxy}/https://www.ndbc.noaa.gov/data/realtime2/${data.ndbcStations.buoyId}.txt`;
 
     return (dispatch) => {
         axios
@@ -662,7 +666,7 @@ export const getCurrentSwell = (data) => {
     // ----------- function to break down columns of txt in ndbc txt file return
     // ----------
 
-    const NdbcSwell = `https://mk-digital-cors-bypass-proxy.herokuapp.com/https://www.ndbc.noaa.gov/data/realtime2/${data.buoyId}.txt`;
+    const NdbcSwell = `${data.apiEndpoints.urlProxy}/https://www.ndbc.noaa.gov/data/realtime2/${data.ndbcStations.buoyId}.txt`;
 
     return (dispatch) => {
         axios
@@ -984,9 +988,10 @@ export const getWeatherForecast = (data) => {
     }
 }
 
-export const getNdbcStations = (latLon) => {
+export const getNdbcStations = (val) => {
+    const fullURL = `${val.apiEndpoints.urlProxy}/${val.apiEndpoints.ndbcBuoyData}`;
     const request = axios
-        .get(NDBCStationApiUrl)
+        .get(fullURL)
         .then(response => {
             return response.data
         })
@@ -1004,7 +1009,7 @@ export const getNdbcStations = (latLon) => {
                 let stationsArr = [];
                 for (const [key,
                     value]of Object.entries(data.ndbcBouys)) {
-                    const distanceFromLocation = getDistanceFromLatLonInKm(latLon.lat, latLon.lng, value.SpatialExtent.coordinates[1], value.SpatialExtent.coordinates[0]);
+                    const distanceFromLocation = getDistanceFromLatLonInKm(val.surfSpot.lat, val.surfSpot.lng, value.SpatialExtent.coordinates[1], value.SpatialExtent.coordinates[0]);
                     Number.isInteger(parseInt(key))
                         ? stationsArr.push({buoyId: parseInt(key), distanceFromLocation: distanceFromLocation})
                         : null;
