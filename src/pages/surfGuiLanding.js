@@ -339,7 +339,7 @@ const RightNavBkgMobile = styled(RightNavBkg)`
 transition: 450ms ease;
 backdrop-filter: blur(4px);
 background: rgba(255, 255, 255, 0.06);
-top: -110vh;
+top: -120vh;
 opacity: 0.5;
 left: inherit;
 width: 100vw;
@@ -350,10 +350,35 @@ position: fixed;
       margin-left: 0;
       padding: 0;
       li {
-          font-size: 2.7vw;
+          font-size: 1.7vw;
            &:hover, &:focus {
             cursor: pointer;
-         font-size: 3vw;
+         font-size: 2vw;
+         opacity: 0.9;
+
+        }
+      }
+  }
+}
+@media(max-width: ${variables.medium}){
+transition: 450ms ease;
+backdrop-filter: blur(4px);
+background: rgba(255, 255, 255, 0.06);
+top: -120vh;
+opacity: 0.5;
+left: inherit;
+width: 100vw;
+height: 100vh;
+position: fixed;
+
+ ul {
+      margin-left: 0;
+      padding: 0;
+      li {
+          font-size: 3.7vw;
+           &:hover, &:focus {
+            cursor: pointer;
+         font-size: 4vw;
          opacity: 0.9;
         
         }
@@ -1052,7 +1077,8 @@ class SurfGUILanding extends Component {
                                         this.setState({ geoLocationModalClosed: true })
                                     }}>Close</CloseButton>
                             </ErrorAlertBar>
-                            {this.props.surf.isView === MULTI_VIEW ? <SurfGUIMultiSpotViewContainer /> :
+                            {   this.props.surf.isView === MULTI_VIEW ?  <SurfGUIMultiSpotViewContainer />  :
+                                
                                 <CustomCol md={12} lg={9}>
 
                                     <DataDashBoardRow>
@@ -1173,7 +1199,7 @@ class SurfGUILanding extends Component {
                                             <DataDashBoardRow>
                                                 <CurrentConditionBackdrop>
                                                     {!Array.isArray(this.props.surf.weatherForecast)
-                                                        ? <CurrWindDataComponent weatherForecast={this.props.surf.weatherForecast} />
+                                                            ? <CurrWindDataComponent msWindForecast={this.props.surf.currentConditions} weatherForecast={this.props.surf.weatherForecast} />
                                                         : null}
                                                 </CurrentConditionBackdrop>
                                                 <CurrentConditionBackdrop>
@@ -1226,9 +1252,10 @@ class SurfGUILanding extends Component {
                                             </BackDrop>
                                         </WindChartContainer>
                                     </DataDashBoardRow>
-
                                 </CustomCol>
-                            }
+                               
+                             }
+                            
                             <MediaQuery minWidth={variables.large}>
                                 <Col sm={2}>
                                     <RightNavBkg >
@@ -1274,6 +1301,8 @@ class SurfGUILanding extends Component {
                                     </RightNavBkg>
                                 </Col>
                             </MediaQuery>
+                                
+                            
                             <MediaQuery maxWidth={variables.large}>
                                 <RightNavBkgMobile
                                     className={this.props.surf.isCloseSpotsOpen

@@ -337,6 +337,8 @@ export const CurrWindDataComponent = (props) => {
         90,
         finalDeg
     ];
+
+    console.log(props.weatherForecast.current.wind_deg)
     return <WaveConditionBackdrop>
 
         <TitleIconRow>

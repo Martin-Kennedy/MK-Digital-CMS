@@ -207,6 +207,11 @@ transition: .15s ease-in;
     height: calc(50vw - 1.5vw);
     margin: 0 1vw 1vw .5vw 
 }
+@media(max-width: ${variables.medium}){
+    width: calc(100% - 1.5vw);
+    height: calc(50vw - 1.5vw);
+    margin: 0 1vw 1vw .5vw 
+}
 `
 
 const ChartRow= styled(Row)`
@@ -260,8 +265,8 @@ span {
     font-weight: 400;
 }
 @media(max-width:${variables.large}){
-    font-size: 2vw;
-    line-height: 2vw;
+    font-size: 4.5vw;
+    line-height: 4.5vw;
     padding: 0;
     }
 }
@@ -281,6 +286,10 @@ box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
 const ConditionsWrapper = styled.div `
 width: calc(60% - 1.5vh);
 margin: 2vh 0 0.5vh 1.5vh;
+@media(max-width: ${variables.large}){
+    width: calc(30% - 1.5vh);
+
+}
 
 `
 
@@ -373,10 +382,10 @@ z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
 @media(max-width: ${variables.large}){
 position: absolute;
-width: calc(50% - 1.5vh);
-height: fit-content;
-font-size: 3vw;
-line-height: 6vw;
+width: calc(30% - 1.5vh);
+height: 7vh;
+font-size: 2vw;
+line-height: 7vh;
 letter-spacing: .2vw;
 }
 `
@@ -418,6 +427,7 @@ margin-left: 1.5vh;
     letter-spacing: .25vw;
     width: fit-content;
     margin: 0;
+    margin-left: 1.5vh;
 }
 `
 
@@ -604,9 +614,6 @@ render(){
                         .getTideStations({ surfSpot: spot, apiEndpoints: this.props.surf.surfApiEndPoints });
                     this.props.getLat(spot.lat);
                     this.props.getLng(spot.lng);
-                    this
-                        .props
-                        .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
                     this.props.loadView(SINGLE_VIEW);
                 }}
             >

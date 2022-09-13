@@ -31,6 +31,16 @@ const StyledAutoSuggest = styled.div`
         border: 0px;
         border-radius: 0;
         border-bottom: 1px solid rgba(255,255,255,0.6);
+        font-size: 3vw;
+    }
+       @media(max-width: ${variables.medium}){
+        background: transparent;
+        width: 80%;
+        margin: 6vw auto 0 auto;
+        display: block;
+        border: 0px;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.6);
         font-size: 4vw;
     }
     &::placeholder {
