@@ -308,9 +308,14 @@ padding: 0;
 
 
 const CloseSpotIconContainer = styled(SpotSearchContainer)`
-margin-left: 72%;
+margin-left: 7%;
 margin-right: 7%;
 `
+
+const MultiSpotIconContainer = styled(SpotSearchContainer)`
+margin-left: 65%;
+margin-right: 0;
+`;
 
 const CloseSpotIconContainerDesktop = styled(SpotSearchContainer)`
 `
@@ -322,8 +327,10 @@ const MultiCardColumn = styled(Col)`
 `
 
 const MultiCardRow = styled(Row)`
-padding-right: calc(var(--bs-gutter-x) * .15);
-width: inherit;
+padding-right: 0;
+padding-left: 0;
+width: 100vw;
+max-width: 100vw;
 `
 
 
@@ -420,12 +427,12 @@ class SurfGUIMultiSpotView extends Component {
 
                                         </HomeIcon>
                                     </HomeIconContainer>
-                                    <SpotSearchContainer
+                                    <MultiSpotIconContainer
                                         onClick={() => this.props.dispatch(loadView(MULTI_VIEW))}>
                                         <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                             <MultiSpotsSVGPath />
                                         </SpotSearchIcon>
-                                    </SpotSearchContainer>
+                                    </MultiSpotIconContainer>
                                     <CloseSpotIconContainer
                                         onClick={() => this.props.dispatch(closeSpotsOpenState(this.props.surf.isCloseSpotsOpen))}>
                                         <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">

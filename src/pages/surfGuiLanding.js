@@ -612,9 +612,14 @@ margin-top: 1.25vw;
 `;
 
 const CloseSpotIconContainer = styled(SpotSearchContainer)`
-margin-left: 72%;
+margin-left: 7%;
 margin-right: 7%;
 `
+
+const MultiSpotIconContainer = styled(SpotSearchContainer)`
+margin-left: 65%;
+margin-right: 0;
+`;
 
 const CloseSpotIconContainerDesktop = styled(SpotSearchContainer)`
 `
@@ -1145,6 +1150,12 @@ class SurfGUILanding extends Component {
 
                                                         </HomeIcon>
                                                     </HomeIconContainer>
+                                                    <MultiSpotIconContainer
+                                                        onClick={() => this.props.loadView(MULTI_VIEW)}>
+                                                        <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                            <MultiSpotsSVGPath />
+                                                        </SpotSearchIcon>
+                                                    </MultiSpotIconContainer>
                                                     <CloseSpotIconContainer
                                                         onClick={() => this.props.closeSpotsOpenState(this.props.surf.isCloseSpotsOpen)}>
                                                         <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">
@@ -1163,7 +1174,7 @@ class SurfGUILanding extends Component {
                                             <DataDashboardRowMap>
                                                 <SurfMapBackDrop>
                                                     {this.props.surf.activeLocation.lng && this.props.surf.activeLocation.lat
-                                                        ? <SurfMapAndConditions
+                                                        ? <SurfMap
                                                             coords={{
                                                                 lat: this.props.surf.activeLocation.lat,
                                                                 lng: this.props.surf.activeLocation.lng
@@ -1322,14 +1333,14 @@ class SurfGUILanding extends Component {
                                         </Title>
                                         <Row>
                                             <ul>
-                                                {this
+                                                {this.props.surf.activeLocation ? this
                                                     .props
                                                     .surf
                                                     .closeSurfSpots
                                                     .map((surfSpot, index) => {
                                                         return <SurfSpot
                                                             key={`${index}-mobile`}
-                                                            active={() => this.props.surf.activeSurfSpot === surfSpot.spotId
+                                                            active={() => this.props.surf.activeLocation.spotId === surfSpot.spotId
                                                                 ? '.8'
                                                                 : '.3'}
                                                             onClick={() => {
@@ -1351,8 +1362,9 @@ class SurfGUILanding extends Component {
                                                                 this
                                                                     .props
                                                                     .closeSpotsOpenState(this.props.surf.isCloseSpotsOpen);
+                                                                this.props.loadView(SINGLE_VIEW);
                                                             }}>{surfSpot.town}</SurfSpot>
-                                                    })}
+                                                    }) : null}
                                             </ul>
                                         </Row>
                                     </RightNavMobileContent>

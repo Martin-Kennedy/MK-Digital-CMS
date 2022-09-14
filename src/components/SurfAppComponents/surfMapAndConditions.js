@@ -49,10 +49,24 @@ background-image: ${props => props.coords
 
 const StyledMapImgMobile = styled(StyledMapImg)`
 height: 35vh;
-
 background-image: ${props => props.coords
-    ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}&zoom=12&size=640x400&style=feature:water|element:all|color:0x0f2a46&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)`
+        ? `url(https://maps.googleapis.com/maps/api/staticmap?center=${props.coords.lat},${props.coords.lng}` +
+        '&zoom=12&size=800x250&style=feature:water|element:all|color:0x0A2A4A' +
+        '&style=feature:landscape|element:all|color:0x4A6075' +
+        '&style=feature:poi|element:geometry.fill|color:0x6F7E8C' +
+        '&style=feature:all|element:labels.icon|visibility:off' +
+        '&style=feature:all|element:labels.text.fill|color:0xffffff' +
+        '&style=feature:all|element:labels.text.stroke|visibility:off' +
+        '&style=feature:road|element:geometry|color:0x8193A3|visibility:on' +
+        '&key=AIzaSyBj-Wc8m2pdQxlR-YBJLMcgda-3HLJiERw)'
         : null};
+        box-shadow:
+0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+0 2.5px 1px rgba(0, 0, 0, 0.06),
+0 2.3px 7.9px rgba(0, 0, 0, 0.072),
+0 4.8px 3.4px rgba(0, 0, 0, 0.086),
+0 2px 2px rgba(0, 0, 0, 0.062);
 
 `
 
@@ -91,7 +105,8 @@ polygon {
     width: 80%;
     height: 80%;
     left: 10%;
-    top: 10%;
+    top: 10.75%;
+    opacity: 0.5;
 }
 `
 
@@ -786,7 +801,7 @@ const SurfMapMobile = (props) => {
 
 
     return (
-        <StyledMapImg coords={props.coords}>
+        <StyledMapImgMobile coords={props.coords}>
             <StyledCompassBase
                 version="1.1"
                 id="Layer_1"
@@ -797,7 +812,7 @@ const SurfMapMobile = (props) => {
                 <SwellSpectraCompassSVGPath />
             </StyledCompassBase>
             <SwellRadialChart swell={props.surf.currentConditions} />
-        </StyledMapImg>
+        </StyledMapImgMobile>
 
     )
 };
