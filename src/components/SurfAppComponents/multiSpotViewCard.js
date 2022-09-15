@@ -64,9 +64,12 @@ background: rgba(255, 255, 255, 0.04);
 &:first-child {
         margin-bottom: .5vh;
 }
+@media(max-width: ${variables.large}){
+      height: 11vh;
+    }
 `
 const SwellIcon = styled.svg`
-    width: 1.75;
+    width: 1.75vh;
     height: 1.75vh;
     position: relative;
     top: -2px;
@@ -77,9 +80,11 @@ const SwellIcon = styled.svg`
         fill: rgba(255,255,255, 0.4);
     }
     @media(max-width: ${variables.large}){
-        height: 3vw;
-        width: 3vw;
+        width: 1.75vh;
+        height: 1.75vh;
         position: unset;
+        padding: 0px;
+       
     }
 `
 
@@ -98,7 +103,7 @@ font-size: .65vw;
 height: fit-content;
 line-height: .65vw;
 @media(max-width:${variables.large}){
-   font-size: 2vw;
+   font-size: 1.5vw;
    line-height: 2vw;
    padding: 0 0 0 0.8vw;
 }
@@ -109,9 +114,6 @@ const SwellKeyColor = styled.svg`
     height:  1vh;
     margin-right: .5vw;
     margin-bottom: .5vh;
-`
-const SwellKeyRow = styled(Row)`
-width: 100%;
 `
 const PrimarySwell = styled.div`
 height: fit-content;
@@ -128,6 +130,9 @@ ${SwellKeyColor} {
     rect {
         fill: #40BCF0;
     }
+}
+@media(max-width: ${variables.large}){
+    margin: 2vh 0 .4vh 0;
 }
 `
 
@@ -205,12 +210,13 @@ transition: .15s ease-in;
 @media(max-width: ${variables.large}){
     width: calc(50% - 1.5vw);
     height: calc(50vw - 1.5vw);
-    margin: 0 1vw 1vw .5vw 
+    margin: 0 1vw 1vw .5vw;
+    padding-right: 1vw;
 }
 @media(max-width: ${variables.medium}){
     width: calc(100% - 1.5vw);
     height: calc(50vw - 1.5vw);
-    margin: 0 1vw 1vw .5vw 
+    margin: 0 1vw 1vw .5vw;
 }
 `
 
@@ -237,7 +243,7 @@ margin: 0;
 
 @media(max-width: ${variables.large}){
     position: unset;
-    margin: 1vw 0 1vw 0.5vw;
+    margin: 0;
     height: 2vw;
     width: calc(100% - 1vw);
 }
@@ -288,7 +294,9 @@ width: calc(60% - 1.5vh);
 margin: 2vh 0 0.5vh 1.5vh;
 @media(max-width: ${variables.large}){
     width: calc(30% - 1.5vh);
-
+}
+@media(max-width: ${variables.medium}){
+    width: calc(30% - 1.5vh);
 }
 
 `
@@ -336,6 +344,7 @@ line-height: max(1.8vw,35px);
     font-size: 9vw;
     margin: 1.5vw auto;
     line-height: 2vw;
+    flex-wrap: wrap;
 }
 }
 span {
@@ -365,8 +374,9 @@ width: 100%;
 margin-bottom: 0;
 color: var(--white);
 @media(max-width: ${variables.large}){
-    font-size: 2.5vw;
-    line-height: 6vw;
+    font-size: 2.5vh;
+line-height: 6vh;
+letter-spacing: .2vw;
 }
 `
 
@@ -383,10 +393,7 @@ box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px
 @media(max-width: ${variables.large}){
 position: absolute;
 width: calc(30% - 1.5vh);
-height: 7vh;
-font-size: 2vw;
-line-height: 7vh;
-letter-spacing: .2vw;
+height: 5.5vh;
 }
 `
 
@@ -403,12 +410,18 @@ letter-spacing: .1vw;
 opacity: 0.9;
 margin-left: 1.5vh;
 @media(max-width: ${variables.large}){
+font-size: 1.75vw;
+line-height: 1.75vw;
+letter-spacing: .25vw;
+display: block;
+width: fit-content;
+}
+@media(max-width: ${variables.medium}){
 font-size: 2.25vw;
 line-height: 2.25vw;
 letter-spacing: .25vw;
 display: block;
 width: fit-content;
-
 }
 `
 const Distance = styled.div `
@@ -436,6 +449,7 @@ padding-left: 0;
 padding-right: 1.5vh;
 &:last-child{
     padding-right:0;
+    
 }
 `;
 
@@ -446,6 +460,10 @@ margin-top: 2.5vw;
 const CurrDataComponentMultiContainer = styled.div `
 width: 7.5vh;
 height: 7.5vh;
+@media(max-width: ${variables.large}){
+width: 100%;
+height: 9.75vh;
+}
 `
 const convertMilesToKM = (km) => {
     const miles = km / 1.609;
@@ -647,7 +665,7 @@ render(){
                             <MultiViewCardColumn xs={6}>
                                 <Cell>
 
-                                    <CellCol xs={8}>
+                                    <CellCol xs={8} md={7}>
                                         <TitleIconRow>
                                             <SwellIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <SwellSVGPath />
@@ -665,7 +683,7 @@ render(){
                                             {currentMultiViewConditions.secondaryHeight ? <Fragment><SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Secondary</div></Fragment> : null}
                                         </SwellKey>
                                     </CellCol>
-                                    <CellCol xs={4}>
+                                    <CellCol xs={4} md={5}>
                                         <CurrDataComponentMultiContainer>
 
 
@@ -680,7 +698,7 @@ render(){
                                     </CellCol>
                                 </Cell>
                                 <Cell>
-                                    <CellCol xs={8}>
+                                    <CellCol xs={8} md={7}>
                                         <TitleIconRow>
 
                                             <WindIcon x="0px" y="0px" viewBox="0 0 100 100">
@@ -692,7 +710,7 @@ render(){
                                             {currentMultiViewConditions.windSpeed} {currentMultiViewConditions.windUnit} <span> with gusts of</span> <br></br>{currentMultiViewConditions.windGusts}{currentMultiViewConditions.windUnit} <span>out of the </span>{compassDirection}</WindData>
 
                                     </CellCol>
-                                    <CellCol xs={4}>
+                                    <CellCol xs={4} md={5}>
                                         <CurrDataComponentMultiContainer>
 
 
@@ -709,12 +727,12 @@ render(){
                 </ChartRow>
                 <ChartRow>
                     <SwellChartContainer>
-                        <ChartCol xs={6}>
+                        <ChartCol xs={12} lg={6}>
                             <SwellBarChartMultiView
                                 maxWaveHeight={this.props.maxWaveHeight}
                                 forecast={getFutureConditions(spot.swellForecast)} />
                         </ChartCol>
-                        <ChartCol xs={6}>
+                        <ChartCol xs={12} lg={6}>
                             <WindBarChartMultiView
                                 forecast={getFutureConditions(spot.swellForecast)} />
                         </ChartCol>
