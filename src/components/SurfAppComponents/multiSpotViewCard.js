@@ -322,7 +322,7 @@ span {
     margin-left: .5vw;
 }`;
 
-const SwellChartContainer = styled(Row)`
+const AllChartsContainer = styled(Row)`
 height: 35%;
 width: 100%;
 position: absolute;
@@ -341,10 +341,11 @@ margin-bottom: 0;
 text-transform: uppercase;
 line-height: max(1.8vw,35px);
 @media(max-width: ${variables.large}){
+    height: 25%;
+    width: 100%;
     font-size: 9vw;
     margin: 1.5vw auto;
     line-height: 2vw;
-    flex-wrap: wrap;
 }
 }
 span {
@@ -362,6 +363,30 @@ opacity: .8;
     font-size: 2vw;
 }
 }`;
+
+
+const SwellChartContainer = styled(Row)`
+height: 12vh;
+position: absolute;
+padding-top: 2vh;
+padding-right: 1.5vh;
+margin: 0;
+bottom: 12vh;
+flex-wrap: nowrap;
+p {
+color: var(--white);
+font-size: min(2.5vw,40px);
+margin: 0 0 0 15px;
+font-weight: 600;
+display: inline-block;
+margin-bottom: 0;
+text-transform: uppercase;
+line-height: max(1.8vw,35px);
+`
+
+const WindChartContainer = styled(SwellChartContainer)`
+bottom: 0;
+`
 
 const RatingText = styled.div `
 opacity: .85;
@@ -726,18 +751,36 @@ render(){
 
                 </ChartRow>
                 <ChartRow>
-                    <SwellChartContainer>
-                        <ChartCol xs={12} lg={6}>
+                    <MediaQuery minWidth={Number(variables.largeNum)}>
+                        <AllChartsContainer>
+                        <ChartCol xs={6} >
                             <SwellBarChartMultiView
                                 maxWaveHeight={this.props.maxWaveHeight}
                                 forecast={getFutureConditions(spot.swellForecast)} />
                         </ChartCol>
-                        <ChartCol xs={12} lg={6}>
+                        <ChartCol xs={6} >
                             <WindBarChartMultiView
                                 forecast={getFutureConditions(spot.swellForecast)} />
                         </ChartCol>
 
-                    </SwellChartContainer>
+                        </AllChartsContainer>
+                    </MediaQuery>
+                    <MediaQuery maxWidth={Number(variables.largeNum)}>
+                        <SwellChartContainer>
+                            <ChartCol xs={12} >
+                                <SwellBarChartMultiView
+                                    maxWaveHeight={this.props.maxWaveHeight}
+                                    forecast={getFutureConditions(spot.swellForecast)} />
+                            </ChartCol>
+                        </SwellChartContainer>
+                        <WindChartContainer>
+                            <ChartCol xs={12} >
+                                <WindBarChartMultiView
+                                    forecast={getFutureConditions(spot.swellForecast)} />
+                            </ChartCol>
+
+                        </WindChartContainer>
+                    </MediaQuery>
                     {/* <MediaQuery minWidth={Number(variables.largeNum)}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
                     <RatingText>{(props.rating[0] >= 2 || props.waveData.maxBreakingHeight >= 6) && props.rating[1] < 1
@@ -746,7 +789,7 @@ render(){
                             ? 'Poor'
                             : 'Fair'}</RatingText>
                 </ConditionContainer>
-            </MediaQuery> */}
+             */}
                 </ChartRow>
             </CurrentConditionBackdrop>;
         })
