@@ -375,12 +375,12 @@ position: fixed;
       margin-left: 0;
       padding: 0;
       li {
-          font-size: 3.7vw;
+          font-size: 2.5vw;
            &:hover, &:focus {
             cursor: pointer;
-         font-size: 4vw;
+         font-size: 2vw;
          opacity: 0.9;
-        
+
         }
       }
   }

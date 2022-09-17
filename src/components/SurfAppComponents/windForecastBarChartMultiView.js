@@ -84,14 +84,15 @@ margin: .2vh 0 1vh 0;
 
 const ContainerLabel = styled.div`
 position: absolute;
-     padding-right: 1.5vh;
-    padding-left: calc(var(--bs-gutter-x) * .5);
-    width: 50%;
+padding-right: 2.5vh;
+padding-left: calc(var(--bs-gutter-x) * .5);
+width: 50%;
 text-align:right;
 font-size: 1.2vh;
 color: var(--white);
 opacity: 0.55;
 text-transform: uppercase;
+
 `
 
 
@@ -177,9 +178,9 @@ export default class WindBarChartMultiView extends PureComponent {
 
         return (
             <Fragment>
-                <MediaQuery minWidth={Number(variables.largeNum)}>
+              
                     <ContainerLabel>Wind Forecast</ContainerLabel>
-                    <ResponsiveContainer className="windForecastContainer" width="100%" height="90%">
+                    <ResponsiveContainer  width="100%" height="90%">
 
                         <BarChart
                             width={500}
@@ -191,9 +192,9 @@ export default class WindBarChartMultiView extends PureComponent {
                                 left: -42,
                                 bottom: -15
                             }}
-                          >
+                        >
                             <XAxis dataKey="time" />
-                           
+
                             <YAxis
                                 type="number"
                                 domain={[0, 'dataMax + 10']}
@@ -209,58 +210,6 @@ export default class WindBarChartMultiView extends PureComponent {
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
-                </MediaQuery>
-                <MediaQuery maxWidth={Number(variables.largeNum)}>
-                    <ContainerLabel>Wind Forecast</ContainerLabel>
-                    <ResponsiveContainer className="windForecastContainer" width="100%" height="90%">
-                        
-
-                        <BarChart
-                            width={500}
-                            height={300}
-                            data={this.props.forecast}
-                            margin={{
-                                top: 8,
-                                right: 25,
-                                left: -25,
-                                bottom: 10
-                            }}
-                            onMouseMove={(state) => {
-                                if (state.isTooltipActive) {
-                                    this.setState({ focusBar: state.activeTooltipIndex, mouseLeave: false });
-                                } else {
-                                    this.setState({ focusBar: null, mouseLeave: true })
-                                }
-                            }}>
-                            <XAxis dataKey="time" />
-                            <XAxis
-                                dataKey="localTime"
-                                axisLine={false}
-                                tickLine={false}
-                                interval={0}
-                                tick={renderDateTick}
-                                height={1}
-                                scale="band"
-                                xAxisId="Date" />
-                            <YAxis
-                                type="number"
-                                margin={{
-                                    top: 5,
-                                    right: 10,
-                                    left: 0,
-                                    bottom: 5
-                                }} />
-                            <Tooltip
-                                wrapperStyle={toolTipGlassMorphism}
-                                content={< WindInfoTooltip />}
-                                cursor={false} />
-
-                            <Bar dataKey="windSpeed" shape={<WindBarb data={this.state} />} >
-
-                            </Bar>
-                        </BarChart>
-                    </ResponsiveContainer>
-                </MediaQuery>
             </Fragment>
         );
     }

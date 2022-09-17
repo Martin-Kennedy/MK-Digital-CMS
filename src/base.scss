@@ -495,7 +495,7 @@ body {
         opacity: 0.5;
         letter-spacing: 0.1vw;
         @media(max-width: 996px) {
-            font-size: 2.25vw;
+            font-size: 1.25vw;
             opacity: 0.6;
         }
     }
@@ -587,6 +587,32 @@ body {
         stroke: 1px solid #fff;
         opacity: 0.6;
     }
+    @media(max-width: 996px) {
+        text {
+            font-size: 1vw;
+
+            tspan {
+                font-size: 1vw;
+                font-weight: 500;
+                opacity: .7;
+                margin-left: 1px;
+                margin-top: 2px;
+            }
+        }
+    }
+        @media(max-width: 768px) {
+            text {
+                font-size: 1.5vw;
+    
+                tspan {
+                    font-size: 1.5vw;
+                    font-weight: 500;
+                    opacity: .7;
+                    margin-left: 1px;
+                    margin-top: 2px;
+                }
+            }
+        }
 }
 
 .sunGraph .recharts-cartesian-axis-ticks {
@@ -697,14 +723,17 @@ select.minimal {
     position: relative;
     top: 2px;
 }
-
+:not(.surf-app-multi-view) {
 .swellForecastContainer,
-.windForecastContainer {
-    @media(max-width: 768px) {
-        min-width: 1400px !important;
-        height: 75% !important;
+    .windForecastContainer {
+        @media(max-width: 768px) {
+            min-width: 1400px !important;
+            height: 75% !important;
+        }
     }
 }
+
+
 
 .closedModal {
     display: none !important;
@@ -764,7 +793,7 @@ select.minimal {
 }
 
 
-.multiViewSwellChart, .windForecastContainer {
+.multiViewSwellChart, .surf-app-multi-view .windForecastContainer {
     &:hover, &:active {
         svg {
             cursor: pointer;
@@ -783,6 +812,32 @@ select.minimal {
             margin-top: 2px; 
         }
     }
+        @media(max-width: 996px) {
+            text {
+                    font-size: 1vw;
+            
+                    tspan {
+                        font-size: 1vw;
+                        font-weight: 500;
+                        opacity: .7;
+                        margin-left: 1px;
+                        margin-top: 2px;
+                    }
+                }
+        }
+                 @media(max-width: 775px) {
+                     text {
+                         font-size: 1.5vw;
+        
+                         tspan {
+                             font-size: 1.5vw;
+                             font-weight: 500;
+                             opacity: .7;
+                             margin-left: 1px;
+                             margin-top: 2px;
+                         }
+                     }
+                 }
 
    }
 }

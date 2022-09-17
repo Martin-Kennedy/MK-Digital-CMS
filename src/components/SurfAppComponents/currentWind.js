@@ -325,10 +325,10 @@ function degToCompass(num) {
 }
 
 export const CurrWindDataComponent = (props) => {
-    const finalDeg = Object.prototype.toString.call(props.weatherForecast) === '[object Object]' ? props.weatherForecast.current.wind_deg - 180 : props.msWindForecast.wind.direction - 90;
+    const finalDeg = Object.prototype.toString.call(props.weatherForecast) === '[object Object]' ? props.weatherForecast.current.wind_deg - 90 : props.msWindForecast.wind.direction - 90;
     const windSpeed = Object.prototype.toString.call(props.weatherForecast) === '[object Object]' ? parseInt(props.weatherForecast.current.wind_speed) : parseInt(props.msWindForecast.wind.speed);
     const windGust = parseInt(props.msWindForecast.wind.gusts);
-    const direction = Object.prototype.toString.call(props.weatherForecast) === '[object Object]' ? props.weatherForecast.current.wind_deg : props.msWindForecast.wind.direction + 90;
+    const direction = Object.prototype.toString.call(props.weatherForecast) === '[object Object]' ? props.weatherForecast.current.wind_deg + 90 : props.msWindForecast.wind.direction + 90;
     const rotationArr = [
         -40,
         -90,
