@@ -37,9 +37,7 @@ body::-webkit-scrollbar-thumb {
 
 .surf-app {
     overflow-y: hidden;
-    @media(max-width: 996px) {
-        overflow-y: overlay;
-    }
+   
 }
 
 .surf-app::-webkit-scrollbar {

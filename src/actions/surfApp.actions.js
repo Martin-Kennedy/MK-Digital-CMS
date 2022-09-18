@@ -330,7 +330,7 @@ export const getMultiViewForecast = (value) => {
                 surfSpotsSliced.map((item, i) => {
                     
                     arr.push({
-                        country: item.countryOrState,
+                        countryOrState: item.countryOrState,
                         town: item.town,
                         distanceFromLocation: item.distanceFromLocation,
                         lat: item.lat,
@@ -351,7 +351,7 @@ export const getMultiViewForecast = (value) => {
                     results.map((item, i) => {
                         
                         arr.push({
-                            country: item.country,
+                            countryOrState: item.countryOrState,
                             town: item.town,
                             distanceFromLocation: item.distanceFromLocation,
                             lat: item.lat,
@@ -427,7 +427,7 @@ export const getMultiViewSwellForecast = (data) => {
             return hourlySwellForecast.then((data) => {
 
                 const spotSwellForecast = {
-                    country: item.country,
+                    countryOrState: item.countryOrState,
                     town: item.town,
                     distanceFromLocation: item.distanceFromLocation,
                     lat: item.lat,
@@ -579,7 +579,6 @@ export const getTideStations = (value) => {
 }
 
 export const getTideForecast = (data) => {
-    console.log(data)
     const fullURL = `${data.apiEndpoints.urlProxy}/${data.apiEndpoints.tidesAndCurrentsUrl}`;
     const tideApiUrlMlw = `${fullURL}date=today&station=${data.tideStations[0].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
     const tideApiUrlMlw2 = `${fullURL}date=today&station=${data.tideStations[1].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;

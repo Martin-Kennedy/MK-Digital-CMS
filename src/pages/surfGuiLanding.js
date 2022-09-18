@@ -57,12 +57,13 @@ import SurfGUIMultiSpotViewContainer from '../pages/surfGuiMultiSpotView';
 import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
 import { Link } from 'react-router-dom';
+import { SurfAppToolTipComponent } from '../helpers/toolTipComponent';
 
 const SurfGUILandingContainer = styled(Row)`
 background-color: #0f2a46;
 background-image: linear-gradient(0deg, #0f2a46 0%, #022f5c 50%, #061a2e 100%);
 height: 100%;
-min-height: 600px;
+min-height: ${window.innerHeight}px;
 z-index: 1;
 `
 const DataContainer = styled(Row)`
@@ -375,10 +376,9 @@ position: fixed;
       margin-left: 0;
       padding: 0;
       li {
-          font-size: 2.5vw;
+          font-size: 2vw;
            &:hover, &:focus {
             cursor: pointer;
-         font-size: 2vw;
          opacity: 0.9;
 
         }
@@ -612,8 +612,7 @@ margin-top: 1.25vw;
 `;
 
 const CloseSpotIconContainer = styled(SpotSearchContainer)`
-margin-left: 7%;
-margin-right: 7%;
+margin: 0 6vw;
 `
 
 const MultiSpotIconContainer = styled(SpotSearchContainer)`
@@ -1047,27 +1046,35 @@ class SurfGUILanding extends Component {
                                 <Col md={1}>
                                     <MenuNavBkg >
                                         <HomeIconContainer to={`/`}>
+                                            <SurfAppToolTipComponent message={"Home Page"} placement={"right"}>
                                             <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <HomeIconSVGPath />
                                             </HomeIcon>
+                                            </SurfAppToolTipComponent>
                                         </HomeIconContainer>
                                         <SpotSearchContainer
                                             onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
+                                            <SurfAppToolTipComponent message={"Surf Spot Search"} placement={"right"}>
                                             <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <SpotSearchSVGPath />
                                             </SpotSearchIcon>
+                                            </SurfAppToolTipComponent>
                                         </SpotSearchContainer>
                                         <SpotSearchContainer
                                             onClick={() => this.props.loadView(MULTI_VIEW)}>
+                                            <SurfAppToolTipComponent message={"Multi-spot Forecast"} placement={"right"}>
                                             <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <MultiSpotsSVGPath />
                                             </SpotSearchIcon>
+                                            </SurfAppToolTipComponent>
                                         </SpotSearchContainer>
                                         <CloseSpotIconContainerDesktop
                                             onClick={() => this.props.loadView(SINGLE_VIEW)}>
+                                            <SurfAppToolTipComponent message={"Close Surf Spots"} placement={"right"}>
                                             <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <CloseSpotsSVGPath />
                                             </CloseSpotIcon>
+                                            </SurfAppToolTipComponent>
                                         </CloseSpotIconContainerDesktop>
                                     </MenuNavBkg>
                                 </Col>
@@ -1272,7 +1279,6 @@ class SurfGUILanding extends Component {
                                     <RightNavBkg >
                                         <Title>
                                             <p>Surf Spots Near You</p>
-                                            <span>within a 100km radius</span>
                                         </Title>
                                         <Row>
                                             <ul>
@@ -1329,7 +1335,6 @@ class SurfGUILanding extends Component {
                                     <RightNavMobileContent>
                                         <Title>
                                             <p>Surf Spots Near You</p>
-                                            <span>within a 100km radius</span>
                                         </Title>
                                         <Row>
                                             <ul>

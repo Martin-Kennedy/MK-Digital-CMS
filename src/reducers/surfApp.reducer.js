@@ -70,8 +70,9 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 return action
                     .payload
                     .filter((d) => {
-                        return d.timestamp < now;
+                        return d.timestamp * 1000 < now;
                     })
+
             }
             const getFutureConditions = () => {
 

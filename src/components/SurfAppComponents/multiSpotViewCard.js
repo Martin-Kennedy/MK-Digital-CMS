@@ -58,7 +58,7 @@ padding: .5vh;
 `
 const Cell = styled(BackDrop)`
 display: flex;
-height: fit-content;
+height: calc(33vh / 3.85);
 mix-blend-mode:  multiply;
 background: rgba(255, 255, 255, 0.04);
 &:first-child {
@@ -112,6 +112,11 @@ line-height: .65vw;
    line-height: 1.3vw;
    padding: 0 0 0 0.8vw;
 }
+@media(max-width:${variables.small}){
+   font-size: 2.25vw;
+   line-height: 2.3vw;
+   padding: 0 0 0 0.8vw;
+}
 `
 
 const SwellKeyColor = styled.svg`
@@ -119,6 +124,9 @@ const SwellKeyColor = styled.svg`
     height:  1vh;
     margin-right: .5vw;
     margin-bottom: .5vh;
+    @media(max-width: ${variables.medium}){
+margin-right: 1vw;
+}
 `
 const PrimarySwell = styled.div`
 height: fit-content;
@@ -140,10 +148,16 @@ ${SwellKeyColor} {
     margin: 2vh 0 .4vh 0;
 }
 @media(max-width: ${variables.medium}){
-    margin: 2vh 0 .4vh 0;
-    font-size: 2vw;
+margin: 2vh 0 .4vh 0;
+font-size: 2vw;
 letter-spacing: .1vh;
 line-height: 2vw;
+}
+@media(max-width: ${variables.small}){
+margin: 2vh 0 .4vh 0;
+font-size: 2.5vw;
+letter-spacing: .1vh;
+line-height: 2.5vw;
 }
 `
 
@@ -156,15 +170,30 @@ font-size: 1.2vh;
 font-weight: 200;
 }
 @media(max-width: ${variables.medium}){
-    margin: 2vh 0 1.5vw 0;
-    font-size: 2vw;
+margin: 2vh 0 1.5vw 0;
+font-size: 2vw;
 letter-spacing: .1vh;
 line-height: 3vw;
+span {
+font-size: 1.52vh;
+}
+}
+@media(max-width: ${variables.small}){
+margin: 6vh 0 1.5vw 0;
+font-size: 2.5vw;
+line-height: 2.5vw;
+span {
+font-size: 1.75vh;
+}
 }
 `
 
 const SecondarySwell = styled(PrimarySwell)`
 margin-top: 0;
+@media(max-width: ${variables.small}){
+margin-bottom: 4vw;
+}
+
 ${SwellKeyColor}  {
     rect {
         fill: #307AD9;
@@ -178,16 +207,41 @@ display: flex;
 position: absolute;
 font-size: 1vh;
 line-height: 1vh;
-color: rgba(255,255,255,0.8);
+color: rgba(255,255,255,0.7);
 margin-left: .15vw;
 div {
     width: fit-content;
     margin-right: .25vw;
 }
+@media(max-width: ${variables.medium}){
+    margin-right: .45vw;
+    font-size: 1.15vh;
+    line-height: 1.25vh;
+    }
+@media(max-width: ${variables.small}){
+    div {
+        margin-right: 1vw;
+    }
+    font-size: 1.25vh;
+line-height: 1.25vh;
+
+    }
+
+
 ${SwellKeyColor}{
     width: .75vh;
     height:  .75vh;
-    margin-right: .25vw;
+    margin-right: .35vw;
+    @media(max-width: ${variables.medium}){
+        margin-right: .45vw;
+        width: 1vh;
+    height:  1vh;
+    }
+    @media(max-width: ${variables.small}){
+        margin-right: .6vw;
+        width: 1vh;
+        height:  1vh;
+        }
 }
 ${SwellKeyColor}:first-child  {
     rect {
@@ -241,7 +295,7 @@ transition: .15s ease-in;
     height: calc(30vw - 1vw);
     min-height: 275px;
     min-height: 350px;
-    margin: 0 1vw 1vw .5vw;
+    margin: 0 1vw 2vw .5vw;
 }
 `
 
@@ -490,6 +544,13 @@ letter-spacing: .25vw;
 display: block;
 width: fit-content;
 }
+@media(max-width: ${variables.small}){
+font-size: 3.25vw;
+line-height: 3.25vw;
+letter-spacing: .25vw;
+display: block;
+width: fit-content;
+}
 `
 const Distance = styled.div `
 color: var(--white);
@@ -508,6 +569,11 @@ margin-left: 1.5vh;
     width: fit-content;
     margin: 0;
     margin-left: 1.5vh;
+}
+@media(max-width: ${variables.small}){
+    font-size: 2.25vw;
+    margin-top: 1.5vw;
+    line-height: 2vw;
 }
 `
 
@@ -646,13 +712,13 @@ render(){
     return this.props
         .multiViewSwellForecast
         .map((spot, i) => {
-
+            
             const getCurrentConditions = (data) => {
 
                 const now = moment.utc().valueOf();
                 
                 const currentData =  data.filter((d) => {
-                    return (d.timeUTC / 1000) < now;
+                    return d.timeUTC < now;
                 })
                 return currentData;
             }
@@ -711,8 +777,9 @@ render(){
                 <ChartRow>
                     <TitleCol xs={12}>
                         <Row>
-                            <MultiViewCardColumn xs={5} md={6}>
-                                <Location>{spot.town}, {spot.country}</Location>
+                            <MultiViewCardColumn xs={5} >
+                              
+                                <Location>{spot.town}, {spot.countryOrState}</Location>
                                 <Distance>{`${convertMilesToKM(spot.distanceFromLocation)} miles away`}</Distance>
                                 <WaveHeightWrapper>
                                     <p>
@@ -734,10 +801,10 @@ render(){
                                 </ConditionsWrapper>
                             </MultiViewCardColumn>
 
-                            <MultiViewCardColumn xs={7} md={6}>
+                            <MultiViewCardColumn xs={7} >
                                 <Cell>
 
-                                    <CellCol xs={6} md={7}>
+                                    <CellCol xs={7} >
                                         <TitleIconRow>
                                             <SwellIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                 <SwellSVGPath />
@@ -755,7 +822,7 @@ render(){
                                             {currentMultiViewConditions.secondaryHeight ? <Fragment><SwellKeyColor><rect width="100%" height="100%" /></SwellKeyColor><div>Secondary</div></Fragment> : null}
                                         </SwellKey>
                                     </CellCol>
-                                    <CellCol xs={6} md={5}>
+                                    <CellCol xs={5}>
                                         <CurrDataComponentMultiContainer>
 
 

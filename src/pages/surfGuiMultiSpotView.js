@@ -24,6 +24,7 @@ import {CloseButtonSVGPath} from '../components/designElementComponents/closeBut
 import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
 import {Link} from 'react-router-dom';
+import { SurfAppToolTipComponent } from '../helpers/toolTipComponent';
 
 const SurfGUIMultiSpotViewContainer = styled(Row)`
 height: 100%;
@@ -308,12 +309,12 @@ padding: 0;
 
 
 const CloseSpotIconContainer = styled(SpotSearchContainer)`
-margin-left: 7%;
-margin-right: 7%;
+margin-left: 7vw;
+margin-right: 7vw;
 `
 
 const MultiSpotIconContainer = styled(SpotSearchContainer)`
-margin-left: 65%;
+margin-left: auto;
 margin-right: 0;
 `;
 
@@ -418,32 +419,40 @@ class SurfGUIMultiSpotView extends Component {
                 {this.props.surf.multiViewSwellForecast ? 
                 <Fragment>
                         <MediaQuery maxWidth={variables.large}>
-                            {console.log(this.props)}
+                           
                             <DataDashboardRowMenuMobile>
                                 <MenuNavBkgMobile >
                                     <HomeIconContainer to={`/`}>
+                                        <SurfAppToolTipComponent message={"Home Page"} placement={"right"}>
                                         <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
                                             <HomeIconSVGPath />
 
                                         </HomeIcon>
+                                        </SurfAppToolTipComponent> 
                                     </HomeIconContainer>
                                     <MultiSpotIconContainer
                                         onClick={() => this.props.dispatch(loadView(MULTI_VIEW))}>
+                                        <SurfAppToolTipComponent message={"Multi-spot forecast."} placement={"left"}>
                                         <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                             <MultiSpotsSVGPath />
                                         </SpotSearchIcon>
+                                        </SurfAppToolTipComponent> 
                                     </MultiSpotIconContainer>
                                     <CloseSpotIconContainer
                                         onClick={() => this.props.dispatch(closeSpotsOpenState(this.props.surf.isCloseSpotsOpen))}>
+                                        <SurfAppToolTipComponent message={"Closest Surf Spots"} placement={"left"}>
                                         <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">
                                             <CloseSpotsSVGPath />
                                         </CloseSpotIcon>
+                                        </SurfAppToolTipComponent>
                                     </CloseSpotIconContainer>
                                     <SpotSearchContainer
                                         onClick={() => this.props.dispatch(searchOpenState(this.props.surf.isSearchOpen))}>
+                                        <SurfAppToolTipComponent message={"Surf Spot Search"} placement={"left"}>
                                         <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                             <SpotSearchSVGPath />
                                         </SpotSearchIcon>
+                                        </SurfAppToolTipComponent>
                                     </SpotSearchContainer>
                                 </MenuNavBkgMobile>
                             </DataDashboardRowMenuMobile>
