@@ -55,6 +55,5 @@ export const GET_MAX_WAVE_HEIGHT_MULTI_VIEW = 'GET_MAX_WAVE_HEIGHT_MULTI_VIEW';
 export const GET_ACTIVE_SURF_SPOT = 'GET_ACTIVE_SURF_SPOT';
 export const GET_LAT = 'GET_LAT';
 export const GET_LNG = 'GET_LNG';
-
 export const MULTI_VIEW = 'MULTI_VIEW';
 export const SINGLE_VIEW = 'SINGLE_VIEW';

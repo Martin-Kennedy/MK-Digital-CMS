@@ -199,7 +199,7 @@ export default class SwellBarChartMultiView extends PureComponent {
                                 top: 8,
                                 right: -5,
                                 left: -42,
-                                bottom: -15
+                                bottom: -8
                             }}
                         >
                             <XAxis dataKey="time" />

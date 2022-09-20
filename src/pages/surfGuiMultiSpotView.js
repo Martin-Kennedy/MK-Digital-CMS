@@ -25,6 +25,7 @@ import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
 import {Link} from 'react-router-dom';
 import { SurfAppToolTipComponent } from '../helpers/toolTipComponent';
+import { MULTI_VIEW } from '../helpers/types';
 
 const SurfGUIMultiSpotViewContainer = styled(Row)`
 height: 100%;
@@ -390,6 +391,7 @@ class SurfGUIMultiSpotView extends Component {
             .body
             .classList
             .add('surf-app-multi-view');
+       
     }
     componentWillUnmount() {
         document

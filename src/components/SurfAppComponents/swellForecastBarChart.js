@@ -23,8 +23,25 @@ const SwellChartToolTip = styled.div `
 
 `
 
-const toolTipGlassMorphism = {
+const toolTipGlassMorphismDesktop = {
     width: '13vw',
+    height: '20.5vh',
+    borderRadius: '5px',
+    background: 'rgba(255, 255, 255, 0.05)',
+    backdropFilter: 'blur(4px)',
+    border: '1px solid rgba(255, 255, 255, 0.15)',
+    borderRightColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)',
+    padding: '15px',
+    position: 'relative',
+    top: '-20vh',
+    color: 'white',
+    zIndex: '4'
+}
+
+const toolTipGlassMorphismMobile = {
+    width: '20vh',
     height: '20.5vh',
     borderRadius: '5px',
     background: 'rgba(255, 255, 255, 0.05)',
@@ -149,9 +166,16 @@ export default class SwellBarChart extends PureComponent {
         super(props);
         this.state = {
             focusBar: null,
-            mouseLeave: true
-
+            mouseLeave: true,
+            matches: window.matchMedia("(min-width: 768px)").matches
         };
+    }
+
+
+
+    componentDidMount() {
+        const handler = e => this.setState({ matches: e.matches });
+        window.matchMedia("(max-width: 768px)").addEventListener('change', handler);
     }
 
     render() {
@@ -199,7 +223,7 @@ export default class SwellBarChart extends PureComponent {
                         bottom: 5
                     }}/>
                     <Tooltip
-                        wrapperStyle={toolTipGlassMorphism}
+                        wrapperStyle={toolTipGlassMorphismMobile}
                         content={< SwellInfoTooltip />}
                         cursor={false}/>
                     <Bar dataKey="maxBreakingHeight" fill="#7ecaed">
@@ -257,7 +281,7 @@ export default class SwellBarChart extends PureComponent {
                                     bottom: 5
                                 }} />
                             <Tooltip
-                                wrapperStyle={toolTipGlassMorphism}
+                                wrapperStyle={toolTipGlassMorphismDesktop}
                                 content={< SwellInfoTooltip />}
                                 cursor={false} />
                             <Bar dataKey="maxBreakingHeight" fill="#7ecaed">

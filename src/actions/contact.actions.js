@@ -17,7 +17,7 @@ export const getContact = (token) => {
                     }
                 }`
         }
-        return axios.post(process.env.CMS_BACKEND, bodyParameters, config)
+        return axios.post('https://mk-digital-cms.herokuapp.com/admin/api', bodyParameters, config)
             .then(response => {
                 return response.data
             })

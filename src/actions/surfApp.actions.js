@@ -145,9 +145,11 @@ export const getLocationsObject = (jsonUrl) => {
 }
 
 const latLng = (fullURL) => new Promise((res, rej) => {
+    
     navigator
         .geolocation
         .getCurrentPosition(function (position) {
+           
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
@@ -159,9 +161,11 @@ const latLng = (fullURL) => new Promise((res, rej) => {
 
             res(coords);
         }, (error) => {
+            
             const coords = {
                 latitude: 39.5316467,
                 longitude: -74.2620961,
+                jsonURL: fullURL,
                 error: {
                     code: error.code,
                     message: error.message
@@ -187,7 +191,6 @@ const getCloseSurfSpotsArr = (locationsAndCoords) => {
     const defaultLat = 39.5316467;
     const defaultLng = -74.2620961;
     const _obj = locationsAndCoords.locations;
-
     return new Promise((resolve) => {
         const data = Object.keys(_obj);
         resolve(data)

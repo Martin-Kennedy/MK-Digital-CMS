@@ -190,7 +190,7 @@ export default class WindBarChartMultiView extends PureComponent {
                                 top: 5,
                                 right: -5,
                                 left: -42,
-                                bottom: -15
+                                bottom: -8
                             }}
                         >
                             <XAxis dataKey="time" />

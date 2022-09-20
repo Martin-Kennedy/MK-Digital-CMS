@@ -199,7 +199,7 @@ export const ContactForm = () => {
                     </FormRow>
                     <FormRow>
                         <StyledReCAPTCHA
-                        sitekey={process.env.RECAPTCHA}
+                        sitekey={'6LcrxNwfAAAAAOIl4NGttRCHXdfP9iJX-26cxrYf'}
                         onSubmit={onSubmit}
                         name="g-recaptcha-response"/>
                         <ContactFormButton 

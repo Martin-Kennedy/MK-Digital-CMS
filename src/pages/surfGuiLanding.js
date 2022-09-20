@@ -175,6 +175,9 @@ z-index: 12;
    @media(max-width:${variables.medium}){
         padding: 2vw;
     }
+    @media(max-width:${variables.medium}){
+        top: 3vh;
+    }
 `
 const SwellChartContainer = styled.div`
 margin-left: 0;
@@ -385,6 +388,21 @@ position: fixed;
       }
   }
 }
+
+@media(max-width: ${variables.small}){
+     ul {
+      margin-left: 0;
+      padding: 0;
+      li {
+          font-size: 3.5vw;
+           &:hover, &:focus {
+            cursor: pointer;
+         opacity: 0.9;
+
+        }
+      }
+  }
+}
 `
 const RightNavMobileContent = styled.div`
 margin-top: 8vh;
@@ -584,26 +602,34 @@ padding: 0;
 `
 
 const SpotSearchContainer = styled.div`
-width: 2.5vw;
-height: 2.5vw;
+width: 3vw;
+height: 3vw;
 position: relative;
 padding: 0;
 margin-bottom: min(1.25vw, 10px);
-max-width: 35px;
-max-height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 @media(max-width: ${variables.large}){
     width: 5vw;
     height: 5vw;
 }
+@media(max-width: ${variables.medium}){
+    width: 7vw;
+    height: 7vw;
+}
 `
 
 const HomeIconContainer = styled(Link)`
-width: 2.5vw;
-height: 2.5vw;
+width: 3vw;
+height: 3vw;
 display: block;
 padding: 0;
-margin-bottom: 1.25vw;
+margin-bottom: min(1.25vw, 10px);
 margin-top: 1.25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 @media(max-width: ${variables.large}){
     width: 7vw;
     height: 7vw;
@@ -616,7 +642,7 @@ margin: 0 6vw;
 `
 
 const MultiSpotIconContainer = styled(SpotSearchContainer)`
-margin-left: 65%;
+margin-left: auto;
 margin-right: 0;
 `;
 
@@ -1052,14 +1078,7 @@ class SurfGUILanding extends Component {
                                             </HomeIcon>
                                             </SurfAppToolTipComponent>
                                         </HomeIconContainer>
-                                        <SpotSearchContainer
-                                            onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
-                                            <SurfAppToolTipComponent message={"Surf Spot Search"} placement={"right"}>
-                                            <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                                <SpotSearchSVGPath />
-                                            </SpotSearchIcon>
-                                            </SurfAppToolTipComponent>
-                                        </SpotSearchContainer>
+                                      
                                         <SpotSearchContainer
                                             onClick={() => this.props.loadView(MULTI_VIEW)}>
                                             <SurfAppToolTipComponent message={"Multi-spot Forecast"} placement={"right"}>
@@ -1076,9 +1095,18 @@ class SurfGUILanding extends Component {
                                             </CloseSpotIcon>
                                             </SurfAppToolTipComponent>
                                         </CloseSpotIconContainerDesktop>
+                                        <SpotSearchContainer
+                                            onClick={() => this.props.searchOpenState(this.props.surf.isSearchOpen)}>
+                                            <SurfAppToolTipComponent message={"Surf Spot Search"} placement={"right"}>
+                                                <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                    <SpotSearchSVGPath />
+                                                </SpotSearchIcon>
+                                            </SurfAppToolTipComponent>
+                                        </SpotSearchContainer>
                                     </MenuNavBkg>
                                 </Col>
                             </MediaQuery>
+                           
                             <ErrorAlertBar
                                 className={this.state.geoLocationModalClosed === true || Array.isArray(this.props.surf.geoLocationError)
                                     ? "closedModal"

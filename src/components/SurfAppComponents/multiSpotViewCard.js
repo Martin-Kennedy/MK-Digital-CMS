@@ -155,7 +155,7 @@ line-height: 2vw;
 }
 @media(max-width: ${variables.small}){
 margin: 2vh 0 .4vh 0;
-font-size: 2.5vw;
+font-size: 2vw;
 letter-spacing: .1vh;
 line-height: 2.5vw;
 }
@@ -179,7 +179,7 @@ font-size: 1.52vh;
 }
 }
 @media(max-width: ${variables.small}){
-margin: 6vh 0 1.5vw 0;
+margin: 3vh 0 1.5vw 0;
 font-size: 2.5vw;
 line-height: 2.5vw;
 span {
@@ -191,7 +191,7 @@ font-size: 1.75vh;
 const SecondarySwell = styled(PrimarySwell)`
 margin-top: 0;
 @media(max-width: ${variables.small}){
-margin-bottom: 4vw;
+margin-bottom: 1vw;
 }
 
 ${SwellKeyColor}  {
@@ -222,8 +222,9 @@ div {
     div {
         margin-right: 1vw;
     }
-    font-size: 1.25vh;
-line-height: 1.25vh;
+    font-size: 2vw;
+letter-spacing: .1vh;
+line-height: 2vw;
 
     }
 
@@ -239,8 +240,8 @@ ${SwellKeyColor}{
     }
     @media(max-width: ${variables.small}){
         margin-right: .6vw;
-        width: 1vh;
-        height:  1vh;
+        width: .75vh;
+        height:  .75vh;
         }
 }
 ${SwellKeyColor}:first-child  {
@@ -293,8 +294,13 @@ transition: .15s ease-in;
 @media(max-width: ${variables.medium}){
     width: calc(100% - 1.5vw);
     height: calc(30vw - 1vw);
-    min-height: 275px;
+
     min-height: 350px;
+    margin: 0 1vw 2vw .5vw;
+}
+@media(max-width: ${variables.small}){
+    width: calc(100% - 1.5vw);
+    min-height: calc(39vh - 1vw);
     margin: 0 1vw 2vw .5vw;
 }
 `
@@ -368,7 +374,16 @@ span {
     margin-left: .5vw;
     font-size: 3vw;
     font-weight: 400;
-}
+    }
+    @media(max-width:${variables.small}){
+    font-size: 8vw;
+    line-height: 6vw;
+    padding: 0;
+    span {
+    margin-left: .5vw;
+    font-size: 3vw;
+    font-weight: 400;
+    }
     }
 }
 `
