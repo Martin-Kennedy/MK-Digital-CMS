@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import ReCAPTCHA from "react-google-recaptcha";
 import {sendForm} from 'emailjs-com';
 import {Row, Col} from 'react-bootstrap';
+import MediaQuery from 'react-responsive';
+import variables from '../..//variables.module.scss';
 
 
 const FormRow = styled(Row)`
@@ -120,6 +122,71 @@ margin-top: 40px;
     background-color: transparent;
 }
 `
+
+const MessageBar = styled.div`
+height: 8vh;
+position: absolute;
+justify-content: center;
+align-items: center;
+padding: 1vw;
+width: 64.333%;
+margin: -10vh auto 0 auto;
+display: flex;
+z-index: 12;
+background-color: var(--white);
+border: 1px solid var(--black);
+margin-right: calc(var(--bs-gutter-x) * .5);
+margin-left: calc(var(--bs-gutter-x) * .5);
+ span {
+    width: 60%;
+    color: var(--black);
+    z-index: 12;
+    font-size: 20px;
+    line-height: 8vw;
+    font-weight: 500;
+    @media(max-width:${variables.medium}){
+        line-height: 4vw;
+    }
+ }
+   @media(max-width:${variables.medium}){
+            top: 20vh;
+            position: fixed;
+            margin: 0 auto;
+            width: 65.333%;
+    }
+`
+
+
+const CloseButton = styled.div`
+display: flex;
+align-content: center;
+justify-content: center;
+background: rgba(183, 32,32, 0.8);
+z-index: 15;
+font-size: 14px;
+font-weight: 500;
+width: 10vw;
+height: 6vh;
+letter-spacing: 1.5px;
+line-height: 6vh;
+margin: 0 0 0 auto;
+position: relative;
+color: var(--white);
+text-transform: uppercase;
+font-weight: 500;
+&:hover, &:active {
+cursor: pointer;
+}
+
+@media(max-width: ${variables.medium}){
+    font-size: 14px;
+    line-height: 4vh;
+    width: 20%;
+    line-height: 6vh;
+    font-weight: 600;
+}
+`
+
 export const ContactForm = () => {
     const [toSend,
         setToSend] = useState({
@@ -131,10 +198,22 @@ export const ContactForm = () => {
         message: ''
     });
 
+    const [closedModal,
+        setClosedModal] = useState(true);
+
     const onSubmit = (e) => {
         e.preventDefault();
 
         sendForm('service_cnqld15', 'template_m08ndgf', 'form', 'UZj0hTmyzrNYDI30y').then((response) => {
+            setToSend({
+                first_name: '',
+                last_name: '',
+                email: '',
+                phone: '',
+                subject: '',
+                message: ''
+            });
+            setClosedModal(false)
         }).catch((err) => {
             console.log('FAILED...', err);
         });
@@ -149,6 +228,16 @@ export const ContactForm = () => {
     };
     return (
         <Fragment>
+            <MessageBar
+                className={closedModal === true
+                    ? "closedModal"
+                    : null}>
+                <span>Thank you for reaching out!</span>
+                <CloseButton
+                    onClick={() => {
+                        setClosedModal(true)
+                    }}>Close</CloseButton>
+            </MessageBar>
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             <Col xs={1}></Col>
             <Col>
