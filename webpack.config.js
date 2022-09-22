@@ -1,7 +1,6 @@
 const path = require('path');
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
 
 
 module.exports = {
@@ -9,6 +8,7 @@ module.exports = {
   target: 'web',
   output: {
     path: path.join(__dirname, 'public'),
+    publicPath: '/',
     filename: 'bundle.js'
   },
   module: {
@@ -29,11 +29,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
   },
   plugins: [
-    new NodePolyfillPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new Dotenv({
-      systemvars: true,
-    }),
+    new NodePolyfillPlugin()
   ],
   
   resolve: {
@@ -42,6 +38,5 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true,
-    hot: true,
   }
 };

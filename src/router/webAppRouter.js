@@ -59,6 +59,7 @@ const WebAppRouter = (props) => {
     return (
         <BrowserRouter forceRefresh={true}>
             <Page fluid>
+                
                 <Switch>
                     <Route path="/" exact={true}>
                         <Home location={props}/>
