@@ -400,13 +400,16 @@ box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
 `
 
 const ConditionsWrapper = styled.div `
-width: calc(60% - 1.5vh);
+min-width: calc(60% - 1.5vh);
 margin: 2vh 0 0.5vh 1.5vh;
+max-width: fit-content;
 @media(max-width: ${variables.large}){
-    width: calc(30% - 1.5vh);
+    min-width: calc(30% - 1.5vh);
+    max-width: fit-content;
 }
 @media(max-width: ${variables.medium}){
-    width: calc(30% - 1.5vh);
+    min-width: calc(30% - 1.5vh);
+    max-width: fit-content;
 }
 
 `
@@ -518,12 +521,13 @@ letter-spacing: .2vw;
 
 const ConditionContainer = styled.div `
 border-radius: 4px;
+padding: 0 5px;
 background: ${props => (props.maxBreakingHeight > 5) && props.rating[1] < 1
-    ? 'rgba(229, 135,41, 0.8)'
-    : props.rating[0] < 1 || props.maxBreakingHeight <= 2 || props.rating[1] >= 2
-        ? 'rgba(183, 32,32, 0.8)'
-        : 'rgba(60, 214,82, 0.8)'};
-
+    ? '#DB6300'
+    : (props.minBreakingHeight >= 4) && props.rating[1] <= 2
+        ? '#DB6300' :  props.maxBreakingHeight <= 2 || props.rating[1] >= 2
+            ? '#6D32D9'
+            : '#39CC4F'};
 z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
 @media(max-width: ${variables.large}){
@@ -805,10 +809,13 @@ render(){
                                 <ConditionsWrapper>
                                     <ConditionContainer
                                         maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight}
+                                        minBreakingHeight={currentMultiViewConditions.minBreakingHeight}
                                         rating={rating}>
-                                        <RatingText>{(currentMultiViewConditions.maxBreakingHeight > 5) && (rating[1] < 1)
-                                            ? 'Good'
-                                            : rating[0] < 1 || currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
+                                        {console.log(rating[1])}
+                                        <RatingText>{(currentMultiViewConditions.maxBreakingHeight > 5) && rating[1] < 1
+                                            ? 'Very Good'
+                                            : (currentMultiViewConditions.minBreakingHeight >= 4) &&  rating[1] <= 2
+                                                ? 'Good' : currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
                                                 ? 'Poor'
                                                 : 'Fair'}
                                         </RatingText>

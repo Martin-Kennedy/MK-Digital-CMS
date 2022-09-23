@@ -139,14 +139,17 @@ margin-left: 1.5vw;
 `
 const ConditionContainer = styled.div`
 border-radius: 4px;
-background: ${props => (props.maxBreakingHeight > 5) && (props.rating[1] < 1)
-? 'rgba(229, 135,41, 0.8)' : props.rating[0] < 1 || props.maxBreakingHeight <= 2 || props.rating[1] >= 2
-    ? 'rgba(183, 32,32, 0.8)'
-    : 'rgba(60, 214,82, 0.8)'};
-
+padding: 0 5px;
+background: ${props => (props.maxBreakingHeight > 5) && props.rating[1] < 1
+        ? '#DB6300'
+        : (props.maxBreakingHeight > 5) && props.rating[1] <= 2
+            ? '#DB6300' : props.rating[0] < 1 || props.maxBreakingHeight <= 2 || props.rating[1] >= 2
+                ? '#6D32D9'
+                : '#39CC4F'};
 z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
-width: 10vw;
+min-width: 10vw;
+max-width: fit-content;
 height: 4vh;
 margin: 0 auto;
 position: absolute;
@@ -154,11 +157,12 @@ bottom: -25%;
 left: calc(50% - 5vw);
 @media(max-width: ${variables.large}){
 position: unset;
-width: calc(100% - 1vw);
+min-width: calc(100% - 1vw);
 height: 6vw;
 font-size: 3vw;
 line-height: 6vw;
 letter-spacing: .2vw;
+max-width: fit-content;
 }
 `
 
@@ -241,8 +245,9 @@ export const CurrWaveDataComponent = (props) => {
                 <Col xs={6}>
                 <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
                             <RatingText>{(props.waveData.maxBreakingHeight > 5) && (props.rating[1] < 1)
-                        ? 'Good'
-                        : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
+                                ? 'Very Good'
+                                : (props.waveData.maxBreakingHeight >= 5) && props.rating[1] <= 1
+                                    ? 'Good' : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
                             ? 'Poor'
                             : 'Fair'}
                     </RatingText>
@@ -253,11 +258,12 @@ export const CurrWaveDataComponent = (props) => {
         </WaveHeight>
         <MediaQuery minWidth={Number(variables.largeNum)}>
         <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
-                <RatingText>{( props.waveData.maxBreakingHeight > 5) && (props.rating[1] < 1)
-                    ? 'Good'
-                : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
-                        ? 'Poor'
-                        : 'Fair'}</RatingText>
+                <RatingText>{(props.waveData.maxBreakingHeight > 5) && (props.rating[1] < 1)
+                    ? 'Very Good'
+                    : (props.waveData.maxBreakingHeight >= 5) && props.rating[1] <= 1
+                        ? 'Good' : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
+                            ? 'Poor'
+                            : 'Fair'}</RatingText>
         </ConditionContainer>
         </MediaQuery>
     </WaveConditionBackdrop>
