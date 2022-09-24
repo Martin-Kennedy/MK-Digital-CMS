@@ -864,7 +864,7 @@ return(
             </WaterTempIcon>
         </TitleIconRowWeather>
         <Row>
-            {!(typeof props.surf.waterTemp) === 'NaN' ? 
+            {(typeof props.surf.waterTemp) === 'number' ? 
             <Fragment>
             <TempWeatherIconContainer>
                 <WaterTempMobileContainer>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree}
