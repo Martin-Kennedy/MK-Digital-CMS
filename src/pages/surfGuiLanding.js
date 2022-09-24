@@ -881,6 +881,8 @@ const convertMilesToKM = (km) => {
     return parseInt(miles);
 }
 
+
+
 class SurfGUILanding extends Component {
 
     constructor(props) {
@@ -1244,7 +1246,7 @@ class SurfGUILanding extends Component {
 
                                             <DataDashBoardRow>
                                                 <CurrentConditionBackdrop>
-                                                    {!Array.isArray(this.props.surf.weatherForecast)
+                                                    {!Array.isArray(this.props.surf.weatherForecast) || !Array.isArray(this.props.surf.currentConditions) 
                                                             ? <CurrWindDataComponent msWindForecast={this.props.surf.currentConditions} weatherForecast={this.props.surf.weatherForecast} />
                                                         : null}
                                                 </CurrentConditionBackdrop>

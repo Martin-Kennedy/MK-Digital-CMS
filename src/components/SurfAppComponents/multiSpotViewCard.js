@@ -513,7 +513,7 @@ width: 100%;
 margin-bottom: 0;
 color: var(--white);
 @media(max-width: ${variables.large}){
-    font-size: 2.5vh;
+    font-size: 2.25vh;
 line-height: 6vh;
 letter-spacing: .2vw;
 }
@@ -527,7 +527,8 @@ z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
 @media(max-width: ${variables.large}){
 position: absolute;
-width: calc(30% - 1.5vh);
+ min-width: calc(30% - 1.5vh);
+max-width: fit-content;
 height: 5.5vh;
 }
 `
