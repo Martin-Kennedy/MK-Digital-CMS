@@ -709,7 +709,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const getRatingText = (currentMultiViewConditions) => {
-    console.log((currentMultiViewConditions.minBreakingHeight >= 4 && currentMultiViewConditions.fadedRating <= 2));
 
         if (currentMultiViewConditions.minBreakingHeight >= 5 && currentMultiViewConditions.fadedRating < 1){
             return 'Very Good';
@@ -833,8 +832,8 @@ render(){
             let currentMultiViewConditions = getCurrentConditions(spot.swellForecast)[getCurrentConditions(spot.swellForecast).length - 1];
          
             const rating = currentMultiViewConditions ? [currentMultiViewConditions.solidRating, currentMultiViewConditions.fadedRating] : null;
-            const finalDeg = spot.currentWeather ? spot.currentWeather.current.wind_deg : currentMultiViewConditions ? currentMultiViewConditions.windDirection + 90 : null;
-            const windSpeed = spot.currentWeather ? parseInt(spot.currentWeather.current.wind_speed) : currentMultiViewConditions ? parseInt(currentMultiViewConditions.windSpeed) :null;
+            const finalDeg = spot.currentWeather ? spot.currentWeather.current.wind_deg : currentMultiViewConditions ? currentMultiViewConditions.windDirection + 180 : null;
+            const windSpeed = spot.currentWeather ? parseInt(spot.currentWeather.current.wind_speed) : currentMultiViewConditions ? parseInt(currentMultiViewConditions.windSpeed) : null;
             const compassDirection = degToCompass(finalDeg);
 
             return <CurrentConditionBackdrop key={i}

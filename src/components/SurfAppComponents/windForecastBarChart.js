@@ -142,7 +142,7 @@ const WindInfoTooltip = ({ active, payload }) => {
                     <span> {payload[0].payload.speed} - {payload[0].payload.gusts}mph</span>
                 </WindChartWaveHeight>
                 <WindChartWaveHeight>Wind Direction:
-                    <span> {payload[0].payload.compassDirection} - {payload[0].payload.direction - 180}{degree}</span>
+                    <span> {payload[0].payload.compassDirection} - {payload[0].payload.direction}{degree}</span>
                 </WindChartWaveHeight>
             </WindChartToolTip>
         );
