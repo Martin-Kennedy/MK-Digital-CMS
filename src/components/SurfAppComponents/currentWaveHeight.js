@@ -140,12 +140,7 @@ margin-left: 1.5vw;
 const ConditionContainer = styled.div`
 border-radius: 4px;
 padding: 0 5px;
-background: ${props => (props.maxBreakingHeight > 5) && props.rating[1] < 1
-        ? '#DB6300'
-        : (props.maxBreakingHeight > 5) && props.rating[1] <= 2
-            ? '#DB6300' : props.rating[0] < 1 || props.maxBreakingHeight <= 2 || props.rating[1] >= 2
-                ? '#6D32D9'
-                : '#39CC4F'};
+background: ${props => getRatingColor(props.waveData, props.rating)};
 z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
 min-width: 10vw;
@@ -208,6 +203,78 @@ const MobileRow = styled(Row)`
 margin-top: 2.5vw;
 `
 
+const getRatingText = (currentConditions) => {
+    console.log((currentConditions.waveData.minBreakingHeight >= 4 && currentConditions.rating[1] <= 2));
+
+    if (currentConditions.waveData.minBreakingHeight >= 5 && currentConditions.rating[1] < 1) {
+        return 'Very Good';
+    }
+
+    else if (currentConditions.waveData.minBreakingHeight >= 3 && currentConditions.waveData.maxBreakingHeight >= 5 && currentConditions.rating[1] < 1) {
+        return 'Good';
+    }
+
+    else if (currentConditions.waveData.minBreakingHeight >= 2 && currentConditions.waveData.maxBreakingHeight === 4 && currentConditions.rating[1] <= 2) {
+        return 'Fair - Good';
+    }
+
+    else if (currentConditions.waveData.minBreakingHeight >= 2 && currentConditions.waveData.maxBreakingHeight >= 3 && currentConditions.rating[1] <= 3) {
+        return 'Fair';
+    }
+
+    else if ((currentConditions.waveData.minBreakingHeight >= 1 && currentConditions.waveData.maxBreakingHeight <= 3) && currentConditions.rating[1] <= 3) {
+        return 'Poor - Fair';
+    }
+
+    else if ((currentConditions.waveData.minBreakingHeight >= 0 && currentConditions.waveData.maxBreakingHeight <= 2) || currentConditions.rating[1] >= 3) {
+        return 'Poor';
+    }
+
+    else if (currentConditions.waveData.maxBreakingHeight <= 1) {
+
+        return 'None';
+    }
+    else {
+        return 'None';
+    }
+
+}
+
+const getRatingColor = (currentConditions, ratingData) => {
+
+    if (currentConditions.minBreakingHeight >= 5 && ratingData[1] < 1) {
+        return '#DB2A05';
+    }
+
+    else if (currentConditions.minBreakingHeight >= 3 && currentConditions.maxBreakingHeight >= 5 && ratingData[1] < 1) {
+        return '#DB6300';
+    }
+
+    else if (currentConditions.minBreakingHeight >= 2 && currentConditions.maxBreakingHeight === 4 && ratingData[1] <= 2) {
+        return '#E6D600';
+    }
+
+    else if (currentConditions.minBreakingHeight >= 2 && currentConditions.maxBreakingHeight >= 3 && ratingData[1] <= 3) {
+        return '#39CC4F';
+    }
+
+    else if (currentConditions.minBreakingHeight >= 1 && currentConditions.maxBreakingHeight <= 3 && ratingData[1] <= 3) {
+        return '#34B3E3';
+    }
+
+    else if ((currentConditions.minBreakingHeight >= 0 && currentConditions.maxBreakingHeight <= 2) || ratingData[1] >= 3) {
+        return '#6D32D9';
+    }
+
+    else if (currentConditions.maxBreakingHeight <= 1) {
+        return '#bbb';
+    }
+    else {
+        return '#bbb';
+    }
+
+}
+
 
 export const CurrWaveDataComponent = (props) => {
     const convertMilesToKM = (km) => {
@@ -243,13 +310,8 @@ export const CurrWaveDataComponent = (props) => {
                         </Row>
                 </Col>
                 <Col xs={6}>
-                <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
-                            <RatingText>{(props.waveData.maxBreakingHeight > 5) && (props.rating[1] < 1)
-                                ? 'Very Good'
-                                : (props.waveData.maxBreakingHeight >= 5) && props.rating[1] <= 1
-                                    ? 'Good' : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
-                            ? 'Poor'
-                            : 'Fair'}
+                <ConditionContainer waveData={props.waveData} rating={props.rating} >
+                            <RatingText>{getRatingText(props)}
                     </RatingText>
                 </ConditionContainer>
                 </Col>
@@ -257,14 +319,10 @@ export const CurrWaveDataComponent = (props) => {
             </MediaQuery>
         </WaveHeight>
         <MediaQuery minWidth={Number(variables.largeNum)}>
-        <ConditionContainer maxBreakingHeight={props.waveData.maxBreakingHeight} rating={props.rating}>
-                <RatingText>{(props.waveData.maxBreakingHeight > 5) && (props.rating[1] < 1)
-                    ? 'Very Good'
-                    : (props.waveData.maxBreakingHeight >= 5) && props.rating[1] <= 1
-                        ? 'Good' : props.rating[0] < 1 || props.waveData.maxBreakingHeight <= 2 || props.rating[1] >= 2
-                            ? 'Poor'
-                            : 'Fair'}</RatingText>
-        </ConditionContainer>
+            <ConditionContainer waveData={props.waveData} rating={props.rating} >
+                <RatingText>{getRatingText(props)}
+                </RatingText>
+            </ConditionContainer>
         </MediaQuery>
     </WaveConditionBackdrop>
 

@@ -757,7 +757,7 @@ const SurfMapAndConditionsDesktop = (props) => {
                             </Fragment>
                         : null}
                 </SunPosition>
-                {!Array.isArray(props.surf.weatherForecast)
+                {!Array.isArray(props.surf.weatherForecast) 
                     ? <WaterTemp>
                             <TitleIconRow>
                                 <Title>UV Index</Title>
@@ -864,7 +864,7 @@ return(
             </WaterTempIcon>
         </TitleIconRowWeather>
         <Row>
-            {(typeof props.surf.waterTemp) === 'number' ? 
+            {!(typeof props.surf.waterTemp) === 'NaN' ? 
             <Fragment>
             <TempWeatherIconContainer>
                 <WaterTempMobileContainer>{parseInt(props.surf.waterTemp) - 2}{degree} - {parseInt(props.surf.waterTemp) + 1}{degree}
@@ -876,7 +876,11 @@ return(
                 </WeatherDescriptionRow>
             </TempWeatherDescriptionContainer>
              </Fragment>
-            : null}
+                : <TempWeatherDescriptionContainer>
+                    <WeatherDescriptionRow>
+                        <Description>Water Temp Buoy Data Unavailable</Description>
+                    </WeatherDescriptionRow>
+                </TempWeatherDescriptionContainer>}
         </Row>
     </WaterTempStandAlone>
 )
@@ -1048,7 +1052,7 @@ const UVIndexMobile = (props) => {
     return (
         
      <UVIndexContainer >
-                {!Array.isArray(props.surf.weatherForecast) && props.surf.weatherForecast.current.uvi != 0
+                {!Array.isArray(props.surf.weatherForecast)
                 ? <Fragment>
                             <TitleIconRow>
                                 <Title>UV Index</Title>

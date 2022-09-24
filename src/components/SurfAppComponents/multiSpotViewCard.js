@@ -522,12 +522,7 @@ letter-spacing: .2vw;
 const ConditionContainer = styled.div `
 border-radius: 4px;
 padding: 0 5px;
-background: ${props => (props.maxBreakingHeight > 5) && props.rating[1] < 1
-    ? '#DB6300'
-    : (props.minBreakingHeight >= 4) && props.rating[1] <= 2
-        ? '#DB6300' :  props.maxBreakingHeight <= 2 || props.rating[1] >= 2
-            ? '#6D32D9'
-            : '#39CC4F'};
+background: ${props => getRatingColor(props.currentMultiViewConditions)};
 z-index: 1;
 box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 4%), 0 12px 8px rgb(0 0 0 / 3%), 0 12px 8px rgb(0 0 0 / 3%);
 @media(max-width: ${variables.large}){
@@ -712,6 +707,78 @@ const mapDispatchToProps = dispatch => ({
     getLng: lng => dispatch(getLng(lng))
 });
 
+const getRatingText = (currentMultiViewConditions) => {
+    console.log((currentMultiViewConditions.minBreakingHeight >= 4 && currentMultiViewConditions.fadedRating <= 2));
+
+        if (currentMultiViewConditions.minBreakingHeight >= 5 && currentMultiViewConditions.fadedRating < 1){
+            return 'Very Good';
+        }
+            
+        else if (currentMultiViewConditions.minBreakingHeight >= 3 && currentMultiViewConditions.maxBreakingHeight >= 5 && currentMultiViewConditions.fadedRating < 1){
+            return 'Good';
+        }
+            
+        else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight === 4 && currentMultiViewConditions.fadedRating <= 2){
+            return 'Fair - Good';
+        }
+            
+        else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight >= 3 && currentMultiViewConditions.fadedRating <= 3){
+            return 'Fair';
+        }
+            
+        else if (currentMultiViewConditions.minBreakingHeight >= 1 && currentMultiViewConditions.maxBreakingHeight <= 3 && currentMultiViewConditions.fadedRating <= 3){
+            return 'Poor - Fair';
+        }
+            
+        else if ((currentMultiViewConditions.minBreakingHeight >= 0 && currentMultiViewConditions.maxBreakingHeight <= 2) || currentMultiViewConditions.fadedRating >= 3) {
+            return 'Poor';
+        }
+            
+        else if (currentMultiViewConditions.maxBreakingHeight <= 1){
+
+            return 'None';
+        }
+        else {
+            return 'None';
+        }
+            
+    }
+
+const getRatingColor = (currentMultiViewConditions) => {
+
+    if (currentMultiViewConditions.minBreakingHeight >= 5 && currentMultiViewConditions.fadedRating < 1) {
+        return '#DB2A05';
+    }
+
+    else if (currentMultiViewConditions.minBreakingHeight >= 3 && currentMultiViewConditions.maxBreakingHeight >= 5 && currentMultiViewConditions.fadedRating < 1) {
+        return '#DB6300';
+    }
+
+    else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight === 4 && currentMultiViewConditions.fadedRating <= 2) {
+        return '#E6D600';
+    }
+
+    else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight >= 3 && currentMultiViewConditions.fadedRating <= 3) {
+        return '#39CC4F';
+    }
+
+    else if (currentMultiViewConditions.minBreakingHeight >= 1 && currentMultiViewConditions.maxBreakingHeight <= 3 && currentMultiViewConditions.fadedRating <= 3) {
+        return '#34B3E3';
+    }
+
+    else if ((currentMultiViewConditions.minBreakingHeight >= 0 && currentMultiViewConditions.maxBreakingHeight <= 2) || currentMultiViewConditions.fadedRating >= 3) {
+        return '#6D32D9';
+    }
+
+    else if (currentMultiViewConditions.maxBreakingHeight <= 1) {
+        return '#bbb';
+    }
+    else {
+        return '#bbb';
+    }
+
+}
+
 class MultiSpotViewCard extends Component {
 
     constructor(props) {
@@ -808,16 +875,8 @@ render(){
                                 </WaveHeightWrapper>
                                 <ConditionsWrapper>
                                     <ConditionContainer
-                                        maxBreakingHeight={currentMultiViewConditions.maxBreakingHeight}
-                                        minBreakingHeight={currentMultiViewConditions.minBreakingHeight}
-                                        rating={rating}>
-                                        {console.log(rating[1])}
-                                        <RatingText>{(currentMultiViewConditions.maxBreakingHeight > 5) && rating[1] < 1
-                                            ? 'Very Good'
-                                            : (currentMultiViewConditions.minBreakingHeight >= 4) &&  rating[1] <= 2
-                                                ? 'Good' : currentMultiViewConditions.maxBreakingHeight <= 2 || rating[1] >= 2
-                                                ? 'Poor'
-                                                : 'Fair'}
+                                        currentMultiViewConditions={currentMultiViewConditions}>
+                                        <RatingText>{getRatingText(currentMultiViewConditions, rating)}
                                         </RatingText>
                                     </ConditionContainer>
                                 </ConditionsWrapper>
