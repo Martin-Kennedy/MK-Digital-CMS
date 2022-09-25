@@ -20,15 +20,11 @@ const CarouselContainer = styled.div `
     position: absolute;
     overflow: hidden;
     display: flex;
-    width: 33%;
+    width: 100vw;
     top: 0;
     height: 100vh;
-    left: 33%;
     margin: 0 auto 0 auto;
-    @media(max-width: ${variables.medium}){
-        width: 50%;
-        left: 25%;
-    }
+
 `
 
 const TopLine = styled.div `

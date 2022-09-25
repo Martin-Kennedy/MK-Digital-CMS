@@ -14,8 +14,9 @@ import {establishSession, getToken} from '../../actions/initialUtility.actions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import SwiperCore, {Autoplay} from 'swiper';
+import SwiperCore, { Pagination, EffectFade, Autoplay} from 'swiper';
 import  variables  from '../../variables.module.scss';
+
 
 const StyledCarouselProvider = styled(Swiper)`
     text-align: center;
@@ -36,10 +37,10 @@ const StyledCarouselProvider = styled(Swiper)`
 
 const SlideImage = styled.img `
     display: block;
-    width: 100%;
-    height: 66vh;
+    width: fit-content;
+    height: 100%;
     object-fit: contain;
-    margin: 16.6vh auto;
+   
       @media(max-width: ${variables.medium}){
                 width: 100%;
                 height: 66vh;
@@ -167,9 +168,7 @@ class HomepageCarouselComponent extends Component {
     }
 
     render() {
-        const params = {
-
-            direction: 'vertical',
+        const params = { 
             rewind: true,
             speed: 1000,
             updateOnImagesReady: true,
@@ -178,15 +177,23 @@ class HomepageCarouselComponent extends Component {
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true
             },
-            onUpdate: (swiper) => {
-                this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
-                this.dispatchTotalSlideCount(this.props);
-            },
-            onSlideChange: (swiper) => {
-                this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
-                this.dispatchTotalSlideCount(this.props);
-            }
-        };
+            effect: "fade",
+            spaceBetween: 100,
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            pagination: true,
+         
+            modules: [EffectFade, Pagination],
+                    onUpdate: (swiper) => {
+                        this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
+                        this.dispatchTotalSlideCount(this.props);
+                    },
+                    onSlideChange: (swiper) => {
+                        this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
+                        this.dispatchTotalSlideCount(this.props);
+                    }
+                };
 
         return (
 
@@ -194,6 +201,8 @@ class HomepageCarouselComponent extends Component {
                 {Array.isArray(this.props.orderedSlides) ? this.props.orderedSlides.map((carousel, index) => {
 
                 return <SwiperSlide
+                 
+                    
                     key={index}
                     index={index}>
                     <StyledLink to={this.getLink(carousel)}>
