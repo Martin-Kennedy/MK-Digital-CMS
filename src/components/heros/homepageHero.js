@@ -22,6 +22,7 @@ const CarouselContainer = styled.div `
     display: flex;
     width: 100vw;
     top: 0;
+    left: 0;
     height: 100vh;
     margin: 0 auto 0 auto;
 

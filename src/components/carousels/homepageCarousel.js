@@ -21,25 +21,20 @@ import  variables  from '../../variables.module.scss';
 const StyledCarouselProvider = styled(Swiper)`
     text-align: center;
     font-size: 18px;
-     @media(max-width: ${variables.small}){
-                height: 100vh;
-                margin: 0 auto;
+    width: 100vw;
+    height: 100vh;
+    
 
-        }
-         @media(max-width: ${variables.medium}){
-                height: 100vh;
-                margin: 0 auto;
 
-        }
     cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
 
     `;
 
 const SlideImage = styled.img `
     display: block;
-    width: fit-content;
-    height: 100%;
-    object-fit: contain;
+    width: 100%;
+    object-fit: cover;
+    
    
       @media(max-width: ${variables.medium}){
                 width: 100%;
@@ -53,8 +48,10 @@ const SlideImage = styled.img `
 
 const StyledLink = styled(Link)`
 cursor: pointer;
-width: 33vw;
-margin: 0 auto;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
    @media(max-width: ${variables.medium}){
                 width: 50vw;
                 left: 25vw;
