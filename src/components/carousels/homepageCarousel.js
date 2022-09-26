@@ -14,15 +14,17 @@ import {establishSession, getToken} from '../../actions/initialUtility.actions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import SwiperCore, { Pagination, EffectFade, Autoplay} from 'swiper';
+import SwiperCore, { Pagination, EffectFade, Autoplay, Navigation} from 'swiper';
 import  variables  from '../../variables.module.scss';
 
 
 const StyledCarouselProvider = styled(Swiper)`
     text-align: center;
     font-size: 18px;
+     left:0;
     width: 100vw;
     height: 100vh;
+    display: flex;
     
 
 
@@ -33,6 +35,7 @@ const StyledCarouselProvider = styled(Swiper)`
 const SlideImage = styled.img `
     display: block;
     width: 100%;
+    height: 100vh;
     object-fit: cover;
     
    
@@ -44,14 +47,21 @@ const SlideImage = styled.img `
                 width: 100%;
                 margin: 10vh auto;
         }
-`;
+`
+
+const MultipliedOverlay = styled.div`
+ position: absolute;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(191, 191, 191, 1);
+        mix-blend-mode: multiply;
+`
 
 const StyledLink = styled(Link)`
 cursor: pointer;
-    left:0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
+   
    @media(max-width: ${variables.medium}){
                 width: 50vw;
                 left: 25vw;
@@ -180,8 +190,8 @@ class HomepageCarouselComponent extends Component {
             centeredSlides: true,
             slidesPerView: "auto",
             pagination: true,
-         
-            modules: [EffectFade, Pagination],
+            navigation: true,
+            modules: [EffectFade, Pagination, Navigation],
                     onUpdate: (swiper) => {
                         this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
                         this.dispatchTotalSlideCount(this.props);
@@ -202,7 +212,7 @@ class HomepageCarouselComponent extends Component {
                     
                     key={index}
                     index={index}>
-                    <StyledLink to={this.getLink(carousel)}>
+                    
                     <SlideImage
                         ref={this.props.imageElement}
                         src={carousel.cardImage.publicUrl}
@@ -212,6 +222,9 @@ class HomepageCarouselComponent extends Component {
                         }}
                         dynamicWidth={this.props.imgWidth / 2}
                     />
+                    <MultipliedOverlay></MultipliedOverlay>
+                    <StyledLink to={this.getLink(carousel)}>
+                        {carousel.linkText ? carousel.linkText : null}
                     </StyledLink>
                 </SwiperSlide >
 
