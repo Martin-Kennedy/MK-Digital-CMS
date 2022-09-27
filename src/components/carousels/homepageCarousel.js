@@ -12,7 +12,6 @@ import {
 } from '../../actions/homepage.actions';
 import {establishSession, getToken} from '../../actions/initialUtility.actions';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore, { Pagination, EffectFade, Autoplay, Navigation} from 'swiper';
 import  variables  from '../../variables.module.scss';
@@ -59,14 +58,12 @@ const MultipliedOverlay = styled.div`
         mix-blend-mode: multiply;
 `
 
-const StyledLink = styled(Link)`
-cursor: pointer;
-   
-   @media(max-width: ${variables.medium}){
-                width: 50vw;
-                left: 25vw;
-        }
-`
+
+
+
+
+
+
 const mapStateToProps = state => {
     return {
         initialUtility: {
@@ -204,7 +201,7 @@ class HomepageCarouselComponent extends Component {
 
         return (
 
-            <StyledCarouselProvider {...params}>
+            <StyledCarouselProvider className="homePageCarousel" {...params}>
                 {Array.isArray(this.props.orderedSlides) ? this.props.orderedSlides.map((carousel, index) => {
 
                 return <SwiperSlide
@@ -223,9 +220,10 @@ class HomepageCarouselComponent extends Component {
                         dynamicWidth={this.props.imgWidth / 2}
                     />
                     <MultipliedOverlay></MultipliedOverlay>
-                    <StyledLink to={this.getLink(carousel)}>
-                        {carousel.linkText ? carousel.linkText : null}
-                    </StyledLink>
+                
+                 
+                       
+                   
                 </SwiperSlide >
 
                 }) : null

@@ -103,7 +103,7 @@ const SectionLink = styled(Link)`
     top: -10vh;
     margin: 0;
     color: var(--white);
-    font-size: 12px;
+    font-size: 1vw;
     font-weight: 500;
     text-align: center;
     line-height: 7vw;
@@ -116,6 +116,7 @@ const SectionLink = styled(Link)`
         width: 20vw;
         height: 20vw;
         line-height: 20vw;
+        font-size: 12px;
     }
 `
 

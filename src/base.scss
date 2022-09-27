@@ -851,6 +851,36 @@ select.minimal {
     }
 }
 
+.homePageCarousel {
+
+      .swiper-button-next, .swiper-button-prev {
+        width: 9vw;
+        top: 85%;
+        z-index: 9999;
+       
+      }
+      .swiper-button-next {
+        right: 10vw;
+        
+        &::after {
+            content: url("../public/rightChevron.svg");
+            width: 3vw;
+            height: 3vw;
+            
+        } 
+        
+      }
+    .swiper-button-prev {
+        left: 75vw;
+        &::after {
+                content: url("../public/leftChevron.svg");
+                width: 3vw;
+                height: 3vw;
+            }
+        }
+    
+}
+
 
 
 

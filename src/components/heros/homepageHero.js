@@ -7,6 +7,8 @@ import SlideCounterComponent from "../carousels/slideCounter";
 import MediaQuery from 'react-responsive';
 import variables from '../../variables.module.scss';
 import AnimatedText from 'react-animated-text-content';
+import { Link } from 'react-router-dom';
+
 
 const StyledHomepageHero = styled(Row)`
     height: 100vh;
@@ -26,6 +28,15 @@ const CarouselContainer = styled.div `
 `
 
 
+const StyledLink = styled(Link)`
+cursor: pointer;
+width: 100%;
+height: 100%;
+@media(max-width: ${variables.medium}){
+            width: 50vw;
+            left: 25vw;
+    }
+`
 
 const AnimatedTextContainer = styled.div`
 position: absolute;
@@ -42,7 +53,6 @@ height: 10vw;
 width: 100vw;
 z-index: 999;
 left: 0;
-
 `
 
 const StyledAnimatedText = styled(AnimatedText)`
@@ -70,6 +80,25 @@ const StyledAnimatedDescription = styled(AnimatedText)`
     width: 15vw;
     height: 100%;
 `
+const AnimatedLinkContainer = styled.div`
+    position: absolute;
+    top: 50vh;
+    height: 10vw;
+    width: 20vw;
+    z-index: 999;
+`
+
+const StyledAnimatedLink = styled(AnimatedText)`
+    font-weight: 200;
+    font-size: .9rem;
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: .3rem;
+    text-align: left;
+    margin: 0;
+    height: 100%;
+`
 
 const mapStateToProps = state => {
     return {
@@ -91,6 +120,7 @@ const getCarouselText = (orderedSlides, currentSlide) => {
 }
 
 const getCarouselDescription = (orderedSlides, currentSlide) => {
+    console.log(orderedSlides[currentSlide])
     if (orderedSlides.length) {
         const currentText = orderedSlides[currentSlide].description ? orderedSlides[currentSlide].description : "";
         return currentText;
@@ -100,6 +130,23 @@ const getCarouselDescription = (orderedSlides, currentSlide) => {
 
 const getSlides = (currentSlide, previousSlide) => {
     return {currentSlide: currentSlide, previousSlide: previousSlide}
+}
+
+const getLink = (orderedSlides, currentSlide) => {
+    if (orderedSlides[currentSlide]){
+    let title = orderedSlides[currentSlide].blogTitle !== null  ? { type: 'blog', title: orderedSlides[currentSlide].blogTitle.title } : { type: 'project', title: orderedSlides[currentSlide].clientName.client };
+    let titleSlug = title.title.replace(/\s+/g, '-');
+    return `${title.type}/${titleSlug}`
+    }
+    
+}
+
+const getLinkText = (orderedSlides, currentSlide) => {
+    if (orderedSlides[currentSlide]) {
+        let linkText = orderedSlides[currentSlide].linkText ? orderedSlides[currentSlide].linkText : "";
+        return linkText;
+    }
+
 }
 
 
@@ -150,13 +197,33 @@ class HomepageHero extends Component {
                             
                         </StyledAnimatedText>
                     </AnimatedTextContainer>
+                    <AnimatedLinkContainer>
+                        <StyledLink to={getLink(this.props.orderedSlides, this.props.currentSlide)}>
+                            <StyledAnimatedLink
+                                type="words"
+                                animation={{
+                                    x: '200px',
+                                    y: '-20px',
+                                    scale: 1.1,
+                                    ease: 'ease-in-out',
+                                }}
+
+                                interval={0.2}
+                                duration={1.2}
+                                tag="div"
+                                threshold={0.1}
+                                rootMargin="20%">
+
+                                {getLinkText(this.props.orderedSlides, this.props.currentSlide)}
+
+                            </StyledAnimatedLink>
+                        </StyledLink>
+                    </AnimatedLinkContainer>
                     
                     <AnimatedDescriptionContainer>
                         <StyledAnimatedDescription 
                         type="words" 
-                            animation={{
-                                ease: 'ease-in-out',
-                            }}
+                           
                             
                             interval={0.0}
                             duration={2}
