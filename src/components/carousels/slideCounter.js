@@ -8,9 +8,10 @@ const SlideCounterRow = styled(Row)`
     position: absolute;
     color: #fff;
     bottom: 100px;
-    width: 100%;
+    width: 100vw;
     left: 0;
-    top: 90vh
+    top: 85vh;
+    z-index: 999;
     
 `
 
@@ -20,7 +21,7 @@ font-weight: 100;
 font-size: 13px;
 border: 1px solid #fff;
 width: 70px;
-margin: 0 auto;
+margin: 0 auto 0 0;
     text-align: center;
 span:first-child {
     padding-right 12px;
@@ -41,13 +42,16 @@ const SlideCounterComponent = (props) => {
    
     return (
         <SlideCounterRow>
-            <Col>
+            <Col xs={1}></Col>
+            <Col xs={10}>
             {(props.currentSlide > 0) ?
             <SlideCounterWrapper>
                  <span>{props.currentSlide}</span>
             <span>{props.totalSlides}</span> 
                     </SlideCounterWrapper>: null }
-            </Col> 
+                </Col>
+                <Col xs={1}></Col>
+                
         </SlideCounterRow>
     )
 };

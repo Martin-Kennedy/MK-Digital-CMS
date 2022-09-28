@@ -2,14 +2,13 @@ import React, {Component} from "react";
 import {Row, Col} from 'react-bootstrap';
 import {connect} from "react-redux";
 import HomepageCarouselComponent from '../carousels/homepageCarousel';
-import { LineAnimationL2R, LineAnimationR2L } from "../designElementComponents/lineSvg";
-import { TextTranslation } from "../../helpers/textTranslation";
 import styled from 'styled-components';
-import SvgBlob from "../designElementComponents/blobSvg";
 import SlideCounterComponent from "../carousels/slideCounter";
 import MediaQuery from 'react-responsive';
 import variables from '../../variables.module.scss';
-import { getCurrentCarouselBkgColor } from '../../actions/homepage.actions';
+import AnimatedText from 'react-animated-text-content';
+import { Link } from 'react-router-dom';
+
 
 const StyledHomepageHero = styled(Row)`
     height: 100vh;
@@ -20,79 +19,114 @@ const CarouselContainer = styled.div `
     position: absolute;
     overflow: hidden;
     display: flex;
-    width: 33%;
+    width: 100vw;
     top: 0;
+    left: 0;
     height: 100vh;
-    left: 33%;
     margin: 0 auto 0 auto;
-    @media(max-width: ${variables.medium}){
-        width: 50%;
-        left: 25%;
+
+`
+
+
+const StyledLink = styled(Link)`
+cursor: pointer;
+width: 100%;
+height: 100%;
+@media(max-width: ${variables.medium}){
+            width: 50vw;
+            left: 25vw;
     }
 `
 
-const TopLine = styled.div `
-    position: absolute;
-    padding: 0 40px;
-    width: 83.33333%;
-    top: 29vh;
-    svg {
-    position: relative; 
-    top: 25%;
-    left: 0;
-    line {
-        stroke: #fff;
-    }
-    }
-    @media(max-width: ${variables.small}){
-        top: 75vh;
-        line {
-        stroke: 2px solid #fff;
-    }
-    }
-    `;
-
-const BottomLine = styled.div `
-    position: absolute;
-    z-index: 0;
-    padding: 0 40px;
-    width: 83.33333%;
-    top: 58vh;
-    svg  {
-    position: relative; 
-    top: 60%;
-    left: 0;
-    line {
-        stroke: #fff;
-    }
-    }
-    @media(max-width: ${variables.small}){
-        top: 90vh;
-        line {
-        stroke: 2px solid #fff;
-    }
-    }
-    `;
-
 const AnimatedTextContainer = styled.div`
-        position: absolute;
-        top: calc(33vh + 12.5vh - 40px);
-        right: 0;
-        height: calc(25vh - 45px);
-        font-family: mr-eaves-modern, sans-serif;
-        font-weight: 200;
-        font-size: 7vw;
-        color: #fff;
-        text-transform: uppercase;
-        white-space: nowrap;
-        letter-spacing: 1.5rem;
-        overflow: hidden;
-        @media(max-width: ${variables.small}){
-                font-size: 6vh;
-                letter-spacing: .5vw;
-                top: calc(78vh - 3vh + 10px);
-                font-weight: 500;
-        }
+position: absolute;
+top: 20vh;
+height: 10vw;
+width: 30vw;
+z-index: 2;
+ @media(max-width: ${variables.medium}){
+        width: 50vw;
+        top: 15vh;
+     }
+
+`
+
+const AnimatedDescriptionContainer = styled.div`
+position: absolute;
+top: 85vh;
+height: 10vw;
+width: 100vw;
+z-index: 2;
+left: 0;
+`
+
+const StyledAnimatedText = styled(AnimatedText)`
+height: 100%;
+width: 100%;
+font-weight: 200;
+font-size: 2rem;
+color: #fff;
+text-transform: uppercase;
+letter-spacing: 1.5rem;
+postion: absolute;
+text-align: left;
+ @media(max-width: ${variables.medium}){
+       font-weight:500;
+        font-size: 1.5rem;
+        text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        letter-spacing: 1rem;
+     }
+`
+
+
+const StyledAnimatedDescription = styled(AnimatedText)`
+    font-weight: 200;
+    font-size: .7rem;
+    text-align: center;
+    color: #fff;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    margin: 0 auto;
+    width: 15vw;
+    height: 100%;
+`
+const AnimatedLinkContainer = styled.div`
+    position: absolute;
+    top: 50vh;
+    z-index: 2;
+     @media(max-width: ${variables.medium}){
+        top: 80vh;
+     }
+`
+
+const StyledAnimatedLink = styled(AnimatedText)`
+    font-weight: 200;
+    font-size: 1.25rem;
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: .3rem;
+    text-align: center;
+    margin: 0;
+    height: 100%;
+    border: 1px solid var(--white);
+    opacity: .7;
+    transition: .25s linear;
+    padding: .5rem 1rem;
+    &:active, &:hover {
+        transform: scale(1.2);
+        opacity: 1;
+        cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+    
+    }
+     @media(max-width: ${variables.medium}){
+        font-size: .9rem;
+        padding: .75rem 1.5rem;
+        font-weight: 700;
+        text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.75);
+        letter-spacing: .25rem;
+     }
 `
 
 const mapStateToProps = state => {
@@ -114,8 +148,34 @@ const getCarouselText = (orderedSlides, currentSlide) => {
     
 }
 
+const getCarouselDescription = (orderedSlides, currentSlide) => {
+    console.log(orderedSlides[currentSlide])
+    if (orderedSlides.length) {
+        const currentText = orderedSlides[currentSlide].description ? orderedSlides[currentSlide].description : "";
+        return currentText;
+    }
+
+}
+
 const getSlides = (currentSlide, previousSlide) => {
     return {currentSlide: currentSlide, previousSlide: previousSlide}
+}
+
+const getLink = (orderedSlides, currentSlide) => {
+    if (orderedSlides[currentSlide]){
+    let title = orderedSlides[currentSlide].blogTitle !== null  ? { type: 'blog', title: orderedSlides[currentSlide].blogTitle.title } : { type: 'project', title: orderedSlides[currentSlide].clientName.client };
+    let titleSlug = title.title.replace(/\s+/g, '-');
+    return `${title.type}/${titleSlug}`
+    }
+    
+}
+
+const getLinkText = (orderedSlides, currentSlide) => {
+    if (orderedSlides[currentSlide]) {
+        let linkText = orderedSlides[currentSlide].linkText ? orderedSlides[currentSlide].linkText : "";
+        return linkText;
+    }
+
 }
 
 
@@ -145,23 +205,64 @@ class HomepageHero extends Component {
             <StyledHomepageHero>
                 <Col xs={1}></Col>
                 <Col xs={10}>
-                    <TopLine>
-                        <LineAnimationL2R/>
-                    </TopLine>
                     <AnimatedTextContainer>
-                        <TextTranslation 
-                        duration={window.innerWidth > 768 ? 20 : 10} 
-                        text={getCarouselText(this.props.orderedSlides, this.props.currentSlide)}
-                        screenWidth={this.state.width}
-                        />
+                        <StyledAnimatedText
+                            type="words" // animate words or chars
+                            animation={{
+                                x: '200px',
+                                y: '-20px',
+                                scale: 1.1,
+                                ease: 'ease-in-out',
+                            }}
+                            animationType="float"
+                            interval={0.06}
+                            duration={1.5}
+                            tag="p"
+                            className="animated-paragraph"
+                            threshold={0.1}
+                            rootMargin="10%"
+                        >
+                            {getCarouselText(this.props.orderedSlides, this.props.currentSlide)}
+                            
+                        </StyledAnimatedText>
                     </AnimatedTextContainer>
-                    <BottomLine>
-                        <LineAnimationR2L/>
-                    </BottomLine>
-                    <SvgBlob
-                        widthHeight={[this.state.width, this.state.height]}
-                        slides={getSlides(this.props.currentSlide, this.props.previousSlide)}
-                        bkgcolor={[this.props.orderedSlides, this.props.currentSlide]}/>
+                    <AnimatedLinkContainer>
+                        <StyledLink to={getLink(this.props.orderedSlides, this.props.currentSlide)}>
+                            <StyledAnimatedLink
+                                type="words"
+                                animation={{
+                                    x: '200px',
+                                    y: '-20px',
+                                    scale: 1.1,
+                                    ease: 'ease-in-out',
+                                }}
+
+                                interval={0.2}
+                                duration={1.2}
+                                tag="div"
+                                threshold={0.1}
+                                rootMargin="20%">
+
+                                {getLinkText(this.props.orderedSlides, this.props.currentSlide)}
+
+                            </StyledAnimatedLink>
+                        </StyledLink>
+                    </AnimatedLinkContainer>
+                    <MediaQuery minWidth={variables.large}>
+                        <AnimatedDescriptionContainer>
+                            <StyledAnimatedDescription
+                                type="words"
+                                interval={0.0}
+                                duration={2}
+                                tag="p"
+                                threshold={0.1}
+                                rootMargin="20%">
+                                {getCarouselDescription(this.props.orderedSlides, this.props.currentSlide)}
+                            </StyledAnimatedDescription>
+                        </AnimatedDescriptionContainer>
+                    </MediaQuery>
+                   
+                    
                     <CarouselContainer imgWidth={this.props.imgWidth}>
                     <HomepageCarouselComponent/>
                     </CarouselContainer>

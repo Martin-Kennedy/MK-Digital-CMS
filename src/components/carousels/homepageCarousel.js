@@ -12,53 +12,52 @@ import {
 } from '../../actions/homepage.actions';
 import {establishSession, getToken} from '../../actions/initialUtility.actions';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import SwiperCore, {Autoplay} from 'swiper';
+import SwiperCore, { Pagination, EffectFade, Autoplay, Navigation} from 'swiper';
 import  variables  from '../../variables.module.scss';
+
 
 const StyledCarouselProvider = styled(Swiper)`
     text-align: center;
     font-size: 18px;
-     @media(max-width: ${variables.small}){
-                height: 100vh;
-                margin: 0 auto;
-
-        }
-         @media(max-width: ${variables.medium}){
-                height: 100vh;
-                margin: 0 auto;
-
-        }
-    cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+     left:0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    
 
     `;
 
 const SlideImage = styled.img `
     display: block;
     width: 100%;
-    height: 66vh;
-    object-fit: contain;
-    margin: 16.6vh auto;
-      @media(max-width: ${variables.medium}){
-                width: 100%;
-                height: 66vh;
-        }
-        @media(max-width: ${variables.medium}){
-                width: 100%;
-                margin: 10vh auto;
-        }
-`;
+    height: 100vh;
+    object-fit: cover;
+    &:hover, &:active {
+        cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+    }
 
-const StyledLink = styled(Link)`
-cursor: pointer;
-width: 33vw;
-margin: 0 auto;
-   @media(max-width: ${variables.medium}){
-                width: 50vw;
-                left: 25vw;
-        }
 `
+
+const MultipliedOverlay = styled.div`
+ position: absolute;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(191, 191, 191, 1);
+        mix-blend-mode: multiply;
+         @media(max-width: ${variables.medium}){
+             background-color: rgba(54, 69, 79, .6);
+         }
+`
+
+
+
+
+
+
+
 const mapStateToProps = state => {
     return {
         initialUtility: {
@@ -167,9 +166,7 @@ class HomepageCarouselComponent extends Component {
     }
 
     render() {
-        const params = {
-
-            direction: 'vertical',
+        const params = { 
             rewind: true,
             speed: 1000,
             updateOnImagesReady: true,
@@ -178,25 +175,35 @@ class HomepageCarouselComponent extends Component {
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true
             },
-            onUpdate: (swiper) => {
-                this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
-                this.dispatchTotalSlideCount(this.props);
-            },
-            onSlideChange: (swiper) => {
-                this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
-                this.dispatchTotalSlideCount(this.props);
-            }
-        };
+            effect: "fade",
+            spaceBetween: 100,
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            pagination: true,
+            navigation: true,
+            modules: [EffectFade, Pagination, Navigation],
+                    onUpdate: (swiper) => {
+                        this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
+                        this.dispatchTotalSlideCount(this.props);
+                    },
+                    onSlideChange: (swiper) => {
+                        this.dispatchNextSlide(swiper.previousIndex, swiper.activeIndex);
+                        this.dispatchTotalSlideCount(this.props);
+                    }
+                };
 
         return (
 
-            <StyledCarouselProvider {...params}>
+            <StyledCarouselProvider className="homePageCarousel" {...params}>
                 {Array.isArray(this.props.orderedSlides) ? this.props.orderedSlides.map((carousel, index) => {
 
                 return <SwiperSlide
+                 
+                    
                     key={index}
                     index={index}>
-                    <StyledLink to={this.getLink(carousel)}>
+                    
                     <SlideImage
                         ref={this.props.imageElement}
                         src={carousel.cardImage.publicUrl}
@@ -206,7 +213,11 @@ class HomepageCarouselComponent extends Component {
                         }}
                         dynamicWidth={this.props.imgWidth / 2}
                     />
-                    </StyledLink>
+                    <MultipliedOverlay></MultipliedOverlay>
+                
+                 
+                       
+                   
                 </SwiperSlide >
 
                 }) : null

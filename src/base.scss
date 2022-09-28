@@ -1,5 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'swiper/css';
+@import "swiper/css/effect-coverflow";
+@import "swiper/css/effect-creative";
+@import "swiper/css/effect-fade";
+@import "swiper/css/navigation";
 :root {
     --black: #1d1e22;
     --white: #fff;
@@ -37,7 +41,7 @@ body::-webkit-scrollbar-thumb {
 
 .surf-app {
     overflow-y: hidden;
-   
+
 }
 
 .surf-app::-webkit-scrollbar {
@@ -510,56 +514,56 @@ body {
         .recharts-polar-grid {
             opacity: 0;
         }
-            .recharts-polar-grid-angle {
-                opacity: 0.3;
-            }
-    
-            .recharts-polar-grid-concentric {
-                opacity: 0.3;
-            }
-    
-            .recharts-polar-angle-axis {
-                opacity: 0;
-            }
-    
-            .recharts-polar-radius-axis {
-                transform: rotate(-45deg);
-                transform-origin: center;
-    
-                line {
-                    opacity: 0;
-                }
-    
-                text {
-                    fill: #ccc;
-                    transform: inherit;
-                    font-size: 8px;
-                }
-    
-            }
-    
-    
-            .recharts-legend-wrapper {
-                width: 50% !important;
-                margin-left: 50%;
-                display: flex;
-                justify-content: flex-end;
-    
-                .recharts-legend-item {
-                    width: fit-content;
-                }
-    
-                .recharts-legend-item-text {
-                    color: #fff !important;
-                    opacity: .7;
-                    font-size: .75vw;
-                }
-            }
+        .recharts-polar-grid-angle {
+            opacity: 0.3;
         }
 
-        .waveFormBottom {
-            display: none;
+        .recharts-polar-grid-concentric {
+            opacity: 0.3;
         }
+
+        .recharts-polar-angle-axis {
+            opacity: 0;
+        }
+
+        .recharts-polar-radius-axis {
+            transform: rotate(-45deg);
+            transform-origin: center;
+
+            line {
+                opacity: 0;
+            }
+
+            text {
+                fill: #ccc;
+                transform: inherit;
+                font-size: 8px;
+            }
+
+        }
+
+        .recharts-legend-wrapper {
+            width: 50% !important;
+            margin-left: 50%;
+            display: flex;
+            justify-content: flex-end;
+        
+
+            .recharts-legend-item {
+                width: fit-content;
+            }
+
+            .recharts-legend-item-text {
+                color: #fff !important;
+                opacity: 0.7;
+                font-size: 0.75vw;
+            }
+        }
+    }
+
+    .waveFormBottom {
+        display: none;
+    }
 }
 
 .surf-app-multi-view .recharts-cartesian-axis-ticks {
@@ -592,25 +596,25 @@ body {
             tspan {
                 font-size: 1vw;
                 font-weight: 500;
-                opacity: .7;
+                opacity: 0.7;
                 margin-left: 1px;
                 margin-top: 2px;
             }
         }
     }
-        @media(max-width: 768px) {
-            text {
+    @media(max-width: 768px) {
+        text {
+            font-size: 1.5vw;
+
+            tspan {
                 font-size: 1.5vw;
-    
-                tspan {
-                    font-size: 1.5vw;
-                    font-weight: 500;
-                    opacity: .7;
-                    margin-left: 1px;
-                    margin-top: 2px;
-                }
+                font-weight: 500;
+                opacity: 0.7;
+                margin-left: 1px;
+                margin-top: 2px;
             }
         }
+    }
 }
 
 .sunGraph .recharts-cartesian-axis-ticks {
@@ -722,7 +726,7 @@ select.minimal {
     top: 2px;
 }
 :not(.surf-app-multi-view) {
-.swellForecastContainer,
+    .swellForecastContainer,
     .windForecastContainer {
         @media(max-width: 768px) {
             min-width: 1400px !important;
@@ -731,113 +735,124 @@ select.minimal {
     }
 }
 
-
-
 .closedModal {
     display: none !important;
 }
 
 .swellRadialChart {
     .recharts-polar-grid-angle {
-            opacity: 0.5;
-        }
-    
-        .recharts-polar-grid-concentric {
-            opacity: 0.5;
-        }
-    
-        .recharts-polar-angle-axis {
+        opacity: 0.5;
+    }
+
+    .recharts-polar-grid-concentric {
+        opacity: 0.5;
+    }
+
+    .recharts-polar-angle-axis {
+        opacity: 0;
+    }
+
+    .recharts-polar-radius-axis {
+        transform: rotate(-45deg);
+        transform-origin: center;
+
+        line {
             opacity: 0;
         }
-    
-        .recharts-polar-radius-axis {
-            transform: rotate(-45deg);
-            transform-origin: center;
-    
-            line {
-                opacity: 0;
-            }
-    
-            text {
-                fill: #ccc;
-                transform: inherit;
-                font-size: 8px;
-            }
-    
+
+        text {
+            fill: #ccc;
+            transform: inherit;
+            font-size: 8px;
         }
 
-    
-        .recharts-legend-wrapper {
-            width: 50% !important;
-            margin-left: 50%;
-            display: flex;
-            justify-content: flex-end;
-                
-            .recharts-legend-item {
-                width: fit-content;
-            }
-            .recharts-legend-item-text {
-                color: #fff !important;
-                opacity: .7;
-                font-size: .75vw;
-            }
+    }
+
+    .recharts-legend-wrapper {
+        width: 50% !important;
+        margin-left: 50%;
+        display: flex;
+        justify-content: flex-end;
+         
+
+        .recharts-legend-item {
+            width: fit-content;
         }
+        .recharts-legend-item-text {
+            color: #fff !important;
+            opacity: 0.7;
+            font-size: 0.75vw;
+        }
+    }
+           @media(max-width: 768px) {
+            .recharts-legend-wrapper {
+               width: 100% !important;
+               margin: 0;
+        justify-content: center;
+               .recharts-legend-item-text {
+                   color: #fff !important;
+                   opacity: 0.7;
+                   font-size: .75rem;
+               }
+            }
+           }
 }
 
 .multiViewMap {
-.recharts-legend-wrapper {
+    .recharts-legend-wrapper {
         display: none !important;
     }
 }
 
-
-.multiViewSwellChart, .surf-app-multi-view .windForecastContainer {
-    &:hover, &:active {
+.multiViewSwellChart,
+.surf-app-multi-view .windForecastContainer {
+    &:active,
+    &:hover {
         svg {
             cursor: pointer;
         }
-        
+
     }
-    
-   .recharts-label-list {
-    text{ 
-        font-size: .7vw;
-        tspan {
-            font-size: .65vw;
-            font-weight: 500;
-            opacity: .7;
-            margin-left: 1px;
-            margin-top: 2px; 
+
+    .recharts-label-list {
+        text {
+            font-size: 0.7vw;
+            tspan {
+                font-size: 0.65vw;
+                font-weight: 500;
+                opacity: 0.7;
+                margin-left: 1px;
+                margin-top: 2px;
+            }
         }
-    }
         @media(max-width: 996px) {
             text {
-                    font-size: 1vw;
-            
-                    tspan {
-                        font-size: 1vw;
-                        font-weight: 500;
-                        opacity: .7;
-                        margin-left: 1px;
-                        margin-top: 2px;
-                    }
-                }
-        }
-                 @media(max-width: 775px) {
-                     text {
-                         font-size: 1.5vw;
-        
-                         tspan {
-                             font-size: 1.5vw;
-                             font-weight: 500;
-                             opacity: .7;
-                             margin-left: 1px;
-                             margin-top: 2px;
-                         }
-                     }
-                 }
+                font-size: 1vw;
 
-   }
+                tspan {
+                    font-size: 1vw;
+                    font-weight: 500;
+                    opacity: 0.7;
+                    margin-left: 1px;
+                    margin-top: 2px;
+                }
+            }
+        }
+        @media(max-width: 775px) {
+            text {
+                font-size: 1.5vw;
+
+                tspan {
+                    font-size: 1.5vw;
+                    font-weight: 500;
+                    opacity: 0.7;
+                    margin-left: 1px;
+                    margin-top: 2px;
+                }
+            }
+        }
+
+    }
 }
 
 .surf-app-multi-view {
@@ -846,4 +861,60 @@ select.minimal {
     }
 }
 
+.homePageCarousel {
 
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 9vw;
+        top: 85%;
+        z-index: 9999;
+        &:active,
+            &:hover {
+                cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+        
+            }
+         @media(max-width: 768px){
+            display: none;
+        }
+
+    }
+    .swiper-button-next {
+        right: 10vw;
+        
+        &::after {
+            content: url("../public/rightChevron.svg");
+            width: 3vw;
+            height: 3vw;
+            transition: .25s linear;
+            opacity: .7;
+        }
+        &:active,
+        &:hover {
+            &::after {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+        }
+    }
+    .swiper-button-prev {
+        left: 75vw;
+       
+        &::after {
+            content: url("../public/leftChevron.svg");
+            width: 3vw;
+            height: 3vw;
+            transition: .25s linear;
+            opacity: .7;
+        }
+        &:active,
+        &:hover {
+            &::after {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+        }
+    }
+
+}

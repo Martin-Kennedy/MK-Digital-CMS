@@ -26,7 +26,7 @@ a {
 }
    
     @media(max-width: 758px){
-        font-size: 2.5vw;
+        font-size: 3.5vw;
     }
 }
 `

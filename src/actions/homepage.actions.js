@@ -76,7 +76,9 @@ export const getHomepageCarouselItems = (token) => {
                         },
                         cardColorHexValue,
                         order,
-                        textTranslation
+                        textTranslation,
+                        description,
+                        linkText
                     }
                 }`
     }
