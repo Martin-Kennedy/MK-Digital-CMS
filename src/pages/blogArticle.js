@@ -38,7 +38,6 @@ p {
     padding-right: calc(var(--bs-gutter-x) * .5);
     padding-left: calc(var(--bs-gutter-x) * .5);
     letter-spacing: .125vw;
-    padding-right: 5vw;
      @media(max-width: ${variables.medium}){
     font-size: 2.5vw;
     line-height: 4vw;
@@ -59,6 +58,11 @@ const Img = styled.img `
     width: 100%;
     object-fit: contain;
     margin-top: 5%;
+     @media(max-width: ${variables.medium}){
+    height: fit-content;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+}
  `
 const Section = styled(Row)`
 min-height: 1000px;
@@ -70,11 +74,17 @@ const HeroImgSection = styled(Section)`
 height: 60vh;
 min-height: 0;
 margin-bottom: 10vh;
+     @media(max-width: ${variables.medium}){
+    height: fit-content;
+}
 `
 const ImgBkg = styled.div `
 width: 100%;
 height: 100%;
 background-color: ${props => props.bkgColor};
+  @media(max-width: ${variables.medium}){
+    height: fit-content;
+}
 `
 
 const Title = styled.h1 `
@@ -246,8 +256,8 @@ class BlogPage extends Component {
                                     location={this.getFirstPathSegment(this.props.location.pathname)}/>
 
                                 <IntroSection >
-                                    <Col xs={2}></Col>
-                                    <Col xs={8}>
+                                    <Col xs={1}></Col>
+                                    <Col xs={10}>
                                         <HeroImgSection>
                                             <ImgBkg bkgColor={item.imageBkgColor}>
                                                 <FadeInWhenVisibleOpacity duration={2}><Img src={item.mainImage.publicUrl}/></FadeInWhenVisibleOpacity>
@@ -288,7 +298,7 @@ class BlogPage extends Component {
                                                 data-front="NEXT ARTICLE"></Link>
                                         </NextArticle>
                                     </Col>
-                                    <Col xs={2}></Col>
+                                    <Col xs={1}></Col>
                                 </IntroSection>
 
                                 <BlogArticleFooter>

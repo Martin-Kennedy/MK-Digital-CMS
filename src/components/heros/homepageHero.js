@@ -42,8 +42,13 @@ const AnimatedTextContainer = styled.div`
 position: absolute;
 top: 20vh;
 height: 10vw;
-width: 20vw;
-z-index: 999;
+width: 30vw;
+z-index: 2;
+ @media(max-width: ${variables.medium}){
+        width: 50vw;
+        top: 15vh;
+     }
+
 `
 
 const AnimatedDescriptionContainer = styled.div`
@@ -51,7 +56,7 @@ position: absolute;
 top: 85vh;
 height: 10vw;
 width: 100vw;
-z-index: 999;
+z-index: 2;
 left: 0;
 `
 
@@ -65,6 +70,12 @@ text-transform: uppercase;
 letter-spacing: 1.5rem;
 postion: absolute;
 text-align: left;
+ @media(max-width: ${variables.medium}){
+       font-weight:500;
+        font-size: 1.5rem;
+        text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        letter-spacing: 1rem;
+     }
 `
 
 
@@ -83,21 +94,39 @@ const StyledAnimatedDescription = styled(AnimatedText)`
 const AnimatedLinkContainer = styled.div`
     position: absolute;
     top: 50vh;
-    height: 10vw;
-    width: 20vw;
-    z-index: 999;
+    z-index: 2;
+     @media(max-width: ${variables.medium}){
+        top: 80vh;
+     }
 `
 
 const StyledAnimatedLink = styled(AnimatedText)`
     font-weight: 200;
-    font-size: .9rem;
+    font-size: 1.25rem;
     text-align: center;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: .3rem;
-    text-align: left;
+    text-align: center;
     margin: 0;
     height: 100%;
+    border: 1px solid var(--white);
+    opacity: .7;
+    transition: .25s linear;
+    padding: .5rem 1rem;
+    &:active, &:hover {
+        transform: scale(1.2);
+        opacity: 1;
+        cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+    
+    }
+     @media(max-width: ${variables.medium}){
+        font-size: .9rem;
+        padding: .75rem 1.5rem;
+        font-weight: 700;
+        text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.75);
+        letter-spacing: .25rem;
+     }
 `
 
 const mapStateToProps = state => {
@@ -219,20 +248,20 @@ class HomepageHero extends Component {
                             </StyledAnimatedLink>
                         </StyledLink>
                     </AnimatedLinkContainer>
-                    
-                    <AnimatedDescriptionContainer>
-                        <StyledAnimatedDescription 
-                        type="words" 
-                           
-                            
-                            interval={0.0}
-                            duration={2}
-                            tag="p"
-                            threshold={0.1}
-                            rootMargin="20%">
-                            {getCarouselDescription(this.props.orderedSlides, this.props.currentSlide)}
-                        </StyledAnimatedDescription>
-                    </AnimatedDescriptionContainer>
+                    <MediaQuery minWidth={variables.large}>
+                        <AnimatedDescriptionContainer>
+                            <StyledAnimatedDescription
+                                type="words"
+                                interval={0.0}
+                                duration={2}
+                                tag="p"
+                                threshold={0.1}
+                                rootMargin="20%">
+                                {getCarouselDescription(this.props.orderedSlides, this.props.currentSlide)}
+                            </StyledAnimatedDescription>
+                        </AnimatedDescriptionContainer>
+                    </MediaQuery>
+                   
                     
                     <CarouselContainer imgWidth={this.props.imgWidth}>
                     <HomepageCarouselComponent/>

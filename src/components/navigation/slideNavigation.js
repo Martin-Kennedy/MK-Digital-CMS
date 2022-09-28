@@ -16,7 +16,7 @@ width: 70vw;
 height: 100vh;
 background-color: #000;
 transition: .75s ease-in-out;
-z-index: 2;
+z-index: 3;
 `
 
 const SlideLogo = styled.div `
@@ -86,7 +86,7 @@ height: 100vh;
 background-color: #0e5d97;
 transition: .75s ease-in-out;
 overflow: hidden;
-z-index: 2;
+z-index: 3;
 `
 const HeadingRight = styled(Row)`
 position: absolute;
@@ -173,15 +173,14 @@ const WebsiteLink = styled(Link)`
         cursor: pointer;
     }
     @media (max-width: ${variables.medium}) {
-    width: 8vh;
-    height: 8vh;
-    line-height: 2vh;
-    line-height: 2.25vh;
-    font-size: 3vw;
+    width: fit-content;
+    height: fit-content;
+    padding: .5rem .75rem;
+    font-size: 1.25rem;
     justify-content: center;
     align-items: center;
     display: flex;
-    margin-top: 85vh;
+    margin-top: 10vh;
 }
 `
 
@@ -257,7 +256,7 @@ export const NavOffCanvasLeft = (props) => {
                         <Col xs={1}></Col>
                         <Col>
                             <WebsiteLink className={mouseLeft === true ? 'projectSiteLinkHoverOut' : mouseLeft === false ? 'projectSiteLinkHoverIn' : null} onMouseEnter={() => setMouseLeft(false)} onMouseLeave={() => setMouseLeft(true)} to='/swell'>
-                                How is the surf near you?
+                                <MediaQuery minWidth={Number(variables.mediumNum)}>How is the surf near you?</MediaQuery> <MediaQuery maxWidth={Number(variables.mediumNum)}>Forecast</MediaQuery>
                             </WebsiteLink>
                         </Col>
                         <MediaQuery minWidth={Number(variables.mediumNum)}><Col xs={1}></Col></MediaQuery>

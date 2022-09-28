@@ -26,9 +26,6 @@ const StyledCarouselProvider = styled(Swiper)`
     display: flex;
     
 
-
-    cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
-
     `;
 
 const SlideImage = styled.img `
@@ -36,16 +33,10 @@ const SlideImage = styled.img `
     width: 100%;
     height: 100vh;
     object-fit: cover;
-    
-   
-      @media(max-width: ${variables.medium}){
-                width: 100%;
-                height: 66vh;
-        }
-        @media(max-width: ${variables.medium}){
-                width: 100%;
-                margin: 10vh auto;
-        }
+    &:hover, &:active {
+        cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+    }
+
 `
 
 const MultipliedOverlay = styled.div`
@@ -56,6 +47,9 @@ const MultipliedOverlay = styled.div`
         height: 100vh;
         background-color: rgba(191, 191, 191, 1);
         mix-blend-mode: multiply;
+         @media(max-width: ${variables.medium}){
+             background-color: rgba(54, 69, 79, .6);
+         }
 `
 
 
