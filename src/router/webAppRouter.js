@@ -1,20 +1,14 @@
 import React, {Component, useState, useEffect} from 'react';
 import {BrowserRouter, Switch, Route, useParams} from 'react-router-dom';
 import {Container} from 'react-bootstrap';
-import Home from '../pages/home';
-import About from '../pages/about';
-import BlogLanding from '../pages/blogLanding';
-import ProjectsLanding from '../pages/projectsLanding';
-import SurfGUILanding from '../pages/surfGuiLanding';
-import ProjectPage from '../pages/project';
-import BlogPage from '../pages/blogArticle';
-import ContactPage from '../pages/contact';
 import styled from 'styled-components';
 import {createBrowserHistory} from 'history';
 import {useHistory} from 'react-router-dom'
+import loadable from "@loadable/component";
 
 let history = createBrowserHistory();
-let currentLocation = history.location
+let currentLocation = history.location;
+
 
 const Page = styled(Container)`
         height: 100%;
@@ -22,6 +16,38 @@ const Page = styled(Container)`
         margin: 0;
         padding: 0;
         `;
+
+const Home = loadable(() => import("../pages/home.js"), {
+    fallback: "Loading"
+});
+
+const BlogLanding = loadable(() => import("../pages/blogLanding.js"), {
+    fallback: "Loading"
+});
+
+const BlogPage = loadable(() => import("../pages/blogArticle.js"), {
+    fallback: "Loading"
+});
+
+const About = loadable(() => import("../pages/about.js"), {
+    fallback: "Loading"
+});
+
+const ProjectsLanding = loadable(() => import("../pages/projectsLanding.js"), {
+    fallback: "Loading"
+});
+
+const ProjectPage = loadable(() => import("../pages/project.js"), {
+    fallback: "Loading"
+});
+
+const ContactPage = loadable(() => import("../pages/contact.js"), {
+    fallback: "Loading"
+});
+
+const SurfGUILanding = loadable(() => import("../pages/surfGuiLanding.js"), {
+    fallback: "Loading"
+});
 
 const WebAppRouter = (props) => {
     const [locationKeys,

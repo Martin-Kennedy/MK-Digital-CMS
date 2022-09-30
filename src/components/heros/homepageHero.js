@@ -70,63 +70,63 @@ text-transform: uppercase;
 letter-spacing: 1.5rem;
 postion: absolute;
 text-align: left;
- @media(max-width: ${variables.medium}){
-       font-weight:500;
-        font-size: 1.5rem;
-        text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-        letter-spacing: 1rem;
-     }
+@media(max-width: ${variables.medium}){
+    font-weight:500;
+    font-size: 1.5rem;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    letter-spacing: .75rem;
+    }
 `
 
 
 const StyledAnimatedDescription = styled(AnimatedText)`
-    font-weight: 200;
-    font-size: .7rem;
-    text-align: center;
-    color: #fff;
-    display: block;
-    text-transform: uppercase;
-    letter-spacing: .1rem;
-    margin: 0 auto;
-    width: 15vw;
-    height: 100%;
+font-weight: 200;
+font-size: .7rem;
+text-align: center;
+color: #fff;
+display: block;
+text-transform: uppercase;
+letter-spacing: .1rem;
+margin: 0 auto;
+width: 15vw;
+height: 100%;
 `
 const AnimatedLinkContainer = styled.div`
-    position: absolute;
-    top: 50vh;
-    z-index: 2;
-     @media(max-width: ${variables.medium}){
-        top: 80vh;
-     }
+position: absolute;
+top: 50vh;
+z-index: 2;
+    @media(max-width: ${variables.medium}){
+    top: 70vh;
+    }
 `
 
 const StyledAnimatedLink = styled(AnimatedText)`
-    font-weight: 200;
-    font-size: 1.25rem;
-    text-align: center;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: .3rem;
-    text-align: center;
-    margin: 0;
-    height: 100%;
-    border: 1px solid var(--white);
-    opacity: .7;
-    transition: .25s linear;
-    padding: .5rem 1rem;
-    &:active, &:hover {
-        transform: scale(1.2);
-        opacity: 1;
-        cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
-    
+font-weight: 200;
+font-size: 1.25rem;
+text-align: center;
+color: #fff;
+text-transform: uppercase;
+letter-spacing: .3rem;
+text-align: center;
+margin: 0;
+height: 100%;
+border: 1px solid var(--white);
+opacity: .7;
+transition: .25s linear;
+padding: .5rem 1rem;
+&:active, &:hover {
+    transform: scale(1.2);
+    opacity: 1;
+    cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39, auto;
+
+}
+    @media(max-width: ${variables.medium}){
+    font-size: .9rem;
+    padding: .75rem 1.5rem;
+    font-weight: 700;
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.75);
+    letter-spacing: .25rem;
     }
-     @media(max-width: ${variables.medium}){
-        font-size: .9rem;
-        padding: .75rem 1.5rem;
-        font-weight: 700;
-        text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.75);
-        letter-spacing: .25rem;
-     }
 `
 
 const mapStateToProps = state => {
@@ -149,7 +149,6 @@ const getCarouselText = (orderedSlides, currentSlide) => {
 }
 
 const getCarouselDescription = (orderedSlides, currentSlide) => {
-    console.log(orderedSlides[currentSlide])
     if (orderedSlides.length) {
         const currentText = orderedSlides[currentSlide].description ? orderedSlides[currentSlide].description : "";
         return currentText;
