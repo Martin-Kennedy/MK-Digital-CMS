@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from 'react';
+import React, { useEffect} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import HeaderComponent from '../components/navigation/header';
@@ -63,15 +63,12 @@ const mapStateToProps = state => {
     }
 };
 
-class ContactPage extends Component {
-    constructor() {
-        super();
-        this.state = {}
-    }
-    componentDidMount() {
-        this._isMounted = true;
+const ContactPage = (props) => {
+  
+    useEffect(() => {
+       let _isMounted = true;
         window.onpopstate = () => {
-            if (this._isMounted) {
+            if (_isMounted) {
                 const {hash} = location;
                 if (hash.indexOf('home') > -1 && this.state.value !== 0) 
                     this.setState({value: 0})
@@ -81,44 +78,36 @@ class ContactPage extends Component {
                     this.setState({value: 2})
             }
         }
-    }
-
-    componentDidUpdate(prevProps) {
-
-        if (this.props.initialUtility.session === true) {
-            if (!this.props.contact.contactData.length) {
-                this
-                    .props
-                    .dispatch(getContact(this.props.initialUtility.keystoneToken))
+        if (props.initialUtility.session === true) {
+            if (!props.contact.contactData.length) {
+                props
+                    .dispatch(getContact(props.initialUtility.keystoneToken))
             }
         } else {
-            if (this.props.initialUtility.keystoneToken === null) {
-                this
-                    .props
+            if (props.initialUtility.keystoneToken === null) {
+               props
                     .dispatch(getToken())
             } else {
-                this
-                    .props
-                    .dispatch(establishSession(this.props.initialUtility.keystoneToken))
+                props
+                    .dispatch(establishSession(props.initialUtility.keystoneToken))
             }
         }
-
     }
+    )
 
-    render() {
         return (
             <BaseLayer>
-                <HeaderComponent location={this.props.location.pathname}/>
+                <HeaderComponent location={props.location.pathname}/>
                 <TopRow>
                     <Col xs={2}></Col>
 
-                    {this.props.contact.contactData.length
+                    {props.contact.contactData.length
                         ? <TopCol>
                                 <ContactH1>
-                                    {this.props.contact.contactData[0].h1}
+                                    {props.contact.contactData[0].h1}
                                 </ContactH1>
                                 <ContactH2>
-                                    {this.props.contact.contactData[0].h2}
+                                    {props.contact.contactData[0].h2}
                                 </ContactH2>
                                 <ContactLine></ContactLine>
                             </TopCol>
@@ -137,7 +126,7 @@ class ContactPage extends Component {
                 <Row>
                     <Col xs={2}></Col>
                     <ContactFooter xs={8}>
-                        <Footer location={this.props.location.pathname}/>
+                        <Footer location={props.location.pathname}/>
                     </ContactFooter>
                     <Col xs={2}></Col>
                 </Row>
@@ -145,7 +134,6 @@ class ContactPage extends Component {
             </BaseLayer>
 
         )
-    }
 }
 
 export default connect(mapStateToProps)(ContactPage);

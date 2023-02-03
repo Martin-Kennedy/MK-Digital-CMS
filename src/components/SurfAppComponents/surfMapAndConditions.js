@@ -179,7 +179,6 @@ height: 7vw;
 const Title = styled.p `
 text-transform: uppercase;
 color: rgba(255, 255, 255, 0.8);
-opacity: .6;
 margin-left: 0;
 margin-top: 0;
 display: block;
@@ -189,7 +188,7 @@ font-size: .65vw;
 height: fit-content;
 line-height: .65vw;
 @media(max-width:${variables.large}){
-   font-size: 2vw;
+   font-size: max(2vw, .9rem);
    line-height: 2vw;
 }
 `

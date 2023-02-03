@@ -57,6 +57,7 @@ const initalState = {
         hourlyForecast: [],
         swellForecast: [],
         windForecast: [],
+        surflineWindForecast: [],
         currentConditions: [],
         maxWaveHeight: [],
         maxMultiViewWaveHeight: [],

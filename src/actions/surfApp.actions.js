@@ -24,13 +24,16 @@ import {
     GET_MAX_WAVE_HEIGHT_MULTI_VIEW,
     GET_LAT,
     GET_LNG,
-    GET_ACTIVE_SURF_SPOT
+    GET_ACTIVE_SURF_SPOT,
+    GET_SURFLINE_WIND_FORECAST
 
 } from '../helpers/types'
 import {formatAMPM} from '../helpers/utilities'
 import {getDistanceFromLatLonInKm, getBoundingBox} from '../helpers/utilities'
 import axios from 'axios';
 
+const surflineApiV2Wind = "https://services.surfline.com/kbyg/spots/forecasts/wind?spotId=";
+const surflineApiV2Wave = "https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=";
 
 export const searchOpenState = (data) => {
     return {type: SEARCH_OPEN_STATE, payload: data};
@@ -49,24 +52,25 @@ export const getActiveLocation = (data) => {
 }
 
 export const getActiveSurfSpot = (data) => {
-    return { type: GET_ACTIVE_SURF_SPOT, payload: data }
+    return {type: GET_ACTIVE_SURF_SPOT, payload: data}
 }
 
 export const getLat = (data) => {
-    return { type: GET_LAT, payload: data }
+    return {type: GET_LAT, payload: data}
 }
 
 export const getLng = (data) => {
-    return { type: GET_LNG, payload: data }
+    return {type: GET_LNG, payload: data}
 }
-
 
 const apiUrl = "https://mk-digital-cms.herokuapp.com/admin/api";
 
 export const getSurfApiEndPoints = (token) => {
     return (dispatch) => {
         const config = {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         };
         const bodyParameters = {
             query: `query {
@@ -80,76 +84,70 @@ export const getSurfApiEndPoints = (token) => {
                     }
                 }`
         }
-        return axios.post(apiUrl, bodyParameters, config)
+        return axios
+            .post(apiUrl, bodyParameters, config)
             .then(response => {
                 return response.data
             })
             .then(data => {
 
-                dispatch({
-                    type: GET_SURF_API_ENDPOINTS,
-                    payload: data
-                })
+                dispatch({type: GET_SURF_API_ENDPOINTS, payload: data})
             })
             .catch(error => {
-                throw (error);
+                throw(error);
             });
     };
 };
 
-
-
 export const getLocationsObject = (jsonUrl) => {
     const fullURL = `${jsonUrl.urlProxy}/${jsonUrl.surfSpotJson}`;
 
-        let request = new Promise((resolve) => {
-            axios
-                .get(fullURL, {
-                    headers: {
-                        'Content-type': 'application/json'
+    let request = new Promise((resolve) => {
+        axios
+            .get(fullURL, {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+
+                let countriesArr = []
+                const countries = Object.keys(data);
+                countries.map((country) => {
+                    if (country) {
+                        return data[country].map((item) => {
+                            item.countryOrState = country;
+                            item.fullLocation = `${item.town}, ${country}`
+                            countriesArr.push(item);
+                        })
                     }
                 })
-                .then(response => {
-                    return response.data
-                })
-                .then(data => {
-
-                    let countriesArr = []
-                    const countries = Object.keys(data);
-                    countries.map((country) => {
-                        if (country) {
-                            return data[country].map((item) => {
-                                item.countryOrState = country;
-                                item.fullLocation = `${item.town}, ${country}`
-                                countriesArr.push(item);
-                            })
-                        }
-                    })
-                    resolve(countriesArr);
-                });
-        })
-        return (dispatch) => {
-            function onSuccess(data) {
-                dispatch({ type: GET_LOCATION_OBJECT, payload: data });
-                return data;
-            }
-            request.then(data => {
-                onSuccess(data);
-            }).catch(error => {
-                throw (error);
+                resolve(countriesArr);
             });
+    })
+    return (dispatch) => {
+        function onSuccess(data) {
+            dispatch({type: GET_LOCATION_OBJECT, payload: data});
+            return data;
         }
-    
-    
- 
+        request.then(data => {
+            onSuccess(data);
+        }).catch(error => {
+            throw(error);
+        });
+    }
+
 }
 
 const latLng = (fullURL) => new Promise((res, rej) => {
-    
+
     navigator
         .geolocation
         .getCurrentPosition(function (position) {
-           
+
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
@@ -161,7 +159,7 @@ const latLng = (fullURL) => new Promise((res, rej) => {
 
             res(coords);
         }, (error) => {
-            
+
             const coords = {
                 latitude: 39.5316467,
                 longitude: -74.2620961,
@@ -200,11 +198,11 @@ const getCloseSurfSpotsArr = (locationsAndCoords) => {
                 return _obj[country].map((item) => {
                     const distanceFromLocation = getDistanceFromLatLonInKm(currentLat, currentLng, item.lat, item.lng);
                     const distanceDefaultLocation = getDistanceFromLatLonInKm(defaultLat, defaultLng, item.lat, item.lng);
-                    
-                        item.countryOrState = country;
-                        item.distanceFromLocation = distanceFromLocation;
-                        return item;
-                    
+
+                    item.countryOrState = country;
+                    item.distanceFromLocation = distanceFromLocation;
+                    return item;
+
                 })
             }
         })
@@ -239,10 +237,7 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
             });
             return sortedArr.slice(0, 20);
         })
-        
-        
-       
-       
+
     })
 }
 
@@ -263,12 +258,37 @@ export const getSurfForecast = (value) => {
     }
 };
 
+export const getSurflineWindForecast = (value) => {
+    const fullURL = surflineApiV2Wind;
+    console.log(fullURL + value)
+    return (dispatch) => {
+        return axios
+            .get(fullURL + value, {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response.data);
+                return response.data
+            })
+            .then(data => {
+                dispatch({ type: GET_SURFLINE_WIND_FORECAST, payload: data })
+            })
+            .catch(error => {
+                console.log(error.toJSON());
+            });
+    }
+};
+
 export const getMultiViewForecast = (value) => {
     const fullURL = `${value.apiEndpoints.urlProxy}/${value.apiEndpoints.surfSpotApi}`;
-    const surfSpotsSliced = value.surfSpots.slice(0, 9);
+    const surfSpotsSliced = value
+        .surfSpots
+        .slice(0, 9);
     const arr = [];
     new Promise((res) => {
-        
+
         surfSpotsSliced.map((item) => {
             arr.push({
                 country: item.countryOrState,
@@ -301,7 +321,7 @@ export const getMultiViewForecast = (value) => {
         return Promise.all(array)
     }
     function getDataLoopTwo(results) {
-        const slicedResults = results.slice(0,9);
+        const slicedResults = results.slice(0, 9);
         const array = slicedResults.map((item, index) => {
             const openWeatherApiKey = 'bc487a6d87516d1d2546ceb1c78a6fa4';
             const weatherForecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${item.lat}&lon=${item.lng}&exclude=minutely,alerts&units=imperial&appid=${openWeatherApiKey}`
@@ -313,8 +333,7 @@ export const getMultiViewForecast = (value) => {
                 }).catch((error) => {
                     console.log(error);
                     return arr[index].currentWeather = null;
-                })
-                )
+                }))
 
             })
             return axiosDataPromise;
@@ -331,7 +350,7 @@ export const getMultiViewForecast = (value) => {
             const arr = [];
             const finalArray = new Promise((resolve) => {
                 surfSpotsSliced.map((item, i) => {
-                    
+
                     arr.push({
                         countryOrState: item.countryOrState,
                         town: item.town,
@@ -352,7 +371,7 @@ export const getMultiViewForecast = (value) => {
                 const arr = [];
                 const finalArray = new Promise((resolve) => {
                     results.map((item, i) => {
-                        
+
                         arr.push({
                             countryOrState: item.countryOrState,
                             town: item.town,
@@ -368,14 +387,12 @@ export const getMultiViewForecast = (value) => {
                     resolve(arr);
                 });
                 return finalArray;
-            }).then(data => onSuccess(data))
+            })
+                .then(data => onSuccess(data))
                 .catch((error) => {
                     console.log(error);
                 })
         });
-
-
-       
 
     };
 
@@ -383,50 +400,58 @@ export const getMultiViewForecast = (value) => {
 
 export const getMultiViewSwellForecast = (data) => {
     const request = new Promise((res) => {
-            const results = Promise.all(data.map((item) => {
+        const results = Promise.all(data.map((item) => {
             let arr = [];
             const hourlySwellForecast = new Promise((resolve) => {
-                item.forecast.map((hourlyForecast) => {
-                    let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
-                    let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
-                    let day = new Date(dateObj).toLocaleString('default', {weekday: 'long'});
-                    arr.push({
-                        date: fullDate,
-                        dayOfWeek: day,
-                        time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
-                        timeZone: item.timeZone,
-                        windDirection: hourlyForecast.wind.direction,
-                        windCompassDirection: hourlyForecast.wind.compassDirection,
-                        windGusts: hourlyForecast.wind.gusts,
-                        windSpeed: hourlyForecast.wind.speed,
-                        windUnit: hourlyForecast.wind.unit,
-                        fadedRating: hourlyForecast.fadedRating,
-                        solidRating: hourlyForecast.solidRating,
-                        localTime: hourlyForecast.localTimestamp * 1000,
-                        timeUTC: hourlyForecast.timestamp * 1000,
-                        minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
-                        maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
-                        combinedSwellDirection: hourlyForecast.swell.components.combined.compassDirection,
-                        combinedHeight: hourlyForecast.swell.components.combined.height,
-                        combinedPeriod: hourlyForecast.swell.components.combined.period,
-                        primarySwellDirection: hourlyForecast.swell.components.primary ? hourlyForecast.swell.components.primary.compassDirection : null,
-                        primaryHeight: hourlyForecast.swell.components.primary ? hourlyForecast.swell.components.primary.height : null,
-                        primaryPeriod: hourlyForecast.swell.components.primary ? hourlyForecast.swell.components.primary.period : null,
-                        secondarySwellDirection: hourlyForecast.swell.components.secondary 
-                            ? hourlyForecast.swell.components.secondary.compassDirection
-                            : null,
-                        secondaryHeight: hourlyForecast.swell.components.secondary 
-                            ? hourlyForecast.swell.components.secondary.height
-                            : null,
-                        secondaryPeriod: hourlyForecast.swell.components.secondary 
-                            ? hourlyForecast.swell.components.secondary.period
-                            : null,
+                item
+                    .forecast
+                    .map((hourlyForecast) => {
+                        let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
+                        let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
+                        let day = new Date(dateObj).toLocaleString('default', {weekday: 'long'});
+                        arr.push({
+                            date: fullDate,
+                            dayOfWeek: day,
+                            time: formatAMPM(new Date(hourlyForecast.localTimestamp * 1000)),
+                            timeZone: item.timeZone,
+                            windDirection: hourlyForecast.wind.direction,
+                            windCompassDirection: hourlyForecast.wind.compassDirection,
+                            windGusts: hourlyForecast.wind.gusts,
+                            windSpeed: hourlyForecast.wind.speed,
+                            windUnit: hourlyForecast.wind.unit,
+                            fadedRating: hourlyForecast.fadedRating,
+                            solidRating: hourlyForecast.solidRating,
+                            localTime: hourlyForecast.localTimestamp * 1000,
+                            timeUTC: hourlyForecast.timestamp * 1000,
+                            minBreakingHeight: hourlyForecast.swell.minBreakingHeight,
+                            maxBreakingHeight: hourlyForecast.swell.maxBreakingHeight,
+                            combinedSwellDirection: hourlyForecast.swell.components.combined.compassDirection,
+                            combinedHeight: hourlyForecast.swell.components.combined.height,
+                            combinedPeriod: hourlyForecast.swell.components.combined.period,
+                            primarySwellDirection: hourlyForecast.swell.components.primary
+                                ? hourlyForecast.swell.components.primary.compassDirection
+                                : null,
+                            primaryHeight: hourlyForecast.swell.components.primary
+                                ? hourlyForecast.swell.components.primary.height
+                                : null,
+                            primaryPeriod: hourlyForecast.swell.components.primary
+                                ? hourlyForecast.swell.components.primary.period
+                                : null,
+                            secondarySwellDirection: hourlyForecast.swell.components.secondary
+                                ? hourlyForecast.swell.components.secondary.compassDirection
+                                : null,
+                            secondaryHeight: hourlyForecast.swell.components.secondary
+                                ? hourlyForecast.swell.components.secondary.height
+                                : null,
+                            secondaryPeriod: hourlyForecast.swell.components.secondary
+                                ? hourlyForecast.swell.components.secondary.period
+                                : null
+                        })
+                        resolve(arr);
+
                     })
-                    resolve(arr);
-                    
-                })
             });
-                
+
             return hourlySwellForecast.then((data) => {
 
                 const spotSwellForecast = {
@@ -441,7 +466,7 @@ export const getMultiViewSwellForecast = (data) => {
                     swellForecast: data
 
                 }
-                
+
                 return spotSwellForecast;
             })
         }))
@@ -460,11 +485,12 @@ export const getMultiViewSwellForecast = (data) => {
                 console.log(error);
             })
 
-    };}
+    };
+}
 
 export const getCloseSurfSpots = (jsonUrl) => {
     const fullURL = `${jsonUrl.urlProxy}/${jsonUrl.surfSpotJson}`;
-    
+
     const request = new Promise((res) => {
         res(latLng(fullURL))
     });
@@ -513,7 +539,7 @@ export const searchActionCloseSurfSpots = (value) => {
                 return {locations: response.data, coords: coords}
             })
             .then((locationsAndCoords) => {
-                
+
                 return getCloseSurfSpotsArr(locationsAndCoords)
             })
             .then((closeSurfSpotsRaw) => {
@@ -530,7 +556,7 @@ export const searchActionCloseSurfSpots = (value) => {
 
 export const getTideStations = (value) => {
     const fullURL = `${value.apiEndpoints.urlProxy}/${value.apiEndpoints.tideAndCurrentsApiData}`;
-    
+
     let request = new Promise((resolve) => {
         axios
             .get(fullURL)
@@ -586,7 +612,9 @@ export const getTideForecast = (data) => {
     const tideApiUrlMlw = `${fullURL}date=today&station=${data.tideStations[0].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
     const tideApiUrlMlw2 = `${fullURL}date=today&station=${data.tideStations[1].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
 
-    const headers = { 'X-Requested-With': 'XMLHttpReques' }
+    const headers = {
+        'X-Requested-With': 'XMLHttpReques'
+    }
     return (dispatch) => {
         axios
             .get(tideApiUrlMlw, headers)
@@ -614,7 +642,6 @@ export const getTideForecast = (data) => {
 export const getWaterTemp = (data) => {
 
     // ----------- function to break down columns of txt in ndbc txt file return
-
 
     const NdbcWaterTemp = `${data.apiEndpoints.urlProxy}/https://www.ndbc.noaa.gov/data/realtime2/${data.ndbcStations.buoyId}.txt`;
 
@@ -648,7 +675,7 @@ export const getWaterTemp = (data) => {
 
             })
             .then((data) => {
-                
+
                 const parsedData = JSON.parse(data);
                 parsedData[1].WTMP != "MM"
                     ? dispatch({type: GET_WATER_TEMP, payload: parsedData[1].WTMP})
@@ -855,24 +882,26 @@ export const getMaxWaveHeightMultiView = (data) => {
     let maxWaveHeightArr = [];
     const request = new Promise((resolve) => {
         data.map((item) => {
-            item.swellForecast.map((forecast) => {
-                maxWaveHeightArr.push(forecast.maxBreakingHeight);
-            })
-            
+            item
+                .swellForecast
+                .map((forecast) => {
+                    maxWaveHeightArr.push(forecast.maxBreakingHeight);
+                })
+
         })
         resolve(maxWaveHeightArr)
     })
     return (dispatch) => {
         function onSuccess(data) {
-            dispatch({ type: GET_MAX_WAVE_HEIGHT_MULTI_VIEW, payload: data });
+            dispatch({type: GET_MAX_WAVE_HEIGHT_MULTI_VIEW, payload: data});
             return data;
         }
 
         request.then(data => {
             const sortedArr = data.sort((a, b) => {
-                if (a > b)
+                if (a > b) 
                     return 1;
-                if (a < b)
+                if (a < b) 
                     return -1;
                 return 0;
             });

@@ -23,6 +23,7 @@ import {
     GET_MULTI_VIEW_SWELL_FORECAST,
     GET_MAX_WAVE_HEIGHT_MULTI_VIEW,
     GET_ACTIVE_SURF_SPOT,
+    GET_SURFLINE_WIND_FORECAST,
     GET_LAT,
     GET_LNG
 } from '../helpers/types';
@@ -42,7 +43,7 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
         case GET_SURF_API_ENDPOINTS:
             return {
                 ...state,
-                surfApiEndPoints: action.payload.data.allSurfAppJsonUrls[0]
+                surfApiEndPoints: action.payload.data.allSurfAppJsonUcurrentConditionsrls[0]
             }
         case GET_LOCATION_OBJECT:
 
@@ -228,6 +229,11 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 activeSurfSpot: action.payload
+            }
+        case GET_SURFLINE_WIND_FORECAST:
+            return {
+                ...state,
+                surflineWindForecast: action.payload
             }
         case GET_LAT:
             return {

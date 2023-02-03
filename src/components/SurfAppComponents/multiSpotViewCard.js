@@ -718,15 +718,15 @@ const getRatingText = (currentMultiViewConditions) => {
             return 'Good';
         }
             
-        else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight === 4 && currentMultiViewConditions.fadedRating <= 2){
+        else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight === 4 && currentMultiViewConditions.fadedRating <= 1){
             return 'Fair - Good';
         }
             
-        else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight >= 3 && currentMultiViewConditions.fadedRating <= 3){
+        else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight >= 3 && currentMultiViewConditions.fadedRating <= 2){
             return 'Fair';
         }
             
-        else if (currentMultiViewConditions.minBreakingHeight >= 1 && currentMultiViewConditions.maxBreakingHeight <= 3 && currentMultiViewConditions.fadedRating <= 3){
+        else if (currentMultiViewConditions.minBreakingHeight >= 1 && currentMultiViewConditions.maxBreakingHeight <= 3 && currentMultiViewConditions.fadedRating <= 2){
             return 'Poor - Fair';
         }
             
@@ -754,15 +754,15 @@ const getRatingColor = (currentMultiViewConditions) => {
         return '#DB6300';
     }
 
-    else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight === 4 && currentMultiViewConditions.fadedRating <= 2) {
+    else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight === 4 && currentMultiViewConditions.fadedRating <= 1) {
         return '#E6D600';
     }
 
-    else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight >= 3 && currentMultiViewConditions.fadedRating <= 3) {
+    else if (currentMultiViewConditions.minBreakingHeight >= 2 && currentMultiViewConditions.maxBreakingHeight >= 3 && currentMultiViewConditions.fadedRating <= 2) {
         return '#39CC4F';
     }
 
-    else if (currentMultiViewConditions.minBreakingHeight >= 1 && currentMultiViewConditions.maxBreakingHeight <= 3 && currentMultiViewConditions.fadedRating <= 3) {
+    else if (currentMultiViewConditions.minBreakingHeight >= 1 && currentMultiViewConditions.maxBreakingHeight <= 3 && currentMultiViewConditions.fadedRating <= 2) {
         return '#34B3E3';
     }
 

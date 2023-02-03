@@ -34,6 +34,7 @@ import {
     getActiveLocation,
     getMultiViewForecast,
     getMultiViewSwellForecast,
+    getSurflineWindForecast
 } from '../actions/surfApp.actions';
 import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
 import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
@@ -261,7 +262,7 @@ margin-bottom: 0;
     position: unset;
     margin: 1vw 0 1vw 1.5vw;
     padding: 1vh;
-    font-size: 2vw;
+    font-size: max(2vw, .9rem);
     width: calc(100% - 1vw);
     line-height: 2vw;
 }
@@ -831,6 +832,7 @@ const mapStateToProps = state => {
             currentConditions: state.surf.currentConditions,
             swellForecast: state.surf.swellForecast,
             windForecast: state.surf.windForecast,
+            surflineWindForecast: state.surf.surflineWindForecast,
             tideStations: state.surf.tideStations,
             ndbcStations: state.surf.ndbcStations,
             weatherStations: state.surf.weatherStations,
@@ -855,6 +857,7 @@ const mapDispatchToProps = dispatch => ({
     getLocationsObject: locations => dispatch(getLocationsObject(locations)),
     getCloseSurfSpots: closeSurfSpots => dispatch(getCloseSurfSpots(closeSurfSpots)),
     getSurfForecast: surfForecast => dispatch(getSurfForecast(surfForecast)),
+    getSurflineWindForecast: surflineWindForecast => dispatch(getSurflineWindForecast(surflineWindForecast)),
     getSwellForecast: swellForecast => dispatch(getSwellForecast(swellForecast)),
     getWindForecast: windForecast => dispatch(getWindForecast(windForecast)),
     getMaxWaveHeight: maxWaveHeight => dispatch(getMaxWaveHeight(maxWaveHeight)),
@@ -944,11 +947,13 @@ class SurfGUILanding extends Component {
             const { getWeatherForecast } = this.props;
             const { getNdbcStations } = this.props;
             const { getMultiViewForecast } = this.props;
+            const { getSurflineWindForecast } = this.props;
             this.props.getActiveLocation(this.props.surf.closeSurfSpots[0]);
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId });
             this.setState({ lat: this.props.surf.closeSurfSpots[0].lat });
             this.setState({ lng: this.props.surf.closeSurfSpots[0].lng });
             getSurfForecast({surfSpot: this.props.surf.closeSurfSpots[0].spotId, apiEndpoints: this.props.surf.surfApiEndPoints});
+            getSurflineWindForecast(this.props.surf.closeSurfSpots[0].slSpotId);
             getTideStations({surfSpot: this.props.surf.closeSurfSpots[0], apiEndpoints: this.props.surf.surfApiEndPoints});
             getNdbcStations({surfSpot: this.props.surf.closeSurfSpots[0], apiEndpoints: this.props.surf.surfApiEndPoints});
             getWeatherStations(this.props.surf.closeSurfSpots[0]);
@@ -964,9 +969,11 @@ class SurfGUILanding extends Component {
             const { getWeather } = this.props;
             const { getWeatherForecast } = this.props;
             const { getNdbcStations } = this.props;
+            const { getSurflineWindForecast } = this.props;
             this.setState({ activeSurfSpot: this.props.surf.activeLocation.spotId });
             this.setState({ lat: this.props.surf.activeLocation.lat });
             this.setState({ lng: this.props.surf.activeLocation.lng });
+            getSurflineWindForecast(this.props.surf.activeLocation.slSpotId);
             getSurfForecast({surfSpot: this.props.surf.activeLocation.spotId, apiEndpoints: this.props.surf.surfApiEndPoints});
             getTideStations({surfSpot: this.props.surf.activeLocation, apiEndpoints: this.props.surf.surfApiEndPoints});
             getNdbcStations({surfSpot: this.props.surf.closeSurfSpots[0], apiEndpoints: this.props.surf.surfApiEndPoints});

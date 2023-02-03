@@ -59,7 +59,7 @@ font-size: .75vw;
 height: fit-content;
 line-height: .65vw;
 @media(max-width:${variables.large}){
-   font-size: 2vw;
+   font-size: max(2vw, .9rem);
    line-height: 2vw;
    padding: 0 0 0 0.8vw;
 }
