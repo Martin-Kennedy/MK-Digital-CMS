@@ -1,10 +1,11 @@
-import React, {Fragment, Component} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import HomepageHero from '../components/heros/homepageHero'
 import XaxisScrollComponent from '../helpers/dragOnXaxis';
 import HeaderComponent from '../components/navigation/header';
 import Footer from '../components/footer';
+import Loading from '../components/loadingComponent';
 import styled from 'styled-components';
 import {getHomepage} from './../actions/homepage.actions';
 import {getToken, establishSession} from './../actions/initialUtility.actions';
@@ -263,44 +264,40 @@ const mapStateToProps = state => {
     }
 }
 
-class Home extends Component {
+const Home = (props) => {
 
-    constructor() {
-        super();
-        this.state = {
-            mouseLeft: null
+   const state = {
+            mouseLeft: null,
+            session: props.initialUtility.session,
+            token: props.initialUtility.keystoneToken,
+
         }
+    
 
-    }
+    useEffect( () => {
 
-    componentDidUpdate(prevProps) {
-
-        if (this.props.initialUtility.session === true) {
-            if (!this.props.homepage.pageData) {
-                this
-                    .props
-                    .dispatch(getHomepage(this.props.initialUtility.keystoneToken));
+        if (props.initialUtility.session === true) {
+            if (!props.homepage.pageData) {
+                props
+                    .dispatch(getHomepage(props.initialUtility.keystoneToken));
             }
         } else {
-            if (this.props.initialUtility.keystoneToken === null) {
-                this
-                    .props
+            if (props.initialUtility.keystoneToken === null) {
+                props
                     .dispatch(getToken())
             } else {
-                this
-                    .props
-                    .dispatch(establishSession(this.props.initialUtility.keystoneToken))
+                props
+                    .dispatch(establishSession(props.initialUtility.keystoneToken))
             }
         }
-    }
+    },[state.session, state.token])
 
-    render() {
-        const pageData = this.props.homepage.pageData;
+        const pageData = props.homepage.pageData;
         return (
             <div>
-                {this.props.homepage.pageData
+                {props.homepage.pageData
                     ? <Fragment>
-                            <HeaderComponent location={this.props.location.pathname}/> {/* Hero Section */}
+                            <HeaderComponent location={props.location.pathname}/> {/* Hero Section */}
                             <HomepageHero/>
 
                             <Waypoint
@@ -329,13 +326,13 @@ class Home extends Component {
                                                     to={pageData.sectionOneLink}
                                                     replace
                                                     color={pageData.sectionOneLinkColor}
-                                                    className={this.state.mouseLeft === true
+                                                    className={state.mouseLeft === true
                                                     ? 'projectSiteLinkHoverOut'
-                                                    : this.state.mouseLeft === false
+                                                    : state.mouseLeft === false
                                                         ? 'projectSiteLinkHoverIn'
                                                         : null}
-                                                    onMouseEnter={() => this.setState({mouseLeft: false})}
-                                                    onMouseLeave={() => this.setState({mouseLeft: true})}>{pageData.sectionOneLinkLabel}</SectionLink>
+                                                    onMouseEnter={() => setState({mouseLeft: false})}
+                                                    onMouseLeave={() => setState({mouseLeft: true})}>{pageData.sectionOneLinkLabel}</SectionLink>
                                             </Col>
 
                                         </SectionOne>
@@ -378,13 +375,13 @@ class Home extends Component {
                                                 to={pageData.sectionFourLink}
                                                 replace
                                                 color={pageData.sectionFourLinkColor}
-                                                className={this.state.mouseLeft === true
+                                                className={state.mouseLeft === true
                                                 ? 'projectSiteLinkHoverOut'
-                                                : this.state.mouseLeft === false
+                                                : state.mouseLeft === false
                                                     ? 'projectSiteLinkHoverIn'
                                                     : null}
-                                                onMouseEnter={() => this.setState({mouseLeft: false})}
-                                                onMouseLeave={() => this.setState({mouseLeft: true})}>{pageData.sectionFourLinkLabel}
+                                                onMouseEnter={() => setState({mouseLeft: false})}
+                                                onMouseLeave={() => setState({mouseLeft: true})}>{pageData.sectionFourLinkLabel}
                                             </ApplicationSectionLink>
                                         </Col>
                                         <Col
@@ -432,13 +429,13 @@ class Home extends Component {
                                                 to={pageData.sectionFiveLink}
                                                 replace
                                                 color={pageData.sectionFiveLinkColor}
-                                                className={this.state.mouseLeft === true
+                                                className={state.mouseLeft === true
                                                 ? 'projectSiteLinkHoverOut'
-                                                : this.state.mouseLeft === false
+                                                : state.mouseLeft === false
                                                     ? 'projectSiteLinkHoverIn'
                                                     : null}
-                                                onMouseEnter={() => this.setState({mouseLeft: false})}
-                                                onMouseLeave={() => this.setState({mouseLeft: true})}>{pageData.sectionFiveLinkLabel}
+                                                onMouseEnter={() => setState({mouseLeft: false})}
+                                                onMouseLeave={() => setState({mouseLeft: true})}>{pageData.sectionFiveLinkLabel}
                                             </ContactSectionLink>
                                         </Col>
                                     </SectionSix>
@@ -451,7 +448,7 @@ class Home extends Component {
 
                                     <Col xs={1} sm={3}></Col>
                                     <Col xs={10} sm={7}>
-                                        <Footer location={this.props.location.pathname}/>
+                                        <Footer location={props.location.pathname}/>
                                     </Col>
                                     <Col xs={1} sm={2}></Col>
                                 </HomeFooterRow>
@@ -459,11 +456,10 @@ class Home extends Component {
                             </HomeFooter>
 
                         </Fragment>
-                    : null}
+                    : <Loading/>}
             </div>
 
         );
-    }
 }
 
 export default connect(mapStateToProps)(Home);

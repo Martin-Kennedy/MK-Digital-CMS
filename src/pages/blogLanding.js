@@ -9,6 +9,7 @@ import HeaderComponent from '../components/navigation/header';
 import {getToken, establishSession} from '../actions/initialUtility.actions';
 import {getBlogLanding} from '../actions/blogs.actions';
 import Footer from '../components/footer';
+import Loading from '../components/loadingComponent';
 
 const TopRow = styled(Row)`
 padding-top: 120px;
@@ -75,7 +76,7 @@ const BlogLanding = (props) => {
             }
         }
     })
-    return <div>
+      return props.blogs.blogLandingData ? <div>
         <HeaderComponent location={props.location.pathname}/>
         <TopRow>
             <Col xs={2} sm={1}></Col>
@@ -107,7 +108,7 @@ const BlogLanding = (props) => {
             <Col xs={2} sm={1}></Col>
         </Row>
 
-    </div>
+    </div> : <Loading />;
 
 }
 

@@ -16,6 +16,7 @@ import {Waypoint} from 'react-waypoint';
 import {getIntersectingState} from '../actions/pages.actions';
 import variables from '../variables.module.scss';
 import MediaQuery from 'react-responsive';
+import Loading from '../components/loadingComponent';
 
 const smallNum = Number(variables.smallNum);
 const mediumNum = Number(variables.mediumNum)
@@ -960,7 +961,7 @@ class ProjectPage extends Component {
                                 </NextProject>
                             </Waypoint>
                         </BaseLayer>
-                    : 'loading'
+                    : <Loading />
 }
             </div>
         )

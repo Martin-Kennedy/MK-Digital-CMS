@@ -41,9 +41,10 @@ const INITIAL_STATE = {
 const surfAppReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_SURF_API_ENDPOINTS:
+            console.log(action.payload.data)
             return {
                 ...state,
-                surfApiEndPoints: action.payload.data.allSurfAppJsonUcurrentConditionsrls[0]
+                surfApiEndPoints: action.payload.data.allSurfAppJsonUrls[0]
             }
         case GET_LOCATION_OBJECT:
 
