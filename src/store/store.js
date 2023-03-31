@@ -71,6 +71,7 @@ const initalState = {
         uvForecast: [],
         currentSwell: [],
         isSearchOpen: false,
+        isLoginOpen: false,
         isCloseSpotsOpen: false,
         multiViewForecast: [],
         multiViewSwellForecast: [],

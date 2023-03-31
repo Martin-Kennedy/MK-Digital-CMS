@@ -4,6 +4,7 @@ import {
     GET_MULTI_VIEW_FORECAST,
     LOAD_VIEW,
     SEARCH_OPEN_STATE,
+    LOGIN_OPEN_STATE,
     CLOSE_SPOTS_OPEN_STATE,
     GET_LOCATION_OBJECT,
     GET_SPOT_FORECAST,
@@ -37,6 +38,10 @@ const surflineApiV2Wave = "https://services.surfline.com/kbyg/spots/forecasts/wa
 
 export const searchOpenState = (data) => {
     return {type: SEARCH_OPEN_STATE, payload: data};
+};
+
+export const loginOpenState = (data) => {
+    return {type: LOGIN_OPEN_STATE, payload: data};
 };
 
 export const closeSpotsOpenState = (data) => {

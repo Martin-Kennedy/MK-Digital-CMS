@@ -3,6 +3,7 @@ import {
     GET_ACTIVE_LOCATION,
     GEO_LOCATION_ERROR,
     SEARCH_OPEN_STATE,
+    LOGIN_OPEN_STATE,
     CLOSE_SPOTS_OPEN_STATE,
     LOAD_VIEW,
     GET_LOCATION_OBJECT,
@@ -188,6 +189,12 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isSearchOpen: !action.payload
+            }
+        case LOGIN_OPEN_STATE:
+            console.log(action.payload);
+            return {
+                ...state,
+                isLoginOpen: !action.payload
             }
         case CLOSE_SPOTS_OPEN_STATE:
             return {

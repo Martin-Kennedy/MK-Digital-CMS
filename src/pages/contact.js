@@ -5,6 +5,7 @@ import HeaderComponent from '../components/navigation/header';
 import {ContactForm} from '../components/forms/contactForm';
 import styled from 'styled-components';
 import Footer from '../components/footer';
+import Loading from '../components/loadingComponent';
 import {H1, H2, Line} from '../helpers/commonStyledComponents';
 import {getContact} from '../actions/contact.actions';
 import {establishSession, getToken} from '../actions/initialUtility.actions';

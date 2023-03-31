@@ -26,6 +26,7 @@ import {
     getWeatherForecast,
     getCurrentSwell,
     searchOpenState,
+    loginOpenState,
     closeSpotsOpenState,
     loadView,
     getLat,
@@ -49,7 +50,9 @@ import {
     UVIndexComponent
 } from '../components/SurfAppComponents/surfMapAndConditions';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
+import {Login} from '../components/SurfAppComponents/login';
 import { SpotSearchSVGPath } from '../components/designElementComponents/spotSearchSVGPath';
+import { UserSVGPath } from '../components/designElementComponents/userSVGPath';
 import { CloseSpotsSVGPath } from '../components/designElementComponents/closeSpotsSVGPath';
 import { MultiSpotsSVGPath } from '../components/designElementComponents/multiSpotsSVGPath';
 import { HomeIconSVGPath } from '../components/designElementComponents/homeIconSVGPath';
@@ -483,6 +486,14 @@ ul {
 }
 `;
 
+const LoginMenu = styled(SearchMenu)`
+left: 30vw;
+top: -50vh;
+width: 45vw;
+height: 45vh;
+transition: .6s;
+`;
+
 const Title = styled(Row)`
 p {
     width: 100%;
@@ -842,6 +853,7 @@ const mapStateToProps = state => {
             weatherForecast: state.surf.weatherForecast,
             currentSwell: state.surf.currentSwell,
             isSearchOpen: state.surf.isSearchOpen,
+            isLoginOpen: state.surf.isLoginOpen,
             isCloseSpotsOpen: state.surf.isCloseSpotsOpen,
             activeLocation: state.surf.activeLocation,
             isView: state.surf.isView,
@@ -870,6 +882,7 @@ const mapDispatchToProps = dispatch => ({
     getWeather: weather => dispatch(getWeather(weather)),
     getWeatherForecast: weatherForecast => dispatch(getWeatherForecast(weatherForecast)),
     searchOpenState: openState => dispatch(searchOpenState(openState)),
+    loginOpenState: openState => dispatch(loginOpenState(openState)),
     closeSpotsOpenState: openState => dispatch(closeSpotsOpenState(openState)),
     loadView: openState => dispatch(loadView(openState)),
     getActiveLocation: activeLocation => dispatch(getActiveLocation(activeLocation)),
@@ -1077,6 +1090,20 @@ class SurfGUILanding extends Component {
                                 </CloseButtonContainer>
                                 <SurfSpotsSearchFilter />
                             </SearchMenu>
+                            <LoginMenu
+                                className={this.props.surf.isLoginOpen
+                                    ? 'slideInFromTopSurfSPA'
+                                    : null}>
+
+                                <CloseButtonContainer
+                                    onClick={() => this.props.loginOpenState(this.props.surf.isLoginOpen)}>
+                                    <CloseButtonIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                        <CloseButtonSVGPath />
+                                    </CloseButtonIcon>
+                                    <p>close</p>
+                                </CloseButtonContainer>
+                                <Login />
+                            </LoginMenu>
                             <MediaQuery minWidth={variables.large}>
                                 <Col md={1}>
                                     <MenuNavBkg >
@@ -1109,6 +1136,14 @@ class SurfGUILanding extends Component {
                                             <SurfAppToolTipComponent message={"Surf Spot Search"} placement={"right"}>
                                                 <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
                                                     <SpotSearchSVGPath />
+                                                </SpotSearchIcon>
+                                            </SurfAppToolTipComponent>
+                                        </SpotSearchContainer>
+                                        <SpotSearchContainer
+                                            onClick={() => this.props.loginOpenState(this.props.surf.isLoginOpen)}>
+                                            <SurfAppToolTipComponent message={"User Login"} placement={"right"}>
+                                                <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
+                                                    <UserSVGPath />
                                                 </SpotSearchIcon>
                                             </SurfAppToolTipComponent>
                                         </SpotSearchContainer>
