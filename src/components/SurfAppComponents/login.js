@@ -1,18 +1,20 @@
 import React, { useEffect, useState, Fragment} from 'react';
-
+import {connect} from "react-redux";
 import styled from 'styled-components'
 import variables from '../../variables.module.scss';
+import {getSurferCredentials} from '../../actions/surfApp.actions';
 
 const StyledLogin = styled.div`
 
-    input {
+    input, input[type="password"] {
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-right-color: rgba(255, 255, 255, 0.07);
     border-bottom-color: rgba(255, 255, 255, 0.07);
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.07);
     position: relative;
+    outline:0;
     width: 100%;
     height: 4vh;
     padding: 4%;
@@ -53,9 +55,72 @@ const StyledLogin = styled.div`
     }
 }`
 
-export const Login = () => {
-    return (<StyledLogin>
-        <input placeholder="User Name"></input>
-        <input placeholder="Password" type="password"></input>
+const mapStateToProps = state => {
+    return {
+        initialUtility: {
+            session: state.initialUtility.session,
+            keystoneToken: state.initialUtility.keystoneToken
+        },
+        surf: {
+            surferUserCredentials: state.surf.surferUserCredentials
+        }
+    }
+}
+
+
+const mapDispatchToProps = dispatch => ({
+    getSurferCredentials: (token, email, password) => dispatch(getSurferCredentials(token, email, password))
+});
+
+export const LoginComponent = (props) => {
+   
+    const [state, setState] = useState({
+    email: "",
+    userName: ""
+  });
+
+const { getSurferCredentials } = props;
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setState((prevProps) => ({
+      ...prevProps,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    getSurferCredentials(props.initialUtility.keystoneToken, state.userName, state.email)
+  };
+
+  return (
+    <StyledLogin>
+      <form onSubmit={handleSubmit}>
+        <div >
+          <label>User Name</label>
+          <input
+            type="text"
+            name="userName"
+            value={state.userName}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div >
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={state.email}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div >
+          <label></label>
+          <button type="submit">Login</button>
+        </div>
+      </form>
     </StyledLogin>)
 }
+
+export const Login = connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

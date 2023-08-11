@@ -42,7 +42,6 @@ const INITIAL_STATE = {
 const surfAppReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_SURF_API_ENDPOINTS:
-            console.log(action.payload.data)
             return {
                 ...state,
                 surfApiEndPoints: action.payload.data.allSurfAppJsonUrls[0]
@@ -67,22 +66,29 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
                 closestSurfSpot: action.payload[0]
             }
         case GET_SPOT_FORECAST:
+            const combineDataIntoObj = () => {
+                let surfForecastObj = {}
+                action.payload.hourly.time.map((t, i) => {
+                    surfForecastObj[t] = {waveHeight: action.payload.hourly.wave_height[i], waveDirection: action.payload.hourly.wave_direction[i], wavePeriod: action.payload.hourly.wave_period[i], swellHeight: action.payload.hourly.swell_wave_height[i], swellPeriod: action.payload.hourly.swell_wave_period[i], swellDirection: action.payload.hourly.swell_wave_direction[i], swellPeakPeriod: action.payload.hourly.swell_wave_peak_period[i]}
+                })
+                return surfForecastObj
+            }
             const getCurrentConditions = () => {
 
                 const now = moment.utc().valueOf();
                 return action
-                    .payload
+                    .payload.hourly.time
                     .filter((d) => {
-                        return d.timestamp * 1000 < now;
+                        return  d < now;
                     })
 
             }
             const getFutureConditions = () => {
 
                 return action
-                    .payload
+                    .payload.hourly.time
                     .filter((d) => {
-                        const forecastDateObj = new Date(d.timestamp * 1000).getTime();
+                        const forecastDateObj = new Date(d).getTime();
                         const fullDateToday = Math.floor(Date.now() / 1000) * 1000;
                         return forecastDateObj >= fullDateToday;
                     })
@@ -90,7 +96,8 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
 
             let currentConditions = getCurrentConditions()[getCurrentConditions().length - 1];
             let forecast = getFutureConditions();
-
+            let data = combineDataIntoObj();
+            console.log(data)
             return {
                 ...state,
                 hourlyForecast: forecast,

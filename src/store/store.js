@@ -79,7 +79,8 @@ const initalState = {
         activeLocation: null,
         activeSurfSpot: null,
         lat: null,
-        lng: null
+        lng: null,
+        surferUserCredentials: []
     },
 
     pages: {

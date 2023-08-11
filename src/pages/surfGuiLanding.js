@@ -965,7 +965,8 @@ class SurfGUILanding extends Component {
             this.setState({ activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId });
             this.setState({ lat: this.props.surf.closeSurfSpots[0].lat });
             this.setState({ lng: this.props.surf.closeSurfSpots[0].lng });
-            getSurfForecast({surfSpot: this.props.surf.closeSurfSpots[0].spotId, apiEndpoints: this.props.surf.surfApiEndPoints});
+            console.log(this.props.surf.closeSurfSpots[0])
+            getSurfForecast({lat: this.props.surf.closeSurfSpots[0].lat, lng: this.props.surf.closeSurfSpots[0].lng, apiEndpoints: this.props.surf.surfApiEndPoints});
             getSurflineWindForecast(this.props.surf.closeSurfSpots[0].slSpotId);
             getTideStations({surfSpot: this.props.surf.closeSurfSpots[0], apiEndpoints: this.props.surf.surfApiEndPoints});
             getNdbcStations({surfSpot: this.props.surf.closeSurfSpots[0], apiEndpoints: this.props.surf.surfApiEndPoints});
@@ -987,7 +988,7 @@ class SurfGUILanding extends Component {
             this.setState({ lat: this.props.surf.activeLocation.lat });
             this.setState({ lng: this.props.surf.activeLocation.lng });
             getSurflineWindForecast(this.props.surf.activeLocation.slSpotId);
-            getSurfForecast({surfSpot: this.props.surf.activeLocation.spotId, apiEndpoints: this.props.surf.surfApiEndPoints});
+            getSurfForecast({lat: this.props.surf.closeSurfSpots[0].lat, lng: this.props.surf.closeSurfSpots[0].lng, apiEndpoints: this.props.surf.surfApiEndPoints});
             getTideStations({surfSpot: this.props.surf.activeLocation, apiEndpoints: this.props.surf.surfApiEndPoints});
             getNdbcStations({surfSpot: this.props.surf.closeSurfSpots[0], apiEndpoints: this.props.surf.surfApiEndPoints});
             getWeatherStations(this.props.surf.activeLocation);

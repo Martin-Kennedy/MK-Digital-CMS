@@ -26,7 +26,8 @@ import {
     GET_LAT,
     GET_LNG,
     GET_ACTIVE_SURF_SPOT,
-    GET_SURFLINE_WIND_FORECAST
+    GET_SURFLINE_WIND_FORECAST,
+    GET_SURFER_CREDENTIALS
 
 } from '../helpers/types'
 import {formatAMPM} from '../helpers/utilities'
@@ -97,6 +98,39 @@ export const getSurfApiEndPoints = (token) => {
             .then(data => {
 
                 dispatch({type: GET_SURF_API_ENDPOINTS, payload: data})
+            })
+            .catch(error => {
+                throw(error);
+            });
+    };
+};
+
+
+export const getSurferCredentials = (token, userName, email ) => {
+
+    
+    return (dispatch) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+
+         const bodyParameters = {
+            query: `query {
+                allSurfers(where: { AND: [{ userName: "${userName}" }, { email: "${email}" }] }) {
+                    id
+                }
+                }`
+                }
+
+        return axios
+            .post(apiUrl, bodyParameters, config)
+            .then(response => {
+            return response.data
+        })
+            .then(data => {
+                dispatch({type: GET_SURFER_CREDENTIALS, payload: data})
             })
             .catch(error => {
                 throw(error);
@@ -237,6 +271,7 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
             })
         })
         return closeSpotArr.then((data) => {
+            console.log(data)
             const sortedArr = data.sort((a, b) => {
                 return a.distanceFromLocation - b.distanceFromLocation;
             });
@@ -248,13 +283,15 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
 
 export const getSurfForecast = (value) => {
     const fullURL = `${value.apiEndpoints.urlProxy}/${value.apiEndpoints.surfSpotApi}`;
+    console.log(fullURL + '?latitude=' + value.lat + '&longitude=' + value.lng + '&hourly=wave_height,wave_direction,wave_period&timezone=GMT')
     return (dispatch) => {
         return axios
-            .get(fullURL + value.surfSpot)
+            .get(fullURL + '?latitude=' + value.lat + '&longitude=' + value.lng + '&hourly=wave_height,wave_direction,wave_period,swell_wave_height,swell_wave_direction,swell_wave_period,swell_wave_peak_period&timezone=GMT&timeformat=unixtime') //https://marine-api.open-meteo.com/v1/marine?latitude=54.3213&longitude=10.1348&hourly=wave_height,wave_direction,wave_period&timezone=GMT
             .then(response => {
                 return response.data
             })
             .then(data => {
+                console.log(data)
                 dispatch({type: GET_SPOT_FORECAST, payload: data})
             })
             .catch(error => {
@@ -989,8 +1026,9 @@ export const getWeatherStations = (data) => {
 }
 
 export const getWeather = (data) => {
-    let apiKey = '5de113a38fff4837919307fd505473e1';
-    const weatherUrl = `https://api.weatherbit.io/v2.0/current?lat=${data.lat}6&lon=${data.lng}&key=${apiKey}&units=I`
+
+    let apiKey = '5c8c6a2c60f2435f80829630c352643b';
+    const weatherUrl = `https://api.weatherbit.io/v2.0/current?lat=${data.lat}&lon=${data.lng}&key=${apiKey}&units=I`
     return (dispatch) => {
         return axios
             .get(weatherUrl)

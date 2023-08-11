@@ -11,10 +11,10 @@ export const getToken = () => {
                 method: 'post',
                 data: {
                     query: `mutation  {
-                authenticate: authenticateUserWithPassword(email: "frontEndAccess@gmail.com", password: "ReadAccess") {
-            token
-            }
-            } `
+                        authenticate: authenticateUserWithPassword(email: "frontEndAccess@gmail.com", password: "ReadAccess") {
+                        token
+                        }
+                    } `
                 }
             })
             .then(response => {

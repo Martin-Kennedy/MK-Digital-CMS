@@ -59,3 +59,4 @@ export const GET_LAT = 'GET_LAT';
 export const GET_LNG = 'GET_LNG';
 export const MULTI_VIEW = 'MULTI_VIEW';
 export const SINGLE_VIEW = 'SINGLE_VIEW';
+export const GET_SURFER_CREDENTIALS = 'GET_SURFER_CREDENTIALS';

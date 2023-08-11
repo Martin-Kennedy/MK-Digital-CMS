@@ -204,8 +204,6 @@ margin-top: 2.5vw;
 `
 
 const getRatingText = (currentConditions) => {
-    console.log((currentConditions.waveData.minBreakingHeight >= 4 && currentConditions.rating[1] <= 2));
-
     if (currentConditions.waveData.minBreakingHeight >= 5 && currentConditions.rating[1] < 1) {
         return 'Very Good';
     }
