@@ -32,6 +32,7 @@ import moment from 'moment';
 import {
   formatAMPM,
   CalculateBreakingWaveHeight,
+  MetersToFeet,
 } from '../helpers/utilities';
 
 const INITIAL_STATE = {
@@ -68,49 +69,93 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
       };
     case GET_SPOT_FORECAST:
       const combineAndMutateData = () => {
-        let surfForecastObj = [];
+        let surfForecastArr = [];
         const metersToFeet = (meters) => {
           return meters * 3.28084;
         };
 
-        action.payload.data.hourly.time.map((t, i) => {
-          const localTime = new Date(t * 1000);
-          localTime.toLocaleString('en-US', {
-            timeZone: action.payload.timeZone,
-          });
-          const localTimeStamp = new Date(localTime).getTime();
-          let breakingWaveHeightBase = CalculateBreakingWaveHeight(
-            action.payload.data.hourly.wave_height[i],
-            action.payload.data.hourly.wave_period[i]
-          );
-          breakingWaveHeightBase = metersToFeet(
-            breakingWaveHeightBase
-          );
-          const minBreakingHeight = Math.ceil(
-            breakingWaveHeightBase - 1
-          );
-          const maxBreakingHeight = Math.ceil(
-            breakingWaveHeightBase + 1
-          );
-          surfForecastObj.push({
-            time: localTimeStamp,
-            waveHeight: action.payload.data.hourly.wave_height[i],
-            waveDirection:
-              action.payload.data.hourly.wave_direction[i],
-            wavePeriod: action.payload.data.hourly.wave_period[i],
-            swellHeight:
-              action.payload.data.hourly.swell_wave_height[i],
-            swellPeriod:
-              action.payload.data.hourly.swell_wave_period[i],
-            swellDirection:
-              action.payload.data.hourly.swell_wave_direction[i],
-            swellPeakPeriod:
-              action.payload.data.hourly.swell_wave_peak_period[i],
-            minBreakingHeight: minBreakingHeight,
-            maxBreakingheight: maxBreakingHeight,
-          });
-        });
-        return surfForecastObj;
+        action.payload.data.marineWeather.data.hourly.time.map(
+          (t, i) => {
+            const localTime = new Date(t * 1000);
+            localTime.toLocaleString('en-US', {
+              timeZone: action.payload.timeZone,
+            });
+            const localTimeStamp = new Date(localTime).getTime();
+            let breakingWaveHeightBase = CalculateBreakingWaveHeight(
+              action.payload.data.marineWeather.data.hourly
+                .wave_height[i],
+              action.payload.data.marineWeather.data.hourly
+                .wave_period[i]
+            );
+            breakingWaveHeightBase = MetersToFeet(
+              breakingWaveHeightBase
+            );
+            const minBreakingHeight = Math.ceil(
+              breakingWaveHeightBase - 1
+            );
+            const maxBreakingHeight = Math.ceil(
+              breakingWaveHeightBase + 1
+            );
+            surfForecastArr.push({
+              time: localTimeStamp,
+              waveHeight:
+                action.payload.data.marineWeather.data.hourly
+                  .wave_height[i],
+              waveDirection:
+                action.payload.data.marineWeather.data.hourly
+                  .wave_direction[i],
+              wavePeriod:
+                action.payload.data.marineWeather.data.hourly
+                  .wave_period[i],
+              swellHeight:
+                action.payload.data.marineWeather.data.hourly
+                  .swell_wave_height[i],
+              swellPeriod:
+                action.payload.data.marineWeather.data.hourly
+                  .swell_wave_period[i],
+              swellDirection:
+                action.payload.data.marineWeather.data.hourly
+                  .swell_wave_direction[i],
+              swellPeakPeriod:
+                action.payload.data.marineWeather.data.hourly
+                  .swell_wave_peak_period[i],
+              minBreakingHeight: minBreakingHeight,
+              maxBreakingHeight: maxBreakingHeight,
+              weatherCode:
+                action.payload.data.weather.data.hourly.weathercode[
+                  i
+                ],
+              temperature:
+                action.payload.data.weather.data.hourly
+                  .temperature_2m[i],
+
+              apparentTemperature:
+                action.payload.data.weather.data.hourly
+                  .apparent_temperature[i],
+              maxTemperature:
+                action.payload.data.weather.data.daily
+                  .temperature_2m_max[0],
+              minTemperature:
+                action.payload.data.weather.data.daily
+                  .temperature_2m_min[0],
+              windDirection:
+                action.payload.data.weather.data.hourly
+                  .winddirection_10m[i],
+              windSpeed:
+                action.payload.data.weather.data.hourly.windspeed_10m[
+                  i
+                ],
+              windGusts:
+                action.payload.data.weather.data.hourly.windgusts_10m[
+                  i
+                ],
+              uvIndex:
+                action.payload.data.weather.data.hourly.uv_index[i],
+            });
+          }
+        );
+
+        return surfForecastArr;
       };
       let data = combineAndMutateData();
       const getCurrentConditions = () => {

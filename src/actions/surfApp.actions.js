@@ -283,6 +283,7 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
       });
       return closeSpotArr.then((data) => {
         console.log(data);
+
         const sortedArr = data.sort((a, b) => {
           return a.distanceFromLocation - b.distanceFromLocation;
         });
@@ -293,20 +294,37 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
 
 export const getSurfForecast = (value) => {
   // const fullURL = `${value.apiEndpoints.urlProxy}/${value.apiEndpoints.surfSpotApi}`;
-  const fullURL = 'https://marine-api.open-meteo.com/v1/marine';
+  const marineForecastUrl =
+    'https://marine-api.open-meteo.com/v1/marine';
+  const weatherForecastUrl = 'https://api.open-meteo.com/v1/forecast';
 
   return (dispatch) => {
     return axios
       .get(
-        fullURL +
+        marineForecastUrl +
           '?latitude=' +
           value.lat +
           '&longitude=' +
           value.lng +
           '&hourly=wave_height,wave_direction,wave_period,swell_wave_height,swell_wave_direction,swell_wave_period,swell_wave_peak_period&timezone=GMT&timeformat=unixtime&length_unit=metric'
       ) //https://marine-api.open-meteo.com/v1/marine?latitude=54.3213&longitude=10.1348&hourly=wave_height,wave_direction,wave_period&timezone=GMT
-      .then((response) => {
-        return response.data;
+      .then((responseMarine) => {
+        //https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,weathercode,windspeed_10m,winddirection_10m,windgusts_10m,uv_index&daily=sunrise,sunset&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=GMT&models=best_match
+        return axios
+          .get(
+            weatherForecastUrl +
+              '?latitude=' +
+              value.lat +
+              '&longitude=' +
+              value.lng +
+              '&hourly=temperature_2m,apparent_temperature,weathercode,windspeed_10m,winddirection_10m,windgusts_10m,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=fahrenheit&windspeed_unit=mph&timeformat=unixtime&timezone=GMT&models=best_match'
+          )
+          .then((responseWeather) => {
+            return {
+              marineWeather: responseMarine,
+              weather: responseWeather,
+            };
+          });
       })
       .then((data) => {
         dispatch({
@@ -322,7 +340,6 @@ export const getSurfForecast = (value) => {
 
 export const getSurflineWindForecast = (value) => {
   const fullURL = surflineApiV2Wind;
-  console.log(fullURL + value);
   return (dispatch) => {
     return axios
       .get(fullURL + value, {
@@ -331,7 +348,6 @@ export const getSurflineWindForecast = (value) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
         return response.data;
       })
       .then((data) => {
@@ -879,7 +895,7 @@ export const getSwellForecast = (data) => {
   let request = new Promise((resolve) => {
     let arr = [];
     data.map((hourlyForecast) => {
-      let dateObj = new Date(hourlyForecast.time * 1000);
+      let dateObj = new Date(hourlyForecast.tim);
       let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
       let day = new Date(dateObj).toLocaleString('default', {
         weekday: 'long',
@@ -888,24 +904,13 @@ export const getSwellForecast = (data) => {
       arr.push({
         date: fullDate,
         dayOfWeek: day,
-        time: formatAMPM(new Date(hourlyForecast.time * 1000)),
-        localTime: hourlyForecast.localTimestamp * 1000,
+        time: formatAMPM(new Date(hourlyForecast.time)),
+        localTime: hourlyForecast.time,
         minBreakingHeight: hourlyForecast.minBreakingHeight,
         maxBreakingHeight: hourlyForecast.maxBreakingHeight,
-        primarySwellDirection:
-          hourlyForecast.swell.components.primary.compassDirection,
-        primaryHeight: hourlyForecast.swell.components.primary.height,
-        primaryPeriod: hourlyForecast.swell.components.primary.period,
-        secondarySwellDirection: hourlyForecast.swell.components
-          .secondary
-          ? hourlyForecast.swell.components.secondary.compassDirection
-          : '',
-        secondaryHeight: hourlyForecast.swell.components.secondary
-          ? hourlyForecast.swell.components.secondary.height
-          : '',
-        secondaryPeriod: hourlyForecast.swell.components.secondary
-          ? hourlyForecast.swell.components.secondary.period
-          : '',
+        primarySwellDirection: hourlyForecast.swellDirection,
+        primaryHeight: hourlyForecast.swellHeight,
+        primaryPeriod: hourlyForecast.swellPeriod,
       });
     });
     resolve(arr);
@@ -932,7 +937,6 @@ export const getSwellForecast = (data) => {
 
 export const getMaxWaveHeight = (data) => {
   let maxWaveHeightArr = [];
-  console.log(data);
   const request = new Promise((resolve) => {
     for (const [key, value] of Object.entries(data)) {
       maxWaveHeightArr.push(value.waveHeight);
@@ -1012,12 +1016,10 @@ export const getWindForecast = (data) => {
           new Date(hourlyForecast.localTimestamp * 1000)
         ),
         localTime: hourlyForecast.localTimestamp * 1000,
-        chill: hourlyForecast.wind.chill,
-        compassDirection: hourlyForecast.wind.compassDirection,
-        direction: hourlyForecast.wind.direction,
-        gusts: hourlyForecast.wind.gusts,
-        speed: hourlyForecast.wind.speed,
-        unit: hourlyForecast.wind.unit,
+        direction: hourlyForecast.windDirection,
+        gusts: hourlyForecast.windGusts,
+        speed: hourlyForecast.windSpeed,
+        unit: 'mph',
       });
     });
     resolve(arr);
