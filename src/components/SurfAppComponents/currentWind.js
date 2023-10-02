@@ -4,6 +4,7 @@ import { Row } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { WindIconSVGPath } from '../designElementComponents/windIconSVGPath';
 import variables from '../../variables.module.scss';
+import { DegreesToCompassDirection } from '../../helpers/utilities';
 
 const WaveConditionBackdrop = styled.div`
 width: 100%;
@@ -329,7 +330,7 @@ export const CurrWindDataComponent = (props) => {
   const finalDeg =
     Object.prototype.toString.call(props.weatherForecast) ===
     '[object Object]'
-      ? props.weatherForecast.windDirection - 180
+      ? props.weatherForecast.windDirection - 90
       : props.msWindForecast.windDirection;
   const windSpeed =
     Object.prototype.toString.call(props.weatherForecast) ===
@@ -448,7 +449,7 @@ export const CurrWindDataComponent = (props) => {
       </WindSpeed>
       <BottomRow>
         <p>
-          <span>{degToCompass(direction)}</span>
+          <span>{DegreesToCompassDirection(direction + 90)}</span>
         </p>
         {!isNaN(windGust) ? (
           <p>
@@ -463,7 +464,7 @@ export const CurrWindDataComponent = (props) => {
 
 export const CurrWindDataComponentMulti = (props) => {
   const finalDeg = props.weatherForecast
-    ? props.weatherForecast.current.wind_deg - 180
+    ? props.weatherForecast.current.wind_deg + 90
     : props.msWindForecast.windDirection;
   const windSpeed = props.weatherForecast
     ? parseInt(props.weatherForecast.current.wind_speed)

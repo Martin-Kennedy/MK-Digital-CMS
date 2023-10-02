@@ -810,7 +810,8 @@ const SurfMapAndConditionsDesktop = (props) => {
         >
           <SwellSpectraCompassSVGPath />
         </StyledCompassBase>
-        <SwellRadialChart swell={props.surf.currentConditions} />
+        {console.log(props)}
+        <SwellRadialChart data={props.surf.currentConditions} />
       </StyledMapImg>
       <ConditionsContainer>
         <Weather>
@@ -974,9 +975,9 @@ const WeatherMobile = (props) => {
         <Fragment>
           <TitleIconRowWeather>
             <Title>Weather</Title>
-            <WeatherIcon
+            {/* <WeatherIcon
               icon={props.surf.weather.data[0].weather.icon}
-            ></WeatherIcon>
+            ></WeatherIcon> */}
           </TitleIconRowWeather>
           <Row>
             <TempWeatherIconContainer>

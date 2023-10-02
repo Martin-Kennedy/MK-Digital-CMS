@@ -895,7 +895,7 @@ export const getSwellForecast = (data) => {
   let request = new Promise((resolve) => {
     let arr = [];
     data.map((hourlyForecast) => {
-      let dateObj = new Date(hourlyForecast.tim);
+      let dateObj = new Date(hourlyForecast.time);
       let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
       let day = new Date(dateObj).toLocaleString('default', {
         weekday: 'long',
@@ -1003,7 +1003,7 @@ export const getWindForecast = (data) => {
   let request = new Promise((resolve) => {
     let arr = [];
     data.map((hourlyForecast) => {
-      let dateObj = new Date(hourlyForecast.localTimestamp * 1000);
+      let dateObj = new Date(hourlyForecast.time);
       let fullDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
       let day = new Date(dateObj).toLocaleString('default', {
         weekday: 'long',
@@ -1012,10 +1012,8 @@ export const getWindForecast = (data) => {
       arr.push({
         date: fullDate,
         dayOfWeek: day,
-        time: formatAMPM(
-          new Date(hourlyForecast.localTimestamp * 1000)
-        ),
-        localTime: hourlyForecast.localTimestamp * 1000,
+        time: formatAMPM(new Date(hourlyForecast.time)),
+        localTime: hourlyForecast.time,
         direction: hourlyForecast.windDirection,
         gusts: hourlyForecast.windGusts,
         speed: hourlyForecast.windSpeed,
