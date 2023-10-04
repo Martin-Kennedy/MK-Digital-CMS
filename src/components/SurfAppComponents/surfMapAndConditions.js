@@ -810,7 +810,6 @@ const SurfMapAndConditionsDesktop = (props) => {
         >
           <SwellSpectraCompassSVGPath />
         </StyledCompassBase>
-        {console.log(props)}
         <SwellRadialChart data={props.surf.currentConditions} />
       </StyledMapImg>
       <ConditionsContainer>
@@ -893,23 +892,21 @@ const SurfMapAndConditionsDesktop = (props) => {
               <SunPositionSVGPath />
             </SunIcon>
           </TitleIconRow>
-          {!Array.isArray(props.surf.weather) ? (
-            <Fragment>
-              <SunPositionGraphRow>
-                <SunriseSunsetGraph data={getSolarDatums()} />
-              </SunPositionGraphRow>
-              <SunPositionDataRow>
-                <div>
-                  <p>Sunrise:</p>
-                  <p>{sunriseTime}</p>
-                </div>
-                <div>
-                  <p>Sunset:</p>
-                  <p>{sunsetTime}</p>
-                </div>
-              </SunPositionDataRow>
-            </Fragment>
-          ) : null}
+          <Fragment>
+            <SunPositionGraphRow>
+              <SunriseSunsetGraph data={getSolarDatums()} />
+            </SunPositionGraphRow>
+            <SunPositionDataRow>
+              <div>
+                <p>Sunrise:</p>
+                <p>{sunriseTime}</p>
+              </div>
+              <div>
+                <p>Sunset:</p>
+                <p>{sunsetTime}</p>
+              </div>
+            </SunPositionDataRow>
+          </Fragment>
         </SunPosition>
         {!Array.isArray(props.surf.weatherForecast) ? (
           <WaterTemp>
@@ -921,9 +918,13 @@ const SurfMapAndConditionsDesktop = (props) => {
             </TitleIconRow>
             <UvIndexGraph data={props.surf.weatherForecast.current} />
             <UvValue>
-              {parseInt(props.surf.weatherForecast.current.uvi) > 11
+              {parseInt(
+                Math.round(props.surf.weatherForecast.current.uvi)
+              ) > 11
                 ? 11
-                : parseInt(props.surf.weatherForecast.current.uvi)}
+                : parseInt(
+                    Math.round(props.surf.weatherForecast.current.uvi)
+                  )}
             </UvValue>
           </WaterTemp>
         ) : null}

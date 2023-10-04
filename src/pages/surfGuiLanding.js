@@ -1003,13 +1003,13 @@ class SurfGUILanding extends Component {
       const { getNdbcStations } = this.props;
       const { getMultiViewForecast } = this.props;
       const { getSurflineWindForecast } = this.props;
+
       this.props.getActiveLocation(this.props.surf.closeSurfSpots[0]);
       this.setState({
         activeSurfSpot: this.props.surf.closeSurfSpots[0].spotId,
       });
       this.setState({ lat: this.props.surf.closeSurfSpots[0].lat });
       this.setState({ lng: this.props.surf.closeSurfSpots[0].lng });
-      console.log(this.props.surf.closeSurfSpots[0]);
       getSurfForecast({
         lat: this.props.surf.closeSurfSpots[0].lat,
         lng: this.props.surf.closeSurfSpots[0].lng,
@@ -1034,6 +1034,20 @@ class SurfGUILanding extends Component {
         apiEndpoints: this.props.surf.surfApiEndPoints,
       });
     }
+
+    if (prevProps.surf.tideStations != this.props.surf.tideStations) {
+      console.log('gaderp');
+      const { getTideForecast } = this.props;
+      getTideForecast({
+        apiEndpoints: this.props.surf.surfApiEndPoints,
+        tideStations: [
+          this.props.surf.tideStations[0],
+          this.props.surf.tideStations[1],
+          this.props.surf.tideStations[2],
+        ],
+      });
+    }
+
     if (
       prevProps.surf.activeLocation != this.props.surf.activeLocation
     ) {
@@ -1095,16 +1109,14 @@ class SurfGUILanding extends Component {
         this.props.surf.multiViewSwellForecast
       );
     }
-    if (
-      prevProps.surf.tideStations != this.props.surf.tideStations &&
-      this.props.surf.surfApiEndPoints
-    ) {
+    if (prevProps.surf.tideStations != this.props.surf.tideStations) {
       const { getTideForecast } = this.props;
       getTideForecast({
         apiEndpoints: this.props.surf.surfApiEndPoints,
         tideStations: [
           this.props.surf.tideStations[0],
           this.props.surf.tideStations[1],
+          this.props.surf.tideStations[2],
         ],
       });
     }
@@ -1416,7 +1428,9 @@ class SurfGUILanding extends Component {
                                     .predictions
                                 }
                               />
-                            ) : null}
+                            ) : (
+                              console.log(this.props.surf)
+                            )}
                           </CurrentConditionBackdrop>
                         </CurrentConditionRowBottom>
                       </StyledCol35>
@@ -1536,9 +1550,7 @@ class SurfGUILanding extends Component {
                             </Fragment>
                           ) : null}
                         </LocationBackDropTablet100vw>
-                        {console.log(
-                          this.props.surf.currentConditions
-                        )}
+
                         <CurrentConditionsBackDropTablet100vw>
                           {!Array.isArray(
                             this.props.surf.currentConditions

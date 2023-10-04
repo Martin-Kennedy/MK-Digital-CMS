@@ -704,6 +704,7 @@ export const getTideStations = (value) => {
           return -1;
         return 0;
       });
+      console.log(sortedArr.slice(0, 20));
       onSuccess(sortedArr.slice(0, 20));
     });
   };
@@ -713,6 +714,7 @@ export const getTideForecast = (data) => {
   const fullURL = `${data.apiEndpoints.urlProxy}/${data.apiEndpoints.tidesAndCurrentsUrl}`;
   const tideApiUrlMlw = `${fullURL}date=today&station=${data.tideStations[0].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
   const tideApiUrlMlw2 = `${fullURL}date=today&station=${data.tideStations[1].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
+  const tideApiUrlMlw3 = `${fullURL}date=today&station=${data.tideStations[2].id}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=h&units=english&format=json`;
 
   const headers = {
     'X-Requested-With': 'XMLHttpReques',
@@ -734,6 +736,17 @@ export const getTideForecast = (data) => {
           })
           .then((data) => {
             dispatch({ type: GET_TIDE_FORECAST, payload: data });
+          })
+          .catch((error) => {
+            axios
+              .get(tideApiUrlMlw3)
+              .then((response) => {
+                return response.data;
+              })
+              .then((data) => {
+                dispatch({ type: GET_TIDE_FORECAST, payload: data });
+              });
+            throw error;
           });
         throw error;
       });

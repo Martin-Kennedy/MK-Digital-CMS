@@ -252,11 +252,11 @@ export const SwellRadialChart = (props) => {
 
   const swellArray = [];
 
-  const scale = scaleLog().base(Math.E);
   // const swellDataArray = new Promise((resolve) => {
   if (props.data && props.data.swellDirection) {
     swellTemplateArray.map((swellDirection, index) => {
       const swellData = props.data;
+
       if (swellData.swellDirection) {
         swellArray.push({
           subject: swellDirection.subject,
@@ -270,10 +270,10 @@ export const SwellRadialChart = (props) => {
                 DegreesToCompassDirection(
                   swellData.swellDirection
                 ).concat('End')
-              ? (swellDirection.primary = MetersToFeet(
+              ? (swellDirection.secondary = MetersToFeet(
                   swellData.swellHeight
                 ))
-              : (swellDirection.primary = 0),
+              : (swellDirection.secondary = 0),
           secondary:
             swellDirection.subject ===
             DegreesToCompassDirection(swellData.waveDirection)

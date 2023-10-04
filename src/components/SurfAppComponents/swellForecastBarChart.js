@@ -5,14 +5,13 @@ import {
   Cell,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 import styled from 'styled-components';
 import MediaQuery from 'react-responsive';
 import variables from '../../variables.module.scss';
+import { MetersToFeet } from '../../helpers/utilities';
 
 const MonthText = styled.text`
   color: #fff !important;
@@ -148,9 +147,18 @@ const SwellInfoTooltip = ({ active, payload, data }) => {
         <SwellChartPrimary>
           <div>
             Primary:
-            <span> {payload[0].payload.primaryHeight}ft </span>
+            <span>
+              {' '}
+              {Math.round(
+                MetersToFeet(payload[0].payload.primaryHeight)
+              )}
+              ft{' '}
+            </span>
             at
-            <span> {payload[0].payload.primaryPeriod}s </span>
+            <span>
+              {' '}
+              {Math.round(payload[0].payload.primaryPeriod)}s{' '}
+            </span>
             <span> {payload[0].payload.primarySwellDirection} </span>
           </div>
         </SwellChartPrimary>
@@ -159,7 +167,13 @@ const SwellInfoTooltip = ({ active, payload, data }) => {
           <SwellChartSecondary>
             <div>
               Secondary:
-              <span> {payload[0].payload.secondaryHeight}ft </span>
+              <span>
+                {' '}
+                {Math.round(
+                  MetersToFeet(payload[0].payload.secondaryHeight)
+                )}
+                ft{' '}
+              </span>
               at
               <span> {payload[0].payload.secondaryPeriod}s </span>
               <span>
@@ -196,7 +210,6 @@ export default class SwellBarChart extends PureComponent {
   render() {
     return (
       <Fragment>
-        {console.log(this.props)}
         <MediaQuery maxWidth={Number(variables.largeNum)}>
           <ResponsiveContainer
             className="swellForecastContainer"

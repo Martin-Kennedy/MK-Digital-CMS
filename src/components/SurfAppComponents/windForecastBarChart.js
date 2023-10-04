@@ -124,7 +124,6 @@ const WindBarb = (props) => {
 const renderDateTick = (tickProps) => {
   const { x, y, payload } = tickProps;
   const { value, offset } = payload;
-  console.log(payload);
   const localTimeHours = new Date(value).getHours();
 
   let dateObj = new Date(value);
@@ -170,9 +169,9 @@ const WindInfoTooltip = ({ active, payload }) => {
           <span>
             {' '}
             {DegreesToCompassDirection(
-              payload[0].payload.direction - 180
+              payload[0].payload.direction
             )}{' '}
-            - {payload[0].payload.direction - 180}
+            - {payload[0].payload.direction}
             {degree}
           </span>
         </WindChartWaveHeight>
