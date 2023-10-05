@@ -1,42 +1,43 @@
-import React, {Component, Fragment} from 'react';
-import {Row, Col} from 'react-bootstrap';
-import {connect} from 'react-redux';
+import React, { Component, Fragment } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
-import {motion} from "framer-motion";
-import {FadeInWhenVisibleOpacity} from '../helpers/fadeInOnViewport';
+import { motion } from 'framer-motion';
+import { FadeInWhenVisibleOpacity } from '../helpers/fadeInOnViewport';
 import SwellBarChart from '../components/SurfAppComponents/swellForecastBarChart';
 import WindBarChart from '../components/SurfAppComponents/windForecastBarChart';
 import {
-    closeSpotsOpenState,
-    searchOpenState,
-    loadView } from '../actions/surfApp.actions';
-import {CurrWaveDataComponent} from '../components/SurfAppComponents/currentWaveHeight';
-import {CurrWindDataComponent} from '../components/SurfAppComponents/currentWind';
-import {CurrSwellDataComponent} from '../components/SurfAppComponents/currentSwell';
+  closeSpotsOpenState,
+  searchOpenState,
+  loadView,
+} from '../actions/surfApp.actions';
+import { CurrWaveDataComponent } from '../components/SurfAppComponents/currentWaveHeight';
+import { CurrWindDataComponent } from '../components/SurfAppComponents/currentWind';
+import { CurrSwellDataComponent } from '../components/SurfAppComponents/currentSwell';
 import CurrentTideDataComponent from '../components/SurfAppComponents/currentTide';
-import  MultiSpotViewCard  from '../components/SurfAppComponents/multiSpotViewCard';
+import MultiSpotViewCard from '../components/SurfAppComponents/multiSpotViewCard';
 import SurfSpotsSearchFilter from '../components/SurfAppComponents/autoSuggest';
-import {SpotSearchSVGPath} from '../components/designElementComponents/spotSearchSVGPath';
-import {CloseSpotsSVGPath} from '../components/designElementComponents/closeSpotsSVGPath';
-import {HomeIconSVGPath} from '../components/designElementComponents/homeIconSVGPath';
+import { SpotSearchSVGPath } from '../components/designElementComponents/spotSearchSVGPath';
+import { CloseSpotsSVGPath } from '../components/designElementComponents/closeSpotsSVGPath';
+import { HomeIconSVGPath } from '../components/designElementComponents/homeIconSVGPath';
 import { MultiSpotsSVGPath } from '../components/designElementComponents/multiSpotsSVGPath';
-import {CloseButtonSVGPath} from '../components/designElementComponents/closeButtonSVGPath';
+import { CloseButtonSVGPath } from '../components/designElementComponents/closeButtonSVGPath';
 import MediaQuery from 'react-responsive';
 import variables from '../variables.module.scss';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { SurfAppToolTipComponent } from '../helpers/toolTipComponent';
 import { MULTI_VIEW } from '../helpers/types';
 
 const SurfGUIMultiSpotViewContainer = styled(Row)`
-height: 100%;
-min-height: 600px;
-z-index: 1;
-padding-right: 3vw;
-margin: 5vh 0;
-`
+  height: 100%;
+  min-height: 600px;
+  z-index: 1;
+  padding-right: 3vw;
+  margin: 5vh 0;
+`;
 const GlassContainerBkg = styled(Row)`
-flex-wrap: nowrap; 
-`
+  flex-wrap: nowrap;
+`;
 
 const RightNavBkg = styled.div`
   margin: 5vh 0;
@@ -52,70 +53,70 @@ const RightNavBkg = styled.div`
   backdrop-filter: blur(1px);
   z-index: 1;
   ul {
-      margin-left: 0;
-      padding: 0;
-      li {
-           &:hover, &:focus {
+    margin-left: 0;
+    padding: 0;
+    li {
+      &:hover,
+      &:focus {
         cursor: pointer;
-         font-size: 1vw; 
-         opacity: 0.9;
-        
-        }
+        font-size: 1vw;
+        opacity: 0.9;
       }
+    }
   }
-`
+`;
 
 const RightNavBkgMobile = styled(RightNavBkg)`
-@media(max-width: ${variables.large}){
-transition: 450ms ease;
-backdrop-filter: blur(4px);
-background: rgba(255, 255, 255, 0.06);
-top: -110vh;
-opacity: 0.5;
-left: inherit;
-width: 100vw;
-height: 100vh;
-position: fixed;
+  @media (max-width: ${variables.large}) {
+    transition: 450ms ease;
+    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.06);
+    top: -110vh;
+    opacity: 0.5;
+    left: inherit;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
 
- ul {
+    ul {
       margin-left: 0;
       padding: 0;
       li {
-          font-size: 2.7vw;
-           &:hover, &:focus {
-            cursor: pointer;
-         font-size: 3vw;
-         opacity: 0.9;
-        
+        font-size: 2.7vw;
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          font-size: 3vw;
+          opacity: 0.9;
         }
       }
+    }
   }
-}
-`
+`;
 const RightNavMobileContent = styled.div`
-margin-top: 8vh;
-`
+  margin-top: 8vh;
+`;
 const MenuNavBkg = styled(RightNavBkg)`
-z-index: 2;
-margin-left: 2vw;
-height: fit-content;
-padding: 0;
-display: flex;
-flex-direction: column;
-align-items: center;
+  z-index: 2;
+  margin-left: 2vw;
+  height: fit-content;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const MenuNavBkgMobile = styled(RightNavBkg)`
-z-index: 9;
-position: fixed;
-top: 1.5vw;
-margin: 0 auto !important;
-height: calc(100vw / 8);
-max-height: 63px;
-width:  calc(100vw - (var(--bs-gutter-x) * 1.25));
-display: flex;
-padding: min(14px, 2.75vw);
-backdrop-filter: blur(10px);
+  z-index: 9;
+  position: fixed;
+  top: 1.5vw;
+  margin: 0 auto !important;
+  height: calc(100vw / 8);
+  max-height: 63px;
+  width: calc(100vw - (var(--bs-gutter-x) * 1.25));
+  display: flex;
+  padding: min(14px, 2.75vw);
+  backdrop-filter: blur(10px);
 `;
 const SearchMenu = styled(RightNavBkg)`
 z-index: 10;
@@ -179,57 +180,57 @@ padding: 0;
     margin: 0.5vw 0;
 }
 }
-`
-const DataDashboardRowMenuMobile = styled(DataDashBoardRow)`
-`
+`;
+const DataDashboardRowMenuMobile = styled(DataDashBoardRow)``;
 const SpotSearchContainer = styled.div`
-width: 2.5vw;
-height: 2.5vw;
-position: relative;
-padding: 0;
-margin-bottom: min(1.25vw, 10px);
-max-width: 35px;
-max-height: 35px;
-@media(max-width: ${variables.large}){
+  width: 2.5vw;
+  height: 2.5vw;
+  position: relative;
+  padding: 0;
+  margin-bottom: min(1.25vw, 10px);
+  max-width: 35px;
+  max-height: 35px;
+  @media (max-width: ${variables.large}) {
     width: 5vw;
     height: 5vw;
-}
-`
+  }
+`;
 
 const HomeIconContainer = styled(Link)`
-width: 2.5vw;
-height: 2.5vw;
-display: block;
-padding: 0;
-margin-bottom: 1.25vw;
-margin-top: 1.25vw;
-@media(max-width: ${variables.large}){
+  width: 2.5vw;
+  height: 2.5vw;
+  display: block;
+  padding: 0;
+  margin-bottom: 1.25vw;
+  margin-top: 1.25vw;
+  @media (max-width: ${variables.large}) {
     width: 7vw;
     height: 7vw;
     margin: 0;
-}
+  }
 `;
 
 const SpotSearchIcon = styled.svg`
-width: 2.5vw;
-height: 2.5vw;
-position: relative;
-padding: 0;
-cursor: pointer;
-@media(max-width: ${variables.large}){
+  width: 2.5vw;
+  height: 2.5vw;
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+  @media (max-width: ${variables.large}) {
     width: 7vw;
     height: 7vw;
     max-width: 35px;
     max-height: 35px;
-}
-&:hover, &:focus {
+  }
+  &:hover,
+  &:focus {
     path {
-    fill: rgba(255,255,255, 0.8);
-}
-}
-path {
-    fill: rgba(255,255,255, 0.5);
-}
+      fill: rgba(255, 255, 255, 0.8);
+    }
+  }
+  path {
+    fill: rgba(255, 255, 255, 0.5);
+  }
 `;
 
 const HomeIcon = styled(SpotSearchIcon)``;
@@ -237,19 +238,19 @@ const HomeIcon = styled(SpotSearchIcon)``;
 const CloseSpotIcon = styled(SpotSearchIcon)``;
 
 const CloseButtonContainer = styled.div`
-width: fit-content;
-padding: 0;
-margin-bottom: 2vh;
-margin-top: 0;
-text-align: right;
-color: var(--white);
-position: absolute; 
-right: .75vw;
-top: 0; 
-display: flex;
-justify-content: flex-end;
+  width: fit-content;
+  padding: 0;
+  margin-bottom: 2vh;
+  margin-top: 0;
+  text-align: right;
+  color: var(--white);
+  position: absolute;
+  right: 0.75vw;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
 
-p {
+  p {
     font-weight: 500;
     font-size: 1vw;
     text-transform: capitalize;
@@ -257,43 +258,43 @@ p {
     opacity: 0.5;
     margin-bottom: 0;
     margin-top: 0.3vw;
-    letter-spacing: .075vw;
-    transition-duration: .5s;
-    transition-timing-function: linear;  
-   
-}
-svg {
+    letter-spacing: 0.075vw;
+    transition-duration: 0.5s;
+    transition-timing-function: linear;
+  }
+  svg {
     position: relative;
     transition: transform 300ms ease-in;
-    top: .25vw;
-    left: .5vw;
+    top: 0.25vw;
+    left: 0.5vw;
     path {
-        transition-duration: .5s;
-        transition-timing-function: linear;
-        fill: rgba(255,255,255, 0.5);
+      transition-duration: 0.5s;
+      transition-timing-function: linear;
+      fill: rgba(255, 255, 255, 0.5);
     }
-}
-    @media(max-width: ${variables.large}){
+  }
+  @media (max-width: ${variables.large}) {
     right: 4vw;
     top: 2vw;
     p {
-        font-size: 3vw;
-        letter-spacing: 1px;
+      font-size: 3vw;
+      letter-spacing: 1px;
     }
-}
-&:hover, &:focus {
+  }
+  &:hover,
+  &:focus {
     cursor: pointer;
     p {
-    opacity: 0.8;
+      opacity: 0.8;
     }
     svg {
-        transform: translateX(-.5vw);
-        path {
-            fill: rgba(255,255,255, 0.8);
-        }
+      transform: translateX(-0.5vw);
+      path {
+        fill: rgba(255, 255, 255, 0.8);
+      }
     }
-}
-`
+  }
+`;
 
 const CloseButtonIcon = styled.svg`
 width: 1.5vw;
@@ -303,177 +304,205 @@ padding: 0;
     display: none;
 }
 }
-`
-
-
-
-
-
-const CloseSpotIconContainer = styled(SpotSearchContainer)`
-margin-left: 7vw;
-margin-right: 7vw;
-`
-
-const MultiSpotIconContainer = styled(SpotSearchContainer)`
-margin-left: auto;
-margin-right: 0;
 `;
 
-const CloseSpotIconContainerDesktop = styled(SpotSearchContainer)`
-`
+const CloseSpotIconContainer = styled(SpotSearchContainer)`
+  margin-left: 7vw;
+  margin-right: 7vw;
+`;
+
+const MultiSpotIconContainer = styled(SpotSearchContainer)`
+  margin-left: auto;
+  margin-right: 0;
+`;
+
+const CloseSpotIconContainerDesktop = styled(SpotSearchContainer)``;
 
 const MultiCardColumn = styled(Col)`
-@media(max-width: ${variables.large}){
+  @media (max-width: ${variables.large}) {
     margin-top: 25px;
-}
-`
+  }
+`;
 
 const MultiCardRow = styled(Row)`
-padding-right: 0;
-padding-left: 0;
-width: 100vw;
-max-width: 100vw;
-`
+  padding-right: 0;
+  padding-left: 0;
+  width: 100vw;
+  max-width: 100vw;
+`;
 
-
-
-const mapStateToProps = state => {
-    return {
-        initialUtility: {
-            session: state.initialUtility.session,
-            keystoneToken: state.initialUtility.keystoneToken
-        },
-        surf: {
-            surfApiEndPoints: state.surf.surfApiEndPoints,
-            locations: state.surf.locations,
-            geoLocationError: state.surf.geoLocationError,
-            closeSurfSpots: state.surf.closeSurfSpots,
-            closestSurfSpot: state.surf.closestSurfSpot,
-            hourlyForecast: state.surf.hourlyForecast,
-            maxWaveHeight: state.surf.maxWaveHeight,
-            currentConditions: state.surf.currentConditions,
-            swellForecast: state.surf.swellForecast,
-            windForecast: state.surf.windForecast,
-            tideStations: state.surf.tideStations,
-            ndbcStations: state.surf.ndbcStations,
-            weatherStations: state.surf.weatherStations,
-            tideForecast: state.surf.tideForecast,
-            waterTemp: state.surf.waterTemp,
-            weather: state.surf.weather,
-            weatherForecast: state.surf.weatherForecast,
-            currentSwell: state.surf.currentSwell,
-            isSearchOpen: state.surf.isSearchOpen,
-            isCloseSpotsOpen: state.surf.isCloseSpotsOpen,
-            activeLocation: state.surf.activeLocation,
-            isView: state.surf.isView,
-            multiViewForecast: state.surf.multiViewForecast,
-            multiViewSwellForecast: state.surf.multiViewSwellForecast,
-            maxMultiViewWaveHeight: state.surf.maxMultiViewWaveHeight,
-        }
-    }
-}
-
+const mapStateToProps = (state) => {
+  return {
+    initialUtility: {
+      session: state.initialUtility.session,
+      keystoneToken: state.initialUtility.keystoneToken,
+    },
+    surf: {
+      surfApiEndPoints: state.surf.surfApiEndPoints,
+      locations: state.surf.locations,
+      geoLocationError: state.surf.geoLocationError,
+      closeSurfSpots: state.surf.closeSurfSpots,
+      closestSurfSpot: state.surf.closestSurfSpot,
+      hourlyForecast: state.surf.hourlyForecast,
+      maxWaveHeight: state.surf.maxWaveHeight,
+      currentConditions: state.surf.currentConditions,
+      swellForecast: state.surf.swellForecast,
+      windForecast: state.surf.windForecast,
+      tideStations: state.surf.tideStations,
+      ndbcStations: state.surf.ndbcStations,
+      weatherStations: state.surf.weatherStations,
+      tideForecast: state.surf.tideForecast,
+      waterTemp: state.surf.waterTemp,
+      weather: state.surf.weather,
+      weatherForecast: state.surf.weatherForecast,
+      currentSwell: state.surf.currentSwell,
+      isSearchOpen: state.surf.isSearchOpen,
+      isCloseSpotsOpen: state.surf.isCloseSpotsOpen,
+      activeLocation: state.surf.activeLocation,
+      isView: state.surf.isView,
+      multiViewForecast: state.surf.multiViewForecast,
+      multiViewSwellForecast: state.surf.multiViewSwellForecast,
+      maxMultiViewWaveHeight: state.surf.maxMultiViewWaveHeight,
+    },
+  };
+};
 
 const convertMilesToKM = (km) => {
-    const miles = km / 1.609;
-    return parseInt(miles);
-}
+  const miles = km / 1.609;
+  return parseInt(miles);
+};
 
 class SurfGUIMultiSpotView extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-    constructor(props) {
-        super(props);
+  componentDidMount() {
+    document.body.classList.add('surf-app-multi-view');
+  }
+  componentWillUnmount() {
+    document.body.classList.remove('surf-app-multi-view');
+  }
 
+  componentDidUpdate(prevProps) {
+    if (window.innerWidth < Number(variables.largeNum)) {
+      if (
+        this.props.surf.isSearchOpen ||
+        this.props.surf.isCloseSpotsOpen
+      ) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'overlay';
+      }
     }
+  }
 
-    componentDidMount(){
-        document
-            .body
-            .classList
-            .add('surf-app-multi-view');
-       
-    }
-    componentWillUnmount() {
-        document
-        .body
-            .classList
-            .remove('surf-app-multi-view');
-    }
+  render() {
+    // const rating = [this.props.surf.currentConditions.solidRating, this.props.surf.currentConditions.fadedRating];
 
-
-    componentDidUpdate(prevProps) {
-      
-        if (window.innerWidth < Number(variables.largeNum)) {
-            if (this.props.surf.isSearchOpen || this.props.surf.isCloseSpotsOpen) {
-                document.body.style.overflow = "hidden";
-            } else {
-                document.body.style.overflow = "overlay";
-            }
-        }
-
-    }
-
-    render() {
-        // const rating = [this.props.surf.currentConditions.solidRating, this.props.surf.currentConditions.fadedRating];
-
-        return (
-            <SurfGUIMultiSpotViewContainer>
-                {this.props.surf.multiViewSwellForecast ? 
-                <Fragment>
-                        <MediaQuery maxWidth={variables.large}>
-                           
-                            <DataDashboardRowMenuMobile>
-                                <MenuNavBkgMobile >
-                                    <HomeIconContainer to={`/`}>
-                                        <SurfAppToolTipComponent message={"Home Page"} placement={"right"}>
-                                        <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                            <HomeIconSVGPath />
-
-                                        </HomeIcon>
-                                        </SurfAppToolTipComponent> 
-                                    </HomeIconContainer>
-                                    <MultiSpotIconContainer
-                                        onClick={() => this.props.dispatch(loadView(MULTI_VIEW))}>
-                                        <SurfAppToolTipComponent message={"Multi-spot forecast."} placement={"left"}>
-                                        <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                            <MultiSpotsSVGPath />
-                                        </SpotSearchIcon>
-                                        </SurfAppToolTipComponent> 
-                                    </MultiSpotIconContainer>
-                                    <CloseSpotIconContainer
-                                        onClick={() => this.props.dispatch(closeSpotsOpenState(this.props.surf.isCloseSpotsOpen))}>
-                                        <SurfAppToolTipComponent message={"Closest Surf Spots"} placement={"left"}>
-                                        <CloseSpotIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                            <CloseSpotsSVGPath />
-                                        </CloseSpotIcon>
-                                        </SurfAppToolTipComponent>
-                                    </CloseSpotIconContainer>
-                                    <SpotSearchContainer
-                                        onClick={() => this.props.dispatch(searchOpenState(this.props.surf.isSearchOpen))}>
-                                        <SurfAppToolTipComponent message={"Surf Spot Search"} placement={"left"}>
-                                        <SpotSearchIcon x="0px" y="0px" viewBox="0 0 100 100">
-                                            <SpotSearchSVGPath />
-                                        </SpotSearchIcon>
-                                        </SurfAppToolTipComponent>
-                                    </SpotSearchContainer>
-                                </MenuNavBkgMobile>
-                            </DataDashboardRowMenuMobile>
-                        </MediaQuery>
-                        <MultiCardRow>
-                        <MultiCardColumn md={12} lg={11}>
-                            <MultiSpotViewCard maxWaveHeight={this.props.surf.maxMultiViewWaveHeight} multiViewSwellForecast={this.props.surf.multiViewSwellForecast} multiViewForecast={this.props.surf.multiViewForecast} />
-                        </MultiCardColumn>
-                        <MediaQuery minWidth={variables.large}>
-                <Col  md={1}></Col>
-                        </MediaQuery>
-                        </MultiCardRow>
-                </Fragment> : null
-    }
-
-            </SurfGUIMultiSpotViewContainer>
-
-        );
-    }
+    return (
+      <SurfGUIMultiSpotViewContainer>
+        {this.props.surf.multiViewSwellForecast ? (
+          <Fragment>
+            <MediaQuery maxWidth={variables.large}>
+              <DataDashboardRowMenuMobile>
+                <MenuNavBkgMobile>
+                  <HomeIconContainer to={`/`}>
+                    <SurfAppToolTipComponent
+                      message={'Home Page'}
+                      placement={'right'}
+                    >
+                      <HomeIcon x="0px" y="0px" viewBox="0 0 100 100">
+                        <HomeIconSVGPath />
+                      </HomeIcon>
+                    </SurfAppToolTipComponent>
+                  </HomeIconContainer>
+                  <MultiSpotIconContainer
+                    onClick={() =>
+                      this.props.dispatch(loadView(MULTI_VIEW))
+                    }
+                  >
+                    <SurfAppToolTipComponent
+                      message={'Multi-spot forecast.'}
+                      placement={'left'}
+                    >
+                      <SpotSearchIcon
+                        x="0px"
+                        y="0px"
+                        viewBox="0 0 100 100"
+                      >
+                        <MultiSpotsSVGPath />
+                      </SpotSearchIcon>
+                    </SurfAppToolTipComponent>
+                  </MultiSpotIconContainer>
+                  <CloseSpotIconContainer
+                    onClick={() =>
+                      this.props.dispatch(
+                        closeSpotsOpenState(
+                          this.props.surf.isCloseSpotsOpen
+                        )
+                      )
+                    }
+                  >
+                    <SurfAppToolTipComponent
+                      message={'Closest Surf Spots'}
+                      placement={'left'}
+                    >
+                      <CloseSpotIcon
+                        x="0px"
+                        y="0px"
+                        viewBox="0 0 100 100"
+                      >
+                        <CloseSpotsSVGPath />
+                      </CloseSpotIcon>
+                    </SurfAppToolTipComponent>
+                  </CloseSpotIconContainer>
+                  <SpotSearchContainer
+                    onClick={() =>
+                      this.props.dispatch(
+                        searchOpenState(this.props.surf.isSearchOpen)
+                      )
+                    }
+                  >
+                    <SurfAppToolTipComponent
+                      message={'Surf Spot Search'}
+                      placement={'left'}
+                    >
+                      <SpotSearchIcon
+                        x="0px"
+                        y="0px"
+                        viewBox="0 0 100 100"
+                      >
+                        <SpotSearchSVGPath />
+                      </SpotSearchIcon>
+                    </SurfAppToolTipComponent>
+                  </SpotSearchContainer>
+                </MenuNavBkgMobile>
+              </DataDashboardRowMenuMobile>
+            </MediaQuery>
+            <MultiCardRow>
+              <MultiCardColumn md={12} lg={11}>
+                <MultiSpotViewCard
+                  maxWaveHeight={
+                    this.props.surf.maxMultiViewWaveHeight
+                  }
+                  multiViewSwellForecast={
+                    this.props.surf.multiViewSwellForecast
+                  }
+                  multiViewForecast={
+                    this.props.surf.multiViewForecast
+                  }
+                />
+              </MultiCardColumn>
+              <MediaQuery minWidth={variables.large}>
+                <Col md={1}></Col>
+              </MediaQuery>
+            </MultiCardRow>
+          </Fragment>
+        ) : null}
+      </SurfGUIMultiSpotViewContainer>
+    );
+  }
 }
 
 export default connect(mapStateToProps)(SurfGUIMultiSpotView);

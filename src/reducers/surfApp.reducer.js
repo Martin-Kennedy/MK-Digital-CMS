@@ -269,7 +269,6 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
         isSearchOpen: !action.payload,
       };
     case LOGIN_OPEN_STATE:
-      console.log(action.payload);
       return {
         ...state,
         isLoginOpen: !action.payload,

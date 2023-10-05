@@ -1036,7 +1036,6 @@ class SurfGUILanding extends Component {
     }
 
     if (prevProps.surf.tideStations != this.props.surf.tideStations) {
-      console.log('gaderp');
       const { getTideForecast } = this.props;
       getTideForecast({
         apiEndpoints: this.props.surf.surfApiEndPoints,
