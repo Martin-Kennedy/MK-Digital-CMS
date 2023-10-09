@@ -1066,8 +1066,8 @@ class SurfGUILanding extends Component {
         this.props.surf.activeLocation.slSpotId
       );
       getSurfForecast({
-        lat: this.props.surf.closeSurfSpots[0].lat,
-        lng: this.props.surf.closeSurfSpots[0].lng,
+        lat: this.props.surf.activeLocation.lat,
+        lng: this.props.surf.activeLocation.lng,
         apiEndpoints: this.props.surf.surfApiEndPoints,
       });
       getTideStations({
@@ -1381,9 +1381,7 @@ class SurfGUILanding extends Component {
                             ) : null}
                           </CurrentConditionBackdrop>
                           <CurrentConditionBackdrop>
-                            {!Array.isArray(
-                              this.props.surf.weatherForecast
-                            ) || this.props.surf.currentConditions ? (
+                            {this.props.surf.currentConditions ? (
                               <CurrWindDataComponent
                                 msWindForecast={
                                   this.props.surf.currentConditions
@@ -1689,12 +1687,6 @@ class SurfGUILanding extends Component {
                                       this.props.getActiveLocation(
                                         surfSpot
                                       );
-                                      this.props.getSurfForecast({
-                                        surfSpot: surfSpot.spotId,
-                                        apiEndpoints:
-                                          this.props.surf
-                                            .surfApiEndPoints,
-                                      });
                                       this.props.getWeather(surfSpot);
                                       this.props.getWeatherForecast(
                                         surfSpot
@@ -1770,15 +1762,11 @@ class SurfGUILanding extends Component {
                                         surfSpot
                                       );
                                       this.props.getSurfForecast({
-                                        surfSpot: surfSpot.spotId,
+                                        surfSpot: surfSpot,
                                         apiEndpoints:
                                           this.props.surf
                                             .surfApiEndPoints,
                                       });
-                                      this.props.getWeather(surfSpot);
-                                      this.props.getWeatherForecast(
-                                        surfSpot
-                                      );
                                       this.props.getTideStations({
                                         surfSpot: surfSpot,
                                         apiEndpoints:

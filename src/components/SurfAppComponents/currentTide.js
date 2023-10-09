@@ -149,7 +149,6 @@ export default class CurrentTideDataComponent extends PureComponent {
     const conHrsToSec = Math.floor(hours * 60 * 60);
     const conMinsToSec = Math.floor(minutes * 60);
     const timeToSec = conHrsToSec + conMinsToSec;
-    console.log(this.props.tide);
     const closest = this.props.tide.reduce(function (a, b) {
       const aTime = new Date(a.t).getHours() * 60 * 60;
       const bTime = new Date(b.t).getHours() * 60 * 60;

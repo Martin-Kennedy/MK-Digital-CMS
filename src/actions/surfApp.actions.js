@@ -284,8 +284,6 @@ const closeSurfSpotArrayFiltering = (closeLocations) => {
         });
       });
       return closeSpotArr.then((data) => {
-        console.log(data);
-
         const sortedArr = data.sort((a, b) => {
           return a.distanceFromLocation - b.distanceFromLocation;
         });
@@ -331,7 +329,10 @@ export const getSurfForecast = (value) => {
       .then((data) => {
         dispatch({
           type: GET_SPOT_FORECAST,
-          payload: { data: data, timeZone: value.timeZone },
+          payload: {
+            data: data,
+            timeZone: value.timeZone,
+          },
         });
       })
       .catch((error) => {
@@ -384,7 +385,6 @@ export const getMultiViewForecast = (value) => {
 
   function getDataLoopOne() {
     const array = surfSpotsSliced.map((item, index) => {
-      console.log(item);
       const axiosDataPromise = new Promise((resolve) => {
         resolve(
           (item.forecast = axios
@@ -502,7 +502,6 @@ export const getMultiViewSwellForecast = (data) => {
       data.map((item) => {
         const combineAndMutateData = () => {
           let surfForecastArr = [];
-          console.log(item);
           item.forecast.hourly.time.map((t, i) => {
             const localTime = new Date(t * 1000);
             localTime.toLocaleString('en-US', {
@@ -1059,8 +1058,8 @@ export const getMaxWaveHeightMultiView = (data) => {
   let maxWaveHeightArr = [];
   const request = new Promise((resolve) => {
     data.map((item) => {
-      item.swellForecast.map((forecast) => {
-        maxWaveHeightArr.push(forecast.maxBreakingHeight);
+      item.forecast.map((i) => {
+        maxWaveHeightArr.push(i.maxBreakingHeight);
       });
     });
     resolve(maxWaveHeightArr);
