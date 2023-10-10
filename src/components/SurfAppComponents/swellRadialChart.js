@@ -270,7 +270,7 @@ export const SwellRadialChart = (props) => {
                 DegreesToCompassDirection(
                   swellData.swellDirection
                 ).concat('End')
-              ? (swellDirection.secondary = MetersToFeet(
+              ? (swellDirection.primary = MetersToFeet(
                   swellData.swellHeight
                 ))
               : (swellDirection.secondary = 0),

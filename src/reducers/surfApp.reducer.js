@@ -68,11 +68,6 @@ const surfAppReducer = (state = INITIAL_STATE, action) => {
         closestSurfSpot: action.payload[0],
       };
     case GET_SPOT_FORECAST:
-      console.log(
-        action.payload.data.marineWeather.data.hourly,
-        action.payload.value,
-        'forecast for spot'
-      );
       const combineAndMutateData = () => {
         let surfForecastArr = [];
 

@@ -946,7 +946,7 @@ const SurfMapMultiViewComponent = (props) => {
       >
         <SwellSpectraCompassSVGPath />
       </StyledCompassBaseMultiView>
-      <SwellRadialChart swell={props.surf.currentConditions} />
+      <SwellRadialChart data={props.surf.currentConditions} />
     </StyledMapImgMulti>
   );
 };

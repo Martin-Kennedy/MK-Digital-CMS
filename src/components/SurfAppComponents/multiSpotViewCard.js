@@ -984,6 +984,7 @@ class MultiSpotViewCard extends Component {
                             lat: spot.lat,
                             lng: spot.lng,
                           }}
+                          
                         />
                       </CurrDataComponentMultiContainer>
                     </CellCol>
